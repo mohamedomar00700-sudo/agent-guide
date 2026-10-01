@@ -183,6 +183,26 @@ ul.tick{margin:2px 0 0;padding-inline-start:18px;display:grid;gap:2px}
 .facts2 dd{margin:0;font-size:14.5px}
 .phr{display:grid;gap:8px}
 .phr .say .row{justify-content:flex-end}
+.chat{display:grid;gap:8px}
+.chatlog{display:grid;gap:10px;align-content:start;max-height:min(58vh,560px);overflow-y:auto;padding:2px}
+@media (max-width:1080px){.chatlog{max-height:48vh}}
+.cm{border-radius:12px;padding:9px 12px;font-size:14.5px;display:grid;gap:6px;max-width:100%}
+.cm.u{justify-self:end;background:var(--rose);color:#fff;border-end-end-radius:3px;max-width:85%}
+.cm.b{justify-self:start;background:var(--soft);border-end-start-radius:3px}
+.cm .say{background:var(--paper)}
+.cm .say p{font-size:14.5px}
+.cm .pr{font-family:var(--m);font-size:20px;font-weight:600}
+.cm .pr small{font-size:12px;color:var(--muted)}
+.cm .hd{font-family:var(--d);font-weight:700;font-size:15px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.cm ul,.cm ol{margin:0;padding-inline-start:18px;display:grid;gap:2px}
+.cm .no{color:var(--red);font-size:13.5px}
+.cm .warn{background:var(--amber-soft);border-radius:8px;padding:6px 10px;font-size:13.5px}
+.cm .acts{display:flex;gap:6px;flex-wrap:wrap}
+.chips2{display:flex;gap:6px;flex-wrap:wrap}
+.chips2 button{border:1px solid var(--line);background:var(--paper);border-radius:14px;padding:3px 10px;font-size:13px;text-align:start}
+.chips2 button:hover{border-color:var(--rose)}
+.cin{display:flex;gap:6px}
+.cin input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--paper);font-size:15px}
 .foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
 
 /* ===== assistant drawer tools ===== */
@@ -237,6 +257,7 @@ ul.tick{margin:2px 0 0;padding-inline-start:18px;display:grid;gap:2px}
       <input id="q" type="search" autocomplete="off" placeholder="دوّر: بوتوكس، دبل تشن، ما في موعد، شيلوا رقمي…" aria-label="بحث في الدليل"><kbd>/</kbd>
       <div class="results" id="res" hidden></div></div>
     <div class="tools">
+      <button class="tbtn" data-a="drawer" data-v="chat" title="اسأل الدليل">💬<span class="t">اسأل الدليل</span></button>
       <button class="tbtn" data-a="drawer" data-v="call" title="تشيك ليست المكالمة">☎<span class="t">مساعد المكالمة</span></button>
       <button class="tbtn" data-a="drawer" data-v="quote" title="حاسبة الأسعار">＋<span class="t">حاسبة</span></button>
       <button class="tbtn" data-a="drawer" data-v="wiz" title="اختار نتيجة المكالمة">✓<span class="t">النتيجة</span></button>
@@ -248,7 +269,7 @@ ul.tick{margin:2px 0 0;padding-inline-start:18px;display:grid;gap:2px}
   <main id="main"></main>
   <aside class="rail closed" id="rail" aria-label="أدوات المكالمة"></aside>
 </div>
-<button class="fab" data-a="drawer" data-v="call">☎ مساعد المكالمة</button>
+<button class="fab" data-a="drawer" data-v="chat">💬 اسأل الدليل</button>
 <button class="totop" data-a="totop" aria-label="لفوق" title="لفوق">↑</button>
 </div>
 <div id="toast" dir="rtl"></div>
@@ -511,7 +532,7 @@ const TODO=[
 ];
 
 /* ================= SEARCH ================= */
-const SYN={'سكالبترا':'سكلبترا sculptra','سكلبترا':'sculptra','كايس':'kysse ريستالين','ريستالين':'kysse','شفايف':'شفايف شفاه lip kysse','مفعول':'بوتوكس','ينتشر':'ديسبورت','بوتكس':'بوتوكس','botox':'بوتوكس','نابوتا':'nabota','ديسبورت':'dysport','فلر':'فيلر','filler':'فيلر','شفايف':'شفايف شفاه lip','شفاه':'شفايف','خدود':'فيلر وش','ليزر':'laser ليزر','laser':'ليزر','شعر':'ليزر','تخسيس':'مونجارو إذابة وزن','تنحيف':'مونجارو إذابة','مونجارو':'mounjaro','وزن':'مونجارو إذابة','كرش':'إندوليزر بطن','بطن':'إندوليزر','لغد':'غبغب سيلوتريكس','دقن':'غبغب سيلوتريكس','ذقن':'غبغب سيلوتريكس','غبغب':'سيلوتريكس','دبل':'غبغب','هالات':'rrs عين','عين':'rrs eye','حبوب':'ديرمابن','مسام':'ديرمابن','ترهل':'سكلبترا إندوليزر','سيلوليت':'سيلوليت مساج','سعر':'سعر','غالي':'غالي','رقمي':'شيلوا رقمي','شكوى':'شكوى','حامل':'طبي','هدية':'هدية','هدايا':'هدية','موعد':'مواعيد','مواعيد':'مواعيد','فل':'مواعيد','زحمه':'مواعيد','نتيجه':'نتيجة','نتيجة':'نتيجة','فرق':'نتيجة','فلوسي':'نتيجة'};
+const SYN={'ريسبشن':'شكوى','استقبال':'شكوى','معامله':'شكوى','وحش':'شكوى','اشتكى':'شكوى','اشتكت':'شكوى','زعلان':'شكوى','حرق':'شكوى','احمرار':'شكوى','قسط':'تقسيط','تقسيط':'تقسيط','دبي':'فرع','رجاله':'رجال','الرجاله':'رجال','ستات':'سيدات','حريم':'سيدات','سكالبترا':'سكلبترا sculptra','سكلبترا':'sculptra','كايس':'kysse ريستالين','ريستالين':'kysse','شفايف':'شفايف شفاه lip kysse','مفعول':'بوتوكس','ينتشر':'ديسبورت','بوتكس':'بوتوكس','botox':'بوتوكس','نابوتا':'nabota','ديسبورت':'dysport','فلر':'فيلر','filler':'فيلر','شفايف':'شفايف شفاه lip','شفاه':'شفايف','خدود':'فيلر وش','ليزر':'laser ليزر','laser':'ليزر','شعر':'ليزر','تخسيس':'مونجارو إذابة وزن','تنحيف':'مونجارو إذابة','مونجارو':'mounjaro','وزن':'مونجارو إذابة','كرش':'إندوليزر بطن','بطن':'إندوليزر','لغد':'غبغب سيلوتريكس','دقن':'غبغب سيلوتريكس','ذقن':'غبغب سيلوتريكس','غبغب':'سيلوتريكس','دبل':'غبغب','هالات':'rrs عين','عين':'rrs eye','حبوب':'ديرمابن','مسام':'ديرمابن','ترهل':'سكلبترا إندوليزر','سيلوليت':'سيلوليت مساج','سعر':'سعر','غالي':'غالي','رقمي':'شيلوا رقمي','شكوى':'شكوى','حامل':'طبي','هدية':'هدية','هدايا':'هدية','موعد':'مواعيد','مواعيد':'مواعيد','فل':'مواعيد','زحمه':'مواعيد','نتيجه':'نتيجة','نتيجة':'نتيجة','فرق':'نتيجة','فلوسي':'نتيجة'};
 function norm(s){return String(s||'').toLowerCase().replace(/[ً-ٰٟـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d))}
 let INDEX=[];
 function buildIndex(){
@@ -536,6 +557,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['1 أكتوبر 2026','اتضاف "اسأل الدليل": اكتب سؤالك أو كلام العميل، والرد بيجيلك من الدليل بس.'],
  ['1 أكتوبر 2026','اتضاف قسم دليل المنتجات (البوتوكس، سكلبترا، ريستالين كايس) من دليل المبيعات الشامل، واتحدثت أسئلة العملاء في عروض البوتوكس والسكلبترا.'],
  ['28 سبتمبر 2026','صححنا كلمة الدبل تشن في قاموس الخليجي، ومعناها بالمصري الغبغب (الدهون اللي تحت الدقن).'],
  ['28 سبتمبر 2026','اتشالت جملة "المكالمة ممكن تكون متسجلة" من السكريبت لحد ما الكلاينت يقرر هيقولوها ولا لأ.'],
@@ -646,7 +668,7 @@ function prodHtml(p){
 function renderMain(){
   const offers=OFFERS.filter(o=>CAT==='all'||o.cat===CAT);
   $('main').innerHTML=`
-  <section id="home"><div class="sh"><div class="eyebrow">افتحه وإنت على المكالمة</div><h2>إجابات سريعة</h2><p>دوّر من فوق بأي كلمة حتى لو خليجي، أو افتح "مساعد المكالمة" يفضل جنبك وإنت بتقرا.</p></div>
+  <section id="home"><div class="sh"><div class="eyebrow">افتحه وإنت على المكالمة</div><h2>إجابات سريعة</h2><p>دوّر من فوق بأي كلمة حتى لو خليجي، أو دوس <b>💬 اسأل الدليل</b> واكتب سؤالك زي ما بتفكر فيه.</p></div>
    <div class="quick">${QUICK.map(([k,b,s,go])=>`<button class="qa-card" data-a="go" data-v="${go}"><span class="k">${esc(k)}</span><b>${esc(b)}</b><span>${esc(s)}</span></button>`).join('')}</div>
    <div class="meta"><span>آخر تحديث: ${UPDATED}</span><span>·</span><span>${OFFERS.filter(o=>o.st==='ok').length} عرض مؤكد، ${OFFERS.filter(o=>o.st==='warn').length} محتاج تأكيد، ${OFFERS.filter(o=>o.st==='no').length} من غير سعر</span><span>·</span><span>المصدر: ${SRC}</span></div></section>
 
@@ -739,13 +761,119 @@ function drawerWiz(){
   return `<div class="dhead"><b>نتيجة المكالمة</b>${WZ.path.length?'<button class="btn" data-a="wreset">من الأول</button>':''}</div>${WZ.path.length?`<div class="crumbs">${WZ.path.map(esc).join(' ← ')}</div>`:''}
    <div class="wiz"><div class="q">${esc(node.q)}</div><div class="opts">${node.o.map(([t,to],i)=>`<button data-a="wgo" data-i="${i}">${esc(t)}</button>`).join('')}</div></div>`;
 }
+/* ================= CHATBOT (answers only from the handbook) ================= */
+const BOT={msgs:[],items:null};
+const STOP=new Set(['كام','بكام','سعر','السعر','اسعار','الاسعار','بكم','كم','تمن','هو','هي','ايه','اي','في','فى','من','على','علي','عن','ال','يا','لو','ازاي','اقول','اقوله','اقولها','العميل','العميله','عميل','عميله','بيقول','بتقول','قال','قالت','يقول','تقول','عايز','عايزه','عاوز','ممكن','كده','ده','دي','اللي','و','مع','بتاع','انا','احنا','هل','ان','انه','لما','بس','طيب','كمان','حاجه','ايش','وش','شو','يعني','لي','ليه','ليا','اعمل','نعمل','بعمل','عمل','ازاى','امتى','كيف','الي','الى','او','ولا','مش','لا','ما']);
+const PRICE_RE=/بكام|كام|سعر|اسعار|بكم|^كم$|تكلف|price|cost/;
+const OBJ_RE=/بيقول|بتقول|قال|قالت|يقول|تقول|اعتراض|ارد|بيعترض|زعلان|زعلانه|مضايق/;
+const DISP_RE=/اسجل|تسجيل|نتيجه المكالمه|السيستم|disposition|call result|اختار ايه/;
+const MED_RE=/حامل|حمل|رضاعه|بترضع|مرضع|سكر|ضغط|قلب|دوا|ادويه|حساسيه|اعراض|مرض|امراض|سرطان|غده|كورتيزون|جرعه|جرعات|عمليه جراحيه|اكزيما|صدفيه/;
+const GREET_RE=/^(اهلا|السلام|هاي|هلا|مرحبا|صباح|مساء|hi|hello)/;
+const THANKS_RE=/شكرا|تسلم|ميرسي|متشكر|thanks/;
+function botItems(){
+  if(BOT.items) return BOT.items;
+  const it=[];
+  const wset=t=>{const ws=new Set();norm(t).replace(/[؟?!.,،:؛"'()\/·]/g,' ').split(/\s+/).forEach(w=>{if(!w)return;ws.add(w);['بال','وال','لل','ال','و','ب'].forEach(pf=>{if(w.length>pf.length+2&&w.startsWith(pf))ws.add(w.slice(pf.length))})});return [...ws]};
+  const add=(o)=>{o.ws=wset(o.text+' '+o.title);o.wt=wset(o.title);it.push(o)};
+  OFFERS.forEach(o=>{ add({type:'offer',ref:o,title:o.ar,text:[o.ar,o.en,o.what,o.who,CATS[o.cat],o.pn,'عرض سعر'].join(' ')});
+    o.qa.forEach(q=>add({type:'oqa',ref:o,qa:q,title:q[0],text:o.ar+' '+o.en+' '+CATS[o.cat]+' '+q.join(' ')})); });
+  OBJ.forEach((x,i)=>add({type:'obj',ref:x,i,title:x[0],text:[x[0],x[1],x[2],(x[5]||[]).join(' ')].join(' ')}));
+  PRODUCTS.forEach(pr=>{ add({type:'product',ref:pr,title:pr.name,text:[pr.name,pr.en,pr.what,pr.areas.join(' '),(pr.features||[]).join(' '),(pr.compare||[]).map(r=>r.join(' ')).join(' ')].join(' ')});
+    pr.facts.forEach(f=>add({type:'pfact',ref:pr,qa:f,title:f[0],text:pr.name+' '+pr.en+' '+f.join(' ')}));
+    pr.objs.forEach(f=>add({type:'pobj',ref:pr,qa:f,title:f[0],text:pr.name+' '+pr.en+' '+f.join(' ')})); });
+  FLOWS.forEach((f,i)=>add({type:'flow',ref:f,i,title:f.t,text:f.t+' سكريبت خطوات مكالمه '+f.steps.map(x=>x.join(' ')).join(' ')}));
+  DISP.forEach(d=>add({type:'disp',ref:d,title:d[0],text:d.join(' ')+' نتيجه المكالمه السيستم اسجل'}));
+  GULF.forEach(g=>add({type:'gulf',ref:g,title:g[0],text:g.join(' ')+' يعني معنى'}));
+  TERMS.forEach(t=>add({type:'term',ref:t,title:t[0],text:t.join(' ')+' يعني معنى'}));
+  RULES.forEach(r=>add({type:'rule',ref:r,title:r[1],text:r.slice(1).join(' ')}));
+  CENTER.forEach(c=>add({type:'center',ref:c,title:c[0],text:c.slice(0,2).join(' ')}));
+  TODO.forEach(t=>add({type:'todo',ref:t,title:t,text:t}));
+  return BOT.items=it;
+}
+function botTokens(q){
+  const raw=norm(q).replace(/[؟?!.,،:؛"'()]/g,' ').split(/\s+/).filter(Boolean);
+  const toks=raw.filter(t=>!STOP.has(t)&&t.length>1);
+  return toks.map(t=>{ const alts=new Set([t]);
+    if(t.length>3&&t.startsWith('ال')) alts.add(t.slice(2));
+    if(t.length>3&&(t.startsWith('و')||t.startsWith('ب'))) alts.add(t.slice(1));
+    if(t.length>4&&t.startsWith('بال')) alts.add(t.slice(3));
+    Object.keys(SYN).forEach(k=>{ const nk=norm(k); if(nk===t||(t.length>3&&t.startsWith(nk))) norm(SYN[k]).split(' ').forEach(x=>x&&alts.add(x)); });
+    return [...alts]; });
+}
+function botAsk(q){
+  const nq=norm(q.trim());
+  if(!nq) return null;
+  const toks=botTokens(q);
+  if(GREET_RE.test(nq)&&toks.length<=1) return {kind:'greet'};
+  if(MED_RE.test(nq)) return {kind:'medical',q:nq};
+  if(THANKS_RE.test(nq)&&toks.length<=2) return {kind:'thanks'};
+  if(!toks.length) return {kind:'none'};
+  const wantPrice=PRICE_RE.test(nq)&&!/(كام|كم) ?جلس|عدد|مده|كام يوم|كام شهر/.test(nq), wantObj=OBJ_RE.test(nq), wantDisp=DISP_RE.test(nq);
+  const scored=botItems().map(it=>{ let sc=0,hit=0;
+    const has=(ws,a)=>ws.some(w=>w===a||(a.length>=4&&w.startsWith(a))||(w.length>=4&&a.startsWith(w)));
+    toks.forEach(alts=>{ if(alts.some(a=>has(it.wt,a))){sc+=3;hit++} else if(alts.some(a=>has(it.ws,a))){sc+=1;hit++} });
+    if(!hit) return null;
+    if(wantPrice&&(it.type==='offer'||it.type==='product')) sc+=3;
+    if(wantObj&&(it.type==='obj'||it.type==='pobj')) sc+=3;
+    if(wantDisp&&it.type==='disp') sc+=3;
+    if(it.type==='obj'&&it.ref[4]) sc+=0.5;
+    sc+=hit/toks.length;
+    return {it,sc};
+  }).filter(Boolean).sort((a,b)=>b.sc-a.sc);
+  if(!scored.length||scored[0].sc<1.5) return {kind:'none',sugg:scored.slice(0,3).map(x=>x.it)};
+  const best=scored[0].it;
+  const more=scored.slice(1).filter(x=>x.sc>=Math.max(2,scored[0].sc*0.5)&&x.it.title!==best.title).slice(0,3).map(x=>x.it);
+  return {kind:'hit',best,more};
+}
+const cbtn=t=>`<button class="copy" data-a="copy" data-t="${esc(t)}">نسخ</button>`;
+const sayBox=(t,l)=>`<div class="say"><div class="row"><span class="lbl">${l||'قولها كده'}</span>${cbtn(t)}</div><p>${esc(t)}</p></div>`;
+function botAnswerHtml(r){
+  if(r.kind==='greet') return `<span>أهلاً! اسألني عن أي عرض أو سعر، أو اكتبلي العميل قال إيه وأقولك ترد إزاي.</span>`;
+  if(r.kind==='thanks') return `<span>العفو، بالتوفيق في المكالمة 👍</span>`;
+  if(r.kind==='medical') return `<div class="hd">سؤال طبي: حوّله للدكتور</div>${sayBox('ده سؤال طبي مهم، والدكتور هو اللي يقدر يجاوبك بعد ما يقيّم حالتك. تحبي أحجزلك استشارة مجانية؟')}<div class="no">متقولش "عادي مفيش مشكلة" ولا "ممنوع"، ومتتكلمش عن جرعات أو أعراض.</div>${/مونجارو|جرعه/.test(r.q)?'<div class="warn">مونجارو دوا بروشتة، والدكتور بس هو اللي يقرر إذا كان مناسب.</div>':''}`;
+  if(r.kind==='none') return `<span>مش لاقي إجابة لده في الدليل. جرّب تكتبها بكلمة تانية، زي اسم الخدمة أو كلمة العميل نفسها. ولو مش موجودة، ارجع للتيم ليدر ومتألفش إجابة للعميل.</span>${r.sugg&&r.sugg.length?`<div class="lbl">ممكن تقصد:</div><div class="chips2">${r.sugg.map(x=>`<button data-a="bq" data-t="${esc(x.title)}">${esc(x.title)}</button>`).join('')}</div>`:''}`;
+  const it=r.best; let h='';
+  const go=(id,t)=>`<button class="ib" data-a="go" data-v="${id}">${t||'شوف التفاصيل'} ←</button>`;
+  switch(it.type){
+    case 'offer': { const o=it.ref;
+      h=`<div class="hd">${esc(o.ar)} ${stChip(o.st)}</div>${o.price==='—'?'<div class="warn">السعر مش متاح في المصدر. متقولش أي رقم، وقول "هأكدلك السعر قبل الحجز".</div>':`<div class="pr">${esc(o.price)} <small>AED</small></div>`}<span class="small">${esc(o.pn)}</span>${o.st==='warn'?'<div class="warn">السعر ده محتاج تأكيد. قول "هأكدلك السعر قبل الحجز".</div>':''}${sayBox(o.say)}${o.caution?`<div class="warn"><b>خلي بالك:</b> ${esc(o.caution)}</div>`:''}<div class="acts">${go('o-'+o.id)}${o.guide?go('p-'+o.guide,'دليل المنتج'):''}</div>`; break; }
+    case 'oqa': h=`<div class="hd">${esc(it.ref.ar)}</div><span><b>العميل:</b> ${esc(it.qa[0])}</span>${sayBox(it.qa[1],'رد كده')}<div class="acts">${go('o-'+it.ref.id)}</div>`; break;
+    case 'obj': { const x=it.ref; h=`<div class="hd">${esc(x[0])}${x[4]?' <span class="chip c-warn">الأكتر تكراراً</span>':''}</div>${x[5]?`<ol>${x[5].map(t=>`<li>${esc(t)}</li>`).join('')}</ol>`:''}${sayBox(x[2],'قول')}<div class="no">متقولش: ${esc(x[3])}</div><div class="acts">${go('obj-'+it.i)}</div>`; break; }
+    case 'pobj': h=`<div class="hd">${esc(it.ref.name)}</div><span><b>العميل:</b> ${esc(it.qa[0])}</span>${sayBox(it.qa[1],'رد كده')}<div class="acts">${go('p-'+it.ref.id,'دليل المنتج')}</div>`; break;
+    case 'pfact': h=`<div class="hd">${esc(it.ref.name)}: ${esc(it.qa[0])}</div><span>${esc(it.qa[1])}</span><div class="warn">قولها بكلمة "عادةً"، وإنها بتختلف من شخص للتاني.</div><div class="acts">${go('p-'+it.ref.id,'دليل المنتج')}</div>`; break;
+    case 'product': { const pr=it.ref; h=`<div class="hd">${esc(pr.name)}</div>${pr.avail?'<div class="warn">مش موجود في العروض الحالية. متقولش سعر لحد ما نتأكد إنه متاح وسعره كام.</div>':''}<span>${esc(pr.what)}</span><ul>${pr.areas.map(a=>`<li>${esc(a)}</li>`).join('')}</ul><div class="acts">${go('p-'+pr.id,'دليل المنتج')}</div>`; break; }
+    case 'flow': { const f=it.ref; h=`<div class="hd">${esc(f.t)}</div><ol>${f.steps.map(x=>`<li>${esc(x[0])}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="useflow" data-v="${it.i}">☎ افتحها في مساعد المكالمة</button>${go('flow-'+it.i)}</div>`; break; }
+    case 'disp': { const d=it.ref; h=`<div class="hd">اختار في السيستم:</div><b class="ltr">${esc(d[0])}</b><span>تختاره لما: ${esc(d[1])}</span><span>لازم تملا: ${esc(d[2])}</span><div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ مش متأكد؟ جاوب على الأسئلة</button></div>`; break; }
+    case 'gulf': h=`<div class="hd">${esc(it.ref[0])}</div><span>بالمصري: <b>${esc(it.ref[1])}</b></span>`; break;
+    case 'term': h=`<div class="hd">${esc(it.ref[0])} <span class="small ltr">${esc(it.ref[1])}</span></div><span>${esc(it.ref[2])}</span>`; break;
+    case 'rule': h=`<div class="hd">${esc(it.ref[1])}</div><span>${esc(it.ref[2])}</span>`; break;
+    case 'todo': h=`<div class="hd">لسه مش متأكد من الكلاينت</div><span>${esc(it.ref)}</span><div class="warn">قول للعميل "هأكدلك المعلومة دي قبل الحجز"، وارجع للتيم ليدر.</div>`; break;
+    case 'center': h=`<div class="hd">${esc(it.ref[0])} ${it.ref[2]==='ok'?'<span class="chip c-ok">مؤكد</span>':'<span class="chip c-warn">محتاج تأكيد</span>'}</div><span>${esc(it.ref[1])}</span>`; break;
+  }
+  if(r.more&&r.more.length) h+=`<div class="lbl">أسئلة قريبة:</div><div class="chips2">${r.more.map(x=>`<button data-a="bq" data-t="${esc(x.title)}">${esc(x.title)}</button>`).join('')}</div>`;
+  return h;
+}
+const BOT_CHIPS=['الليزر بكام؟','العميل بيقول ما في موعد','عملت جلسات ومفيش نتيجة','الفرق بين نابوتا وديسبورت','سكلبترا كام جلسة؟','العميلة حامل وعايزة ليزر','العميل قال شيلوا رقمي','يعني إيه باجر؟','أسجل إيه لو محدش رد؟'];
+function drawerChat(){
+  const log=BOT.msgs.length?BOT.msgs.map(m=>m.u?`<div class="cm u">${esc(m.u)}</div>`:`<div class="cm b">${m.h}</div>`).join(''):`<div class="cm b"><span>اكتب سؤالك زي ما بتفكر فيه، بالمصري أو بكلام العميل الخليجي. هرد عليك من الدليل بس، ولو الإجابة مش موجودة هقولك.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>`;
+  return `<div class="dhead"><b>اسأل الدليل</b>${BOT.msgs.length?'<button class="btn" data-a="bclear">مسح</button>':''}</div>
+   <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
+   <form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="مثلاً: سعر الفيلر؟ أو العميل بيقول غالي" aria-label="سؤالك"><button class="btn pri" type="submit">اسأل</button></form></div>`;
+}
+function botSend(q){
+  q=String(q||'').trim(); if(!q) return;
+  BOT.msgs.push({u:q}); const r=botAsk(q); BOT.msgs.push({h:botAnswerHtml(r||{kind:'none'})});
+  if(BOT.msgs.length>40) BOT.msgs=BOT.msgs.slice(-40);
+  renderRail(); const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; const i=$('cq'); if(i&&!matchMedia('(max-width:1080px)').matches) i.focus();
+}
+document.addEventListener('submit',e=>{ if(e.target.id==='cform'){ e.preventDefault(); botSend($('cq').value); } });
 function renderRail(){
   const r=$('rail'); const narrow=matchMedia('(max-width:1080px)').matches;
   r.classList.toggle('closed',narrow&&!DRAWER);
   $('wrap').classList.toggle('drawer-open',!!DRAWER);
   document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===DRAWER));
-  const tool=DRAWER?`<div class="panel"><div class="dtabs">${[['call','المكالمة'],['quote','الحاسبة'],['wiz','النتيجة']].map(([k,t])=>`<button data-a="drawer" data-v="${k}" class="${DRAWER===k?'on':''}">${t}</button>`).join('')}<button data-a="drawer" data-v="" aria-label="اقفل" title="اقفل">×</button></div>${DRAWER==='call'?drawerCall():DRAWER==='quote'?drawerQuote():drawerWiz()}</div>`:'';
-  r.innerHTML=tool+(narrow&&DRAWER?'':railPins())+(!DRAWER&&!narrow?`<div class="panel"><h3>أدوات المكالمة</h3><button class="btn" data-a="drawer" data-v="call">☎ مساعد المكالمة (تشيك ليست)</button><button class="btn" data-a="drawer" data-v="quote">＋ حاسبة الأسعار</button><button class="btn" data-a="drawer" data-v="wiz">✓ اختار نتيجة المكالمة</button></div>`:'');
+  const tool=DRAWER?`<div class="panel"><div class="dtabs">${[['chat','اسأل'],['call','المكالمة'],['quote','الحاسبة'],['wiz','النتيجة']].map(([k,t])=>`<button data-a="drawer" data-v="${k}" class="${DRAWER===k?'on':''}">${t}</button>`).join('')}<button data-a="drawer" data-v="" aria-label="اقفل" title="اقفل">×</button></div>${DRAWER==='chat'?drawerChat():DRAWER==='call'?drawerCall():DRAWER==='quote'?drawerQuote():drawerWiz()}</div>`:'';
+  r.innerHTML=tool+(narrow&&DRAWER?'':railPins())+(!DRAWER&&!narrow?`<div class="panel"><h3>أدوات المكالمة</h3><button class="btn pri" data-a="drawer" data-v="chat">💬 اسأل الدليل</button><button class="btn" data-a="drawer" data-v="call">☎ مساعد المكالمة (تشيك ليست)</button><button class="btn" data-a="drawer" data-v="quote">＋ حاسبة الأسعار</button><button class="btn" data-a="drawer" data-v="wiz">✓ اختار نتيجة المكالمة</button></div>`:'');
 }
 const mm=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
 function toast(t){$('toast').innerHTML=`<div class="toast">${esc(t)}</div>`;clearTimeout(toast.h);toast.h=setTimeout(()=>$('toast').innerHTML='',1800)}
@@ -792,7 +920,9 @@ document.addEventListener('click',e=>{
   if(a==='collapse'){ OPEN.clear(); renderMain(); }
   if(a==='copy'){ copyText(t.dataset.t); }
   if(a==='pin'){ ST.pins=pinned(v)?ST.pins.filter(x=>x!==v):[...ST.pins,v]; saveST(); renderMain(); renderRail(); toast(pinned(v)?'اتثبت في الجنب':'اتشال التثبيت'); }
-  if(a==='drawer'){ DRAWER=v||null; renderRail(); if(DRAWER==='call'&&!TI) TI=setInterval(()=>{const el=$('tmr');if(el&&T0)el.textContent=mm((Date.now()-T0)/1000)},1000); }
+  if(a==='bq'){ if(DRAWER!=='chat'){DRAWER='chat';} botSend(t.dataset.t); return; }
+  if(a==='bclear'){ BOT.msgs=[]; renderRail(); return; }
+  if(a==='drawer'){ DRAWER=v||null; renderRail(); if(DRAWER==='chat'){ const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; const i=$('cq'); if(i&&!matchMedia('(max-width:1080px)').matches) i.focus(); } if(DRAWER==='call'&&!TI) TI=setInterval(()=>{const el=$('tmr');if(el&&T0)el.textContent=mm((Date.now()-T0)/1000)},1000); }
   if(a==='useflow'){ const k=Object.keys(CALLCK).find(k=>CALLCK[k].f===+v); if(k){ST.callType=k;saveST();} DRAWER='call'; renderRail(); }
   if(a==='tstart'){ T0=Date.now(); ST.call[ST.callType]={}; saveST(); renderRail(); if(!TI) TI=setInterval(()=>{const el=$('tmr');if(el&&T0)el.textContent=mm((Date.now()-T0)/1000)},1000); }
   if(a==='creset'){ ST.call[ST.callType]={}; saveST(); renderRail(); }
