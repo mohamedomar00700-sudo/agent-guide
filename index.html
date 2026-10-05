@@ -387,15 +387,14 @@ const OFFERS=[
  {id:'laser2',cat:'laser',guide:'laser',ar:'ليزر الجسم كامل مع الظهر والبطن',en:'Full body laser, with back & abdomen',price:'1,500 / 1,800',pn:'سيدات 1,500 · رجال 1,800',st:'ok',slide:10,
   what:'نفس الباكدج بس شامل الظهر والبطن.',who:'العميل عايز الجسم كله من غير استثناء.',
   say:'الجسم كامل مع الظهر والبطن: للسيدات 1,500 درهم وللرجال 1,800، ومعاه هدية تختارها.',qa:[],
-  caution:'الشيت مش مكتوب فيه عدد الجلسات للباكدج ده. غالباً 6 زي اللي قبله، بس أكّد مع التيم. وأغلب الحالات بتحتاج من 6 لـ 8 جلسات.'},
- {id:'laserbeard',cat:'laser',guide:'laser',ar:'ليزر اللحية (3 جلسات)',en:'Beard laser, 3 sessions',price:'300',pn:'3 جلسات بـ 300',st:'ok',slide:'من الكلاينت (5 أكتوبر)',
-  what:'إزالة شعر اللحية بالليزر، باكدج 3 جلسات.',who:'العميل عايز يشيل أو يحدد شعر اللحية.',
-  say:'ليزر اللحية: 3 جلسات بـ 300 درهم من غير الضريبة. والدكتور هيحدد اللي محتاجه في الاستشارة المجانية.',qa:[],
-  caution:'السعر ده من الكلاينت يوم 5 أكتوبر. لسه مش واضح إذا كان معاه هدية زي باقي العروض، فمتوعدش بهدية. وأغلب الحالات بتحتاج من 6 لـ 8 جلسات للنتيجة المثالية، فمتقولش إن 3 جلسات كفاية.'},
- {id:'laserunderarm',cat:'laser',guide:'laser',ar:'ليزر تحت الإبط (4 جلسات)',en:'Underarm laser, 4 sessions',price:'300',pn:'4 جلسات بـ 300',st:'ok',slide:'من الكلاينت (5 أكتوبر)',
-  what:'إزالة شعر تحت الإبط (الأندر آرم) بالليزر، باكدج 4 جلسات.',who:'العميل عايز منطقة صغيرة بسعر قليل، أو يجرب الليزر لأول مرة.',
-  say:'ليزر تحت الإبط: 4 جلسات بـ 300 درهم من غير الضريبة. والدكتور هيحدد اللي محتاجه في الاستشارة المجانية.',qa:[],
-  caution:'السعر ده من الكلاينت يوم 5 أكتوبر. لسه مش واضح إذا كان معاه هدية زي باقي العروض، فمتوعدش بهدية. وأغلب الحالات بتحتاج من 6 لـ 8 جلسات للنتيجة المثالية، فمتقولش إن 4 جلسات كفاية.'}
+  caution:'الشيت مش مكتوب فيه عدد الجلسات للباكدج ده. غالباً 6 زي اللي قبله، بس أكّد مع التيم. وأغلب الحالات بتحتاج من 6 لـ 8 جلسات.'}
+];
+
+/* Regular prices (not offers): no gift, VAT not included */
+const REGULAR=[
+ {id:'beard',ar:'ليزر اللحية',pn:'3 جلسات',price:'300',src:'الكلاينت، 5 أكتوبر',laser:true},
+ {id:'underarm',ar:'ليزر تحت الإبط (أندر آرم)',pn:'4 جلسات',price:'300',src:'الكلاينت، 5 أكتوبر',laser:true},
+ {id:'kysse',ar:'ريستالين كايس للشفايف',pn:'',price:'1,100',src:'الكلاينت، 5 أكتوبر'}
 ];
 
 const RULES=[
@@ -631,6 +630,7 @@ function buildIndex(){
   DISP.forEach((d,i)=>INDEX.push({sec:'نتيجة المكالمة',title:d[0],sub:d[1],go:'disp',text:d.join(' ')}));
   GULF.forEach(g=>INDEX.push({sec:'قاموس الخليجي',title:g[0],sub:'= '+g[1],go:'gulf',text:g.join(' ')}));
   TERMS.forEach(t=>INDEX.push({sec:'المصطلحات',title:t[0],sub:t[2],go:'terms',text:t.join(' ')}));
+  REGULAR.forEach(r=>INDEX.push({sec:'أسعار عادية (مش عروض)',title:r.ar,sub:`${r.price} درهم${r.pn?' · '+r.pn:''} · مش عرض، من غير هدية`,go:'regular',text:[r.ar,r.pn,r.price,'سعر عادي'].join(' ')}));
   RULES.forEach(r=>INDEX.push({sec:'قواعد الكلام عن الأسعار',title:r[1],sub:r[2],go:'rules',text:r.join(' ')}));
   CENTER.forEach(c=>INDEX.push({sec:'معلومات المركز',title:c[0],sub:c[1],go:'center',text:c.join(' ')}));
   INDEX.forEach(e=>e.n=norm(e.text+' '+e.title));
@@ -645,7 +645,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
- ['5 أكتوبر 2026','اتضاف سعرين ليزر من الكلاينت: اللحية 3 جلسات بـ 300 درهم، وتحت الإبط (أندر آرم) 4 جلسات بـ 300 درهم.'],
+ ['5 أكتوبر 2026','اتضاف جدول "أسعار عادية (مش عروض)" تحت جدول الأسعار: ليزر اللحية 3 جلسات بـ 300، وليزر تحت الإبط 4 جلسات بـ 300، وريستالين كايس بـ 1,100. مفيش معاهم هدية، والسعر من غير الضريبة.'],
  ['5 أكتوبر 2026','مواعيد د. روجينا بقت من 11 الصبح لـ 7 بالليل. ود. ياسمين يوم الثلاثاء 6 أكتوبر بس من 10 الصبح لـ 6 بالليل.'],
  ['5 أكتوبر 2026','جدول الدكاترة في مركز هاندسم آند بريتي: د. ياسمين درويش (جلدية) كل يوم ما عدا الأربع والجمعة من 12 لـ 8، ود. روجينا (أخصائية تغذية) كل يوم ما عدا الجمعة والسبت من 11 لـ 7.'],
  ['5 أكتوبر 2026','معلومات جديدة من الكلاينت: التقسيط مع تابي وتمارا، والأسعار مش شاملة الضريبة، والعروض أوفر بحوالي 40% من السعر العادي، والحلاقة في المركز بـ 100 درهم (ييجي قبل ميعاده بنص ساعة)، وريستالين كايس بـ 1,100 درهم، ود. ياسمين درويش (جلدية) موجودة كل يوم ما عدا الجمعة والأربع من 12 لـ 8.'],
@@ -776,7 +776,10 @@ const SEC={
    <div class="offers">${offers.map(offerHtml).join('')}</div></section>`;},
   prices:()=>`<section id="prices"><div class="sh"><div class="eyebrow">نظرة سريعة</div><h2>جدول الأسعار</h2><p>كل الأسعار بالدرهم الإماراتي، وكل عرض معاه هدية يختارها العميل.</p></div>
    <div class="tw"><table><thead><tr><th>الخدمة</th><th>القسم</th><th>السعر (AED)</th><th>تفاصيل</th><th>الحالة</th></tr></thead><tbody>
-   ${OFFERS.map(o=>`<tr><td><a href="#o-${o.id}" data-a="go" data-v="o-${o.id}" style="color:var(--rose)">${esc(o.ar)}</a></td><td>${CATS[o.cat]}</td><td class="m">${esc(o.price)}</td><td>${esc(o.pn)}</td><td>${stChip(o.st)}</td></tr>`).join('')}</tbody></table></div></section>`,
+   ${OFFERS.map(o=>`<tr><td><a href="#o-${o.id}" data-a="go" data-v="o-${o.id}" style="color:var(--rose)">${esc(o.ar)}</a></td><td>${CATS[o.cat]}</td><td class="m">${esc(o.price)}</td><td>${esc(o.pn)}</td><td>${stChip(o.st)}</td></tr>`).join('')}</tbody></table></div>
+   <h3 id="regular" style="margin:22px 0 6px">أسعار عادية (مش عروض)</h3><p style="margin:0 0 8px;color:var(--muted)">خدمات سأل عليها عملاء والكلاينت قال سعرها. دي أسعار عادية: مفيش معاها هدية، والسعر من غير الضريبة.</p>
+   <div class="tw"><table><thead><tr><th>الخدمة</th><th>السعر (AED)</th><th>تفاصيل</th><th>المصدر</th></tr></thead><tbody>
+   ${REGULAR.map(r=>`<tr><td>${esc(r.ar)}</td><td class="m">${esc(r.price)}</td><td>${esc(r.pn||'—')}</td><td>${esc(r.src)}</td></tr>`).join('')}</tbody></table></div></section>`,
   products:()=>`<section id="products"><div class="sh"><div class="eyebrow">اعرف المنتج كويس</div><h2>دليل الخدمات</h2><p>معلومات عن كل خدمة عشان تجاوب العميل بثقة.</p></div>
    <div class="filters">${PRODUCTS.map(p=>`<button data-a="go" data-v="p-${p.id}">${esc(p.name)}</button>`).join('')}<button data-a="go" data-v="prep">قبل جلسة الليزر</button></div>
    ${PRODUCTS.map(prodHtml).join('')}</section>`,
@@ -811,7 +814,7 @@ const VIEWS=[
 let VIEW='home';
 function viewOf(t){
   for(const [v,,secs] of VIEWS){ if(v===t||secs.includes(t)) return v; }
-  if(/^o-/.test(t)) return 'offers'; if(/^p-/.test(t)) return 'services'; if(/^(obj|flow)-/.test(t)) return 'calls'; if(/^br-/.test(t)) return 'branches';
+  if(/^o-/.test(t)||t==='regular') return 'offers'; if(/^p-/.test(t)) return 'services'; if(/^(obj|flow)-/.test(t)) return 'calls'; if(/^br-/.test(t)) return 'branches';
   return null;
 }
 function uaeParts(){ const f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()); const g=t=>(f.find(x=>x.type===t)||{}).value; return {wd:g('weekday'),h:+g('hour'),m:+g('minute')}; }
@@ -924,6 +927,7 @@ function botItems(){
   DISP.forEach(d=>add({type:'disp',ref:d,title:d[0],text:d.join(' ')+' نتيجه المكالمه السيستم اسجل'}));
   GULF.forEach(g=>add({type:'gulf',ref:g,title:g[0],text:g.join(' ')+' يعني معنى'}));
   TERMS.forEach(t=>add({type:'term',ref:t,title:t[0],text:t.join(' ')+' يعني معنى'}));
+  REGULAR.forEach(r=>add({type:'reg',ref:r,title:r.ar,text:[r.ar,r.pn,'سعر عادي مش عرض',r.laser?'ليزر ازاله شعر':''].join(' ')}));
   RULES.forEach(r=>add({type:'rule',ref:r,title:r[1],text:r.slice(1).join(' ')}));
   CENTER.forEach(c=>add({type:'center',ref:c,title:c[0],text:c.slice(0,2).join(' ')}));
   TODO.forEach(t=>{add({type:'todo',ref:t,title:t,text:t}); it[it.length-1].wt=[];});
@@ -959,7 +963,7 @@ function botScore(toks,nq,wantPrice,wantObj,wantDisp){
     const has=(ws,a)=>ws.some(w=>w===a||(a.length>=4&&w.startsWith(a))||(w.length>=4&&a.startsWith(w)));
     toks.forEach(alts=>{ if(alts.some(a=>has(it.wt,a))){sc+=3;hit++} else if(alts.some(a=>has(it.ws,a))){sc+=1;hit++} });
     if(!hit) return null;
-    if(wantPrice&&(it.type==='offer'||it.type==='product')) sc+=3;
+    if(wantPrice&&(it.type==='offer'||it.type==='product'||it.type==='reg')) sc+=3;
     if(wantObj&&(it.type==='obj'||it.type==='pobj')) sc+=3;
     if(wantDisp&&it.type==='disp') sc+=3;
     if(it.type==='obj'&&it.ref[4]) sc+=0.5;
@@ -1024,6 +1028,7 @@ function botAnswerHtml(r){
     case 'branch': { const b=it.ref, st=branchStatus(b); h=`<div class="hd">${esc(b.nameAr)} <span class="bstat ${st.open?'on':'off'}">${esc(st.txt)}</span></div><span>${esc(b.addrAr)}</span><span class="small">السبت لحد الخميس: ${hh(b.open)} – ${hh(b.close)} · الجمعة مقفول</span><ul>${b.landmarks.map(l=>`<li>${esc(l)}</li>`).join('')}</ul><div class="acts"><button class="ib" data-a="copy" data-t="${esc(b.nameAr+'\n'+b.addrAr+'\n'+b.map)}">نسخ العنوان</button>${go('br-'+b.id,'صفحة الفرع')}</div>`; break; }
     case 'prep': h=`<div class="hd">قبل جلسة الليزر</div><ol>${PREP.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="copy" data-t="${esc('تعليمات قبل جلسة الليزر:\n'+PREP.map((x,i)=>(i+1)+'. '+x).join('\n'))}">نسخ التعليمات</button>${go('prep')}</div>`; break;
     case 'todo': h=`<div class="hd">لسه مش متأكد من الكلاينت</div><span>${esc(it.ref)}</span><div class="warn">قول للعميل "هأكدلك المعلومة دي قبل الحجز"، وارجع للتيم ليدر.</div>`; break;
+    case 'reg': { const g=it.ref; h=`<div class="hd">${esc(g.ar)} <span class="chip c-warn">سعر عادي، مش عرض</span></div>${sayBox(`${g.ar}${g.pn?' '+g.pn:''} بـ ${g.price} درهم، من غير الضريبة. والدكتور هيحدد اللي محتاجه في الاستشارة المجانية.`)}<div class="warn">ده سعر عادي مش عرض، فمفيش هدية معاه.${g.laser?' وأغلب الحالات بتحتاج من 6 لـ 8 جلسات للنتيجة المثالية، فمتقولش إن الباكدج كفاية.':''}</div>`; break; }
     case 'center': h=`<div class="hd">${esc(it.ref[0])} ${it.ref[2]==='ok'?'<span class="chip c-ok">مؤكد</span>':'<span class="chip c-warn">محتاج تأكيد</span>'}</div><span>${esc(it.ref[1])}</span>`; break;
   }
   if(r.more&&r.more.length) h+=`<div class="lbl">أسئلة قريبة:</div><div class="chips2">${r.more.map(x=>`<button data-a="bq" data-t="${esc(x.title)}">${esc(x.title)}</button>`).join('')}</div>`;
@@ -1036,7 +1041,7 @@ function drawerChat(){
    <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
    <div class="csug" id="csug" hidden></div><form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="مثلاً: سعر الفيلر؟ أو العميل بيقول غالي" aria-label="سؤالك"><button class="btn pri" type="submit">اسأل</button></form></div>`;
 }
-const SUGTYPE={offer:'عرض',oqa:'سؤال عميل',obj:'اعتراض',product:'خدمة',pqa:'سؤال عميل',pobj:'اعتراض',rule:'قاعدة',center:'المركز',branch:'فرع',prep:'تعليمات',disp:'نتيجة مكالمة',todo:'محتاج تأكيد',flow:'سكريبت',gulf:'خليجي',term:'مصطلح'};
+const SUGTYPE={reg:'سعر عادي',offer:'عرض',oqa:'سؤال عميل',obj:'اعتراض',product:'خدمة',pqa:'سؤال عميل',pobj:'اعتراض',rule:'قاعدة',center:'المركز',branch:'فرع',prep:'تعليمات',disp:'نتيجة مكالمة',todo:'محتاج تأكيد',flow:'سكريبت',gulf:'خليجي',term:'مصطلح'};
 let SUG=[],SUGI=-1;
 function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSuggest(i.value); SUGI=-1;
   if(!SUG.length){ b.hidden=true; b.innerHTML=''; return; }
