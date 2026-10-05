@@ -202,6 +202,12 @@ ul.tick{margin:2px 0 0;padding-inline-start:18px;display:grid;gap:2px}
 .chips2 button{border:1px solid var(--line);background:var(--paper);border-radius:14px;padding:3px 10px;font-size:13px;text-align:start}
 .chips2 button:hover{border-color:var(--rose)}
 .cin{display:flex;gap:6px}
+.csug{border:1px solid var(--line);border-radius:10px;background:var(--paper);margin-bottom:6px;max-height:240px;overflow:auto;display:grid}
+.csug[hidden]{display:none}
+.csug .csh{font-size:12px;color:var(--muted);padding:6px 10px 2px}
+.csug button{all:unset;cursor:pointer;padding:7px 10px;font-size:14px;display:flex;gap:8px;align-items:baseline;border-top:1px solid var(--line)}
+.csug button:hover,.csug button.on{background:var(--soft)}
+.csug .sec{font-size:11.5px;color:var(--rose);white-space:nowrap}
 .cin input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--paper);font-size:15px}
 .branches{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 .branch{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;scroll-margin-top:calc(var(--hh) + 16px)}
@@ -622,7 +628,7 @@ function buildIndex(){
 }
 function search(q){
   let terms=norm(q).split(/\s+/).filter(Boolean); if(!terms.length) return [];
-  terms=terms.map(t=>{const s=Object.keys(SYN).find(k=>norm(k)===t||t.startsWith(norm(k))); return s?[t,...norm(SYN[s]).split(' ')]:[t]});
+  terms=terms.map(t=>{const s=Object.keys(SYN).find(k=>norm(k)===t||t.startsWith(norm(k))); const alts=s?[t,...norm(SYN[s]).split(' ')]:[t]; if(t.length>=3&&!INDEX.some(e=>e.n.includes(t))) fuzzy(t).forEach(w=>alts.push(w)); return alts});
   return INDEX.map(e=>{let sc=0; for(const alts of terms){ const hit=alts.some(a=>e.n.includes(a)); if(!hit) return null; if(alts.some(a=>norm(e.title).includes(a))) sc+=3; else sc+=1; } return {e,sc}}).filter(Boolean).sort((a,b)=>b.sc-a.sc).slice(0,12).map(x=>x.e);
 }
 
@@ -914,26 +920,30 @@ function botItems(){
   PRODUCTS.forEach(pr=>(pr.timeline||[]).length&&add({type:'pfact',ref:pr,qa:['النتيجة بتبان إمتى؟',pr.timeline.map(x=>x[0]+': '+x[1]).join(' ')],title:'نتيجة '+pr.name+' بتبان إمتى',text:pr.name+' '+pr.en+' نتيجه تبان امتى مراحل'}));
   return BOT.items=it;
 }
-function botTokens(q){
+function lev(a,b,max){ if(Math.abs(a.length-b.length)>max) return max+1; let p=Array.from({length:b.length+1},(_,i)=>i);
+  for(let i=1;i<=a.length;i++){ const c=[i]; let mn=i; for(let j=1;j<=b.length;j++){ c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); if(c[j]<mn) mn=c[j]; } if(mn>max) return max+1; p=c; } return p[b.length]; }
+function botVocab(){ if(BOT.vocab) return BOT.vocab; const v=new Set(); botItems().forEach(it=>it.ws.forEach(w=>{ if(w.length>1) v.add(w); })); Object.keys(SYN).forEach(k=>v.add(norm(k))); BOT.vocab=v; BOT.vlist=[...v]; return v; }
+// closest real words for a misspelled word (1 typo for short words, 2 for long ones)
+function fuzzy(t){ const V=botVocab(); if(V.has(t)||t.length<3) return []; const max=t.length>=7?2:1; const out=[];
+  for(const w of BOT.vlist){ if(w[0]!==t[0]&&t.length<5) continue; const d=lev(t,w,max); if(d<=max) out.push([d,w]); }
+  return out.sort((a,b)=>a[0]-b[0]||a[1].length-b[1].length).slice(0,3).map(x=>x[1]); }
+// words that start with what the agent typed so far
+function completions(t){ botVocab(); if(t.length<2) return []; return BOT.vlist.filter(w=>w.length>t.length&&w.startsWith(t)).sort((a,b)=>a.length-b.length).slice(0,8); }
+function botTokens(q,live){
   const raw=norm(q).replace(/[؟?!.,،:؛"'()]/g,' ').split(/\s+/).filter(Boolean);
-  const toks=raw.filter(t=>!STOP.has(t)&&t.length>1);
-  return toks.map(t=>{ const alts=new Set([t]);
+  const endsOpen=live&&!/\s$/.test(q);
+  const toks=raw.filter((t,i)=>!(STOP.has(t)&&!(endsOpen&&i===raw.length-1))&&(t.length>1||(endsOpen&&i===raw.length-1)));
+  return toks.map((t,i)=>{ const alts=new Set([t]);
+    if(endsOpen&&i===toks.length-1) completions(t).forEach(w=>alts.add(w));
+    fuzzy(t).forEach(w=>alts.add(w));
     if(t.length>3&&t.startsWith('ال')) alts.add(t.slice(2));
     if(t.length>3&&(t.startsWith('و')||t.startsWith('ب'))) alts.add(t.slice(1));
     if(t.length>4&&t.startsWith('بال')) alts.add(t.slice(3));
     Object.keys(SYN).forEach(k=>{ const nk=norm(k); if(nk===t||(t.length>3&&t.startsWith(nk))) norm(SYN[k]).split(' ').forEach(x=>x&&alts.add(x)); });
     return [...alts]; });
 }
-function botAsk(q){
-  const nq=norm(q.trim());
-  if(!nq) return null;
-  const toks=botTokens(q);
-  if(GREET_RE.test(nq)&&toks.length<=1) return {kind:'greet'};
-  if(MED_RE.test(nq)) return {kind:'medical',q:nq};
-  if(THANKS_RE.test(nq)&&toks.length<=2) return {kind:'thanks'};
-  if(!toks.length) return {kind:'none'};
-  const wantPrice=PRICE_RE.test(nq)&&!/(كام|كم) ?جلس|عدد|مده|كام يوم|كام شهر/.test(nq), wantObj=OBJ_RE.test(nq), wantDisp=DISP_RE.test(nq);
-  const scored=botItems().map(it=>{ let sc=0,hit=0;
+function botScore(toks,nq,wantPrice,wantObj,wantDisp){
+  return botItems().map(it=>{ let sc=0,hit=0;
     const has=(ws,a)=>ws.some(w=>w===a||(a.length>=4&&w.startsWith(a))||(w.length>=4&&a.startsWith(w)));
     toks.forEach(alts=>{ if(alts.some(a=>has(it.wt,a))){sc+=3;hit++} else if(alts.some(a=>has(it.ws,a))){sc+=1;hit++} });
     if(!hit) return null;
@@ -949,6 +959,27 @@ function botAsk(q){
     sc+=hit/toks.length;
     return {it,sc};
   }).filter(Boolean).sort((a,b)=>b.sc-a.sc);
+}
+function botSuggest(q){
+  const nq=norm(q.trim()); if(nq.length<2) return [];
+  const toks=botTokens(q,true); if(!toks.length) return [];
+  const wantPrice=PRICE_RE.test(nq), wantObj=OBJ_RE.test(nq), wantDisp=DISP_RE.test(nq);
+  const seen=new Set(), out=[];
+  const raw=nq.replace(/[؟?!.,،:؛"'()]/g,' ').split(/\s+/).filter(t=>t.length>1&&!STOP.has(t)).map(t=>t.replace(/^(ال|بال|وال)/,''));
+  const ranked=botScore(toks,nq,wantPrice,wantObj,wantDisp).map(x=>{ const tn=norm(x.it.title); let b=0; raw.forEach(t=>{ if(t.length>1&&tn.includes(t)) b+=3; }); if(x.it.type==='todo') b-=2; return {it:x.it,sc:x.sc+b}; }).sort((p,q)=>q.sc-p.sc);
+  for(const x of ranked){ if(x.sc<1) break; const k=x.it.type+'|'+x.it.title; if(seen.has(k)) continue; seen.add(k); out.push(x.it); if(out.length>=6) break; }
+  return out;
+}
+function botAsk(q){
+  const nq=norm(q.trim());
+  if(!nq) return null;
+  const toks=botTokens(q);
+  if(GREET_RE.test(nq)&&toks.length<=1) return {kind:'greet'};
+  if(MED_RE.test(nq)) return {kind:'medical',q:nq};
+  if(THANKS_RE.test(nq)&&toks.length<=2) return {kind:'thanks'};
+  if(!toks.length) return {kind:'none'};
+  const wantPrice=PRICE_RE.test(nq)&&!/(كام|كم) ?جلس|عدد|مده|كام يوم|كام شهر/.test(nq), wantObj=OBJ_RE.test(nq), wantDisp=DISP_RE.test(nq);
+  const scored=botScore(toks,nq,wantPrice,wantObj,wantDisp);
   if(!scored.length||scored[0].sc<1.5) return {kind:'none',sugg:scored.slice(0,3).map(x=>x.it)};
   const best=scored[0].it;
   const more=scored.slice(1).filter(x=>x.sc>=Math.max(2,scored[0].sc*0.5)&&x.it.title!==best.title).slice(0,3).map(x=>x.it);
@@ -990,8 +1021,21 @@ function drawerChat(){
   const log=BOT.msgs.length?BOT.msgs.map(m=>m.u?`<div class="cm u">${esc(m.u)}</div>`:`<div class="cm b">${m.h}</div>`).join(''):`<div class="cm b"><span>اكتب سؤالك زي ما بتفكر فيه، بالمصري أو بكلام العميل الخليجي. هرد عليك من الدليل بس، ولو الإجابة مش موجودة هقولك.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>`;
   return `<div class="dhead"><b>اسأل الدليل</b>${BOT.msgs.length?'<button class="btn" data-a="bclear">مسح</button>':''}</div>
    <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
-   <form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="مثلاً: سعر الفيلر؟ أو العميل بيقول غالي" aria-label="سؤالك"><button class="btn pri" type="submit">اسأل</button></form></div>`;
+   <div class="csug" id="csug" hidden></div><form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="مثلاً: سعر الفيلر؟ أو العميل بيقول غالي" aria-label="سؤالك"><button class="btn pri" type="submit">اسأل</button></form></div>`;
 }
+const SUGTYPE={offer:'عرض',oqa:'سؤال عميل',obj:'اعتراض',product:'خدمة',pqa:'سؤال عميل',pobj:'اعتراض',rule:'قاعدة',center:'المركز',branch:'فرع',prep:'تعليمات',disp:'نتيجة مكالمة',todo:'محتاج تأكيد',flow:'سكريبت',gulf:'خليجي',term:'مصطلح'};
+let SUG=[],SUGI=-1;
+function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSuggest(i.value); SUGI=-1;
+  if(!SUG.length){ b.hidden=true; b.innerHTML=''; return; }
+  b.innerHTML='<div class="csh">اقتراحات (دوس على أي واحد):</div>'+SUG.map((it,k)=>`<button type="button" data-a="sug" data-i="${k}"><span class="sec">${esc(SUGTYPE[it.type]||'')}</span>${esc(it.title)}${/^(oqa|pqa|pfact|pobj)$/.test(it.type)&&it.ref?`<small style="color:var(--muted)"> · ${esc(it.ref.ar||it.ref.name||'')}</small>`:''}</button>`).join('');
+  b.hidden=false; }
+function pickSug(k){ const it=SUG[k]; if(!it) return; BOT.msgs.push({u:it.title}); BOT.msgs.push({h:botAnswerHtml({kind:'hit',best:it,more:[]})}); SUG=[];
+  renderRail(); const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; }
+document.addEventListener('input',e=>{ if(e.target.id==='cq'){ clearTimeout(showSug.h); showSug.h=setTimeout(showSug,120); } });
+document.addEventListener('keydown',e=>{ if(e.target.id!=='cq'||!SUG.length) return; const b=$('csug'); if(!b||b.hidden) return;
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); SUGI=(SUGI+(e.key==='ArrowDown'?1:-1)+SUG.length)%SUG.length; [...b.querySelectorAll('button')].forEach((x,k)=>x.classList.toggle('on',k===SUGI)); }
+  else if(e.key==='Enter'&&SUGI>=0){ e.preventDefault(); pickSug(SUGI); }
+  else if(e.key==='Escape'){ b.hidden=true; } });
 function botSend(q){
   q=String(q||'').trim(); if(!q) return;
   BOT.msgs.push({u:q}); const r=botAsk(q); BOT.msgs.push({h:botAnswerHtml(r||{kind:'none'})});
@@ -1054,6 +1098,7 @@ document.addEventListener('click',e=>{
   if(a==='collapse'){ OPEN.clear(); renderMain(); }
   if(a==='copy'){ copyText(t.dataset.t); }
   if(a==='pin'){ ST.pins=pinned(v)?ST.pins.filter(x=>x!==v):[...ST.pins,v]; saveST(); renderMain(); renderRail(); toast(pinned(v)?'اتثبت في الجنب':'اتشال التثبيت'); }
+  if(a==='sug'){ pickSug(+t.dataset.i); return; }
   if(a==='bq'){ if(DRAWER!=='chat'){DRAWER='chat';} botSend(t.dataset.t); return; }
   if(a==='bclear'){ BOT.msgs=[]; renderRail(); return; }
   if(a==='drawer'){ DRAWER=v||null; renderRail(); if(DRAWER==='chat'){ const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; const i=$('cq'); if(i&&!matchMedia('(max-width:1080px)').matches) i.focus(); } if(DRAWER==='call'&&!TI) TI=setInterval(()=>{const el=$('tmr');if(el&&T0)el.textContent=mm((Date.now()-T0)/1000)},1000); }
