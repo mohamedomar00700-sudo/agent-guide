@@ -272,6 +272,7 @@ ol.tline2 b{font-size:14px}
 .crumbs{font-size:12.5px;color:var(--muted)}
 .btn{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:6px 12px;font-size:13.5px}
 .btn.pri{background:var(--rose);border-color:var(--rose);color:#fff}
+.tbtn.lang{text-decoration:none;font-weight:700}
 .fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:34;border:0;border-radius:24px;background:var(--rose);color:#fff;padding:10px 16px;box-shadow:var(--shadow);display:none;font-weight:500}
 @media (max-width:1080px){.fab{display:block}}
 .totop{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:33;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}
@@ -291,6 +292,7 @@ ol.tline2 b{font-size:14px}
       <button class="tbtn" data-a="drawer" data-v="call" title="تشيك ليست المكالمة">☎<span class="t">مساعد المكالمة</span></button>
       <button class="tbtn" data-a="drawer" data-v="quote" title="حاسبة الأسعار">＋<span class="t">حاسبة</span></button>
       <button class="tbtn" data-a="drawer" data-v="wiz" title="اختار نتيجة المكالمة">✓<span class="t">النتيجة</span></button>
+      <a class="tbtn lang" id="langbtn" href="en.html" hreflang="en" title="English version">EN<span class="t">English</span></a>
     </div>
   </div>
   <nav class="tabs" aria-label="أقسام الدليل"><div class="tabs-in" id="tabs"></div></nav>
@@ -306,7 +308,7 @@ ol.tline2 b{font-size:14px}
 
 <script>
 /* ================= DATA ================= */
-const UPDATED='1 أكتوبر 2026';
+const UPDATED='6 أكتوبر 2026';
 const CLINIC_AR='مركز هاندسم آند بريتي الطبي';
 const SRC='شيت "Services and Offers by Category" · عروض Discounts & Big Gift Week';
 const CATS={botox:'بوتوكس',filler:'فيلر',skin:'نضارة وكولاجين',body:'نحت وإذابة دهون',weight:'إنقاص الوزن',laser:'ليزر إزالة الشعر'};
@@ -664,7 +666,7 @@ const UPDATES=[
 ];
 const QUICK=[
  ['العنوان والمواعيد','أبوظبي والفجيرة','السبت لحد الخميس، والجمعة مقفول.','branches'],
- ['قبل جلسة الليزر','احلق قبلها بـ 24 ساعة','وابعد عن الشمس والتقشير.','prep'],
+ ['قبل جلسة الليزر','احلق في البيت قبلها بيوم','وابعد عن الشمس والتقشير.','prep'],
  ['الاسم في المكالمة','Handsome & Pretty','"معاك [اسمك] من مركز هاندسم آند بريتي الطبي"','center'],
  ['الهدية','هدية مع كل عرض','وسكلبترا معاه هديتين. متوعدش بهدية معينة.','rules'],
  ['أكتر اعتراض','مفيش مواعيد ليزر','زودنا عدد الأجهزة، واحجزله ميعاد على طول.','obj-0'],
@@ -787,7 +789,7 @@ const SEC={
    ${PRODUCTS.map(prodHtml).join('')}</section>`,
   objections:()=>`<section id="objections"><div class="sh"><div class="eyebrow">العميل خليجي · إنت مصري</div><h2>الرد على الاعتراضات</h2><p>أول اعتراضين هما الأكتر تكراراً حسب كلام الكلاينت.</p></div>
    <div class="objs">${OBJ.map(([t,ex,a,no,flag,steps],i)=>`<div class="obj ${flag?'hot':''}" id="obj-${i}"><div class="cq">${flag?'<span class="chip c-warn">الأكتر تكراراً حسب الكلاينت</span>':''}<span>${esc(t)} ${pinBtn('obj-'+i)}</span>${ex?`<small>${esc(ex)}</small>`:''}</div><div class="ans">${steps?`<ol class="steps">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}<div class="say"><div class="row"><span class="lbl">قول</span><button class="copy" data-a="copy" data-t="${esc(a)}">نسخ</button></div><p>${esc(a)}</p></div><div class="avoid">متقولش: ${esc(no)}</div></div></div>`).join('')}</div></section>`,
-  flows:()=>`<section id="flows"><div class="sh"><div class="eyebrow">سكريبت مختصر</div><h2>خطوات المكالمة حسب نوعها</h2><p>كلام الإيجنت بالمصري. ممكن تفتح أي واحدة كتشيك ليست في مساعد المكالمة.</p><p><span class="chip c-warn">سكريبت مقترح، مستني موافقة الكلاينت النهائية</span> · اسم الدكتورة ولقبها لسه محتاجين تأكيد.</p></div>
+  flows:()=>`<section id="flows"><div class="sh"><div class="eyebrow">سكريبت مختصر</div><h2>خطوات المكالمة حسب نوعها</h2><p>كلام الإيجنت بالمصري. ممكن تفتح أي واحدة كتشيك ليست في مساعد المكالمة.</p><p><span class="chip c-warn">سكريبت مقترح، مستني موافقة الكلاينت النهائية</span></p></div>
    <div class="flows">${FLOWS.map((f,i)=>`<div class="flow" id="flow-${i}"><h3><span>${esc(f.t)}</span><button class="ib" data-a="useflow" data-v="${i}">☎ استخدمها</button></h3><ol>${f.steps.map(([s,l])=>`<li>${esc(s)}${l?`<span class="line">${esc(l)}</span>`:''}</li>`).join('')}</ol></div>`).join('')}</div></section>`,
   disp:()=>`<section id="disp"><div class="sh"><div class="eyebrow">في السيستم</div><h2>تختار نتيجة المكالمة إزاي</h2><p>مش متأكد؟ افتح "النتيجة" من فوق وجاوب على كام سؤال.</p></div>
    <div class="tw"><table><thead><tr><th>Call result</th><th>تختاره لما</th><th>لازم تملا</th></tr></thead><tbody>${DISP.map(d=>`<tr><td class="ltr" style="white-space:nowrap">${esc(d[0])}</td><td>${esc(d[1])}</td><td>${esc(d[2])}</td></tr>`).join('')}</tbody></table></div></section>`,
@@ -906,14 +908,14 @@ function drawerWiz(){
 /* ================= CHATBOT (answers only from the handbook) ================= */
 const BOT={msgs:[],items:null};
 const STOP=new Set(['كام','بكام','سعر','السعر','اسعار','الاسعار','بكم','كم','تمن','هو','هي','ايه','اي','في','فى','من','على','علي','عن','ال','يا','لو','ازاي','اقول','اقوله','اقولها','العميل','العميله','عميل','عميله','بيقول','بتقول','قال','قالت','يقول','تقول','عايز','عايزه','عاوز','ممكن','كده','ده','دي','اللي','و','مع','بتاع','انا','احنا','هل','ان','انه','لما','بس','طيب','كمان','حاجه','ايش','وش','شو','يعني','لي','ليه','ليا','اعمل','نعمل','بعمل','عمل','ازاى','امتى','كيف','الي','الى','او','ولا','مش','لا','ما']);
-const PRICE_RE=/بكام|كام|سعر|اسعار|بكم|^كم$|تكلف|price|cost/;
-const OBJ_RE=/بيقول|بتقول|قال|قالت|يقول|تقول|اعتراض|ارد|بيعترض|زعلان|زعلانه|مضايق/;
-const DISP_RE=/اسجل|تسجيل|نتيجه المكالمه|السيستم|disposition|call result|اختار ايه/;
-const MED_RE=/حامل|حمل|رضاعه|بترضع|مرضع|سكر|ضغط|قلب|دوا|ادويه|حساسيه|اعراض|مرض|امراض|سرطان|غده|كورتيزون|جرعه|جرعات|عمليه جراحيه|اكزيما|صدفيه/;
-const BR_RE=/فرع|فجير|ابوظبي|ابو ظبي|عنوان|لوكيشن|موقع|تفتح|تقفل|الجمعه|جمعه|فاتحين|مفتوح|دوام|ساعات العمل/;
-const PREP_RE=/قبل|تحضير|تعليمات|احلق|حلاق|شمس|تان|تقشير|ريتينول|دوره|نضيف/;
-const GREET_RE=/^(اهلا|السلام|هاي|هلا|مرحبا|صباح|مساء|hi|hello)/;
-const THANKS_RE=/شكرا|تسلم|ميرسي|متشكر|thanks/;
+const PRICE_RE=/بكام|كام|سعر|اسعار|بكم|^كم$|تكلف|price|cost|price|cost|how much|fee|aed/;
+const OBJ_RE=/بيقول|بتقول|قال|قالت|يقول|تقول|اعتراض|ارد|بيعترض|زعلان|زعلانه|مضايق|says|said|saying|told|customer|client|objection/;
+const DISP_RE=/اسجل|تسجيل|نتيجه المكالمه|السيستم|disposition|call result|اختار ايه|log|record|outcome|disposition|odoo|stage|tag/;
+const MED_RE=/حامل|حمل|رضاعه|بترضع|مرضع|سكر|ضغط|قلب|دوا|ادويه|حساسيه|اعراض|مرض|امراض|سرطان|غده|كورتيزون|جرعه|جرعات|عمليه جراحيه|اكزيما|صدفيه|pregnan|breastfe|nursing|diabet|blood pressure|heart|medicat|medicine|allerg|side effect|disease|cancer|thyroid|dose|eczema|psoriasis/;
+const BR_RE=/فرع|فجير|ابوظبي|ابو ظبي|عنوان|لوكيشن|موقع|تفتح|تقفل|الجمعه|جمعه|فاتحين|مفتوح|دوام|ساعات العمل|branch|address|location|where|fujairah|abu dhabi|open|close|hours|map/;
+const PREP_RE=/قبل|تحضير|تعليمات|احلق|حلاق|شمس|تان|تقشير|ريتينول|دوره|نضيف|before|prepar|shav|instruction/;
+const GREET_RE=/^(اهلا|السلام|هاي|هلا|مرحبا|صباح|مساء|hi|hello|hi|hello|hey|good morning|good evening)/;
+const THANKS_RE=/شكرا|تسلم|ميرسي|متشكر|thanks|thank|thanks|thx/;
 function botItems(){
   if(BOT.items) return BOT.items;
   const it=[];
@@ -970,11 +972,12 @@ function botScore(toks,nq,wantPrice,wantObj,wantDisp){
     if(wantDisp&&it.type==='disp') sc+=3;
     if(it.type==='obj'&&it.ref[4]) sc+=0.5;
     if(it.type==='branch'&&BR_RE.test(nq)) sc+=4;
-    if(it.type==='branch'){ const cityHit=(/فجير/.test(nq)&&it.ref.id==='fuj')||(/ابوظبي|ابو ظبي/.test(nq)&&it.ref.id==='ad'); if(cityHit) sc+=2; }
+    if(it.type==='branch'){ const cityHit=(/فجير|fujairah/.test(nq)&&it.ref.id==='fuj')||(/ابوظبي|ابو ظبي|abu ?dhabi/.test(nq)&&it.ref.id==='ad'); if(cityHit) sc+=2; }
     if(it.type==='prep'&&!PREP_RE.test(nq)) sc-=3;
     if(it.type==='todo') sc-=1;
-    if(/دكتور/.test(nq)&&/مين|اسم|مواعيد|موجود|متاح|امتي|بتيجي|يوم/.test(nq)&&/ياسمين|روجينا/.test((it.title||'')+' '+(it.text||''))) sc+=4;
-    if(/تغذيه|روجينا|دايت/.test(nq)&&/روجينا/.test((it.title||'')+' '+(it.text||''))) sc+=4;
+    if(/دكتور|doctor|dr\b/.test(nq)&&/مين|اسم|مواعيد|موجود|متاح|امتي|بتيجي|يوم|who|name|when|available|hours|day/.test(nq)&&/ياسمين|روجينا|yasmine|rogina/i.test((it.title||'')+' '+(it.text||''))) sc+=4;
+    if(hit===toks.length&&it.title&&norm(it.title).includes(' ')&&nq.includes(norm(it.title))) sc+=3;
+    if(/تغذيه|روجينا|دايت|nutrition|diet|rogina/.test(nq)&&/روجينا|rogina/i.test((it.title||'')+' '+(it.text||''))) sc+=4;
     sc+=hit/toks.length;
     return {it,sc};
   }).filter(Boolean).sort((a,b)=>b.sc-a.sc);
@@ -997,7 +1000,7 @@ function botAsk(q){
   if(MED_RE.test(nq)) return {kind:'medical',q:nq};
   if(THANKS_RE.test(nq)&&toks.length<=2) return {kind:'thanks'};
   if(!toks.length) return {kind:'none'};
-  const wantPrice=PRICE_RE.test(nq)&&!/(كام|كم) ?جلس|عدد|مده|كام يوم|كام شهر/.test(nq), wantObj=OBJ_RE.test(nq), wantDisp=DISP_RE.test(nq);
+  const wantPrice=PRICE_RE.test(nq)&&!/(كام|كم) ?جلس|عدد|مده|كام يوم|كام شهر|how many|how long/.test(nq), wantObj=OBJ_RE.test(nq), wantDisp=DISP_RE.test(nq);
   const scored=botScore(toks,nq,wantPrice,wantObj,wantDisp);
   if(!scored.length||scored[0].sc<1.5) return {kind:'none',sugg:scored.slice(0,3).map(x=>x.it)};
   const best=scored[0].it;
@@ -1009,8 +1012,8 @@ const sayBox=(t,l)=>`<div class="say"><div class="row"><span class="lbl">${l||'�
 function botAnswerHtml(r){
   if(r.kind==='greet') return `<span>أهلاً! اسألني عن أي عرض أو سعر، أو اكتبلي العميل قال إيه وأقولك ترد إزاي.</span>`;
   if(r.kind==='thanks') return `<span>العفو، بالتوفيق في المكالمة 👍</span>`;
-  if(r.kind==='medical' && /حامل|حمل/.test(r.q) && !/رضاع|مرضع/.test(r.q)) return `<div class="hd">عميلة حامل: Hold</div>${sayBox('سلامتك أهم حاجة. الخدمات دي بنأجلها في فترة الحمل، فخليني أكلمك بعد الولادة بالسلامة إن شاء الله. إمتى ميعادك؟')}<div class="warn">على Odoo: Hold، والتاج Travel / Hold، وActivity بعد الولادة. منحجزش استشارة إلا لو صممت تعمل الخدمة، ووقتها اكتب في الملاحظات إنها حامل.</div><div class="no">متقولش "عادي"، ومتشرحش أعراض جانبية.</div>`;
-  if(r.kind==='medical') return `<div class="hd">سؤال طبي: حوّله للدكتور</div>${sayBox('ده سؤال طبي مهم، والدكتور هو اللي يقدر يجاوبك بعد ما يقيّم حالتك. تحبي أحجزلك استشارة مجانية؟')}<div class="no">متقولش "عادي مفيش مشكلة" ولا "ممنوع"، ومتتكلمش عن جرعات أو أعراض.</div>${/مونجارو|جرعه/.test(r.q)?'<div class="warn">مونجارو دوا بروشتة، والدكتور بس هو اللي يقرر إذا كان مناسب.</div>':''}`;
+  if(r.kind==='medical' && /حامل|حمل|pregnan/.test(r.q) && !/رضاع|مرضع|breastfe|nursing/.test(r.q)) return `<div class="hd">عميلة حامل: Hold</div>${sayBox('سلامتك أهم حاجة. الخدمات دي بنأجلها في فترة الحمل، فخليني أكلمك بعد الولادة بالسلامة إن شاء الله. إمتى ميعادك؟')}<div class="warn">على Odoo: Hold، والتاج Travel / Hold، وActivity بعد الولادة. منحجزش استشارة إلا لو صممت تعمل الخدمة، ووقتها اكتب في الملاحظات إنها حامل.</div><div class="no">متقولش "عادي"، ومتشرحش أعراض جانبية.</div>`;
+  if(r.kind==='medical') return `<div class="hd">سؤال طبي: حوّله للدكتور</div>${sayBox('ده سؤال طبي مهم، والدكتور هو اللي يقدر يجاوبك بعد ما يقيّم حالتك. تحبي أحجزلك استشارة مجانية؟')}<div class="no">متقولش "عادي مفيش مشكلة" ولا "ممنوع"، ومتتكلمش عن جرعات أو أعراض.</div>${/مونجارو|جرعه|mounjaro|dose/.test(r.q)?'<div class="warn">مونجارو دوا بروشتة، والدكتور بس هو اللي يقرر إذا كان مناسب.</div>':''}`;
   if(r.kind==='none') return `<span>مش لاقي إجابة لده في الدليل. جرّب تكتبها بكلمة تانية، زي اسم الخدمة أو كلمة العميل نفسها. ولو مش موجودة، ارجع للتيم ليدر ومتألفش إجابة للعميل.</span>${r.sugg&&r.sugg.length?`<div class="lbl">ممكن تقصد:</div><div class="chips2">${r.sugg.map(x=>`<button data-a="bq" data-t="${esc(x.title)}">${esc(x.title)}</button>`).join('')}</div>`:''}`;
   const it=r.best; let h='';
   const go=(id,t)=>`<button class="ib" data-a="go" data-v="${id}">${t||'شوف التفاصيل'} ←</button>`;
@@ -1095,6 +1098,7 @@ function showRes(){
   box.hidden=false;
 }
 function pickRes(i){ const r=RES[i]; if(!r) return; go(r.go); }
+$('langbtn').addEventListener('click',e=>{ e.preventDefault(); location.href=$('langbtn').getAttribute('href')+location.hash; });
 $('q').addEventListener('input',showRes);
 $('q').addEventListener('focus',showRes);
 $('q').addEventListener('keydown',e=>{

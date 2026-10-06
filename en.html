@@ -1,0 +1,1172 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>Tres Jolie Agent Handbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8; --paper:#FFFFFF; --soft:#EFF1F4; --ink:#18222E; --muted:#5B6674; --line:#DADFE6;
+  --rose:#A63D63; --rose-soft:#F8E6ED; --sage:#2F7565; --sage-soft:#E0F0EB; --amber:#A8660C; --amber-soft:#FCEFD8; --red:#B83A2E; --red-soft:#FBE3E0; --blue:#2C6395; --blue-soft:#E2EDF7;
+  --head:#1D2B3A; --head2:#263849; --head-ink:#EEF2F6; --shadow:0 12px 32px rgba(20,30,45,.18);
+  --hh:112px;
+  --f:'IBM Plex Sans Arabic',system-ui,'Segoe UI',Tahoma,sans-serif; --d:'Noto Kufi Arabic','IBM Plex Sans Arabic',sans-serif; --m:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#10161D; --paper:#18212B; --soft:#1F2A36; --ink:#E6EBF0; --muted:#9AA6B3; --line:#2C3947;
+  --rose:#E07BA0; --rose-soft:#3A2230; --sage:#5DC0A6; --sage-soft:#17332C; --amber:#E9AE52; --amber-soft:#3A2C15; --red:#EE7F73; --red-soft:#3C201D; --blue:#7DB3E6; --blue-soft:#1A2B3C; --head:#0B1117; --head2:#141E28; --head-ink:#E6EBF0; --shadow:0 12px 32px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#10161D; --paper:#18212B; --soft:#1F2A36; --ink:#E6EBF0; --muted:#9AA6B3; --line:#2C3947;
+  --rose:#E07BA0; --rose-soft:#3A2230; --sage:#5DC0A6; --sage-soft:#17332C; --amber:#E9AE52; --amber-soft:#3A2C15; --red:#EE7F73; --red-soft:#3C201D; --blue:#7DB3E6; --blue-soft:#1A2B3C; --head:#0B1117; --head2:#141E28; --head-ink:#E6EBF0; --shadow:0 12px 32px rgba(0,0,0,.5)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:15px/1.7 var(--f)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+.ltr{direction:ltr;unicode-bidi:isolate}
+.m{font-family:var(--m);font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--d);text-wrap:balance;line-height:1.35}
+
+/* ===== sticky header: search + section tabs (always visible) ===== */
+.top{background:var(--head);color:var(--head-ink);position:sticky;top:env(safe-area-inset-top,0px);z-index:30}
+.bar{max-width:1320px;margin:0 auto;padding:10px 16px;display:grid;gap:10px;grid-template-columns:auto minmax(0,1fr) auto;align-items:center}
+@media (max-width:760px){.bar{grid-template-columns:minmax(0,1fr) auto}.brand{display:none!important}}
+.brand{display:grid;line-height:1.25}
+.brand b{font-family:var(--d);font-size:17px}
+.brand span{font-size:12px;opacity:.7}
+.sbox{position:relative}
+.sbox input{width:100%;border:0;border-radius:10px;padding:10px 42px 10px 44px;background:rgba(255,255,255,.1);color:var(--head-ink);font-size:16px}
+.sbox input::placeholder{color:rgba(238,242,246,.6)}
+.sbox svg{position:absolute;right:14px;top:50%;transform:translateY(-50%);opacity:.7}
+.sbox kbd{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-family:var(--m);font-size:12px;border:1px solid rgba(255,255,255,.3);border-radius:4px;padding:0 6px;opacity:.7}
+.results{position:absolute;inset-inline:0;top:calc(100% + 6px);background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);max-height:60vh;overflow-y:auto;z-index:40}
+.results button{display:grid;gap:1px;width:100%;text-align:start;background:none;border:0;border-bottom:1px solid var(--line);padding:10px 14px}
+.results button:hover,.results button.on{background:var(--soft)}
+.results .sec{font-size:11.5px;color:var(--rose);font-weight:700}
+.results .snip{font-size:13px;color:var(--muted)}
+.tools{display:flex;gap:6px}
+.tbtn{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:var(--head-ink);border-radius:9px;padding:8px 12px;font-size:14px;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.tbtn:hover{background:rgba(255,255,255,.14)}
+.tbtn.on{background:var(--rose);border-color:var(--rose);color:#fff}
+@media (max-width:760px){.tbtn .t{display:none}}
+.tabs{background:var(--head2);border-top:1px solid rgba(255,255,255,.08)}
+.tabs-in{max-width:1320px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding-inline:12px}
+.tabs-in::-webkit-scrollbar{display:none}
+.tabs a{color:var(--head-ink);opacity:.72;text-decoration:none;padding:8px 12px 9px;white-space:nowrap;font-size:14px;border-bottom:3px solid transparent}
+.tabs a:hover{opacity:1}
+.tabs a.on{opacity:1;border-bottom-color:var(--rose);font-weight:700}
+.tabs .cnt{font-family:var(--m);font-size:11.5px;opacity:.7;margin-inline-start:4px}
+
+/* ===== layout ===== */
+.wrap{max-width:1320px;margin:0 auto;padding-block:20px 60px;padding-inline:16px;display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:24px;align-items:start}
+.wrap.drawer-open{grid-template-columns:minmax(0,1fr) 380px}
+@media (max-width:1080px){.wrap,.wrap.drawer-open{grid-template-columns:1fr}}
+main{display:grid;gap:36px;min-width:0;order:1}
+aside.rail{order:2;position:sticky;top:calc(var(--hh) + 12px + env(safe-area-inset-top,0px));max-height:calc(100vh - var(--hh) - 24px);overflow-y:auto;display:grid;gap:12px;align-content:start}
+@media (max-width:1080px){aside.rail{position:fixed;inset:auto 0 0 0;top:auto;max-height:78vh;z-index:35;background:var(--bg);border-top:1px solid var(--line);box-shadow:var(--shadow);border-radius:14px 14px 0 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+  aside.rail.closed{display:none}}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:8px}
+.panel h3{margin:0;font-size:14.5px}
+.pins a{display:flex;justify-content:space-between;gap:8px;color:var(--ink);text-decoration:none;font-size:14px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.pins a:last-child{border-bottom:0}
+.pins .p{font-family:var(--m);font-size:12.5px;color:var(--muted);white-space:nowrap}
+section{display:grid;gap:14px;scroll-margin-top:calc(var(--hh) + 16px)}
+.sh{display:grid;gap:4px}
+.sh h2{margin:0;font-size:22px}
+.sh p{margin:0;color:var(--muted);max-width:75ch}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--rose)}
+
+/* quick answers */
+.quick{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.qa-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:4px;text-align:start;align-content:start}
+.qa-card:hover{border-color:var(--rose)}
+.qa-card .k{font-size:12px;color:var(--muted)}
+.qa-card b{font-family:var(--d);font-size:15px}
+.qa-card span{font-size:13.5px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+
+.chip{display:inline-flex;align-items:center;gap:4px;padding:1px 9px;border-radius:12px;font-size:12px;font-weight:500;white-space:nowrap}
+.c-ok{background:var(--sage-soft);color:var(--sage)}
+.c-warn{background:var(--amber-soft);color:var(--amber)}
+.c-no{background:var(--red-soft);color:var(--red)}
+.c-cat{background:var(--soft);color:var(--muted)}
+
+.rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.rule{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:4px;align-content:start}
+.rule b{font-size:14.5px}
+.rule span{font-size:13.5px;color:var(--muted)}
+.rule.no b{color:var(--red)}
+.rule.yes b{color:var(--sage)}
+
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:4px 12px;font-size:13.5px}
+.filters button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.offers{display:grid;gap:12px}
+.offer{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;scroll-margin-top:calc(var(--hh) + 16px)}
+.flash{box-shadow:0 0 0 3px var(--rose)!important}
+.ohead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:14px 16px;align-items:start}
+.ohead .tt{display:grid;gap:2px;cursor:pointer;text-align:start;background:none;border:0;padding:0}
+.ohead h3{margin:0;font-size:17px}
+.ohead .en{font-size:12.5px;color:var(--muted);text-align:right}
+.ohead .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.price{text-align:end;display:grid;gap:4px;justify-items:end}
+.price .v{font-family:var(--m);font-size:20px;font-weight:600;white-space:nowrap}
+.price .v small{font-size:12px;color:var(--muted);font-weight:500}
+.price .n{font-size:12px;color:var(--muted);max-width:210px}
+.price .acts{display:flex;gap:4px}
+.ib{border:1px solid var(--line);background:var(--paper);border-radius:7px;padding:2px 8px;font-size:12.5px;display:inline-flex;gap:4px;align-items:center}
+.ib:hover{border-color:var(--rose)}
+.ib.on{background:var(--amber-soft);border-color:var(--amber);color:var(--amber)}
+.obody{border-top:1px solid var(--line);padding:14px 16px;display:grid;gap:14px}
+.two{display:grid;gap:14px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:700px){.two{grid-template-columns:1fr}}
+.lbl{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.03em}
+.say{background:var(--sage-soft);border-radius:10px;padding:10px 12px;display:grid;gap:6px}
+.say p{margin:0;font-size:15.5px}
+.say .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.copy{border:1px solid var(--line);background:var(--paper);border-radius:6px;padding:1px 9px;font-size:12px}
+.caution{background:var(--amber-soft);border-radius:10px;padding:10px 12px;font-size:14px}
+.caution.no{background:var(--red-soft)}
+.qa{display:grid;gap:8px}
+.qa div{display:grid;gap:2px}
+.qa .q{font-weight:500}
+.qa .q::before{content:"Customer: ";color:var(--muted);font-weight:400;font-size:13px}
+.qa .a::before{content:"You: ";color:var(--sage);font-weight:700;font-size:13px}
+.src{font-size:12px;color:var(--muted)}
+
+.tw{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{background:var(--soft);color:var(--muted);font-weight:500;text-align:start;padding:9px 12px;white-space:nowrap}
+td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+td.m{white-space:nowrap}
+
+.flows{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.flow{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px;align-content:start;scroll-margin-top:calc(var(--hh) + 16px)}
+.flow h3{margin:0;font-size:16px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.flow ol{margin:0;padding-inline-start:20px;display:grid;gap:6px}
+.flow li::marker{font-family:var(--m);color:var(--rose)}
+.line{display:block;background:var(--soft);border-radius:6px;padding:2px 8px;margin-top:3px;font-size:14px}
+
+.objs{display:grid;gap:10px}
+.obj{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px 16px;display:grid;gap:8px;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);align-items:start;scroll-margin-top:calc(var(--hh) + 16px)}
+@media (max-width:700px){.obj{grid-template-columns:1fr}}
+.obj.hot{border-color:var(--amber);box-shadow:inset -4px 0 0 var(--amber)}
+.obj .cq{font-family:var(--d);font-size:15.5px;display:grid;gap:4px;justify-items:start}
+.obj .cq small{font-family:var(--f);font-size:12px;color:var(--muted)}
+.obj .ans{display:grid;gap:6px}
+.obj .avoid{font-size:13.5px;color:var(--red)}
+ol.steps{margin:0;padding-inline-start:20px;display:grid;gap:3px;font-size:14px}
+
+.gl{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.g{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+.g b{font-family:var(--d);font-size:16px}
+.g span{font-size:14px}
+.g i{font-style:normal;font-size:12.5px;color:var(--muted);text-align:right}
+.todo{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:6px 16px 6px 36px;margin:0}
+.todo li{padding:8px 0;border-bottom:1px dashed var(--line)}
+.todo li:last-child{border-bottom:0}
+.log{display:grid;gap:0;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px 16px}
+.log div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.log div:last-child{border-bottom:0}
+.log span{color:var(--muted);font-size:13px}
+.prod{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;scroll-margin-top:calc(var(--hh) + 16px)}
+.phead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;background:var(--soft);border-bottom:1px solid var(--line)}
+.phead h3{margin:0;font-size:19px}
+.phead .en{display:block;font-size:12.5px;color:var(--muted);text-align:right}
+.pchips{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start}
+.pchips a{text-decoration:none;color:var(--ink)}
+.pbody{padding:14px 16px;display:grid;gap:14px}
+.pp{margin:2px 0 0}
+ul.tick{margin:2px 0 0;padding-inline-start:18px;display:grid;gap:2px}
+.facts2{margin:2px 0 0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.facts2 div{background:var(--blue-soft);border-radius:10px;padding:8px 12px}
+.facts2 dt{font-weight:700;font-size:13.5px}
+.facts2 dd{margin:0;font-size:14.5px}
+.phr{display:grid;gap:8px}
+.phr .say .row{justify-content:flex-end}
+.chat{display:grid;gap:8px}
+.chatlog{display:grid;gap:10px;align-content:start;max-height:min(58vh,560px);overflow-y:auto;padding:2px}
+@media (max-width:1080px){.chatlog{max-height:48vh}}
+.cm{border-radius:12px;padding:9px 12px;font-size:14.5px;display:grid;gap:6px;max-width:100%}
+.cm.u{justify-self:end;background:var(--rose);color:#fff;border-end-end-radius:3px;max-width:85%}
+.cm.b{justify-self:start;background:var(--soft);border-end-start-radius:3px}
+.cm .say{background:var(--paper)}
+.cm .say p{font-size:14.5px}
+.cm .pr{font-family:var(--m);font-size:20px;font-weight:600}
+.cm .pr small{font-size:12px;color:var(--muted)}
+.cm .hd{font-family:var(--d);font-weight:700;font-size:15px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.cm ul,.cm ol{margin:0;padding-inline-start:18px;display:grid;gap:2px}
+.cm .no{color:var(--red);font-size:13.5px}
+.cm .warn{background:var(--amber-soft);border-radius:8px;padding:6px 10px;font-size:13.5px}
+.cm .acts{display:flex;gap:6px;flex-wrap:wrap}
+.chips2{display:flex;gap:6px;flex-wrap:wrap}
+.chips2 button{border:1px solid var(--line);background:var(--paper);border-radius:14px;padding:3px 10px;font-size:13px;text-align:start}
+.chips2 button:hover{border-color:var(--rose)}
+.cin{display:flex;gap:6px}
+.csug{border:1px solid var(--line);border-radius:10px;background:var(--paper);margin-bottom:6px;max-height:240px;overflow:auto;display:grid}
+.csug[hidden]{display:none}
+.csug .csh{font-size:12px;color:var(--muted);padding:6px 10px 2px}
+.csug button{all:unset;cursor:pointer;padding:7px 10px;font-size:14px;display:flex;gap:8px;align-items:baseline;border-top:1px solid var(--line)}
+.csug button:hover,.csug button.on{background:var(--soft)}
+.csug .sec{font-size:11.5px;color:var(--rose);white-space:nowrap}
+.cin input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--paper);font-size:15px}
+.branches{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.branch{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;scroll-margin-top:calc(var(--hh) + 16px)}
+.bhead{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 16px;background:var(--soft);border-bottom:1px solid var(--line)}
+.bhead h3{margin:2px 0 0;font-size:18px}
+.bhead .en{display:block;font-size:12.5px;color:var(--muted);text-align:right}
+.bbody{padding:14px 16px;display:grid;gap:12px}
+.bstat{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;border-radius:14px;padding:2px 10px;white-space:nowrap;align-self:flex-start}
+.bstat::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.bstat.on{background:var(--sage-soft);color:var(--sage)}
+.bstat.off{background:var(--soft);color:var(--muted)}
+table.hours{border-collapse:collapse;font-size:14px;width:auto}
+table.hours td{padding:4px 0;border:0;padding-inline-end:18px}
+.small{font-size:13px}
+a.ib{color:var(--ink);text-decoration:none}
+.bphoto{margin:0;display:grid;gap:4px}
+.bphoto img{width:100%;height:auto;border-radius:10px;border:1px solid var(--line)}
+.bphoto figcaption{font-size:12.5px;color:var(--muted)}
+.bstrip{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.bmini{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-align:start}
+.bmini:hover{border-color:var(--rose)}
+ol.tline2{margin:2px 0 0;padding:0;list-style:none;display:grid;gap:0;border-inline-start:3px solid var(--rose-soft)}
+ol.tline2 li{display:grid;gap:1px;padding:6px 14px;position:relative}
+ol.tline2 li::before{content:"";position:absolute;right:-7px;top:12px;width:11px;height:11px;border-radius:50%;background:var(--rose)}
+ol.tline2 b{font-size:14px}
+.foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+
+/* ===== assistant drawer tools ===== */
+.dtabs{display:flex;gap:4px;background:var(--soft);border-radius:10px;padding:3px}
+.dtabs button{flex:1;border:0;background:none;border-radius:8px;padding:6px 4px;font-size:13.5px}
+.dtabs button.on{background:var(--paper);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:700}
+.dhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dhead b{font-family:var(--d)}
+.x{border:0;background:none;font-size:22px;line-height:1;color:var(--muted)}
+.sel{border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--paper);width:100%}
+.prog{height:6px;background:var(--line);border-radius:4px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--sage);transition:width .2s}
+.ck{display:grid;gap:2px}
+.ck label{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;align-items:start;padding:5px 4px;border-radius:6px;font-size:14px;cursor:pointer}
+.ck label:hover{background:var(--soft)}
+.ck input{accent-color:var(--sage);margin-top:4px}
+.ck label.done span{color:var(--muted);text-decoration:line-through}
+.ck .say-sm{display:block;font-size:13px;color:var(--sage);text-decoration:none!important}
+.ck h4{margin:8px 0 2px;font-size:12.5px;color:var(--rose)}
+.timer{font-family:var(--m);font-size:18px}
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.qrow:last-child{border-bottom:0}
+.qrow .p{font-family:var(--m);font-size:13px;color:var(--muted)}
+.step{display:flex;align-items:center;gap:4px}
+.step button{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:var(--paper);line-height:1}
+.step .n{font-family:var(--m);min-width:18px;text-align:center}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--ink);padding-top:8px}
+.total .v{font-family:var(--m);font-size:22px;font-weight:600}
+.warnlist{font-size:13px;background:var(--amber-soft);border-radius:8px;padding:8px 10px}
+.wiz{display:grid;gap:10px}
+.wiz .q{font-family:var(--d);font-size:16px}
+.wiz .opts{display:grid;gap:6px}
+.wiz .opts button{text-align:start;border:1px solid var(--line);background:var(--paper);border-radius:9px;padding:9px 12px}
+.wiz .opts button:hover{border-color:var(--rose)}
+.wiz .res{background:var(--sage-soft);border-radius:10px;padding:12px;display:grid;gap:6px}
+.wiz .res b{font-family:var(--m);font-size:15px}
+.crumbs{font-size:12.5px;color:var(--muted)}
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:6px 12px;font-size:13.5px}
+.btn.pri{background:var(--rose);border-color:var(--rose);color:#fff}
+.tbtn.lang{text-decoration:none;font-weight:700}
+.fab{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:34;border:0;border-radius:24px;background:var(--rose);color:#fff;padding:10px 16px;box-shadow:var(--shadow);display:none;font-weight:500}
+@media (max-width:1080px){.fab{display:block}}
+.totop{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:33;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}
+.toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:8px;z-index:50;font-size:14px}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+[dir=ltr] .sbox svg{right:auto;left:14px}
+[dir=ltr] .sbox kbd{left:auto;right:12px}
+[dir=ltr] ol.tline2 li::before{right:auto;left:-7px}
+[dir=ltr] .fab{left:auto;right:16px}
+[dir=ltr] .totop{right:auto;left:16px}
+[dir=ltr] .sw::after{right:auto;left:2px;transition:left .15s}
+[dir=ltr] .study.on .sw::after{left:16px}
+</style>
+
+<div dir="ltr" lang="en">
+<header class="top" id="top">
+  <div class="bar">
+    <div class="brand"><b>Agent Guide</b><span>Handsome &amp; Pretty · Tres Jolie account</span></div>
+    <div class="sbox"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.7"/></svg>
+      <input id="q" type="search" autocomplete="off" placeholder="Search: Botox, double chin, no appointments, remove my number…" aria-label="Search the guide"><kbd>/</kbd>
+      <div class="results" id="res" hidden></div></div>
+    <div class="tools">
+      <button class="tbtn" data-a="drawer" data-v="chat" title="Ask the guide">💬<span class="t">Ask the guide</span></button>
+      <button class="tbtn" data-a="drawer" data-v="call" title="Call checklist">☎<span class="t">Call assistant</span></button>
+      <button class="tbtn" data-a="drawer" data-v="quote" title="Price calculator">＋<span class="t">Calculator</span></button>
+      <button class="tbtn" data-a="drawer" data-v="wiz" title="Choose the call outcome">✓<span class="t">Outcome</span></button>
+      <a class="tbtn lang" id="langbtn" href="index.html" hreflang="ar" title="النسخة العربي">ع<span class="t">عربي</span></a>
+    </div>
+  </div>
+  <nav class="tabs" aria-label="Guide sections"><div class="tabs-in" id="tabs"></div></nav>
+</header>
+<div class="wrap" id="wrap">
+  <main id="main"></main>
+  <aside class="rail closed" id="rail" aria-label="Call tools"></aside>
+</div>
+<button class="fab" data-a="drawer" data-v="chat">💬 Ask the guide</button>
+<button class="totop" data-a="totop" aria-label="Back to top" title="Back to top">↑</button>
+</div>
+<div id="toast" dir="ltr"></div>
+
+<script>
+/* ================= DATA ================= */
+const UPDATED='6 Oct 2026';
+const CLINIC_AR='Handsome & Pretty Medical Center';
+const SRC='Sheet "Services and Offers by Category" · Discounts & Big Gift Week offers';
+const CATS={botox:'Botox',filler:'Filler',skin:'Glow & collagen',body:'Body contouring & fat dissolving',weight:'Weight loss',laser:'Laser hair removal'};
+
+/* status: ok = confirmed in offer sheet · warn = conflicting / partial · no = price not available */
+const OFFERS=[
+ {id:'nabota',cat:'botox',ar:'Nabota Botox (Korean)',en:'Nabota Botox (Korea)',price:'499 / 700',pn:'One area 499 · Full face 700',st:'ok',slide:17,
+  what:'Injections that relax the muscles that cause expression wrinkles. A South Korean brand with international quality approvals, highly pure, with fast-showing results. An affordable choice with excellent quality, and very suitable for new customers.',guide:'botox',who:'The customer asks about forehead wrinkles, lines around the eyes, or frown lines between the eyebrows.',
+  say:'We have an offer on Korean Nabota Botox: one area is 499 AED and the full face is 700, and it comes with a gift of your choice. The doctor will decide which areas are right for you during the consultation.',
+  qa:[['What\'s the difference between Nabota and Dysport?','Both are excellent and internationally approved. Nabota stands out for its purity and good price, while Dysport spreads over a wider area, so it suits larger areas. The doctor will assess your facial muscle movement and recommend what suits you best.'],['How long does it last?','Usually 4 to 6 months, and it varies from person to person.'],['When will I see results?','Results start to show within 3 to 5 days, and the final result within two weeks.'],['Does it hurt?','The pain is very mild, like a light bee sting, and a local numbing cream can be applied.']],
+  caution:'Which areas does "full face" include? It isn\'t written in the sheet. Don\'t name specific areas until the team confirms.'},
+ {id:'dysport',cat:'botox',ar:'Dysport Botox',en:'Dysport Botox',price:'900 / 1,299',pn:'One area 900 · Full face 1,299 (from the poster only)',st:'warn',slide:11,
+  what:'A British Botox. Its particles are smaller and lighter, so it spreads over a wider area and suits larger areas like a wide forehead. It is known for giving a very natural look.',guide:'botox',who:'The customer asks for Dysport by name, or has used it before.',
+  say:'Dysport is available: one area is 900 AED and the full face is 1,299 AED, and it comes with a gift. Let me book you a consultation, and the doctor will confirm what suits you.',
+  qa:[['Why is Dysport more expensive than Nabota?','They are different brands, and each has its own advantages. Dysport has smaller particles and spreads over a wider area, so it suits larger areas. The doctor will assess your facial muscle movement and recommend what suits you best.']],
+  caution:'These prices are only on the poster, not in the text. Confirm them with the team before relying on them.'},
+ {id:'meso',cat:'botox',ar:'Full-face Meso Botox',en:'Meso Botox (full face)',price:'700 or 799',pn:'Conflicting price in the source',st:'warn',slide:'1, 5',guide:'meso',
+  what:'Very small doses in the surface layer of the skin to tighten it and give it a glow, and to reduce signs of tiredness and fatigue.',who:'The customer wants glow and light tightening, not treatment of deep wrinkles.',
+  say:'Meso Botox tightens the skin, gives it a glow, and reduces signs of tiredness. I\'ll confirm the price for you in the confirmation message, and it comes with a gift of your choice.',
+  qa:[['Is it the same as regular Botox?','No, it\'s done in a different way, and the aim is glow and light tightening. The doctor will explain the difference.']],
+  caution:'The text says 700 and the poster says 799. Don\'t give a final price until it\'s confirmed.'},
+ {id:'lipfill',cat:'filler',ar:'AILEENE lip filler (1 ml)',en:'AILEENE lip filler 1 ml',price:'From 599',pn:'"Starting from" 599',st:'ok',slide:12,
+  what:'A premium Korean hyaluronic filler to define lip shape, add volume, and treat dryness.',who:'The customer wants more defined or fuller lips.',
+  say:'AILEENE Korean lip filler starts from 599 AED for 1 ml, and it comes with a gift. The doctor will decide the right amount for your lip shape.',
+  qa:[['Will it look natural?','The doctor designs the shape based on your features, and will explain the expected result during the consultation.'],['How long does it last?','It varies from person to person, and the doctor will tell you what to expect in your case.']],
+  caution:'"Starting from" means the price may go up depending on the amount. Say it exactly like that.'},
+ {id:'facefill',cat:'filler',ar:'AILEENE face filler (2 ml)',en:'AILEENE face filler 2 ml',price:'999',pn:'2 ml',st:'ok',slide:13,
+  what:'Filler to contour the cheeks and jawline and define facial features.',who:'The customer asks about the cheeks, the jaw, or the "الوش الملكي" ("royal face" look).',
+  say:'AILEENE face filler offer: 2 ml for 999 AED, to contour the cheeks and jawline, and it comes with a gift of your choice.',
+  qa:[['Is 2 ml enough?','It depends on the area and the result you want, and the doctor will decide during the consultation.']],caution:''},
+ {id:'dermapen',cat:'skin',ar:'Dermapen',en:'Dermapen',price:'699',pn:'Session with a suitable serum',st:'ok',slide:2,
+  what:'Micro-needling with very fine needles plus a suitable serum. It helps with acne scars, pores, pigmentation, and fine lines.',who:'The customer complains of acne scars, large pores, or dark spots.',
+  say:'Dermapen with a suitable serum is 699 AED. It helps with acne scars, pores, and pigmentation, and it comes with a gift.',
+  qa:[['Does it hurt?','The doctor will explain how it feels and how to prepare before the session.'],['How many sessions do I need?','The number of sessions is decided after the doctor sees your skin.']],caution:''},
+ {id:'rrs',cat:'skin',ar:'RRS Long Lasting (Spanish)',en:'RRS Long Lasting (Spain)',price:'1,099',pn:'per syringe',st:'warn',slide:14,
+  what:'Hyaluronic and antioxidant injections to tighten the skin and give it a glow.',who:'The customer wants glow and deep hydration.',
+  say:'Spanish RRS is 1,099 AED per syringe. It tightens the skin and gives it a glow, and it comes with a gift.',
+  qa:[['Is there a package or a box?','There is a price for the full box. I\'ll confirm it for you before booking.']],caution:'The full box price is said to exist, but it isn\'t written. Don\'t guess a number.'},
+ {id:'rrseye',cat:'skin',ar:'RRS Eyes (Spanish)',en:'RRS Eye (Spain)',price:'499',pn:'per syringe · Box (3) for 1,799',st:'ok',slide:15,
+  what:'Under-eye injections: dark circles, puffiness, and fine lines.',who:'The customer complains of dark circles or a tired look under the eyes.',
+  say:'RRS Eyes is 499 AED per syringe, and the box of three syringes is 1,799, and it comes with a gift.',
+  qa:[['Will the dark circles go away completely?','Results vary from person to person. The doctor will assess the cause of the dark circles and tell you what to expect.']],caution:''},
+ {id:'sculptra',cat:'skin',ar:'Sculptra (American, Galderma)',en:'Sculptra (USA, Galderma)',price:'1,499',pn:'with two gifts',st:'ok',slide:16,
+  what:'A bio-stimulator for collagen (not a regular filler). It stimulates the skin to produce its own collagen gradually, restoring volume, firmness, and glow.',guide:'sculptra',who:'The customer complains of sagging skin or that their face has lost volume.',
+  say:'Sculptra by Galderma is 1,499 AED, and it\'s the only offer that comes with two gifts. It stimulates collagen to restore volume and reduce sagging.',
+  qa:[['Is it true the result lasts two years?','It can last up to two years, but this varies from person to person, and the doctor will explain what to expect in your case.'],['How many sessions do I need?','The doctor will decide what your skin needs during the free consultation, and the current offer is 1,499 per injection with two gifts.'],['Why don\'t I see the result right away?','Because Sculptra stimulates the skin to produce its own collagen, the result shows gradually from the first to the third month, and that\'s what makes it look natural.']],
+  caution:'The sheet says results last more than two years. Don\'t say it as a promise. Say "It varies, and the doctor will explain."'},
+ {id:'endolaser',cat:'body',guide:'endolaser',ar:'Endolaser',en:'Endolaser',price:'1,500',pn:'per area',st:'ok',slide:3,
+  what:'A dual-wavelength laser to tighten the skin, without surgery. For the double chin, face, neck, abdomen, arms, and thighs.',who:'The customer asks about sagging skin or stubborn fat in a specific area.',
+  say:'Endolaser is 1,500 AED per area. It tightens the skin without surgery and can be done on the double chin, face, neck, abdomen, arms, and thighs, and it comes with a gift.',
+  qa:[['Can it replace surgery for me?','The doctor will assess your case and tell you whether Endolaser is suitable for you.']],
+  caution:'The sheet says "an alternative to surgery". Don\'t say this to the customer; it\'s a medical claim. Say "without surgery".'},
+ {id:'silutrix',cat:'body',ar:'Silutrix double-chin injection',en:'Silutrix needle (double chin)',price:'700',pn:'with a radiofrequency session',st:'ok',slide:'4, 5',
+  what:'An injection to dissolve double-chin fat, with a radiofrequency session.',who:'The customer complains of a double chin, meaning the fat under the chin. Gulf customers will usually call it "دبل تشن" (double chin).',
+  say:'The Silutrix double-chin injection is 700 AED, with a radiofrequency session, plus a gift of your choice.',
+  qa:[['How many injections do I need?','The doctor will decide the number after seeing the area.']],caution:''},
+ {id:'fatcourse',cat:'body',ar:'Fat-dissolving device course',en:'Fat-dissolving devices course',price:'—',pn:'Price not visible in the source',st:'no',slide:8,
+  what:'16 device sessions, with diet follow-up and a weekly check-up for two months.',who:'The customer wants to lose weight and contour their body with devices.',
+  say:'We have a course of 16 fat-dissolving device sessions, with weekly diet follow-up for two months. I\'ll confirm the price for you, and it\'s best to book you a free consultation so the doctor can set the program.',
+  qa:[['How many kilos will I lose?','Results vary from person to person and depend on following the diet, and the doctor will set a suitable goal for you.']],
+  caution:'The price is cut off on the poster. Don\'t give any number. The poster also says "10 to 15 kilos", and this must never be said as a promise.'},
+ {id:'cellulite',cat:'body',ar:'Cellulite removal course',en:'Cellulite removal course',price:'1,500',pn:'10 sessions',st:'ok',slide:9,
+  what:'10 sessions. Each session is a triple treatment at the same time: the Ultrascalpt device breaks down fat and activates the muscles, radiofrequency dissolves fat deposits, stimulates collagen, and tightens the skin, and lymphatic massage helps drain fat and fluids and boosts circulation.',who:'The customer complains of cellulite.',
+  say:'The cellulite course is 10 sessions for 1,500 AED, and it comes with a gift of your choice. Each session is a triple treatment: the Ultrascalpt device to break down fat and activate the muscles, radiofrequency to dissolve fat deposits and tighten the skin, and lymphatic massage to drain fluids and boost circulation.',
+  qa:[['Will the cellulite go away completely?','These devices improve the look of cellulite, and the doctor will tell you the expected result in your case.'],['What happens in the session?','Each session combines 3 things: the Ultrascalpt device, radiofrequency, and lymphatic massage. The course is 10 sessions.']],
+  caution:'The client describes the session as "the first of its kind in the Middle East" and "incredibly effective". Don\'t say either of these to the customer: the first is a claim that needs proof, and the second is a promise of results. Say "a triple session", and that results vary from person to person.'},
+ {id:'lymph',cat:'body',ar:'Wood therapy lymphatic massage',en:'Wooden lymphatic massage',price:'1,000',pn:'10 sessions',st:'ok',slide:6,
+  what:'Massage with wooden tools to boost circulation and reduce cellulite and fluid retention.',who:'The customer complains of fluid retention, swelling, or cellulite.',
+  say:'Wood therapy lymphatic massage is 10 sessions for 1,000 AED. It helps with circulation, cellulite, and fluid retention, and it comes with a gift.',qa:[],caution:''},
+ {id:'mounjaro',cat:'weight',ar:'Mounjaro course',en:'Mounjaro course',price:'2,999',pn:'3 months · with a gift',st:'ok',slide:7,
+  what:'A Mounjaro pen that lasts 3 months, with weekly nutrition and medical follow-up for 3 months including a weekly check-up, and 10 non-surgical fat-breakdown device sessions.',who:'The customer asks about weight-loss injections or Mounjaro by name.',
+  say:'The Mounjaro course is 2,999 AED, and it comes with a gift of your choice: a pen that lasts 3 months, weekly nutrition and medical follow-up and check-ups for 3 months, and 10 non-surgical fat-breakdown sessions. First, you need a consultation so the doctor can assess your case and decide if it\'s suitable for you, and I can book that consultation for you free of charge.',
+  qa:[['Can I get the pen without seeing a doctor?','No, this is a treatment where the doctor must first assess your case and decide if it\'s suitable for you.'],['I have diabetes, is it okay for me?','That\'s an important medical question, and the doctor is the one who will answer it after reviewing your case.'],['How much will I lose?','Results vary from person to person, and the doctor will set a plan and a suitable goal for you.']],
+  caution:'Mounjaro is a prescription medicine. Don\'t say it\'s suitable for anyone, and don\'t answer any questions about doses, medical conditions, or side effects. The client says average weight loss is 10 to 25 kilos, and that it suppresses appetite without fatigue or deprivation. Don\'t tell the customer any number of kilos or anything about the medicine\'s effects, because that is a promise of results and medical talk. Say "Results vary from person to person, and the doctor will set a plan and a suitable goal for you."'},
+ {id:'laser1',cat:'laser',guide:'laser',ar:'Full-body laser excluding back and abdomen',en:'Full body laser, without back & abdomen',price:'1,000 / 1,250',pn:'6 sessions · Women 1,000 · Men 1,250',st:'ok',slide:10,
+  what:'Candela GentleMax Pro Plus device, a 6-session package for the whole body except the back and abdomen.',who:'The customer wants a full laser package.',
+  say:'The full-body laser package with the Candela GentleMax Pro Plus, 6 sessions: 1,000 AED for women and 1,250 for men, excluding the back and abdomen. If you also want the back and abdomen, there\'s another package. And it comes with a gift.',
+  qa:[['How many sessions do I need?','Usually 6 to 8 sessions for most cases, with 4 to 6 weeks between sessions. The doctor will assess your case.'],['Does it remove fine hair?','Yes, the device also removes fine (vellus) hair.'],['Appointments are always full. Will I find a slot?','Demand has been very high recently, so we added more devices and there are now more appointments available. Let me find you an appointment right now.'],['Is the device suitable for dark skin?','The doctor will assess your skin and hair type before you start.'],['Are 6 sessions enough?','The number of sessions varies from person to person, and the doctor will explain.']],caution:''},
+ {id:'laser2',cat:'laser',guide:'laser',ar:'Full-body laser including back and abdomen',en:'Full body laser, with back & abdomen',price:'1,500 / 1,800',pn:'Women 1,500 · Men 1,800',st:'ok',slide:10,
+  what:'The same package, but including the back and abdomen.',who:'The customer wants the whole body, with no exceptions.',
+  say:'Full body including the back and abdomen: 1,500 AED for women and 1,800 for men, and it comes with a gift of your choice.',qa:[],
+  caution:'The sheet doesn\'t state the number of sessions for this package. Probably 6 like the previous one, but confirm with the team. Most cases need 6 to 8 sessions.'}
+];
+
+/* Regular prices (not offers): no gift, VAT not included */
+const REGULAR=[
+ {id:'beard',ar:'Beard laser',pn:'3 sessions',price:'300',src:'The client, 5 Oct',laser:true},
+ {id:'underarm',ar:'Underarm laser',pn:'4 sessions',price:'300',src:'The client, 5 Oct',laser:true},
+ {id:'kysse',ar:'Restylane Kysse lip filler',pn:'',price:'1,100',src:'The client, 5 Oct'}
+];
+
+const RULES=[
+ ['yes','The first consultation and the follow-up are free','Offer the free follow-up with the doctor during follow-up calls, and if the customer says they saw no result.'],
+ ['yes','Introduce yourself as Handsome & Pretty','"This is [your name] from Handsome & Pretty Medical Center." Don\'t say Tres Jolie on the call.'],
+ ['yes','Say the offer price exactly as written','You can say prices marked "Confirmed". For any service not in the offers, the price is set after the doctor\'s consultation.'],
+ ['yes','Every offer comes with a gift chosen by the customer','Sculptra comes with two gifts. We haven\'t received the gift list yet, so don\'t promise a specific gift.'],
+ ['no','Don\'t guarantee results or a number of kilos','"Results vary from person to person, and the doctor will explain what to expect."'],
+ ['no','Don\'t give medical advice','Any question about medical conditions, medications, breastfeeding, or side effects is referred to the doctor.'],
+ ['warn','Pregnant customer: Hold','We postpone laser, filler, Botox, Sculptra, and meso during pregnancy, and call her after she gives birth. Don\'t book a consultation unless she insists on having the service.'],
+ ['yes','Installments available with Tabby and Tamara','Confirmed by the client. There is an admin fee whose percentage is still being confirmed, so say: "I\'ll confirm the installment fee details for you before booking", and don\'t give a percentage.'],
+ ['warn','Prices do not include VAT','Say the price, then: "This price doesn\'t include VAT." The VAT rate is still being confirmed, so don\'t give a number and don\'t calculate a total.'],
+ ['yes','Offers are much cheaper than the regular price','Services without an offer cost about 40% more. Use this to show value: "This offer saves you a lot compared to the regular price." Don\'t calculate a regular price for any service yourself.'],
+ ['yes','Shaving at the center costs 100 AED','It\'s best for the customer to shave at home the day before the laser session. If they need to shave at the center, they should come half an hour before their appointment, and shaving costs 100 AED.'],
+ ['warn','Dr. Yasmine Darwish\'s hours (dermatology)','Available at Handsome & Pretty Medical Center every day except Wednesday and Friday, from 12 PM to 8 PM. Exception: on Tuesday 6 Oct only, her hours are 10 AM to 6 PM. Book dermatology consultations within these hours.'],
+ ['warn','Dr. Rogina\'s hours (nutritionist)','Available at Handsome & Pretty Medical Center every day except Friday and Saturday, from 11 AM to 7 PM. Book nutrition consultations within these hours.'],
+ ['no','Don\'t invent a discount or an offer end date','unless the client has confirmed it.'],
+ ['warn','If a price is marked "Needs confirmation"','Say: "I\'ll confirm the price for you before booking." Don\'t guess a number.']
+];
+
+const FLOWS=[
+ {t:'New lead (even if the customer doesn\'t know exactly what they want)',steps:[
+  ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Good evening, this is [your name] from Handsome & Pretty Medical Center. Am I speaking with Ms. [name]?'],
+  ['State the reason for the call, and ask if it\'s a good time.','I\'m calling about your recent inquiry about our services. Do you have two minutes?'],
+  ['Find out the need.','So I can help you properly, are you looking for a specific service like laser or filler, or would you like help choosing what suits you best? And what would you most like to improve?'],
+  ['Offer the free consultation, the offer, and the gift.','Great. Your first consultation with us is completely free with no obligation. Dr. Yasmine Darwish, our dermatologist, will assess your skin and tell you the most suitable treatment for you. We also have offers right now, and each offer comes with a gift of your choice.'],
+  ['Close with two options.','Would you like to book the consultation on [day/time] or [day/time]?'],
+  ['Confirm all the details and close politely.','Let me confirm with you: name, number, branch, day and time. You will receive a confirmation message.']]},
+ {t:'Follow-up: attended the consultation but didn\'t book',steps:[
+  ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from Handsome & Pretty Medical Center.'],
+  ['Ask about their experience.','You visited us for the free consultation with the doctor on [..], and we wanted to check on your experience. How was it?'],
+  ['Ask an open question first.','Was the treatment plan clear? Was there anything that made you hesitate to start?'],
+  ['If they don\'t give a reason, offer options.','Was it the price? The appointment times? Or something else?'],
+  ['Offer a real solution, and record the exact reason in the system.','If it\'s the price: the current offer and the gift. If they\'re hesitant: a free follow-up with the doctor to answer your questions.'],
+  ['Book, or set a Call back with a time.','Would you like to book on [day/time] or [day/time]?']]},
+ {t:'Follow-up: booked but didn\'t show up',steps:[
+  ['Check on them without blaming.','We noticed you couldn\'t make it to your appointment yesterday. I hope everything is okay?'],
+  ['Offer a new appointment.','The consultation is still free. Would you like me to book you another appointment?'],
+  ['Confirm and send a confirmation.','Let me confirm the new appointment with you…']]},
+ {t:'Previous customer (and we don\'t have their history)',steps:[
+  ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from Handsome & Pretty Medical Center. You visited us before, and we wanted to check on you and tell you about our new offers.'],
+  ['Let the customer tell you what they had done, and record it in the system.','What did you have done with us last time? And how was the experience?'],
+  ['If they complain: stop selling immediately and log a complaint.',''],
+  ['If there\'s no complaint: offer to continue, or a free consultation.','Would you like to continue with the same treatment, or try a free consultation with the doctor to see what your skin needs now?'],
+  ['If they ask "Don\'t you know what I had done?"','We like to hear from you first to make sure our information is up to date.'],
+  ['Don\'t say anything untrue to cover the fact that the data is missing.','Like "We\'re updating the medical files of our VIP clients".']]},
+ {t:'Inbound call / returning a missed call',steps:[
+  ['Answer with your name.','Handsome & Pretty Medical Center, this is [your name]. How can I help you?'],
+  ['Search for the number in the system before anything else.','So the call is logged on the same customer and you don\'t create a duplicate.'],
+  ['Continue with the same steps as a new lead.','']]},
+ {t:'Complaint in any call',steps:[
+  ['Stop selling.',''],
+  ['Listen until the end and apologize for the experience without admitting any medical error.','I\'m very sorry that your experience was like this.'],
+  ['Don\'t give medical advice.','Don\'t say "Put some cream on it" or "That\'s normal".'],
+  ['Log the complaint with the category and severity.','If there is a side effect or a burn, it is High and must be escalated to the UAE team the same day.'],
+  ['Explain the next step with a time.','The person in charge will contact you [time].']]}
+];
+
+const OBJ=[
+ ['No laser appointments','"Every time I call, you say there are no appointments", "Your schedule is always full"','"I\'m really sorry about what happened to you recently. Demand for laser has been very high, so the center has added more devices, and more appointments are now available. Would you like to try again and book this week? Morning or evening?"','"It\'s not our fault", "All centers are busy", "We doubled the devices", "We guarantee you priority" or "You\'ll find an appointment any time" (unconfirmed promises).','client',
+  ['Apologize for the experience without arguing.','Explain that the reason was high demand, and that the center has added more devices.','Suggest a specific appointment right away, with two options. The best proof that the problem is solved is booking them now.','If they had a package and stopped halfway, offer to complete the remaining sessions.']],
+ ['Had sessions and no results','"I did sessions and didn\'t see any results", "I wasted my money"','"I understand you\'re waiting to see results, and that\'s your right. May I ask how many sessions you\'ve had, and when your last session was?" After listening: "Results from these services appear gradually, and the difference usually shows more as you complete the sessions and follow the plan. Would you like me to book you a free follow-up with the doctor to review your progress and tell you how long the results will take?"','"I understand you\'re in a hurry", "Because you didn\'t stick to it" (blame), "The next session will definitely make a difference" (promise), or medical explanations like "The product builds collagen".','client',
+  ['Ask before you judge: Which service? How many sessions of the course? When was the last session? Are they following the diet plan?','Explain that results appear gradually and need completing the course and regular attendance. Don\'t explain anything medical.','If they\'re not regular, encourage them to continue without blaming.','Offer a follow-up with the doctor. The follow-up is free.','If they are very upset, ask for their money back, or describe a side effect: log a complaint (Treatment result) and escalate it.']],
+ ['How much is it?','"How much is a session?"','If the service is in the offers: say the offer price and the gift, and offer the free consultation. If it\'s not in the offers: "The price is set after the doctor\'s assessment, and the first consultation is free."','Don\'t make up a price, and don\'t say "We\'re cheaper than everyone".'],
+ ['Is it guaranteed?','"Will it remove the hair permanently?", "How many kilos will I lose?"','"Results vary from person to person, and the doctor will assess your case and explain what to expect."','"100% guaranteed", "You\'ll lose 15 kilos".'],
+ ['Let me think about it','','"Of course. What\'s the main thing you need to think about? And when is a good time for me to call you?" Then log a Call back with a time.','"The offer ends today" (unless you\'re sure it\'s true).'],
+ ['Expensive','"It\'s too expensive"','"I understand. What matters most to you? The current offer comes with a gift, and the consultation is free so you can get all the details."','"I\'ll give you a special discount".'],
+ ['Where did you get my number?','','"You registered your interest through our ad on [platform]. And if you\'d prefer we don\'t call you, I\'ll remove your number right away."','"I don\'t know".'],
+ ['Remove my number','"Don\'t call me again"','"Sure, we\'ll remove your number from the call list. Sorry for the inconvenience." Then log Do not call.','Continuing to pitch, or asking "Why?".'],
+ ['Busy','"I\'m at work"','"Of course. What exact time suits you for me to call?" Then log a Call back.','"Just two minutes!".'],
+ ['I went to another center','','"I wish you all the best. May I ask what made you choose them? And if you ever need us, we\'re here."','Speaking badly about the competitor.'],
+ ['I\'m pregnant','"I\'m pregnant, I want to do laser"','"Your safety comes first. We postpone these services during pregnancy, so let me call you after you\'ve safely delivered. When is your due date?" Then log Hold, the tag Travel / Hold, and an Activity for after the delivery. If she insists on doing the service: book her a consultation and write in the notes that she is pregnant.','"It\'s fine, no problem", explaining side effects, or booking a consultation when she hasn\'t insisted.'],
+ ['Medical question','"I have diabetes", "I take medication", "I\'m breastfeeding"','"That\'s an important medical question, and the doctor is the one who can answer it after assessing your case. Shall I book you a free consultation?"','"It\'s fine, no problem" or "It\'s not allowed".'],
+ ['Is the consultation really free?','','"Yes, the first consultation is completely free, with no commitment."','"It\'s free if you book".'],
+ ['Send me the details on WhatsApp','','Send only the approved information according to the client\'s policy, and set a Call back.','Sending photos or prices that aren\'t approved.'],
+ ['It\'s far from me','','"We have two branches, Abu Dhabi and Fujairah. Which one is closer to you?"','Ending the call without offering an alternative.']
+];
+
+const DISP=[
+ ['Booked – consultation / session','The customer agreed to a specific appointment.','Branch, service, day and time.'],
+ ['Interested – call back','Interested, but asked us to call at another time.','The Call back time in UAE time, and the reason for not booking if it\'s a follow-up.'],
+ ['Enquiry answered – no booking','Asked, got an answer and didn\'t book (usually inbound).','A note of what they asked about.'],
+ ['Not interested','Clearly refused.','Reason for refusal from the list.'],
+ ['Complaint raised','Complained about anything.','Category, severity, and description in the customer\'s words.'],
+ ['Feedback – satisfied / neutral','Feedback call.','Rating out of 10.'],
+ ['Do not call – remove number','Asked for their number to be removed.','A short note. The number will be blocked from all outbound calls.'],
+ ['Wrong number','The number doesn\'t belong to the customer.','—'],
+ ['No answer','Rang and no one answered.','The system sets the next attempt.'],
+ ['Busy / rejected','Rejected the call or busy.','—'],
+ ['Switched off / unreachable','Switched off or out of coverage.','—'],
+ ['Voicemail','Went to voicemail.','Only your name and the center\'s number, with no health details.']
+];
+
+const GULF=[
+ ['وش؟ / شو؟ (wesh? / shu?)','What?'],['أبي / أبغى (abi / abgha)','I want'],['الحين (al-heen)','now'],['باجر (bacher)','tomorrow'],['عقب / بعدين (\'ugub / ba\'deen)','later'],['زين (zain)','good / okay'],['مو (mu)','not'],['وايد (wayed)','a lot / very'],['شوي (shwai)','a little'],['صدق؟ / صج؟ (sidg? / sij?)','Really?'],
+ ['ليش؟ (leish?)','Why?'],['متى؟ (mata?)','When?'],['وين؟ (wein?)','Where?'],['منو؟ (minu?)','Who?'],['جذي / كذا (chithi / katha)','like this'],['حيل (hail)','very'],['يسوي (yesawwi)','to do / to make'],['بيزات (baizat)','money'],['الدوام (al-dawam)','work'],['ما عليه (ma \'alaih)','never mind / it\'s okay'],
+ ['يعطيك العافية (ya\'teek al-\'afia)','A greeting ("may God give you strength"); reply with "الله يعافيك" (allah y\'afeek)'],['هلا / هلا والله (hala / hala wallah)','Hello / welcome'],['شلونك؟ / كيف حالك؟ (shlonik? / keif halik?)','How are you?'],['مشكور (mashkoor)','Thank you'],['تامر أمر (tamur amur)','At your service (they say it after asking for something)'],['خلاص (khalas)','Okay, agreed'],['الدبل تشن (al-dabal chin)','Double chin, meaning the fat under the chin'],['عقب المغرب (\'ugub al-maghrib)','After sunset prayer (around 6:30 to 7 PM)'],['العصر (al-\'asr)','Afternoon (around 3:30 to 5 PM)'],['الويكند (al-weekend)','Saturday and Sunday in the UAE']
+];
+const TONE=[
+ ['يا حبيبي / يا حبيبتي (ya habibi / ya habibti)','Can be misunderstood. Use the name or "أستاذ / أستاذة" (Mr. / Ms.).'],
+ ['يا باشا / يا هانم / يا حاج (ya basha / ya hanem / ya hag)','Very Egyptian expressions. Stick to the name.'],
+ ['أي قلش أو هزار (ay \'alsh aw hazar) – any puns or joking','The call is formal and friendly. Jokes can be misunderstood.'],
+ ['الكلام بسرعة (el-kalam be-sor\'a) – speaking fast','Gulf customers understand Egyptian Arabic, but speak a little slower and say numbers and times clearly.']
+];
+
+const BRANCHES=[
+ {id:'ad',city:'Abu Dhabi',name:'Handsome & Pretty Medical Center',nameAr:'Handsome & Pretty Medical Center',main:true,
+  addrAr:'Building 311, Hamdan Bin Mohammed Street, opposite Qasr Al Hosn, Al Hosn area, Abu Dhabi.',addrEn:'Palace - 311 Hamdan Bin Mohammed St - opposite Al Hosn - Al Hisn - W2 - Abu Dhabi - UAE',
+  landmarks:['If coming from Sheikh Rashid Bin Saeed Street: we are after Rafidain Bank.','If coming from Al Hosn Street: Arab Bank is at the start of the street, and we are about 5 buildings after it (next to Manakish Express and Kids Park).'],
+  open:9,close:22,phone:'02 443 3221',map:'https://www.google.com/maps/search/?api=1&query=311+Hamdan+Bin+Mohammed+St+Al+Hosn+Abu+Dhabi'},
+ {id:'fuj',city:'Fujairah',name:'Tres Jolie Medical Center – Fujairah',nameAr:'Tres Jolie Medical Center – Fujairah',
+  addrAr:'Fujairah, Al Gurfa area. (Plus Code: 48CW+5WQ)',addrEn:'48CW+5WQ, Al Ghurfah, Fujairah, UAE',
+  landmarks:['The sign says "مركز تري جولي الطبي" (Tres Jolie Medical Center) (photo below).','WhatsApp number written on the sign: 056 711 7152.'],
+  open:10,close:22,photo:'data:image/jpeg;base64,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',map:'https://www.google.com/maps/search/?api=1&query=48CW%2B5WQ+Al+Ghurfah+Fujairah'}
+];
+const PREP=['It\'s best to shave at home one day before the session. If shaving is needed at the center: arrive half an hour before the appointment; shaving costs 100 AED.','Stop exfoliating creams (like retinol and acids) and scrubs on the area at least 3 to 7 days before the session.','Avoid strong sun and tanning 7 to 14 days before the session.','On the day of the session, the skin should be clean, with no perfume, deodorant, moisturizer or makeup.','For women: it\'s better not to have the session during the period; the ideal time is 3 to 7 days after it ends.'];
+const KBSRC='Draft KB file (1 Oct 2026)';
+const PSRC='Comprehensive sales guide: aesthetic services (PDF)';
+const PRODUCTS=[
+ {id:'botox',name:'Botox',en:'Botox · Nabota / Dysport',offers:['nabota','dysport','meso'],
+  what:'A temporary cosmetic treatment that relaxes the muscles that cause expression lines, so the face looks smoother, fresher and younger, without changing its natural features.',
+  areas:['Forehead','Frown lines between the eyebrows','Wrinkles around the eyes (crow\'s feet)','Eyebrow lift'],
+  compare:[['Nabota','South Korean','Has international quality approvals. Pure, results show quickly, and an economical choice with excellent quality and strong stability. Very suitable for new customers or anyone who wants an excellent result at a competitive price.'],['Dysport','British','Its molecules are smaller and lighter, so it spreads over a wider area (Spreadability). Suitable for large areas like a wide forehead, and known for giving a very natural look.']],
+  facts:[['When do results start to show?','Within 3 to 5 days, and the final result within two weeks (14 days).'],['How long does it last?','Usually 4 to 6 months.'],['Does the session hurt?','The pain is very mild, like a light bee sting, and a local numbing cream can be applied.']],
+  phrases:['Botox isn\'t just cosmetic, it\'s an investment in a fresh-looking face and helps stop wrinkles from deepening over time. And its cost today is much lower than treating deep wrinkles later.','We use internationally approved brands, Nabota and Dysport, under the supervision of a specialist doctor, to help you reach a natural result without a "frozen" look.','Don\'t worry, our goal is to hide signs of tiredness and fatigue, while your facial expressions stay natural and lively.'],
+  objs:[['I\'m afraid that when the Botox wears off, the wrinkles will come back worse than before!','That\'s a common misconception. Actually, while it\'s working, the muscles are relaxed and don\'t make the movement that deepens wrinkles. And when it wears off, your face goes back to how it was, not worse.'],['What\'s the real difference between Nabota and Dysport? Which one should I choose?','Both are excellent and internationally approved. Nabota stands out for its purity and good price, and Dysport stands out because it spreads over a wider area, so it suits larger areas. The doctor will assess your facial muscle movement in the consultation and recommend what suits you best.']],
+  cautions:['Say durations with the word "usually" and that they vary from person to person. Don\'t say them as a promise.','The guide used to say "guarantees you a natural result". Don\'t say "guarantees"; say "to help you reach a natural result".','A pregnant customer is put on Hold and we call her after delivery. Any question about breastfeeding, medication or illnesses goes to the doctor.']},
+ {id:'meso',name:'Meso Botox',en:'Meso Botox',offers:['meso'],src:'kb',
+  what:'Very superficial injections in small doses that improve skin texture, pores, oil secretion and fine surface lines. It doesn\'t strongly paralyze the muscle like regular Botox.',
+  areas:['Forehead: expression lines','Between the eyebrows: frown lines','Around the eyes: fine lines','Around the mouth: certain surface lines','Chin: improving skin appearance in some cases','Neck: sometimes to improve lines and texture'],
+  compareHead:['','How it\'s injected','Goal'],compare:[['Regular Botox','Into specific muscles, with precise doses and points','Relaxes the muscle that causes wrinkles'],['Meso Botox','Very superficial injections in small doses','Improves skin texture, pores, oiliness and surface lines']],
+  facts:[['Is Meso only for the whole face?','No, it doesn\'t have to be the whole face. It depends on the concern and the area, and the doctor decides.']],
+  phrases:['Meso Botox gives the skin a fresh glow and smoother texture, and reduces pores and surface lines, without changing your facial expressions.'],
+  objs:[['I want Meso for just one area, is that possible?','Yes, that\'s possible; Meso doesn\'t have to be for the whole face. The doctor will decide the right area for your case in the consultation.'],['What\'s the difference between it and regular Botox?','Regular Botox is injected into the muscle itself to relax it, while Meso is superficial injections that improve skin texture, pores and fine lines.']],
+  cautions:['The current Meso offer price is for the full face, and even that is still conflicting (700 or 799). There is no single-area price, so don\'t say a number.']},
+ {id:'sculptra',name:'Sculptra',en:'Sculptra',offers:['sculptra'],
+  what:'It\'s not a filler that fills gaps temporarily. It\'s a collagen bio-stimulator (Bio-stimulator) made from a substance called PLLA. It stimulates skin cells to produce collagen on their own gradually, so the face regains its fullness, firmness and freshness.',
+  areas:['Cheeks that have lost their fullness','Deep smile lines','Sagging skin and loss of elasticity','Sagging of the face and neck'],
+  features:['Natural results that develop gradually over weeks.','Results can last up to two years or more.','Works on the skin\'s structure from within.'],
+  facts:[['Number of sessions?','The offer is for one injection at 1,499. Don\'t tell the customer a number of sessions, because they will ask for the offer on several sessions. The doctor decides.'],['When do results show?','Gradually, from the first to the third month.'],['How is the session done?','The doctor injects the product precisely, followed by a special massage the doctor explains (the 5-5-5 rule: massage 5 times a day for 5 days).']],
+  phrases:['Sculptra isn\'t just a temporary fill. It\'s a long-term investment that trains your skin to produce collagen on its own.','Real beauty takes time to build steadily. With Sculptra, results appear gradually and naturally, and people will notice you look radiant.'],
+  objs:[['Why don\'t the results show right away like regular filler?','Because Sculptra works like a factory inside the skin, stimulating your cells to produce natural collagen. This gradual build-up is what gives a more natural and longer-lasting result. The doctor will explain the expected time for your case.']],
+  cautions:['For "up to two years or more", say "it can last up to two years, and it varies from person to person". Don\'t say it as a promise.','The 5-5-5 massage rule is for your understanding. The after-session instructions are explained to the customer by the doctor.','The guide used to say "No one will notice you\'ve had a cosmetic procedure". We changed it because it\'s a promise that isn\'t guaranteed.']},
+ {id:'endolaser',name:'Endolaser',en:'Endolaser',offers:['endolaser'],src:'kb',
+  what:'A dual-wavelength laser that tightens the skin and remodels tissue, without surgery.',
+  areas:['Double chin','Face and neck','Abdomen','Arms','Thighs'],
+  timeline:[['Right after the session','Slight tightening may show, but there may be swelling or redness that hides the real result.'],['After 1 to 2 weeks','The look improves more clearly as the swelling goes down.'],['After 1 to 3 months','Skin tightening and tissue remodeling become more visible.'],['Up to 3 to 6 months','Results may keep improving gradually because of collagen stimulation.']],
+  facts:[['How long does the session take?','Small area on the face: about 30 to 45 minutes. Full face: usually 45 to 90 minutes. Larger area like the abdomen or thighs: 1 to 2 hours or more.'],['When do results show?','In stages. Most visible after 1 to 3 months, and it may keep improving for up to 6 months.']],
+  phrases:['Endolaser tightens the skin without surgery, and the result improves gradually because it stimulates collagen.'],
+  objs:[['I did the session and didn\'t see any difference!','It\'s normal to have some mild swelling at first that hides the result. The look usually improves more clearly after 1 to 2 weeks, and the real result shows after 1 to 3 months. If you like, I can book you a free follow-up with the doctor to reassure you.']],
+  cautions:['Timelines vary by area, device, amount of fat and degree of sagging. Always say "usually".','Don\'t say "an alternative to surgery". Say "without surgery".']},
+ {id:'laser',name:'Laser hair removal',en:'Candela GentleMax Pro Plus',offers:['laser1','laser2'],src:'kb',
+  what:'Candela GentleMax Pro Plus device, known as the "white Gentle". It doesn\'t touch the skin: the device head stays at a set distance, and the laser and cooling spray (DCD) reach the hair follicle through the air.',
+  areas:['Full body, with or without back and abdomen','Separate areas'],
+  features:['Removes vellus (fine) hair, and is better at this than previous generations.','Better hygiene: no contact greatly reduces the spread of bacteria and fungi from one client to another.','More comfort: the cooling spray protects the skin from heat before and after each pulse.','The specialist can see the whole area clearly, so pulses are placed more precisely.'],
+  facts:[['How many sessions?','Usually 6 to 8 sessions for most cases, depending on skin and hair color.'],['How long between sessions?','4 to 6 weeks.'],['How long does the session take?','Full body (with or without back and abdomen): about 1 hour. One area: about half an hour.'],['Does the device touch the skin?','No, the device doesn\'t touch the skin.']],
+  phrases:['The Candela GentleMax Pro Plus doesn\'t touch the skin, and it has a cooling spray that protects the skin, so the session is cleaner and more comfortable.','The device also removes fine (vellus) hair.'],
+  objs:[['The package is 6 sessions. Is that enough?','Most cases need 6 to 8 sessions, and this varies depending on skin and hair color. The doctor will assess your case and tell you what to expect.'],['Does the device burn?','The device has a cooling spray that protects the skin before and after each pulse, and the specialist assesses your skin before starting. If you have any medical question, the doctor will answer it in the consultation.']],
+  cautions:['The package is 6 sessions, and most cases need 6 to 8. Explain this honestly, and don\'t say 6 is definitely enough.','The file said "completely prevents" and "no burns". Don\'t make promises like these; say the cooling protects the skin.']},
+ {id:'kysse',name:'Restylane Kysse lip filler',en:'Restylane Kysse',offers:[],price:'1,100',
+  what:'An advanced hyaluronic filler made with XpresHAn technology, which gives the filler high flexibility, so it stretches and contracts with the lips\' natural movement without looking stiff.',
+  areas:['Defining the lip border','Adding volume in a balanced, soft way','Deep lip hydration'],
+  features:['Natural movement when talking and smiling.','High hydration that reduces dryness and cracking.','Results usually last 6 to 9 months.'],
+  facts:[['Does the session hurt?','The filler contains an anesthetic (Lidocaine), plus a topical numbing cream for comfort.'],['When do results show?','Immediately, and the final look settles within 1 week to 10 days.']],
+  phrases:['With Restylane Kysse, forget about stiff-looking lips. You\'ll get full, soft lips that move naturally with you.','Kysse isn\'t just about adding volume; it also hydrates the lips and gives them a fresh look, so they look lovely even without makeup.'],
+  objs:[['I\'m afraid my lips will look strange or unnatural when I talk!','That\'s exactly why we recommend Restylane Kysse, because it\'s made with a technology that lets it move with your facial expressions like your natural lips. The doctor will decide the right amount for your features.']],
+  cautions:['Kysse is available for 1,100 AED (excluding VAT). This is its regular price, not an offer, so don\'t promise a gift with it. If price matters to the customer, the current lip offer on AILEENE starts from 599.','The guide said "100% natural movement". We changed it to "natural movement" so it isn\'t a promise.']}
+];
+const TERMS=[
+ ['PLLA','Poly-L-lactic acid','The substance Sculptra is made of; it stimulates the skin to produce collagen.'],
+ ['Lidocaine','Lidocaine','A local anesthetic found in some fillers, like Restylane Kysse.'],
+ ['Hyaluronic','Hyaluronic acid','A substance found naturally in the skin. Fillers and skin booster injections are made from it.'],
+ ['Collagen','Collagen','A protein that gives the skin firmness and elasticity. Sculptra stimulates the body to produce it.'],
+ ['Radiofrequency','Radiofrequency (RF)','A device that heats the skin layers to tighten it.'],
+ ['Meso','Meso','Very small, superficial injections into the skin.'],
+ ['Area','Area','One part of the face, like the forehead or around the eyes. Botox prices are per area.'],
+ ['ml','ml','Unit used to measure the amount of filler.'],
+ ['Needle','Syringe','RRS prices are per needle.'],
+ ['Lymphatic drainage','Lymphatic drainage','A massage that helps the body get rid of trapped fluids.'],
+ ['Candela GentleMax Pro Plus','—','Name of the laser device used for the hair removal package.'],
+ ['Galderma','—','The American company that manufactures Sculptra.']
+];
+
+const CENTER=[
+ ['The name you say','Handsome & Pretty Medical Center. The client asked agents to say this name.','ok'],
+ ['Branches','The Abu Dhabi branch is called Handsome & Pretty, and the Fujairah branch is called Tres Jolie. The client said they have 3 branches; we don\'t have the third branch\'s details yet. Addresses and hours are on the Branches page.','warn'],
+ ['The account','Tres Jolie is our account name. Don\'t say it on the call; say Handsome & Pretty.','ok'],
+ ['Landline','02 443 3221 (Abu Dhabi); this is the number on the offers sheet','ok'],
+ ['Doctors','Dr. Yasmine Darwish, dermatologist: every day except Wednesday and Friday, 12 PM to 8 PM. (On 6 Oct only: 10 AM to 6 PM.) Dr. Rogina, nutritionist: every day except Friday and Saturday, 11 AM to 7 PM. (Handsome & Pretty Medical Center)','ok'],
+ ['VAT','Prices exclude VAT. The rate is still being confirmed.','warn'],
+ ['Installments','Available with Tabby and Tamara. The admin fee rate is still being confirmed.','warn'],
+ ['Specialties','Dermatology, aesthetics, cosmetic dentistry, body contouring and weight loss','ok'],
+ ['License','Licensed by the Department of Health Abu Dhabi (DOH), according to general guidelines','warn'],
+ ['Currency','UAE Dirham (AED)','ok'],
+ ['Time difference','The UAE is currently 1 hour ahead of Egypt, and it becomes 2 hours when Egypt ends daylight saving time at the end of October.','ok'],
+ ['الويكند (al-weekend)','Saturday and Sunday','ok']
+];
+
+const TODO=[
+ 'Has the medical information in the sales guide (timelines, number of sessions) been reviewed by the doctor?',
+ 'Name and address of the third branch, and which services are available at each branch.',
+ 'When a customer books in Fujairah, does the agent introduce themselves as Handsome & Pretty or Tres Jolie?',
+ 'Price of Meso Botox for one area (not the full face).',
+ 'Will part of the team really handle the Fujairah branch? When? And how do we transfer a customer who is in another branch\'s area?',
+ 'The list of gifts the customer can choose from, and their conditions.',
+ 'When does the offer (Big Gift Week) start and end?',
+ 'Meso Botox price: 700 or 799?',
+ 'Price of the fat-dissolving devices course (cut off on the poster).',
+ 'Dysport prices (only on the poster) and the price of the RRS Long Lasting box.',
+ 'Which areas does "full face" Botox include?',
+ 'Number of sessions for full-body laser with back and abdomen, and the package validity period.',
+ 'Installments with Tamara and Tabby: the exact admin fee rate (about 8%?). Needs confirmation from Dr. Emad.',
+ 'VAT: what is the rate? (Prices exclude VAT; this is confirmed.)',
+ 'Does insurance cover anything?',
+ 'Is the agent allowed to give prices on the first call, or only after the consultation?',
+ 'Allowed calling hours and number of attempts.',
+ 'Doctor-approved wording about Mounjaro, since it is a prescription medicine.',
+ 'Who are the doctors at the Fujairah branch and what are their hours? If a customer wants a dermatology consultation on Wednesday, who is available?',
+ 'Final approval of the merged script.',
+ 'Should the agent say at the start of the call that it may be recorded?',
+ 'Poster images: the PowerPoint file arrived without images; send it as a PDF.'
+];
+
+/* ================= SEARCH ================= */
+const SYN={'armpit':'underarm','armpits':'underarm','underarms':'underarm','chin':'double chin silutrix','doctor':'dr yasmine rogina','doctors':'dr yasmine rogina','nutrition':'rogina nutritionist','nutritionist':'rogina','diet':'rogina nutritionist','installment':'installments tabby tamara','installments':'tabby tamara','instalment':'installments tabby tamara','vat':'vat tax','tax':'vat tax','address':'branch address','location':'branch address','where':'branch address','hours':'open close hours','shave':'shaving','shaving':'shaving prep','weight':'mounjaro weight','slimming':'mounjaro weight','lips':'lip filler kysse aileene','lip':'lip filler kysse aileene','wrinkles':'botox','expensive':'expensive price','appointment':'appointments laser','appointments':'appointments laser','results':'result','gift':'gift gifts','gifts':'gift','لحيه':'اللحيه','اندر':'الابط','ارم':'الابط','باط':'الابط','الباط':'الابط','روجينا':'روجينا تغذيه','تغذيه':'روجينا تغذيه','التغذيه':'روجينا تغذيه','دايت':'روجينا تغذيه','اخصائيه':'روجينا تغذيه','دكاتره':'ياسمين روجينا الدكاتره','الدكاتره':'ياسمين روجينا الدكاتره','محلقش':'الحلاقه تحضير','محلقتش':'الحلاقه تحضير','دكتوره':'ياسمين درويش جلديه','الدكتوره':'ياسمين درويش جلديه','دكتورة':'ياسمين درويش جلديه','حلاقه':'الحلاقه يحلق احلق تحضير','حلاقة':'الحلاقه يحلق احلق تحضير','يحلق':'الحلاقه احلق تحضير','ضريبه':'الضريبه','ضرايب':'الضريبه','الضرايب':'الضريبه','عنوان':'عنوان فرع','لوكيشن':'عنوان فرع','موقع':'عنوان فرع','مكان':'عنوان فرع','فين':'عنوان فرع','الفجيره':'فرع الفجيره','فجيره':'فرع الفجيره','ابوظبي':'فرع ابوظبي','تفتح':'مواعيد فرع','بتفتح':'مواعيد فرع','تقفل':'مواعيد فرع','بتقفل':'مواعيد فرع','الجمعه':'مواعيد فرع','جمعه':'مواعيد فرع','ساعات':'مواعيد فرع','دوام':'مواعيد فرع','احلق':'تحضير','حلاقه':'تحضير','شمس':'تحضير','تان':'تحضير','دوره':'تحضير','ريتينول':'تحضير','تقشير':'تحضير','تعليمات':'تحضير','وبري':'ليزر جنتل','جنتل':'candela ليزر','كانديلا':'candela ليزر','ميزو':'meso ميزو','اندوليزر':'endolaser اندوليزر','ريسبشن':'شكوى','استقبال':'شكوى','معامله':'شكوى','وحش':'شكوى','اشتكى':'شكوى','اشتكت':'شكوى','زعلان':'شكوى','حرق':'شكوى','احمرار':'شكوى','قسط':'تقسيط','تقسيط':'تقسيط','دبي':'فرع','رجاله':'رجال','الرجاله':'رجال','ستات':'سيدات','حريم':'سيدات','سكالبترا':'سكلبترا sculptra','سكلبترا':'sculptra','كايس':'kysse ريستالين','ريستالين':'kysse','شفايف':'شفايف شفاه lip kysse','مفعول':'بوتوكس','ينتشر':'ديسبورت','بوتكس':'بوتوكس','botox':'بوتوكس','نابوتا':'nabota','ديسبورت':'dysport','فلر':'فيلر','filler':'فيلر','شفايف':'شفايف شفاه lip','شفاه':'شفايف','خدود':'فيلر وش','ليزر':'laser ليزر','laser':'ليزر','شعر':'ليزر','تخسيس':'مونجارو إذابة وزن','تنحيف':'مونجارو إذابة','مونجارو':'mounjaro','وزن':'مونجارو إذابة','كرش':'إندوليزر بطن','بطن':'إندوليزر','لغد':'غبغب سيلوتريكس','دقن':'غبغب سيلوتريكس اللحيه','ذقن':'غبغب سيلوتريكس اللحيه','غبغب':'سيلوتريكس','دبل':'غبغب','هالات':'rrs عين','عين':'rrs eye','حبوب':'ديرمابن','مسام':'ديرمابن','ترهل':'سكلبترا إندوليزر','سيلوليت':'سيلوليت مساج','سعر':'سعر','غالي':'غالي','رقمي':'شيلوا رقمي','شكوى':'شكوى','حامل':'طبي','هدية':'هدية','هدايا':'هدية','موعد':'مواعيد','مواعيد':'مواعيد','فل':'مواعيد','زحمه':'مواعيد','نتيجه':'نتيجة','نتيجة':'نتيجة','فرق':'نتيجة','فلوسي':'نتيجة'};
+function norm(s){return String(s||'').toLowerCase().replace(/[ً-ٰٟـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d))}
+let INDEX=[];
+function buildIndex(){
+  INDEX=[];
+  OFFERS.forEach(o=>INDEX.push({sec:'Offers · '+CATS[o.cat],title:o.ar,sub:o.price+' AED · '+o.pn,go:'o-'+o.id,text:[o.ar,o.en,o.what,o.who,o.say,o.caution,o.qa.map(x=>x.join(' ')).join(' '),CATS[o.cat]].join(' ')}));
+  OBJ.forEach((x,i)=>INDEX.push({sec:x[4]?'Objections · most common':'Objections',title:x[0],sub:x[2],go:'obj-'+i,text:x.slice(0,4).join(' ')+' '+(x[5]||[]).join(' ')}));
+  FLOWS.forEach((f,i)=>INDEX.push({sec:'Call steps',title:f.t,sub:f.steps[0][0],go:'flow-'+i,text:f.t+' '+f.steps.map(s=>s.join(' ')).join(' ')}));
+  DISP.forEach((d,i)=>INDEX.push({sec:'Call outcome',title:d[0],sub:d[1],go:'disp',text:d.join(' ')}));
+  GULF.forEach(g=>INDEX.push({sec:'Gulf dialect glossary',title:g[0],sub:'= '+g[1],go:'gulf',text:g.join(' ')}));
+  TERMS.forEach(t=>INDEX.push({sec:'Terms',title:t[0],sub:t[2],go:'terms',text:t.join(' ')}));
+  REGULAR.forEach(r=>INDEX.push({sec:'Regular prices (not offers)',title:r.ar,sub:`${r.price} AED${r.pn?' · '+r.pn:''} · not an offer, no gift`,go:'regular',text:[r.ar,r.pn,r.price,'Regular price'].join(' ')}));
+  RULES.forEach(r=>INDEX.push({sec:'Rules for talking about prices',title:r[1],sub:r[2],go:'rules',text:r.join(' ')}));
+  CENTER.forEach(c=>INDEX.push({sec:'Center info',title:c[0],sub:c[1],go:'center',text:c.join(' ')}));
+  INDEX.forEach(e=>e.n=norm(e.text+' '+e.title));
+}
+function search(q){
+  let terms=norm(q).split(/\s+/).filter(Boolean); if(!terms.length) return [];
+  terms=terms.map(t=>{const s=Object.keys(SYN).find(k=>norm(k)===t||t.startsWith(norm(k))); const alts=s?[t,...norm(SYN[s]).split(' ')]:[t]; if(t.length>=3&&!INDEX.some(e=>e.n.includes(t))) fuzzy(t).forEach(w=>alts.push(w)); return alts});
+  return INDEX.map(e=>{let sc=0; for(const alts of terms){ const hit=alts.some(a=>e.n.includes(a)); if(!hit) return null; if(alts.some(a=>norm(e.title).includes(a))) sc+=3; else sc+=1; } return {e,sc}}).filter(Boolean).sort((a,b)=>b.sc-a.sc).slice(0,12).map(x=>x.e);
+}
+
+
+
+/* ================= NEW DATA ================= */
+const UPDATES=[
+ ['6 Oct 2026','The Mounjaro course is 2,999 AED and comes with a gift. Added details of the triple session in the cellulite course (Ultrascalpt, radiofrequency, and lymphatic massage).'],
+ ['5 Oct 2026','Added a "Regular prices (not offers)" table under the price table: beard laser 3 sessions for 300, underarm laser 4 sessions for 300, and Restylane Kysse for 1,100. No gift with these, and prices exclude VAT.'],
+ ['5 Oct 2026','Dr. Rogina\'s hours are now 11 AM to 7 PM. Dr. Yasmine on Tuesday 6 Oct only: 10 AM to 6 PM.'],
+ ['5 Oct 2026','Doctors\' schedule at Handsome & Pretty Medical Center: Dr. Yasmine Darwish (dermatology) every day except Wednesday and Friday, 12 to 8; Dr. Rogina (nutritionist) every day except Friday and Saturday, 11 to 7.'],
+ ['5 Oct 2026','New info from the client: installments with Tabby and Tamara; prices exclude VAT; offers save about 40% off the regular price; shaving at the center costs 100 AED (come half an hour before the appointment); Restylane Kysse is 1,100 AED; Dr. Yasmine Darwish (dermatology) is available every day except Friday and Wednesday, 12 to 8.'],
+ ['4 Oct 2026','QA updates: a pregnant customer is set to Hold and we call her after delivery. Installments are available with Tamara and Tabby (fees and VAT still being confirmed). The Sculptra offer is for one injection, so don\'t mention a number of sessions.'],
+ ['1 Oct 2026','The guide is now split into pages (Offers, Services, Branches, The call, Gulf dialect). Added addresses and hours for the Abu Dhabi and Fujairah branches, info on Meso Botox, Endolaser and the laser device, and pre-laser-session instructions.'],
+ ['1 Oct 2026','Added "Ask the guide": type your question or what the customer said, and the answer comes from the guide only.'],
+ ['1 Oct 2026','Added a product guide section (Botox, Sculptra, Restylane Kysse) from the full sales guide, and updated customer questions in the Botox and Sculptra offers.'],
+ ['28 Sep 2026','Corrected the term "double chin" in the Gulf glossary; in Egyptian it means الغبغب (the fat under the chin).'],
+ ['28 Sep 2026','Removed the line "the call may be recorded" from the script until the client decides whether agents should say it.'],
+ ['28 Sep 2026','New merged script for new leads, follow-ups, old customers, and the top 2 objections (awaiting the client\'s final approval). Confirmed that the follow-up consultation is free.'],
+ ['28 Sep 2026','Added the 2 most common objections according to the client: no laser appointments available, and I did sessions with no results.'],
+ ['28 Sep 2026','The name said on calls is now Handsome & Pretty Medical Center.'],
+ ['28 Sep 2026','First version of the guide: 17 offers from the Big Gift Week sheet.']
+];
+const QUICK=[
+ ['Address & hours','Abu Dhabi & Fujairah','Saturday to Thursday; closed Friday.','branches'],
+ ['Before a laser session','Shave at home the day before','and avoid sun and peeling.','prep'],
+ ['Name on the call','Handsome & Pretty','"This is [your name] from Handsome & Pretty Medical Center"','center'],
+ ['The gift','A gift with every offer','and Sculptra comes with 2 gifts. Don\'t promise a specific gift.','rules'],
+ ['Top objection','No laser appointments','We\'ve added more devices; book them an appointment right away.','obj-0'],
+ ['Second most common objection','No results','Ask first, don\'t blame, and offer a free follow-up with the doctor.','obj-1'],
+ ['Medical question','Refer to the doctor','Don\'t say "it\'s fine" or "not allowed".','rules'],
+ ['Remove my number','Act immediately','Apologize and log Do not call.','obj-7']
+];
+const CALLCK={
+ NEW:{t:'New lead',f:0},NOBOOK:{t:'Follow-up: attended but didn\'t book',f:1},NOSHOW:{t:'Follow-up: booked but didn\'t show up',f:2},REENG:{t:'Old customer: new offer',f:3},INB:{t:'Inbound',f:4},COMPLAINT:{t:'Complaint',f:5}
+};
+const COMPCK=[
+ 'Introduced yourself and the center name (Handsome & Pretty)',
+ 'Confirmed you\'re speaking to the right person before any details',
+ 'Didn\'t promise results or give medical advice',
+ 'Said the consultation is free with no commitment (sales calls)',
+ 'Confirmed the details (name, number, branch, day and time) if booked',
+ 'Set the next step and closed politely'
+];
+const VARIANTS=[
+ {id:'nab1',o:'nabota',t:'Nabota: one area',p:499,unit:'Area',q:true},
+ {id:'nab2',o:'nabota',t:'Nabota: full face',p:700},
+ {id:'dys1',o:'dysport',t:'Dysport: one area',p:900,unit:'Area',q:true,w:1},
+ {id:'dys2',o:'dysport',t:'Dysport: full face',p:1299,w:1},
+ {id:'meso',o:'meso',t:'Meso Botox (700 or 799)',p:700,w:1},
+ {id:'lip',o:'lipfill',t:'Lip filler 1 ml (starting from)',p:599,from:1},
+ {id:'face',o:'facefill',t:'Face filler 2 ml',p:999},
+ {id:'derma',o:'dermapen',t:'Dermapen',p:699},
+ {id:'rrs',o:'rrs',t:'RRS Long Lasting (per needle)',p:1099,unit:'Needle',q:true},
+ {id:'rrse',o:'rrseye',t:'RRS for eyes (per needle)',p:499,unit:'Needle',q:true},
+ {id:'rrsb',o:'rrseye',t:'RRS for eyes: box of 3 needles',p:1799},
+ {id:'scul',o:'sculptra',t:'Sculptra (2 gifts)',p:1499,gifts:2},
+ {id:'endo',o:'endolaser',t:'Endolaser (per area)',p:1500,unit:'Area',q:true},
+ {id:'silu',o:'silutrix',t:'Silutrix for double chin',p:700},
+ {id:'cell',o:'cellulite',t:'Cellulite course, 10 sessions',p:1500},
+ {id:'lymph',o:'lymph',t:'Lymphatic massage, 10 sessions',p:1000},
+ {id:'lw1',o:'laser1',t:'Full laser without back and abdomen: women',p:1000},
+ {id:'lm1',o:'laser1',t:'Full laser without back and abdomen: men',p:1250},
+ {id:'lw2',o:'laser2',t:'Full laser with back and abdomen: women',p:1500,w:1},
+ {id:'lm2',o:'laser2',t:'Full laser with back and abdomen: men',p:1800,w:1}
+];
+const WIZ={
+ start:{q:'Did anyone answer the call?',o:[['Yes','who'],['No','nores']]},
+ nores:{q:'What happened?',o:[['Rang until it hung up','R:No answer'],['Message that the number is switched off or out of coverage','R:Switched off / unreachable'],['Rejected the call or busy','R:Busy / rejected'],['Went to voicemail','R:Voicemail']]},
+ who:{q:'Are you speaking to the right person?',o:[['Yes','dnc'],['No, it\'s not their number at all','R:Wrong number'],['No, a relative or someone who knows them','R:Interested – call back|Ask for a good time to call them, and don\'t share any treatment details.']]},
+ dnc:{q:'Did they ask to have their number removed or say don\'t call again?',o:[['Yes','R:Do not call – remove number'],['No','comp']]},
+ comp:{q:'Did they complain about anything? (experience, side effect, treatment by staff, waiting, money)',o:[['Yes','R:Complaint raised|Choose the category and severity. If there is a side effect or burn, it is High and must be escalated the same day.'],['No','fb']]},
+ fb:{q:'Is this a feedback call after a session?',o:[['Yes','R:Feedback – satisfied / neutral|Log the rating out of 10.'],['No','book']]},
+ book:{q:'Did they agree to a specific appointment?',o:[['Yes','R:Booked – consultation / session|Fill in the branch, service, day and time.'],['No','cb']]},
+ cb:{q:'Interested but asked us to call at another time?',o:[['Yes','R:Interested – call back|Set the time in UAE time, and if it\'s a follow-up, write why they didn\'t book.'],['No','ni']]},
+ ni:{q:'Did they clearly refuse?',o:[['Yes','R:Not interested|Choose the reason from the list.'],['No, they just asked a question and got the answer','R:Enquiry answered – no booking']]}
+};
+
+/* ================= STATE ================= */
+const LS='tj-kb-v2';
+let ST={pins:[],call:{},callType:'NEW',quote:{}};
+try{ST=Object.assign(ST,JSON.parse(localStorage.getItem(LS)||'{}'))}catch(e){}
+const saveST=()=>{try{localStorage.setItem(LS,JSON.stringify(ST))}catch(e){}};
+let CAT='all', OPEN=new Set(['nabota']), DRAWER=null, WZ={node:'start',path:[]}, T0=null, TI=null;
+
+/* ================= RENDER ================= */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Number(n).toLocaleString('en-US');
+const stChip=s=>s==='ok'?'<span class="chip c-ok">Confirmed</span>':s==='warn'?'<span class="chip c-warn">Needs confirmation</span>':'<span class="chip c-no">Price not available, don\'t say it</span>';
+const SECTIONS=[['home','Home'],['center','The center'],['rules','Price rules'],['offers','Offers'],['prices','Price table'],['products','Product guide'],['objections','Objections'],['flows','Call steps'],['disp','Call outcome'],['gulf','Gulf dialect glossary'],['terms','Terms'],['todo','Needs confirmation'],['updates','Updates']];
+const pinned=id=>ST.pins.includes(id);
+function renderTabs(){ $('tabs').innerHTML=VIEWS.map(([k,t])=>`<a href="#${k}" data-view="${k}" class="${VIEW===k?'on':''}" ${VIEW===k?'aria-current="page"':''}>${t}${k==='offers'?`<span class="cnt">${OFFERS.length}</span>`:k==='todo'?`<span class="cnt">${TODO.length}</span>`:''}</a>`).join(''); const a=document.querySelector('.tabs a.on'); if(a) a.scrollIntoView({block:'nearest',inline:'center'}); }
+function pinBtn(id){return `<button class="ib ${pinned(id)?'on':''}" data-a="pin" data-v="${id}" aria-pressed="${pinned(id)}" title="${pinned(id)?'Unpin':'Pin to side'}">${pinned(id)?'★':'☆'}</button>`}
+function offerHtml(o){
+  const open=OPEN.has(o.id);
+  const vs=VARIANTS.filter(v=>v.o===o.id);
+  return `<article class="offer" id="o-${o.id}"><div class="ohead">
+    <button class="tt" data-a="toggle" data-v="${o.id}" aria-expanded="${open}"><h3>${esc(o.ar)}</h3><span class="en ltr">${esc(o.en)}</span><span class="chips"><span class="chip c-cat">${CATS[o.cat]}</span>${stChip(o.st)}</span></button>
+    <div class="price"><span class="v">${o.price==='—'?'—':esc(o.price)} ${o.price==='—'?'':'<small>AED</small>'}</span><span class="n">${esc(o.pn)}</span>
+     <span class="acts">${pinBtn('o-'+o.id)}${vs.length?`<button class="ib" data-a="addq" data-v="${vs[0].id}" title="Add to calculator">＋ Calculator</button>`:''}</span></div></div>
+   ${open?`<div class="obody">
+    <div class="two"><div><div class="lbl">What it is (in simple words)</div><div>${esc(o.what)}</div></div><div><div class="lbl">When to offer it</div><div>${esc(o.who)}</div></div></div>
+    <div class="say"><div class="row"><span class="lbl">Say it like this</span><button class="copy" data-a="copy" data-t="${esc(o.say)}">Copy</button></div><p>${esc(o.say)}</p></div>
+    ${o.qa.length?`<div><div class="lbl">Expected customer questions</div><div class="qa">${o.qa.map(([q,a])=>`<div><span class="q">${esc(q)}</span><span class="a">${esc(a)}</span></div>`).join('')}</div></div>`:''}
+    ${o.caution?`<div class="caution ${o.st==='no'?'no':''}"><b>Be careful:</b> ${esc(o.caution)}</div>`:''}
+    ${o.guide?`<div><button class="ib" data-a="go" data-v="p-${o.guide}">📘 Product guide: everything about ${esc((PRODUCTS.find(p=>p.id===o.guide)||{}).name||'')}</button></div>`:''}<div class="src">Source: slide ${o.slide} · ${SRC}</div></div>`:''}</article>`;
+}
+function prodHtml(p){
+  const offs=p.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean);
+  return `<article class="prod" id="p-${p.id}">
+   <div class="phead"><div><h3>${esc(p.name)}</h3><span class="en ltr">${esc(p.en)}</span></div>
+    <div class="pchips">${p.price?`<span class="chip c-warn">Not an offer · ${esc(p.price)} AED</span>`:''}${p.avail?'<span class="chip c-warn">Not in current offers</span>':''}${offs.map(o=>`<a class="ib" href="#o-${o.id}" data-a="go" data-v="o-${o.id}">${esc(o.ar)} · <span class="m">${esc(o.price)}</span></a>`).join('')}</div></div>
+   <div class="pbody">
+    <div class="two"><div><div class="lbl">What it is</div><p class="pp">${esc(p.what)}</p></div><div><div class="lbl">What it treats</div><ul class="tick">${p.areas.map(a=>`<li>${esc(a)}</li>`).join('')}</ul></div></div>
+    ${p.compare?`<div><div class="lbl">Comparison of available types</div><div class="tw"><table><thead><tr>${(p.compareHead||['Type','Origin','Features']).map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${p.compare.map(r=>`<tr><td style="white-space:nowrap;font-weight:700">${esc(r[0])}</td><td style="white-space:nowrap">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}</tbody></table></div></div>`:''}
+    ${p.timeline?`<div><div class="lbl">Results appear in stages</div><ol class="tline2">${p.timeline.map(([a,b])=>`<li><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join('')}</ol></div>`:''}
+    ${p.features?`<div><div class="lbl">Features</div><ul class="tick">${p.features.map(a=>`<li>${esc(a)}</li>`).join('')}</ul></div>`:''}
+    <div><div class="lbl">Quick facts</div><dl class="facts2">${p.facts.map(([q,a])=>`<div><dt>${esc(q)}</dt><dd>${esc(a)}</dd></div>`).join('')}</dl></div>
+    <div><div class="lbl">Persuasive lines</div><div class="phr">${p.phrases.map(x=>`<div class="say"><div class="row"><span></span><button class="copy" data-a="copy" data-t="${esc(x)}">Copy</button></div><p>${esc(x)}</p></div>`).join('')}</div></div>
+    <div><div class="lbl">Questions and objections</div><div class="qa">${p.objs.map(([q,a])=>`<div><span class="q">${esc(q)}</span><span class="a">${esc(a)}</span></div>`).join('')}</div></div>
+    <div class="caution"><b>Be careful:</b><ul class="tick" style="margin-top:4px">${p.cautions.map(c=>`<li>${esc(c)}</li>`).join('')}</ul></div>
+    <div class="src">Source: ${p.src==='kb'?KBSRC:PSRC}</div>
+   </div></article>`;
+}
+const SEC={
+  home:()=>`<section id="home"><div class="sh"><div class="eyebrow">Keep it open during the call</div><h2>Quick answers</h2><p>Search at the top with any word, even in Gulf dialect, or tap <b>💬 Ask the guide</b> and type your question the way you think of it.</p></div>
+   <div class="bstrip">${BRANCHES.map(b=>{const st=branchStatus(b);return `<button class="bmini" data-a="go" data-v="br-${b.id}"><b>Branch: ${esc(b.city)}</b><span class="bstat ${st.open?'on':'off'}" data-bstat="${b.id}">${esc(st.txt)}</span></button>`}).join('')}</div>
+   <div class="quick">${QUICK.map(([k,b,s,go])=>`<button class="qa-card" data-a="go" data-v="${go}"><span class="k">${esc(k)}</span><b>${esc(b)}</b><span>${esc(s)}</span></button>`).join('')}</div>
+   <div class="meta"><span>Last updated: ${UPDATED}</span><span>·</span><span>${OFFERS.filter(o=>o.st==='ok').length} confirmed offers, ${OFFERS.filter(o=>o.st==='warn').length} need confirmation, ${OFFERS.filter(o=>o.st==='no').length} without a price</span><span>·</span><span>Source: ${SRC}</span></div></section>`,
+  center:()=>`<section id="center"><div class="sh"><div class="eyebrow">Basics</div><h2>Center information</h2></div>
+   <div class="tw"><table><tbody>${CENTER.map(([k,v,s])=>`<tr><th scope="row" style="width:130px">${esc(k)}</th><td>${esc(v)}</td><td style="width:110px">${s==='ok'?'<span class="chip c-ok">Confirmed</span>':'<span class="chip c-warn">Needs confirmation</span>'}</td></tr>`).join('')}</tbody></table></div></section>`,
+  rules:()=>`<section id="rules"><div class="sh"><div class="eyebrow">Before you say any price</div><h2>Rules for talking about prices and offers</h2></div>
+   <div class="rules">${RULES.map(([t,a,b])=>`<div class="rule ${t==='no'?'no':t==='yes'?'yes':''}"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div></section>`,
+  offers:()=>{const offers=OFFERS.filter(o=>CAT==='all'||o.cat===CAT);return `<section id="offers"><div class="sh"><div class="eyebrow">Discounts & Big Gift Week</div><h2>Offers & prices</h2><p>Click an offer's name to open its details. ☆ pins it to the side panel, and "＋ Calculator" adds it to the price calculator.</p></div>
+   <div class="filters">${[['all','All']].concat(Object.entries(CATS)).map(([k,t])=>`<button data-a="cat" data-v="${k}" class="${CAT===k?'on':''}">${t}</button>`).join('')}<button data-a="expand">Open all</button><button data-a="collapse">Close all</button></div>
+   <div class="offers">${offers.map(offerHtml).join('')}</div></section>`;},
+  prices:()=>`<section id="prices"><div class="sh"><div class="eyebrow">Quick view</div><h2>Price table</h2><p>All prices are in UAE dirhams, and every offer comes with a gift that the customer chooses.</p></div>
+   <div class="tw"><table><thead><tr><th>Service</th><th>Department</th><th>Price (AED)</th><th>Details</th><th>Status</th></tr></thead><tbody>
+   ${OFFERS.map(o=>`<tr><td><a href="#o-${o.id}" data-a="go" data-v="o-${o.id}" style="color:var(--rose)">${esc(o.ar)}</a></td><td>${CATS[o.cat]}</td><td class="m">${esc(o.price)}</td><td>${esc(o.pn)}</td><td>${stChip(o.st)}</td></tr>`).join('')}</tbody></table></div>
+   <h3 id="regular" style="margin:22px 0 6px">Regular prices (not offers)</h3><p style="margin:0 0 8px;color:var(--muted)">Services that customers asked about and the client gave us the price for. These are regular prices: no gift comes with them, and the price is before VAT.</p>
+   <div class="tw"><table><thead><tr><th>Service</th><th>Price (AED)</th><th>Details</th><th>Source</th></tr></thead><tbody>
+   ${REGULAR.map(r=>`<tr><td>${esc(r.ar)}</td><td class="m">${esc(r.price)}</td><td>${esc(r.pn||'—')}</td><td>${esc(r.src)}</td></tr>`).join('')}</tbody></table></div></section>`,
+  products:()=>`<section id="products"><div class="sh"><div class="eyebrow">Know the product well</div><h2>Service guide</h2><p>Information about each service so you can answer the customer with confidence.</p></div>
+   <div class="filters">${PRODUCTS.map(p=>`<button data-a="go" data-v="p-${p.id}">${esc(p.name)}</button>`).join('')}<button data-a="go" data-v="prep">Before the laser session</button></div>
+   ${PRODUCTS.map(prodHtml).join('')}</section>`,
+  objections:()=>`<section id="objections"><div class="sh"><div class="eyebrow">The customer is from the Gulf · You are Egyptian</div><h2>Handling objections</h2><p>The first two objections are the most common, according to the client.</p></div>
+   <div class="objs">${OBJ.map(([t,ex,a,no,flag,steps],i)=>`<div class="obj ${flag?'hot':''}" id="obj-${i}"><div class="cq">${flag?'<span class="chip c-warn">Most common, according to the client</span>':''}<span>${esc(t)} ${pinBtn('obj-'+i)}</span>${ex?`<small>${esc(ex)}</small>`:''}</div><div class="ans">${steps?`<ol class="steps">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}<div class="say"><div class="row"><span class="lbl">Say</span><button class="copy" data-a="copy" data-t="${esc(a)}">Copy</button></div><p>${esc(a)}</p></div><div class="avoid">Don't say: ${esc(no)}</div></div></div>`).join('')}</div></section>`,
+  flows:()=>`<section id="flows"><div class="sh"><div class="eyebrow">Short script</div><h2>Call steps by call type</h2><p>The agent's lines. You can open any of them as a checklist in the Call assistant.</p><p><span class="chip c-warn">Suggested script, waiting for the client's final approval</span></p></div>
+   <div class="flows">${FLOWS.map((f,i)=>`<div class="flow" id="flow-${i}"><h3><span>${esc(f.t)}</span><button class="ib" data-a="useflow" data-v="${i}">☎ Use it</button></h3><ol>${f.steps.map(([s,l])=>`<li>${esc(s)}${l?`<span class="line">${esc(l)}</span>`:''}</li>`).join('')}</ol></div>`).join('')}</div></section>`,
+  disp:()=>`<section id="disp"><div class="sh"><div class="eyebrow">In the system</div><h2>How to choose the call outcome</h2><p>Not sure? Open "Outcome" at the top and answer a few questions.</p></div>
+   <div class="tw"><table><thead><tr><th>Call result</th><th>Choose it when</th><th>You must fill in</th></tr></thead><tbody>${DISP.map(d=>`<tr><td class="ltr" style="white-space:nowrap">${esc(d[0])}</td><td>${esc(d[1])}</td><td>${esc(d[2])}</td></tr>`).join('')}</tbody></table></div></section>`,
+  gulf:()=>`<section id="gulf"><div class="sh"><div class="eyebrow">For the Egyptian agent</div><h2>Gulf dialect dictionary</h2><p>Words you will hear a lot from customers, and what they mean.</p></div>
+   <div class="gl">${GULF.map(([a,b])=>`<div class="g"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
+   <h3 style="margin:8px 0 0;font-size:17px">Watch the way you speak</h3>
+   <div class="rules">${TONE.map(([a,b])=>`<div class="rule no"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div></section>`,
+  terms:()=>`<section id="terms"><div class="sh"><div class="eyebrow">To understand and explain simply</div><h2>Terms</h2><p>This is for your understanding only. Don't explain anything medical to the customer beyond this.</p></div>
+   <div class="gl">${TERMS.map(([a,b,c])=>`<div class="g"><b>${esc(a)}</b><i class="ltr">${esc(b)}</i><span>${esc(c)}</span></div>`).join('')}</div></section>`,
+  todo:()=>`<section id="todo"><div class="sh"><div class="eyebrow">For the team leader and trainer</div><h2>Needs confirmation from the client</h2><p>Until these are confirmed, the agent says "I'll confirm these details for you before booking".</p></div>
+   <ol class="todo">${TODO.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></section>`,
+  updates:()=>`<section id="updates"><div class="sh"><div class="eyebrow">What changed</div><h2>Latest updates</h2></div>
+   <div class="log">${UPDATES.map(([d,t])=>`<div><span>${esc(d)}</span><p style="margin:0">${esc(t)}</p></div>`).join('')}</div></section>`,
+  branches:()=>branchesHtml(),
+  prep:()=>prepHtml()
+};
+const VIEWS=[
+ ['home','Home',['home','rules','updates']],
+ ['offers','Offers & prices',['offers','prices']],
+ ['services','Service guide',['products','prep']],
+ ['branches','Branches & hours',['branches','center']],
+ ['calls','The call',['flows','objections','disp']],
+ ['lang','Gulf dialect & terms',['gulf','terms']],
+ ['todo','Needs confirmation',['todo']]
+];
+let VIEW='home';
+function viewOf(t){
+  for(const [v,,secs] of VIEWS){ if(v===t||secs.includes(t)) return v; }
+  if(/^o-/.test(t)||t==='regular') return 'offers'; if(/^p-/.test(t)) return 'services'; if(/^(obj|flow)-/.test(t)) return 'calls'; if(/^br-/.test(t)) return 'branches';
+  return null;
+}
+function uaeParts(){ const f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()); const g=t=>(f.find(x=>x.type===t)||{}).value; return {wd:g('weekday'),h:+g('hour'),m:+g('minute')}; }
+function tzDiff(){ try{ const d=new Date(); const o=z=>{const p=new Intl.DateTimeFormat('en-US',{timeZone:z,hour:'2-digit',hourCycle:'h23',day:'2-digit'}).formatToParts(d);return (+p.find(x=>x.type==='day').value)*24+(+p.find(x=>x.type==='hour').value)}; return o('Asia/Dubai')-o('Africa/Cairo'); }catch(e){return 1} }
+const hh=h=>h===12?'12 PM':h<12?h+' AM':(h-12)+' PM';
+function branchStatus(b){ const t=uaeParts(); const mins=t.h*60+t.m;
+  if(t.wd==='Fri') return {open:false,txt:'Closed today (Friday) · opens Saturday '+hh(b.open)};
+  if(mins>=b.open*60&&mins<b.close*60) return {open:true,txt:'Open now · closes '+hh(b.close)};
+  if(mins<b.open*60) return {open:false,txt:'Closed now · opens today '+hh(b.open)};
+  return {open:false,txt:'Closed now · opens '+(t.wd==='Thu'?'Saturday ':'tomorrow ')+hh(b.open)}; }
+function tickBranches(){ document.querySelectorAll('[data-bstat]').forEach(el=>{ const b=BRANCHES.find(x=>x.id===el.dataset.bstat); const st=branchStatus(b); el.className='bstat '+(st.open?'on':'off'); el.textContent=st.txt; }); const c=document.getElementById('uaeclock'); if(c){ const t=uaeParts(); c.textContent=String(t.h).padStart(2,'0')+':'+String(t.m).padStart(2,'0'); } }
+function branchCard(b){ const st=branchStatus(b);
+  return `<article class="branch" id="br-${b.id}">
+   <div class="bhead"><div><span class="eyebrow">Branch: ${esc(b.city)}${b.main?' · main name used on calls':''}</span><h3>${esc(b.nameAr)}</h3><span class="en ltr">${esc(b.name)}</span></div><span class="bstat ${st.open?'on':'off'}" data-bstat="${b.id}">${esc(st.txt)}</span></div>
+   <div class="bbody">
+    <div><div class="lbl">Address</div><p class="pp">${esc(b.addrAr)}</p><p class="pp ltr small" style="text-align:right;color:var(--muted)">${esc(b.addrEn)}</p>
+     <div class="acts" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><button class="ib" data-a="copy" data-t="${esc(b.nameAr+'\n'+b.addrAr+'\n'+b.map)}">Copy address and location</button><a class="ib" href="${b.map}" target="_blank" rel="noopener">Open in maps ↗</a></div></div>
+    <div><div class="lbl">Landmarks</div><ul class="tick">${b.landmarks.map(l=>`<li>${esc(l)}</li>`).join('')}</ul></div>
+    <div><div class="lbl">Working hours (UAE time)</div><table class="hours"><tbody><tr><td>Saturday to Thursday</td><td><b>${hh(b.open)} – ${hh(b.close)}</b></td></tr><tr><td>Friday</td><td><span class="chip c-no">Closed</span></td></tr></tbody></table></div>
+    ${b.phone?`<div><div class="lbl">Landline</div><span class="m">${esc(b.phone)}</span></div>`:''}
+    ${b.photo?`<figure class="bphoto"><img src="${b.photo}" alt="Front of ${esc(b.nameAr)}" loading="lazy" width="640" height="360"><figcaption>The branch front, so you can describe it to the customer.</figcaption></figure>`:''}
+   </div></article>`; }
+function branchesHtml(){ const d=tzDiff(); const t=uaeParts();
+  return `<section id="branches"><div class="sh"><div class="eyebrow">Addresses and hours</div><h2>Branches & hours</h2><p>The time in the UAE now is <b class="m" id="uaeclock">${String(t.h).padStart(2,'0')}:${String(t.m).padStart(2,'0')}</b>, and the UAE is ahead of Egypt by ${d===2?'2 hours':'1 hour'}. Any booking must be within the branch's working hours.</p></div>
+   <div class="branches">${BRANCHES.map(branchCard).join('')}</div>
+   <div class="caution"><b>Be careful:</b> The Fujairah branch's name on the sign is "Tres Jolie". If the customer books there, tell them this branch name so they can find it, and at the start of the call keep using "Handsome & Pretty" until the client says otherwise.</div>
+   <div class="src">Source: ${KBSRC}</div></section>`; }
+function prepHtml(){ const txt='Instructions before the laser session:\n'+PREP.map((x,i)=>(i+1)+'. '+x).join('\n');
+  return `<section id="prep"><div class="sh"><div class="eyebrow">Laser hair removal</div><h2>Before the laser session</h2><p>Remind the customer of these points when you confirm the booking with them.</p></div>
+   <div class="prod"><div class="pbody">
+    <ol class="steps">${PREP.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+    <div class="acts" style="display:flex;gap:6px;flex-wrap:wrap"><button class="ib" data-a="copy" data-t="${esc(txt)}">Copy all instructions</button></div>
+    <dl class="facts2"><div><dt>Full body (with or without back and stomach)</dt><dd>The session is about an hour</dd></div><div><dt>One area</dt><dd>The session is about half an hour</dd></div></dl>
+    <div class="caution"><b>Be careful:</b> If the customer is taking acne pills (Roaccutane) or any medication, or has any health condition, that is a question for the doctor.</div>
+    <div class="src">Source: ${KBSRC}</div></div></div></section>`; }
+function renderMain(){
+  const v=VIEWS.find(x=>x[0]===VIEW)||VIEWS[0];
+  $('main').innerHTML=v[2].map(k=>SEC[k]()).join('\n')+`<div class="foot">Internal guide for the Tech Source team on the Tres Jolie account (Handsome &amp; Pretty). Last updated ${UPDATED}. For any price or information that is not confirmed, check with the team leader.</div>`;
+  renderTabs();
+}
+/* ===== rail: pins + drawer tools ===== */
+function pinTitle(id){
+  if(id.startsWith('o-')){const o=OFFERS.find(x=>'o-'+x.id===id);return o?[o.ar,o.price==='—'?'—':o.price]:null}
+  if(id.startsWith('obj-')){const o=OBJ[+id.slice(4)];return o?[o[0],'Objection']:null}
+  return null;
+}
+function railPins(){
+  const items=ST.pins.map(id=>[id,pinTitle(id)]).filter(x=>x[1]);
+  return `<div class="panel"><h3>Your pinned items</h3>${items.length?`<div class="pins">${items.map(([id,[t,p]])=>`<a href="#${id}" data-a="go" data-v="${id}"><span>${esc(t)}</span><span class="p">${esc(p)}</span></a>`).join('')}</div>`:'<span style="font-size:13px;color:var(--muted)">Click ☆ next to any offer or objection you use often, and it will stay here in front of you.</span>'}</div>`;
+}
+function drawerCall(){
+  const k=ST.callType; const f=FLOWS[CALLCK[k].f]; const key=k; const done=ST.call[key]||{};
+  const steps=f.steps.map((s,i)=>({id:'s'+i,t:s[0],l:s[1]}));
+  const comp=COMPCK.map((t,i)=>({id:'c'+i,t}));
+  const total=steps.length+comp.length; const n=Object.keys(done).filter(x=>done[x]).length;
+  return `<div class="dhead"><b>Call assistant</b><span class="timer" id="tmr">${T0?mm((Date.now()-T0)/1000):'00:00'}</span></div>
+   <select class="sel" id="ctype" data-a="ctype" aria-label="Call type">${Object.entries(CALLCK).map(([k2,v])=>`<option value="${k2}" ${k2===k?'selected':''}>${v.t}</option>`).join('')}</select>
+   <div class="row" style="display:flex;gap:6px"><button class="btn pri" data-a="tstart">${T0?'New call':'Start the call'}</button><button class="btn" data-a="creset">Clear checks</button></div>
+   <div class="prog" aria-hidden="true"><i style="width:${Math.round(100*n/total)}%"></i></div>
+   <div class="ck"><h4>Steps</h4>${steps.map(s=>`<label class="${done[s.id]?'done':''}"><input type="checkbox" data-a="ck" data-v="${s.id}" ${done[s.id]?'checked':''}><span>${esc(s.t)}${s.l?`<span class="say-sm">${esc(s.l)}</span>`:''}</span></label>`).join('')}
+    <h4>Compliance</h4>${comp.map(s=>`<label class="${done[s.id]?'done':''}"><input type="checkbox" data-a="ck" data-v="${s.id}" ${done[s.id]?'checked':''}><span>${esc(s.t)}</span></label>`).join('')}</div>
+   <button class="btn" data-a="drawer" data-v="wiz">Done? Choose the call outcome ←</button>`;
+}
+function drawerQuote(){
+  const rows=VARIANTS.map(v=>{const n=ST.quote[v.id]||0;return `<div class="qrow"><span>${esc(v.t)}<br><span class="p">${fmt(v.p)} AED${v.unit?' / '+v.unit:''}${v.w?' · Needs confirmation':''}</span></span>
+    <span class="step"><button data-a="qm" data-v="${v.id}" aria-label="Less">−</button><span class="n">${n}</span><button data-a="qp" data-v="${v.id}" aria-label="More">+</button></span></div>`}).join('');
+  const sel=VARIANTS.filter(v=>ST.quote[v.id]>0);
+  const total=sel.reduce((a,v)=>a+v.p*ST.quote[v.id],0);
+  const gifts=sel.reduce((a,v)=>a+(v.gifts||1)*(v.q?1:ST.quote[v.id]),0);
+  const warns=sel.filter(v=>v.w||v.from);
+  return `<div class="dhead"><b>Price calculator</b>${sel.length?'<button class="btn" data-a="qclear">Clear</button>':''}</div>
+   ${sel.length?`<div class="panel" style="padding:10px 12px"><div class="total"><span>Total</span><span class="v">${fmt(total)} <small style="font-size:12px">AED</small></span></div><span style="font-size:13px">Number of gifts: <b class="m">${gifts}</b></span>
+    ${warns.length?`<div class="warnlist">Before you say this number: ${warns.map(v=>esc(v.t)).join(', ')} ${warns.some(v=>v.from)?'(lip filler "starts from")':''} needs confirmation.</div>`:''}
+    <button class="btn pri" data-a="qcopy">Copy summary</button></div>`:'<span style="font-size:13px;color:var(--muted)">Choose the services the customer is interested in, and you will see the total and the number of gifts.</span>'}
+   <div>${rows}</div>
+   <span style="font-size:12.5px;color:var(--muted)">These are offer prices only. The final price is confirmed after the doctor's consultation.</span>`;
+}
+function drawerWiz(){
+  const n=WZ.node;
+  if(n.startsWith('R:')){ const [r,note]=n.slice(2).split('|');
+    return `<div class="dhead"><b>Call outcome</b></div><div class="crumbs">${WZ.path.map(esc).join(' ← ')}</div>
+     <div class="wiz"><div class="res"><span style="font-size:13px">Choose in the system:</span><b class="ltr">${esc(r)}</b>${note?`<span style="font-size:14px">${esc(note)}</span>`:''}</div><button class="btn" data-a="wreset">Start over</button></div>`;}
+  const node=WIZ[n];
+  return `<div class="dhead"><b>Call outcome</b>${WZ.path.length?'<button class="btn" data-a="wreset">Start over</button>':''}</div>${WZ.path.length?`<div class="crumbs">${WZ.path.map(esc).join(' ← ')}</div>`:''}
+   <div class="wiz"><div class="q">${esc(node.q)}</div><div class="opts">${node.o.map(([t,to],i)=>`<button data-a="wgo" data-i="${i}">${esc(t)}</button>`).join('')}</div></div>`;
+}
+/* ================= CHATBOT (answers only from the handbook) ================= */
+const BOT={msgs:[],items:null};
+const STOP=new Set(['the','a','an','is','are','was','what','whats','how','much','does','do','did','i','you','we','it','its','for','of','to','in','on','and','or','can','could','should','customer','client','says','said','price','cost','about','with','my','me','there','any','please','tell','if','this','that','be','have','has','will','would','should','your','كام','بكام','سعر','السعر','اسعار','الاسعار','بكم','كم','تمن','هو','هي','ايه','اي','في','فى','من','على','علي','عن','ال','يا','لو','ازاي','اقول','اقوله','اقولها','العميل','العميله','عميل','عميله','بيقول','بتقول','قال','قالت','يقول','تقول','عايز','عايزه','عاوز','ممكن','كده','ده','دي','اللي','و','مع','بتاع','انا','احنا','هل','ان','انه','لما','بس','طيب','كمان','حاجه','ايش','وش','شو','يعني','لي','ليه','ليا','اعمل','نعمل','بعمل','عمل','ازاى','امتى','كيف','الي','الى','او','ولا','مش','لا','ما']);
+const PRICE_RE=/بكام|كام|سعر|اسعار|بكم|^كم$|تكلف|price|cost|price|cost|how much|fee|aed/;
+const OBJ_RE=/بيقول|بتقول|قال|قالت|يقول|تقول|اعتراض|ارد|بيعترض|زعلان|زعلانه|مضايق|says|said|saying|told|customer|client|objection/;
+const DISP_RE=/اسجل|تسجيل|نتيجه المكالمه|السيستم|disposition|call result|اختار ايه|log|record|outcome|disposition|odoo|stage|tag/;
+const MED_RE=/حامل|حمل|رضاعه|بترضع|مرضع|سكر|ضغط|قلب|دوا|ادويه|حساسيه|اعراض|مرض|امراض|سرطان|غده|كورتيزون|جرعه|جرعات|عمليه جراحيه|اكزيما|صدفيه|pregnan|breastfe|nursing|diabet|blood pressure|heart|medicat|medicine|allerg|side effect|disease|cancer|thyroid|dose|eczema|psoriasis/;
+const BR_RE=/فرع|فجير|ابوظبي|ابو ظبي|عنوان|لوكيشن|موقع|تفتح|تقفل|الجمعه|جمعه|فاتحين|مفتوح|دوام|ساعات العمل|branch|address|location|where|fujairah|abu dhabi|open|close|hours|map/;
+const PREP_RE=/قبل|تحضير|تعليمات|احلق|حلاق|شمس|تان|تقشير|ريتينول|دوره|نضيف|before|prepar|shav|instruction/;
+const GREET_RE=/^(اهلا|السلام|هاي|هلا|مرحبا|صباح|مساء|hi|hello|hi|hello|hey|good morning|good evening)/;
+const THANKS_RE=/شكرا|تسلم|ميرسي|متشكر|thanks|thank|thanks|thx/;
+function botItems(){
+  if(BOT.items) return BOT.items;
+  const it=[];
+  const wset=t=>{const ws=new Set();norm(t).replace(/[؟?!.,،:؛"'()\/·]/g,' ').split(/\s+/).forEach(w=>{if(!w)return;ws.add(w);['بال','وال','لل','ال','و','ب'].forEach(pf=>{if(w.length>pf.length+2&&w.startsWith(pf))ws.add(w.slice(pf.length))})});return [...ws]};
+  const add=(o)=>{o.ws=wset(o.text+' '+o.title);o.wt=wset(o.title);it.push(o)};
+  OFFERS.forEach(o=>{ add({type:'offer',ref:o,title:o.ar,text:[o.ar,o.en,o.what,o.who,CATS[o.cat],o.pn,'Offer'].join(' ')});
+    o.qa.forEach(q=>add({type:'oqa',ref:o,qa:q,title:q[0],text:o.ar+' '+o.en+' '+CATS[o.cat]+' '+q.join(' ')})); });
+  OBJ.forEach((x,i)=>add({type:'obj',ref:x,i,title:x[0],text:[x[0],x[1],x[2],(x[5]||[]).join(' ')].join(' ')}));
+  PRODUCTS.forEach(pr=>{ add({type:'product',ref:pr,title:pr.name,text:[pr.name,pr.en,pr.what,pr.areas.join(' '),(pr.features||[]).join(' '),(pr.compare||[]).map(r=>r.join(' ')).join(' ')].join(' ')});
+    pr.facts.forEach(f=>add({type:'pfact',ref:pr,qa:f,title:f[0],text:pr.name+' '+pr.en+' '+f.join(' ')}));
+    pr.objs.forEach(f=>add({type:'pobj',ref:pr,qa:f,title:f[0],text:pr.name+' '+pr.en+' '+f.join(' ')})); });
+  FLOWS.forEach((f,i)=>add({type:'flow',ref:f,i,title:f.t,text:f.t+' script steps call '+f.steps.map(x=>x.join(' ')).join(' ')}));
+  DISP.forEach(d=>add({type:'disp',ref:d,title:d[0],text:d.join(' ')+' call outcome result system log record'}));
+  GULF.forEach(g=>add({type:'gulf',ref:g,title:g[0],text:g.join(' ')+' means meaning'}));
+  TERMS.forEach(t=>add({type:'term',ref:t,title:t[0],text:t.join(' ')+' means meaning'}));
+  REGULAR.forEach(r=>add({type:'reg',ref:r,title:r.ar,text:[r.ar,r.pn,'regular price not offer',r.laser?'laser hair removal':''].join(' ')}));
+  RULES.forEach(r=>add({type:'rule',ref:r,title:r[1],text:r.slice(1).join(' ')}));
+  CENTER.forEach(c=>add({type:'center',ref:c,title:c[0],text:c.slice(0,2).join(' ')}));
+  TODO.forEach(t=>{add({type:'todo',ref:t,title:t,text:t}); it[it.length-1].wt=[];});
+  BRANCHES.forEach(b=>add({type:'branch',ref:b,title:'branch '+b.city,text:[b.city,b.name,b.nameAr,b.addrAr,b.addrEn,b.landmarks.join(' '),'address branch hours open location opens closes Friday'].join(' ')}));
+  add({type:'prep',title:'Instructions before the laser session',text:'preparation instructions before laser session '+PREP.join(' ')});
+  PRODUCTS.forEach(pr=>(pr.timeline||[]).length&&add({type:'pfact',ref:pr,qa:['When do results show?',pr.timeline.map(x=>x[0]+': '+x[1]).join(' ')],title:'Results of '+pr.name+': when do they show',text:pr.name+' '+pr.en+' results show when stages'}));
+  return BOT.items=it;
+}
+function lev(a,b,max){ if(Math.abs(a.length-b.length)>max) return max+1; let p=Array.from({length:b.length+1},(_,i)=>i);
+  for(let i=1;i<=a.length;i++){ const c=[i]; let mn=i; for(let j=1;j<=b.length;j++){ c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1)); if(c[j]<mn) mn=c[j]; } if(mn>max) return max+1; p=c; } return p[b.length]; }
+function botVocab(){ if(BOT.vocab) return BOT.vocab; const v=new Set(); botItems().forEach(it=>it.ws.forEach(w=>{ if(w.length>1) v.add(w); })); Object.keys(SYN).forEach(k=>v.add(norm(k))); BOT.vocab=v; BOT.vlist=[...v]; return v; }
+// closest real words for a misspelled word (1 typo for short words, 2 for long ones)
+function fuzzy(t){ const V=botVocab(); if(V.has(t)||t.length<3) return []; const max=t.length>=7?2:1; const out=[];
+  for(const w of BOT.vlist){ if(w[0]!==t[0]&&t.length<5) continue; const d=lev(t,w,max); if(d<=max) out.push([d,w]); }
+  return out.sort((a,b)=>a[0]-b[0]||a[1].length-b[1].length).slice(0,3).map(x=>x[1]); }
+// words that start with what the agent typed so far
+function completions(t){ botVocab(); if(t.length<2) return []; return BOT.vlist.filter(w=>w.length>t.length&&w.startsWith(t)).sort((a,b)=>a.length-b.length).slice(0,8); }
+function botTokens(q,live){
+  const raw=norm(q).replace(/[؟?!.,،:؛"'()]/g,' ').split(/\s+/).filter(Boolean);
+  const endsOpen=live&&!/\s$/.test(q);
+  const toks=raw.filter((t,i)=>!(STOP.has(t)&&!(endsOpen&&i===raw.length-1))&&(t.length>1||(endsOpen&&i===raw.length-1)));
+  return toks.map((t,i)=>{ const alts=new Set([t]);
+    if(endsOpen&&i===toks.length-1) completions(t).forEach(w=>alts.add(w));
+    fuzzy(t).forEach(w=>alts.add(w));
+    if(t.length>3&&t.startsWith('ال')) alts.add(t.slice(2));
+    if(t.length>3&&(t.startsWith('و')||t.startsWith('ب'))) alts.add(t.slice(1));
+    if(t.length>4&&t.startsWith('بال')) alts.add(t.slice(3));
+    const bases=[...alts]; Object.keys(SYN).forEach(k=>{ const nk=norm(k); if(bases.some(b=>nk===b||(b.length>3&&b.startsWith(nk)))) norm(SYN[k]).split(' ').forEach(x=>x&&alts.add(x)); });
+    return [...alts]; });
+}
+function botScore(toks,nq,wantPrice,wantObj,wantDisp){
+  return botItems().map(it=>{ let sc=0,hit=0;
+    const has=(ws,a)=>ws.some(w=>w===a||(a.length>=4&&w.startsWith(a))||(w.length>=4&&a.startsWith(w)));
+    toks.forEach(alts=>{ if(alts.some(a=>has(it.wt,a))){sc+=3;hit++} else if(alts.some(a=>has(it.ws,a))){sc+=1;hit++} });
+    if(!hit) return null;
+    if(wantPrice&&(it.type==='offer'||it.type==='product'||it.type==='reg')) sc+=3;
+    if(wantObj&&(it.type==='obj'||it.type==='pobj')) sc+=3;
+    if(wantDisp&&it.type==='disp') sc+=3;
+    if(it.type==='obj'&&it.ref[4]) sc+=0.5;
+    if(it.type==='branch'&&BR_RE.test(nq)) sc+=4;
+    if(it.type==='branch'){ const cityHit=(/فجير|fujairah/.test(nq)&&it.ref.id==='fuj')||(/ابوظبي|ابو ظبي|abu ?dhabi/.test(nq)&&it.ref.id==='ad'); if(cityHit) sc+=2; }
+    if(it.type==='prep'&&!PREP_RE.test(nq)) sc-=3;
+    if(it.type==='todo') sc-=1;
+    if(/دكتور|doctor|dr\b/.test(nq)&&/مين|اسم|مواعيد|موجود|متاح|امتي|بتيجي|يوم|who|name|when|available|hours|day/.test(nq)&&/ياسمين|روجينا|yasmine|rogina/i.test((it.title||'')+' '+(it.text||''))) sc+=4;
+    if(hit===toks.length&&it.title&&norm(it.title).includes(' ')&&nq.includes(norm(it.title))) sc+=3;
+    if(/تغذيه|روجينا|دايت|nutrition|diet|rogina/.test(nq)&&/روجينا|rogina/i.test((it.title||'')+' '+(it.text||''))) sc+=4;
+    sc+=hit/toks.length;
+    return {it,sc};
+  }).filter(Boolean).sort((a,b)=>b.sc-a.sc);
+}
+function botSuggest(q){
+  const nq=norm(q.trim()); if(nq.length<2) return [];
+  const toks=botTokens(q,true); if(!toks.length) return [];
+  const wantPrice=PRICE_RE.test(nq), wantObj=OBJ_RE.test(nq), wantDisp=DISP_RE.test(nq);
+  const seen=new Set(), out=[];
+  const raw=nq.replace(/[؟?!.,،:؛"'()]/g,' ').split(/\s+/).filter(t=>t.length>1&&!STOP.has(t)).map(t=>t.replace(/^(ال|بال|وال)/,''));
+  const ranked=botScore(toks,nq,wantPrice,wantObj,wantDisp).map(x=>{ const tn=norm(x.it.title); let b=0; raw.forEach(t=>{ if(t.length>1&&tn.includes(t)) b+=3; }); if(x.it.type==='todo') b-=2; return {it:x.it,sc:x.sc+b}; }).sort((p,q)=>q.sc-p.sc);
+  for(const x of ranked){ if(x.sc<1) break; const k=x.it.type+'|'+x.it.title; if(seen.has(k)) continue; seen.add(k); out.push(x.it); if(out.length>=6) break; }
+  return out;
+}
+function botAsk(q){
+  const nq=norm(q.trim());
+  if(!nq) return null;
+  const toks=botTokens(q);
+  if(GREET_RE.test(nq)&&toks.length<=1) return {kind:'greet'};
+  if(MED_RE.test(nq)) return {kind:'medical',q:nq};
+  if(THANKS_RE.test(nq)&&toks.length<=2) return {kind:'thanks'};
+  if(!toks.length) return {kind:'none'};
+  const wantPrice=PRICE_RE.test(nq)&&!/(كام|كم) ?جلس|عدد|مده|كام يوم|كام شهر|how many|how long/.test(nq), wantObj=OBJ_RE.test(nq), wantDisp=DISP_RE.test(nq);
+  const scored=botScore(toks,nq,wantPrice,wantObj,wantDisp);
+  if(!scored.length||scored[0].sc<1.5) return {kind:'none',sugg:scored.slice(0,3).map(x=>x.it)};
+  const best=scored[0].it;
+  const more=scored.slice(1).filter(x=>x.sc>=Math.max(2,scored[0].sc*0.5)&&x.it.title!==best.title).slice(0,3).map(x=>x.it);
+  return {kind:'hit',best,more};
+}
+const cbtn=t=>`<button class="copy" data-a="copy" data-t="${esc(t)}">Copy</button>`;
+const sayBox=(t,l)=>`<div class="say"><div class="row"><span class="lbl">${l||'Say it like this'}</span>${cbtn(t)}</div><p>${esc(t)}</p></div>`;
+function botAnswerHtml(r){
+  if(r.kind==='greet') return `<span>Hi! Ask me about any offer or price, or type what the customer said and I'll tell you how to reply.</span>`;
+  if(r.kind==='thanks') return `<span>You're welcome, good luck with the call 👍</span>`;
+  if(r.kind==='medical' && /حامل|حمل|pregnan/.test(r.q) && !/رضاع|مرضع|breastfe|nursing/.test(r.q)) return `<div class="hd">Pregnant customer: Hold</div>${sayBox('Your safety comes first. We postpone these services during pregnancy, so let me call you after you deliver, and I wish you a safe delivery. When is your due date?')}<div class="warn">In Odoo: Hold, with the tag Travel / Hold, and an Activity for after the delivery. Don't book a consultation unless she insists on doing the service, and in that case write in the notes that she is pregnant.</div><div class="no">Don't say "it's fine", and don't explain side effects.</div>`;
+  if(r.kind==='medical') return `<div class="hd">Medical question: refer it to the doctor</div>${sayBox('That\'s an important medical question, and the doctor is the one who can answer it after assessing your case. Would you like me to book you a free consultation?')}<div class="no">Don't say "it's fine, no problem" or "it's not allowed", and don't talk about doses or symptoms.</div>${/مونجارو|جرعه|mounjaro|dose/.test(r.q)?'<div class="warn">Mounjaro is a prescription medicine, and only the doctor decides whether it is suitable.</div>':''}`;
+  if(r.kind==='none') return `<span>I can't find an answer to this in the guide. Try different words, like the service name or the customer's own words. If it's still not there, check with the team leader and don't make up an answer for the customer.</span>${r.sugg&&r.sugg.length?`<div class="lbl">Did you mean:</div><div class="chips2">${r.sugg.map(x=>`<button data-a="bq" data-t="${esc(x.title)}">${esc(x.title)}</button>`).join('')}</div>`:''}`;
+  const it=r.best; let h='';
+  const go=(id,t)=>`<button class="ib" data-a="go" data-v="${id}">${t||'See details'} ←</button>`;
+  switch(it.type){
+    case 'offer': { const o=it.ref;
+      h=`<div class="hd">${esc(o.ar)} ${stChip(o.st)}</div>${o.price==='—'?'<div class="warn">The price is not available in the source. Don\'t say any number; say "I\'ll confirm the price for you before booking".</div>':`<div class="pr">${esc(o.price)} <small>AED</small></div>`}<span class="small">${esc(o.pn)}</span>${o.st==='warn'?'<div class="warn">This price needs confirmation. Say "I\'ll confirm the price for you before booking".</div>':''}${sayBox(o.say)}${o.caution?`<div class="warn"><b>Be careful:</b> ${esc(o.caution)}</div>`:''}<div class="acts">${go('o-'+o.id)}${o.guide?go('p-'+o.guide,'Product guide'):''}</div>`; break; }
+    case 'oqa': h=`<div class="hd">${esc(it.ref.ar)}</div><span><b>Customer:</b> ${esc(it.qa[0])}</span>${sayBox(it.qa[1],'Reply like this')}<div class="acts">${go('o-'+it.ref.id)}</div>`; break;
+    case 'obj': { const x=it.ref; h=`<div class="hd">${esc(x[0])}${x[4]?' <span class="chip c-warn">Most common</span>':''}</div>${x[5]?`<ol>${x[5].map(t=>`<li>${esc(t)}</li>`).join('')}</ol>`:''}${sayBox(x[2],'Say')}<div class="no">Don't say: ${esc(x[3])}</div><div class="acts">${go('obj-'+it.i)}</div>`; break; }
+    case 'pobj': h=`<div class="hd">${esc(it.ref.name)}</div><span><b>Customer:</b> ${esc(it.qa[0])}</span>${sayBox(it.qa[1],'Reply like this')}<div class="acts">${go('p-'+it.ref.id,'Product guide')}</div>`; break;
+    case 'pfact': h=`<div class="hd">${esc(it.ref.name)}: ${esc(it.qa[0])}</div><span>${esc(it.qa[1])}</span><div class="warn">Say it with the word "usually", and say that it varies from person to person.</div><div class="acts">${go('p-'+it.ref.id,'Product guide')}</div>`; break;
+    case 'product': { const pr=it.ref; h=`<div class="hd">${esc(pr.name)}</div>${pr.avail?'<div class="warn">This is not in the current offers. Don\'t give a price until we confirm it is available and how much it costs.</div>':''}${pr.price?`<div class="warn">The price is ${esc(pr.price)} AED before VAT. This is not an offer, so no gift comes with it.</div>`:''}<span>${esc(pr.what)}</span><ul>${pr.areas.map(a=>`<li>${esc(a)}</li>`).join('')}</ul><div class="acts">${go('p-'+pr.id,'Product guide')}</div>`; break; }
+    case 'flow': { const f=it.ref; h=`<div class="hd">${esc(f.t)}</div><ol>${f.steps.map(x=>`<li>${esc(x[0])}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="useflow" data-v="${it.i}">☎ Open it in the Call assistant</button>${go('flow-'+it.i)}</div>`; break; }
+    case 'disp': { const d=it.ref; h=`<div class="hd">Choose in the system:</div><b class="ltr">${esc(d[0])}</b><span>Choose it when: ${esc(d[1])}</span><span>You must fill in: ${esc(d[2])}</span><div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ Not sure? Answer the questions</button></div>`; break; }
+    case 'gulf': h=`<div class="hd">${esc(it.ref[0])}</div><span>Meaning: <b>${esc(it.ref[1])}</b></span>`; break;
+    case 'term': h=`<div class="hd">${esc(it.ref[0])} <span class="small ltr">${esc(it.ref[1])}</span></div><span>${esc(it.ref[2])}</span>`; break;
+    case 'rule': h=`<div class="hd">${esc(it.ref[1])}</div><span>${esc(it.ref[2])}</span>`; break;
+    case 'branch': { const b=it.ref, st=branchStatus(b); h=`<div class="hd">${esc(b.nameAr)} <span class="bstat ${st.open?'on':'off'}">${esc(st.txt)}</span></div><span>${esc(b.addrAr)}</span><span class="small">Saturday to Thursday: ${hh(b.open)} – ${hh(b.close)} · Friday closed</span><ul>${b.landmarks.map(l=>`<li>${esc(l)}</li>`).join('')}</ul><div class="acts"><button class="ib" data-a="copy" data-t="${esc(b.nameAr+'\n'+b.addrAr+'\n'+b.map)}">Copy address</button>${go('br-'+b.id,'Branch page')}</div>`; break; }
+    case 'prep': h=`<div class="hd">Before the laser session</div><ol>${PREP.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="copy" data-t="${esc('Instructions before the laser session:\n'+PREP.map((x,i)=>(i+1)+'. '+x).join('\n'))}">Copy instructions</button>${go('prep')}</div>`; break;
+    case 'todo': h=`<div class="hd">Not yet confirmed by the client</div><span>${esc(it.ref)}</span><div class="warn">Tell the customer "I'll confirm this information for you before booking", and check with the team leader.</div>`; break;
+    case 'reg': { const g=it.ref; h=`<div class="hd">${esc(g.ar)} <span class="chip c-warn">Regular price, not an offer</span></div>${sayBox(`${g.ar}${g.pn?': '+g.pn:''} for ${g.price} AED, before VAT.`)}<div class="warn">This is a regular price, not an offer, so no gift comes with it.</div>`; break; }
+    case 'center': h=`<div class="hd">${esc(it.ref[0])} ${it.ref[2]==='ok'?'<span class="chip c-ok">Confirmed</span>':'<span class="chip c-warn">Needs confirmation</span>'}</div><span>${esc(it.ref[1])}</span>`; break;
+  }
+  if(r.more&&r.more.length) h+=`<div class="lbl">Related questions:</div><div class="chips2">${r.more.map(x=>`<button data-a="bq" data-t="${esc(x.title)}">${esc(x.title)}</button>`).join('')}</div>`;
+  return h;
+}
+const BOT_CHIPS=['Abu Dhabi branch address','What time does Fujairah close?','Instructions before laser','How much is laser?','Customer says "There are never any appointments"','Had sessions and no results','Difference between Nabota and Dysport','How many sessions of Sculptra?','Customer is pregnant and wants laser','Customer said "Remove my number"','What does "باجر" (bacher) mean?','What do I log if no one answered?'];
+function drawerChat(){
+  const log=BOT.msgs.length?BOT.msgs.map(m=>m.u?`<div class="cm u">${esc(m.u)}</div>`:`<div class="cm b">${m.h}</div>`).join(''):`<div class="cm b"><span>Type your question the way you think of it, in your own words or in the customer's Gulf words. I'll answer from the guide only, and if the answer isn't there I'll tell you.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>`;
+  return `<div class="dhead"><b>Ask the guide</b>${BOT.msgs.length?'<button class="btn" data-a="bclear">Clear</button>':''}</div>
+   <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
+   <div class="csug" id="csug" hidden></div><form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="e.g. Filler price? or The customer says it's expensive" aria-label="Your question"><button class="btn pri" type="submit">Ask</button></form></div>`;
+}
+const SUGTYPE={reg:'Regular price',offer:'Offer',oqa:'Customer question',obj:'Objection',product:'Service',pqa:'Customer question',pobj:'Objection',rule:'Rule',center:'The center',branch:'Branch',prep:'Instructions',disp:'Call outcome',todo:'Needs confirmation',flow:'Script',gulf:'Gulf',term:'Term'};
+let SUG=[],SUGI=-1;
+function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSuggest(i.value); SUGI=-1;
+  if(!SUG.length){ b.hidden=true; b.innerHTML=''; return; }
+  b.innerHTML='<div class="csh">Suggestions (click any one):</div>'+SUG.map((it,k)=>`<button type="button" data-a="sug" data-i="${k}"><span class="sec">${esc(SUGTYPE[it.type]||'')}</span>${esc(it.title)}${/^(oqa|pqa|pfact|pobj)$/.test(it.type)&&it.ref?`<small style="color:var(--muted)"> · ${esc(it.ref.ar||it.ref.name||'')}</small>`:''}</button>`).join('');
+  b.hidden=false; }
+function pickSug(k){ const it=SUG[k]; if(!it) return; BOT.msgs.push({u:it.title}); BOT.msgs.push({h:botAnswerHtml({kind:'hit',best:it,more:[]})}); SUG=[];
+  renderRail(); const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; }
+document.addEventListener('input',e=>{ if(e.target.id==='cq'){ clearTimeout(showSug.h); showSug.h=setTimeout(showSug,120); } });
+document.addEventListener('keydown',e=>{ if(e.target.id!=='cq'||!SUG.length) return; const b=$('csug'); if(!b||b.hidden) return;
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); SUGI=(SUGI+(e.key==='ArrowDown'?1:-1)+SUG.length)%SUG.length; [...b.querySelectorAll('button')].forEach((x,k)=>x.classList.toggle('on',k===SUGI)); }
+  else if(e.key==='Enter'&&SUGI>=0){ e.preventDefault(); pickSug(SUGI); }
+  else if(e.key==='Escape'){ b.hidden=true; } });
+function botSend(q){
+  q=String(q||'').trim(); if(!q) return;
+  BOT.msgs.push({u:q}); const r=botAsk(q); BOT.msgs.push({h:botAnswerHtml(r||{kind:'none'})});
+  if(BOT.msgs.length>40) BOT.msgs=BOT.msgs.slice(-40);
+  renderRail(); const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; const i=$('cq'); if(i&&!matchMedia('(max-width:1080px)').matches) i.focus();
+}
+document.addEventListener('submit',e=>{ if(e.target.id==='cform'){ e.preventDefault(); botSend($('cq').value); } });
+function renderRail(){
+  const r=$('rail'); const narrow=matchMedia('(max-width:1080px)').matches;
+  r.classList.toggle('closed',narrow&&!DRAWER);
+  $('wrap').classList.toggle('drawer-open',!!DRAWER);
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===DRAWER));
+  const tool=DRAWER?`<div class="panel"><div class="dtabs">${[['chat','Ask'],['call','The call'],['quote','Calculator'],['wiz','Outcome']].map(([k,t])=>`<button data-a="drawer" data-v="${k}" class="${DRAWER===k?'on':''}">${t}</button>`).join('')}<button data-a="drawer" data-v="" aria-label="Close" title="Close">×</button></div>${DRAWER==='chat'?drawerChat():DRAWER==='call'?drawerCall():DRAWER==='quote'?drawerQuote():drawerWiz()}</div>`:'';
+  r.innerHTML=tool+(narrow&&DRAWER?'':railPins())+(!DRAWER&&!narrow?`<div class="panel"><h3>Call tools</h3><button class="btn pri" data-a="drawer" data-v="chat">💬 Ask the guide</button><button class="btn" data-a="drawer" data-v="call">☎ Call assistant (checklist)</button><button class="btn" data-a="drawer" data-v="quote">＋ Price calculator</button><button class="btn" data-a="drawer" data-v="wiz">✓ Choose the call outcome</button></div>`:'');
+}
+const mm=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+function toast(t){$('toast').innerHTML=`<div class="toast">${esc(t)}</div>`;clearTimeout(toast.h);toast.h=setTimeout(()=>$('toast').innerHTML='',1800)}
+function copyText(t,ok){try{navigator.clipboard.writeText(t).then(()=>toast(ok||'Copied'),()=>toast('Couldn\'t copy, select the text manually'))}catch(e){toast('Couldn\'t copy, select the text manually')}}
+function setHH(){ const h=$('top').getBoundingClientRect().height; document.documentElement.style.setProperty('--hh',Math.round(h)+'px'); }
+function go(target){
+  $('res').hidden=true;
+  const tv=viewOf(target); if(tv&&tv!==VIEW){ VIEW=tv; renderMain(); }
+  if(VIEWS.some(x=>x[0]===target)){ window.scrollTo({top:0}); return; }
+  if(target.startsWith('o-')){ const id=target.slice(2); OPEN.add(id); if(CAT!=='all'&&OFFERS.find(o=>o.id===id).cat!==CAT) CAT='all'; renderMain(); }
+  const el=document.getElementById(target); if(!el) return;
+  if(matchMedia('(max-width:1080px)').matches&&DRAWER){ DRAWER=null; renderRail(); }
+  el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+  el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1600);
+}
+/* search */
+let RES=[],SEL=-1;
+function showRes(){
+  const q=$('q').value.trim(); const box=$('res');
+  if(!q){box.hidden=true;return}
+  RES=search(q); SEL=RES.length?0:-1;
+  box.innerHTML=RES.length?RES.map((r,i)=>`<button data-a="res" data-i="${i}" class="${i===SEL?'on':''}"><span class="sec">${esc(r.sec)}</span><b>${esc(r.title)}</b><span class="snip">${esc(String(r.sub).slice(0,120))}</span></button>`).join(''):`<div style="padding:12px 14px;color:var(--muted)">No results for "${esc(q)}". Try another word, or ask the team leader.</div>`;
+  box.hidden=false;
+}
+function pickRes(i){ const r=RES[i]; if(!r) return; go(r.go); }
+$('langbtn').addEventListener('click',e=>{ e.preventDefault(); location.href=$('langbtn').getAttribute('href')+location.hash; });
+$('q').addEventListener('input',showRes);
+$('q').addEventListener('focus',showRes);
+$('q').addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); if(!RES.length) return; SEL=(SEL+(e.key==='ArrowDown'?1:-1)+RES.length)%RES.length; [...$('res').querySelectorAll('button')].forEach((b,i)=>b.classList.toggle('on',i===SEL)); }
+  if(e.key==='Enter'){ e.preventDefault(); pickRes(SEL<0?0:SEL); }
+  if(e.key==='Escape'){ $('res').hidden=true; $('q').blur(); }
+});
+document.addEventListener('keydown',e=>{ if(e.key==='/'&&document.activeElement!==$('q')&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){ e.preventDefault(); $('q').focus(); $('q').select(); } });
+document.addEventListener('change',e=>{ const t=e.target;
+  if(t.dataset.a==='ck'){ const k=ST.callType; ST.call[k]=ST.call[k]||{}; ST.call[k][t.dataset.v]=t.checked; saveST(); renderRail(); }
+  if(t.dataset.a==='ctype'){ ST.callType=t.value; saveST(); renderRail(); }
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.sbox')) $('res').hidden=true;
+  const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a, v=t.dataset.v;
+  if(a==='res') pickRes(+t.dataset.i);
+  if(a==='go'){ e.preventDefault(); go(v); }
+  if(a==='toggle'){ OPEN.has(v)?OPEN.delete(v):OPEN.add(v); renderMain(); }
+  if(a==='cat'){ CAT=v; renderMain(); }
+  if(a==='expand'){ OFFERS.forEach(o=>OPEN.add(o.id)); renderMain(); }
+  if(a==='collapse'){ OPEN.clear(); renderMain(); }
+  if(a==='copy'){ copyText(t.dataset.t); }
+  if(a==='pin'){ ST.pins=pinned(v)?ST.pins.filter(x=>x!==v):[...ST.pins,v]; saveST(); renderMain(); renderRail(); toast(pinned(v)?'Pinned to the side':'Unpinned'); }
+  if(a==='sug'){ pickSug(+t.dataset.i); return; }
+  if(a==='bq'){ if(DRAWER!=='chat'){DRAWER='chat';} botSend(t.dataset.t); return; }
+  if(a==='bclear'){ BOT.msgs=[]; renderRail(); return; }
+  if(a==='drawer'){ DRAWER=v||null; renderRail(); if(DRAWER==='chat'){ const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; const i=$('cq'); if(i&&!matchMedia('(max-width:1080px)').matches) i.focus(); } if(DRAWER==='call'&&!TI) TI=setInterval(()=>{const el=$('tmr');if(el&&T0)el.textContent=mm((Date.now()-T0)/1000)},1000); }
+  if(a==='useflow'){ const k=Object.keys(CALLCK).find(k=>CALLCK[k].f===+v); if(k){ST.callType=k;saveST();} DRAWER='call'; renderRail(); }
+  if(a==='tstart'){ T0=Date.now(); ST.call[ST.callType]={}; saveST(); renderRail(); if(!TI) TI=setInterval(()=>{const el=$('tmr');if(el&&T0)el.textContent=mm((Date.now()-T0)/1000)},1000); }
+  if(a==='creset'){ ST.call[ST.callType]={}; saveST(); renderRail(); }
+  if(a==='addq'){ ST.quote[v]=(ST.quote[v]||0)+1; saveST(); DRAWER='quote'; renderRail(); toast('Added to the calculator'); }
+  if(a==='qp'){ ST.quote[v]=(ST.quote[v]||0)+1; saveST(); renderRail(); }
+  if(a==='qm'){ ST.quote[v]=Math.max(0,(ST.quote[v]||0)-1); saveST(); renderRail(); }
+  if(a==='qclear'){ ST.quote={}; saveST(); renderRail(); }
+  if(a==='qcopy'){ const sel=VARIANTS.filter(x=>ST.quote[x.id]>0); const total=sel.reduce((s,x)=>s+x.p*ST.quote[x.id],0);
+    copyText(sel.map(x=>`- ${x.t}${ST.quote[x.id]>1?' × '+ST.quote[x.id]:''}: ${fmt(x.p*ST.quote[x.id])} AED`).join('\n')+`
+Total: ${fmt(total)} AED
+(Big Gift Week offer prices; the final price is after the doctor's consultation)`,'Summary copied'); }
+  if(a==='wgo'){ const node=WIZ[WZ.node]; const [lbl,to]=node.o[+t.dataset.i]; WZ.path.push(lbl); WZ.node=to; renderRail(); }
+  if(a==='wreset'){ WZ={node:'start',path:[]}; renderRail(); }
+  if(a==='totop'){ window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); }
+});
+/* views */
+function setView(v,noScroll){ if(!VIEWS.some(x=>x[0]===v)) return; VIEW=v; renderMain(); if(!noScroll) window.scrollTo({top:0}); try{history.replaceState(null,'','#'+v)}catch(e){} }
+window.addEventListener('resize',()=>{ setHH(); renderRail(); });
+document.getElementById('tabs').addEventListener('click',e=>{ const a=e.target.closest('a[data-view]'); if(!a) return; e.preventDefault(); setView(a.dataset.view); });
+buildIndex();
+BRANCHES.forEach(b=>INDEX.push({sec:'Branches',title:'branch '+b.city+': '+b.nameAr,sub:b.addrAr,go:'br-'+b.id,text:[b.city,b.name,b.nameAr,b.addrAr,b.addrEn,b.landmarks.join(' '),'address branch hours open location'].join(' ')}));
+INDEX.push({sec:'Service guide',title:'Instructions before the laser session',sub:PREP[0],go:'prep',text:'preparation instructions before laser session '+PREP.join(' ')});
+PRODUCTS.forEach(p=>{
+  INDEX.push({sec:'Product guide',title:p.name,sub:p.what,go:'p-'+p.id,text:[p.name,p.en,p.what,p.areas.join(' '),(p.features||[]).join(' '),(p.compare||[]).map(r=>r.join(' ')).join(' ')].join(' ')});
+  p.facts.forEach(f=>INDEX.push({sec:'Product guide · '+p.name,title:f[0],sub:f[1],go:'p-'+p.id,text:p.name+' '+f.join(' ')}));
+  p.objs.forEach(o=>INDEX.push({sec:'Objection · '+p.name,title:o[0],sub:o[1],go:'p-'+p.id,text:p.name+' '+o.join(' ')}));
+});
+INDEX.forEach(e=>{ if(!e.n) e.n=norm(e.text+' '+e.title); });
+INDEX.push({sec:'Tools',title:'Price calculator',sub:'Add up the prices of several offers and see the number of gifts',go:'prices',text:'calculator prices total how much sum gifts',n:norm('calculator price calculator prices total how much sum gifts')});
+UPDATES.forEach(u=>INDEX.push({sec:'Updates',title:u[1].slice(0,60),sub:u[0],go:'updates',text:u[1],n:norm(u[1])}));
+(function(){ const h=(location.hash||'').slice(1); const v=viewOf(h); if(v) VIEW=v; })();
+renderMain(); renderRail(); setHH(); tickBranches(); setInterval(tickBranches,60000);
+(function(){ const h=(location.hash||'').slice(1); if(h&&h!==VIEW&&document.getElementById(h)) setTimeout(()=>go(h),50); })();
+</script>
+
+</body></html>
