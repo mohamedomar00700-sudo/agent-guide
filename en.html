@@ -982,7 +982,7 @@ function botScore(toks,nq,wantPrice,wantObj,wantDisp){
     if(wantObj&&(it.type==='obj'||it.type==='pobj')) sc+=3;
     if(wantDisp&&it.type==='disp') sc+=3;
     if(it.type==='obj'&&it.ref[4]) sc+=0.5;
-    if(it.type==='branch'&&BR_RE.test(nq)) sc+=4;
+    if(it.type==='branch'&&BR_RE.test(nq)&&!/دكتور|جلدي|تخسيس|تغذيه|derma|doctor|nutrition|weight/i.test(nq)) sc+=4;
     if(it.type==='branch'){ const cityHit=(/فجير|fujairah/.test(nq)&&it.ref.id==='fuj')||(/ابوظبي|ابو ظبي|abu ?dhabi/.test(nq)&&it.ref.id==='ad'); if(cityHit) sc+=2; }
     if(it.type==='prep'&&!PREP_RE.test(nq)) sc-=3;
     if(it.type==='todo') sc-=1;
