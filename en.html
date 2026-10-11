@@ -1095,7 +1095,7 @@ function botScore(toks,nq,wantPrice,wantObj,wantDisp){
     if(it.type==='prep'&&!PREP_RE.test(nq)) sc-=3;
     if(it.type==='todo') sc-=1;
     if(/اخر|last|latest/.test(nq)&&/حجز|ميعاد|موعد|book|appointment|slot/.test(nq)&&/اخر حجز|last booking/i.test(norm(it.title||''))) sc+=5;
-    { const tt=(it.title||'')+' '+(it.text||''); const ntt=norm(tt); DOCTORS.forEach(d=>{ const nm=norm(d.name).replace(/^(د\.?|dr\.?)\s*/,'').split(' ')[0]; if(nm.length>2&&nq.includes(nm)&&ntt.includes(nm)) sc+=5; }); const DOCS=[[/ياسمين|yasmine/i,/ياسمين|yasmine/i],[/روجينا|rogina|تغذيه|nutrition|دايت|diet/i,/روجينا|rogina/i],[/راندا|randa/i,/راندا|randa/i],[/نهى|نهي|noha|تخسيس|weight loss|slimming/i,/نهى|noha/i],[/جلدي|derma/i,/ياسمين|راندا|yasmine|randa/i]];
+    { const tt=(it.title||'')+' '+(it.text||''); const ntt=norm(tt); DOCTORS.forEach(d=>{ const nm=norm(d.name).replace(/^(د\.?|dr\.?)\s*/,'').split(' ')[0]; if(nm.length>2&&nq.includes(nm)&&ntt.includes(nm)) sc+=5; }); const DOCS=[[/ياسمين|yasmine/i,/ياسمين|yasmine/i],[/روجينا|rogina|تغذيه|nutrition|دايت|diet/i,/روجينا|rogina|وليد|waleed/i],[/راندا|randa/i,/راندا|randa/i],[/نهى|نهي|noha|تخسيس|weight loss|slimming/i,/نهى|noha/i],[/جلدي|derma/i,/ياسمين|راندا|yasmine|randa/i]];
       DOCS.forEach(([q,t])=>{ if(q.test(nq)&&t.test(tt)) sc+=5; });
       if(/فجير|fujairah/i.test(nq)&&/الفجيره|الفجيرة|fujairah/i.test(tt)) sc+=1; if(/ابوظبي|abu ?dhabi/i.test(nq)&&/ابوظبي|أبوظبي|abu dhabi/i.test(tt)) sc+=1; }
     if(/دكتور|doctor|dr\b/.test(nq)&&/مين|اسم|مواعيد|موجود|متاح|امتي|بتيجي|يوم|who|name|when|available|hours|day/.test(nq)&&/ياسمين|روجينا|راندا|نهى|yasmine|rogina|randa|noha/i.test((it.title||'')+' '+(it.text||''))) sc+=4;
