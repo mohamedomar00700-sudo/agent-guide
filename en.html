@@ -392,11 +392,11 @@ const OFFERS=[
   what:'An injection to dissolve double-chin fat, with a radiofrequency session.',who:'The customer complains of a double chin, meaning the fat under the chin. Gulf customers will usually call it "دبل تشن" (double chin).',
   say:'The Silutrix double-chin injection is 700 AED, with a radiofrequency session, plus a gift of your choice.',
   qa:[['How many injections do I need?','The doctor will decide the number after seeing the area.']],caution:''},
- {id:'fatcourse',cat:'body',ar:'Fat-dissolving device course',en:'Fat-dissolving devices course',price:'—',pn:'Price not visible in the source',st:'no',slide:8,
+ {id:'fatcourse',cat:'body',ar:'Fat-dissolving device course',en:'Fat-dissolving devices course',price:'1,500',pn:'16 sessions · with a gift',st:'ok',slide:8,
   what:'16 device sessions, with diet follow-up and a weekly check-up for two months.',who:'The customer wants to lose weight and contour their body with devices.',
-  say:'We have a course of 16 fat-dissolving device sessions, with weekly diet follow-up for two months. I\'ll confirm the price for you, and it\'s best to book you a free consultation so the doctor can set the program.',
+  say:'The fat-dissolving course is 1,500 AED and comes with a gift of your choice: 16 device sessions plus weekly diet follow-up for two months. The best first step is a free consultation so the doctor can set the right plan for you.',
   qa:[['How many kilos will I lose?','Results vary from person to person and depend on following the diet, and the doctor will set a suitable goal for you.']],
-  caution:'The price is cut off on the poster. Don\'t give any number. The poster also says "10 to 15 kilos", and this must never be said as a promise.'},
+  caution:'The poster says "10 to 15 kilos". Never say that as a promise. Say "results vary from person to person".'},
  {id:'cellulite',cat:'body',ar:'Cellulite removal course',en:'Cellulite removal course',price:'1,500',pn:'10 sessions',st:'ok',slide:9,
   what:'10 sessions. Each session is a triple treatment at the same time: the Ultrascalpt device breaks down fat and activates the muscles, radiofrequency dissolves fat deposits, stimulates collagen, and tightens the skin, and lymphatic massage helps drain fat and fluids and boosts circulation.',who:'The customer complains of cellulite.',
   say:'The cellulite course is 10 sessions for 1,500 AED, and it comes with a gift of your choice. Each session is a triple treatment: the Ultrascalpt device to break down fat and activate the muscles, radiofrequency to dissolve fat deposits and tighten the skin, and lymphatic massage to drain fluids and boost circulation.',
@@ -696,7 +696,6 @@ const TODO=[
  'The list of gifts the customer can choose from, and their conditions.',
  'When does the offer (Big Gift Week) start and end?',
  'Meso Botox price: 700 or 799?',
- 'Price of the fat-dissolving devices course (cut off on the poster).',
  'Dysport prices (only on the poster) and the price of the RRS Long Lasting box.',
  'Which areas does "full face" Botox include?',
  'Number of sessions for full-body laser with back and abdomen, and the package validity period.',
@@ -739,6 +738,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['11 Oct 2026','The fat-dissolving course is now 1,500 AED with a gift.'],
  ['11 Oct 2026','Added Dr. Waleed, nutrition, in Abu Dhabi to the doctors schedule: 11 AM to 8 PM. This week Saturday, Sunday and Monday only; from 17 Oct, Saturday to Tuesday every week.'],
  ['7 Oct 2026','The last booking is now 30 minutes before the end of the doctor hours (8:30 PM for doctors who finish at 9, and 6:30 PM for Dr. Rogina), and it shows in the doctors schedule.'],
  ['7 Oct 2026','Added a "Doctors\' schedule" table on the Branches & hours page, with each doctor\'s days, hours and branch, and who is available right now. Dr. Yasmine\'s hours are now 1 PM to 9 PM.'],
@@ -793,6 +793,7 @@ const VARIANTS=[
  {id:'rrse',o:'rrseye',t:'RRS for eyes (per needle)',p:499,unit:'Needle',q:true},
  {id:'rrsb',o:'rrseye',t:'RRS for eyes: box of 3 needles',p:1799},
  {id:'scul',o:'sculptra',t:'Sculptra (2 gifts)',p:1499,gifts:2},
+ {id:'fat',o:'fatcourse',t:'Fat-dissolving course, 16 sessions',p:1500},
  {id:'endo',o:'endolaser',t:'Endolaser (per area)',p:1500,unit:'Area',q:true},
  {id:'silu',o:'silutrix',t:'Silutrix for double chin',p:700},
  {id:'cell',o:'cellulite',t:'Cellulite course, 10 sessions',p:1500},
