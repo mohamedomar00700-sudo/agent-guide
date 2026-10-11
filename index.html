@@ -431,7 +431,7 @@ const RULES=[
  ['warn','الأسعار مش شاملة الضريبة','قول السعر وبعده: "والسعر ده من غير الضريبة." نسبة الضريبة لسه بتتأكد، فمتقولش رقم ومتحسبش إجمالي.'],
  ['yes','العروض أوفر بكتير من السعر العادي','الخدمات من غير عرض أسعارها أعلى بحوالي 40%. استخدمها في القيمة: "العرض ده بيوفرلك كتير عن السعر العادي." متحسبش سعر عادي لأي خدمة بنفسك.'],
  ['yes','الحلاقة في المركز بـ 100 درهم','الأفضل العميل يحلق في البيت قبل جلسة الليزر بيوم. ولو محتاج يحلق في المركز: ييجي قبل ميعاده بنص ساعة، وتكلفة الحلاقة 100 درهم.'],
- ['no','آخر حجز قبل نهاية المواعيد بنص ساعة','آخر ميعاد تحجزه يكون قبل ما مواعيد الدكتورة تخلص بنص ساعة، يعني 8:30 بالليل بتوقيت الإمارات للدكاترة اللي بيخلصوا 9، و6:30 لد. روجينا. متحجزش بعد كده.'],
+ ['no','آخر حجز قبل نهاية المواعيد بنص ساعة','آخر ميعاد تحجزه يكون قبل ما مواعيد الدكتور تخلص بنص ساعة (مثلاً 8:30 بالليل لو المواعيد بتخلص 9). آخر حجز لكل دكتور مكتوب في جدول مواعيد الدكاترة. متحجزش بعد كده.'],
  ['no','متخترعش خصم ولا ميعاد انتهاء للعرض','غير لو الكلاينت مأكد عليه.'],
  ['warn','لو السعر متعلّم عليه "محتاج تأكيد"','قول: "السعر هأكده لحضرتك قبل الحجز". متخمنش رقم.']
 ];
@@ -862,7 +862,8 @@ function viewOf(t){
 }
 function uaeParts(){ const f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()); const g=t=>(f.find(x=>x.type===t)||{}).value; return {wd:g('weekday'),h:+g('hour'),m:+g('minute')}; }
 function tzDiff(){ try{ const d=new Date(); const o=z=>{const p=new Intl.DateTimeFormat('en-US',{timeZone:z,hour:'2-digit',hourCycle:'h23',day:'2-digit'}).formatToParts(d);return (+p.find(x=>x.type==='day').value)*24+(+p.find(x=>x.type==='hour').value)}; return o('Asia/Dubai')-o('Africa/Cairo'); }catch(e){return 1} }
-const hh=h=>h<12?h+' الصبح':h===12?'12 الضهر':h<15?(h-12)+' الضهر':h<18?(h-12)+' العصر':(h-12)+' بالليل';
+const hh0=h=>h<12?h+' الصبح':h===12?'12 الضهر':h<15?(h-12)+' الضهر':h<18?(h-12)+' العصر':(h-12)+' بالليل';
+const hh=h=>{ const H=Math.floor(h), M=Math.round((h-H)*60); const b=hh0(H); return M?b.replace(/^\d+/,x=>x+':'+String(M).padStart(2,'0')):b; };
 function branchStatus(b){ const t=uaeParts(); const mins=t.h*60+t.m;
   if(t.wd==='Fri') return {open:false,txt:'مقفول النهارده (الجمعة) · بيفتح السبت '+hh(b.open)};
   if(mins>=b.open*60&&mins<b.close*60) return {open:true,txt:'مفتوح دلوقتي · بيقفل '+hh(b.close)};
@@ -1238,7 +1239,7 @@ function parseCSV(t){ const rows=[]; let r=[],f='',q=false; for(let i=0;i<t.leng
   else if(c==='"') q=true; else if(c===','){ r.push(f); f=''; } else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; r.push(f); rows.push(r); r=[]; f=''; } else f+=c; }
   if(f!==''||r.length){ r.push(f); rows.push(r); } return rows.map(x=>x.map(y=>y.trim())); }
 function parseHour(v){ v=String(v||'').trim().toLowerCase().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); if(!v) return null;
-  const m=v.match(/(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm|ص|م|الصبح|صباحا|صباحاً|الضهر|ظهرا|ظهراً|العصر|عصرا|المغرب|بالليل|مساء|مساءا|مساءً)?/); if(!m) return null;
+  const m=v.match(/(\d{1,2})(?:[:.](\d{2}))?(?::\d{2})?\s*(am|pm|ص|م|الصبح|صباحا|صباحاً|الضهر|ظهرا|ظهراً|العصر|عصرا|المغرب|بالليل|مساء|مساءا|مساءً)?/); if(!m) return null;
   let h=+m[1]; const mm=m[2]?+m[2]/60:0; const ap=m[3]||''; if(/pm|م|الضهر|ظهر|العصر|عصر|المغرب|بالليل|مساء/.test(ap)&&h<12) h+=12; if(/am|ص|الصبح|صباح/.test(ap)&&h===12) h=0; return h+mm; }
 function parseDate(v){ v=String(v||'').trim().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); let m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if(m) return m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0');
   m=v.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/); if(m){ const y=m[3].length===2?'20'+m[3]:m[3]; return y+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'); } return ''; }

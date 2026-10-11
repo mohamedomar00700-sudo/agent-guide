@@ -439,7 +439,7 @@ const RULES=[
  ['warn','Prices do not include VAT','Say the price, then: "This price doesn\'t include VAT." The VAT rate is still being confirmed, so don\'t give a number and don\'t calculate a total.'],
  ['yes','Offers are much cheaper than the regular price','Services without an offer cost about 40% more. Use this to show value: "This offer saves you a lot compared to the regular price." Don\'t calculate a regular price for any service yourself.'],
  ['yes','Shaving at the center costs 100 AED','It\'s best for the customer to shave at home the day before the laser session. If they need to shave at the center, they should come half an hour before their appointment, and shaving costs 100 AED.'],
- ['no','Last booking 30 minutes before closing time','The last appointment you book must be 30 minutes before the end of the doctor hours: 8:30 PM UAE time for doctors who finish at 9, and 6:30 PM for Dr. Rogina. Never book later than that.'],
+ ['no','Last booking 30 minutes before closing time','The last appointment you book must be 30 minutes before the end of the doctor hours (for example 8:30 PM if the hours end at 9). The last booking time for each doctor is in the doctors schedule. Never book later than that.'],
  ['no','Don\'t invent a discount or an offer end date','unless the client has confirmed it.'],
  ['warn','If a price is marked "Needs confirmation"','Say: "I\'ll confirm the price for you before booking." Don\'t guess a number.']
 ];
@@ -870,7 +870,8 @@ function viewOf(t){
 }
 function uaeParts(){ const f=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()); const g=t=>(f.find(x=>x.type===t)||{}).value; return {wd:g('weekday'),h:+g('hour'),m:+g('minute')}; }
 function tzDiff(){ try{ const d=new Date(); const o=z=>{const p=new Intl.DateTimeFormat('en-US',{timeZone:z,hour:'2-digit',hourCycle:'h23',day:'2-digit'}).formatToParts(d);return (+p.find(x=>x.type==='day').value)*24+(+p.find(x=>x.type==='hour').value)}; return o('Asia/Dubai')-o('Africa/Cairo'); }catch(e){return 1} }
-const hh=h=>h<12?h+' AM':h===12?'12 PM':h<15?(h-12)+' PM':h<18?(h-12)+' PM':(h-12)+' PM';
+const hh0=h=>h<12?h+' AM':h===12?'12 PM':h<15?(h-12)+' PM':h<18?(h-12)+' PM':(h-12)+' PM';
+const hh=h=>{ const H=Math.floor(h), M=Math.round((h-H)*60); const b=hh0(H); return M?b.replace(/^\d+/,x=>x+':'+String(M).padStart(2,'0')):b; };
 function branchStatus(b){ const t=uaeParts(); const mins=t.h*60+t.m;
   if(t.wd==='Fri') return {open:false,txt:'Closed today (Friday) · opens Saturday '+hh(b.open)};
   if(mins>=b.open*60&&mins<b.close*60) return {open:true,txt:'Open now · closes '+hh(b.close)};
@@ -1248,7 +1249,7 @@ function parseCSV(t){ const rows=[]; let r=[],f='',q=false; for(let i=0;i<t.leng
   else if(c==='"') q=true; else if(c===','){ r.push(f); f=''; } else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; r.push(f); rows.push(r); r=[]; f=''; } else f+=c; }
   if(f!==''||r.length){ r.push(f); rows.push(r); } return rows.map(x=>x.map(y=>y.trim())); }
 function parseHour(v){ v=String(v||'').trim().toLowerCase().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); if(!v) return null;
-  const m=v.match(/(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm|ص|م|الصبح|صباحا|صباحاً|الضهر|ظهرا|ظهراً|العصر|عصرا|المغرب|بالليل|مساء|مساءا|مساءً)?/); if(!m) return null;
+  const m=v.match(/(\d{1,2})(?:[:.](\d{2}))?(?::\d{2})?\s*(am|pm|ص|م|الصبح|صباحا|صباحاً|الضهر|ظهرا|ظهراً|العصر|عصرا|المغرب|بالليل|مساء|مساءا|مساءً)?/); if(!m) return null;
   let h=+m[1]; const mm=m[2]?+m[2]/60:0; const ap=m[3]||''; if(/pm|م|الضهر|ظهر|العصر|عصر|المغرب|بالليل|مساء/.test(ap)&&h<12) h+=12; if(/am|ص|الصبح|صباح/.test(ap)&&h===12) h=0; return h+mm; }
 function parseDate(v){ v=String(v||'').trim().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); let m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if(m) return m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0');
   m=v.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/); if(m){ const y=m[3].length===2?'20'+m[3]:m[3]; return y+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'); } return ''; }
