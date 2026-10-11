@@ -224,6 +224,50 @@ const REGULAR=[
  {id:'kysse',ar:'Restylane Kysse lip filler',pn:'',price:'1,100',src:'The client, 5 Oct'}
 ];
 
+const LANG='en';
+/* ===== Editable from Google Sheets =====
+   Leaders / QA / Training edit one Google Sheet; the guide and the offers page read it on every load.
+   Each tab is published (File → Share → Publish to web → CSV) and its link goes here. Empty = built-in data. */
+const SHEETS={doctors:'',exceptions:'',updates:'',offers:'',regular:''};
+function parseCSV(t){ const rows=[]; let r=[],f='',q=false; for(let i=0;i<t.length;i++){ const c=t[i];
+  if(q){ if(c==='"'){ if(t[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
+  else if(c==='"') q=true; else if(c===','){ r.push(f); f=''; } else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; r.push(f); rows.push(r); r=[]; f=''; } else f+=c; }
+  if(f!==''||r.length){ r.push(f); rows.push(r); } return rows.map(x=>x.map(y=>y.trim())); }
+function parseHour(v){ v=String(v||'').trim().toLowerCase().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); if(!v) return null;
+  const m=v.match(/(\d{1,2})(?:[:.](\d{2}))?(?::\d{2})?\s*(am|pm|ص|م|الصبح|صباحا|صباحاً|الضهر|ظهرا|ظهراً|العصر|عصرا|المغرب|بالليل|مساء|مساءا|مساءً)?/); if(!m) return null;
+  let h=+m[1]; const mm=m[2]?+m[2]/60:0; const ap=m[3]||''; if(/pm|م|الضهر|ظهر|العصر|عصر|المغرب|بالليل|مساء/.test(ap)&&h<12) h+=12; if(/am|ص|الصبح|صباح/.test(ap)&&h===12) h=0; return h+mm; }
+function parseDate(v){ v=String(v||'').trim().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); let m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if(m) return m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0');
+  m=v.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/); if(m){ const y=m[3].length===2?'20'+m[3]:m[3]; return y+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'); } return ''; }
+const yes=v=>/^(✓|✔|x|نعم|اه|ايوه|أيوه|yes|y|1|true|موجود|موجوده|موجودة)$/i.test(String(v||'').trim());
+const sheetGet=async u=>{ if(!u) return null; const r=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error(r.status); return parseCSV(await r.text()); };
+function stOf(v){ v=String(v||'').trim(); if(!v) return ''; if(/مش متاح|غير متاح|not avail|^no$/i.test(v)) return 'no'; if(/تأكيد|تاكيد|verify|confirm(ation)? needed|needs/i.test(v)) return 'warn'; if(/مؤكد|confirmed|^ok$/i.test(v)) return 'ok'; return ''; }
+function catOf(v){ v=String(v||'').trim(); if(!v) return ''; const k=Object.keys(CATS).find(k=>k===v.toLowerCase()||CATS[k]===v); if(k) return k;
+  if(/بوتوكس|botox/i.test(v)) return 'botox'; if(/فيلر|filler/i.test(v)) return 'filler'; if(/نضار|كولاجين|skin|glow/i.test(v)) return 'skin'; if(/ليزر|laser/i.test(v)) return 'laser'; if(/وزن|تخسيس|weight/i.test(v)) return 'weight'; if(/نحت|دهون|body|fat/i.test(v)) return 'body'; return 'body'; }
+/* Offers tab columns: A id | B name AR | C name EN | D category | E price | F price details AR | G price details EN | H status |
+   I say AR | J say EN | K what AR | L what EN | M agent note AR | N agent note EN | O calculator AR "label=price; ..." | P calculator labels EN "label; ..." | Q hidden */
+function applyOfferRows(rows){ const en=LANG==='en'; const pick=(a,b)=>(en&&b)?b:a;
+  rows.slice(1).filter(r=>r[0]).forEach(r=>{ const id=r[0].trim(); let o=OFFERS.find(x=>x.id===id);
+    if(/^(نعم|yes|y|✓|1|true|مخفي|hide)$/i.test((r[16]||'').trim())){ if(o) OFFERS.splice(OFFERS.indexOf(o),1); return; }
+    if(!o){ o={id,cat:'body',ar:'',en:'',price:'—',pn:'',st:'warn',slide:'',what:'',who:'',say:'',qa:[],caution:''}; OFFERS.push(o); }
+    const set=(k,v)=>{ if(v!=null&&String(v).trim()!=='') o[k]=String(v).trim(); };
+    set('ar',pick(r[1],r[2])); set('en',r[2]); const c=catOf(r[3]); if(c) o.cat=c; set('price',r[4]); set('pn',pick(r[5],r[6])); const st=stOf(r[7]); if(st) o.st=st;
+    set('say',pick(r[8],r[9])); set('what',pick(r[10],r[11])); set('caution',pick(r[12],r[13]));
+    if((r[14]||'').trim()&&typeof VARIANTS!=='undefined'){ const labs=(r[15]||'').split(/[;؛]/).map(x=>x.trim());
+      const old=VARIANTS.filter(v=>v.o===id); const lab=v=>{ const i=v.t.indexOf(': '); return i>=0?v.t.slice(i+2):v.t; };
+      const parts=r[14].split(/[;؛]/).map(x=>x.trim()).filter(Boolean).map(x=>{ const m=x.split('='); return {l:m[0].trim(),p:parseFloat(String(m[1]||'').replace(/[^\d.]/g,''))}; }).filter(x=>x.p>0);
+      const same=parts.length===old.length&&parts.every((x,i)=>x.p===old[i].p);
+      if(parts.length&&!same){ const vs=parts.map((x,i)=>{ const L=(en&&labs[i])?labs[i]:x.l; const base=old[i]||{id:id+'_s'+i,o:id};
+          return {...base,p:x.p,t:(old[i]&&lab(old[i])===(en&&labs[i]?labs[i]:x.l))?old[i].t:((o.ar||'').includes(L)?o.ar:(o.ar||id)+': '+L)}; });
+        const at=VARIANTS.indexOf(old[0]); for(let i=VARIANTS.length-1;i>=0;i--) if(VARIANTS[i].o===id) VARIANTS.splice(i,1); VARIANTS.splice(at>=0?at:VARIANTS.length,0,...vs); } }
+  }); }
+/* Regular prices tab: A service AR | B service EN | C price | D details AR | E details EN | F hidden */
+function applyRegularRows(rows){ const en=LANG==='en'; const list=rows.slice(1).filter(r=>(r[0]||r[1])&&!/^(نعم|yes|✓|مخفي|hide)$/i.test((r[5]||'').trim()))
+    .map((r,i)=>({id:'r'+i,ar:(en&&r[1])?r[1]:r[0],price:r[2]||'—',pn:(en&&r[4])?r[4]:(r[3]||''),src:'Google Sheet'}));
+  if(list.length){ REGULAR.length=0; REGULAR.push(...list); } }
+async function loadOfferSheets(){ if(!SHEETS.offers&&!SHEETS.regular) return false;
+  try{ const [of,rg]=await Promise.all([sheetGet(SHEETS.offers),sheetGet(SHEETS.regular)]); if(of) applyOfferRows(of); if(rg) applyRegularRows(rg); return true; }
+  catch(e){ console.warn('offer sheet failed',e); return false; } }
+
 
 
 const $=id=>document.getElementById(id);
@@ -295,6 +339,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.dataset&&e.target.dataset.a==='reveal'){e.preventDefault();e.target.click()} });
 window.addEventListener('resize',setHH);
 renderTabs(); render(); setHH();
+if(typeof loadOfferSheets==='function') loadOfferSheets().then(ok=>{ if(ok){ renderTabs(); render(); } });
 document.getElementById('langbtn').addEventListener('click',e=>{e.preventDefault();location.href=e.currentTarget.getAttribute('href')+location.hash;});
 </script>
 
