@@ -431,7 +431,9 @@ const LANG='en';
 /* ===== Editable from Google Sheets =====
    Leaders / QA / Training edit one Google Sheet; the guide and the offers page read it on every load.
    Each tab is published (File → Share → Publish to web → CSV) and its link goes here. Empty = built-in data. */
-const SHEETS={doctors:'',exceptions:'',updates:'',offers:'',regular:''};
+const SHEET_ID='1kKXesKcnse3ofMTc0_FbuUWOz6I6fPf7';
+const gviz=name=>'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(name);
+const SHEETS={doctors:gviz('الدكاترة'),exceptions:gviz('الاستثناءات'),updates:gviz('التحديثات'),offers:gviz('العروض'),regular:gviz('أسعار عادية')};
 function parseCSV(t){ const rows=[]; let r=[],f='',q=false; for(let i=0;i<t.length;i++){ const c=t[i];
   if(q){ if(c==='"'){ if(t[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
   else if(c==='"') q=true; else if(c===','){ r.push(f); f=''; } else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; r.push(f); rows.push(r); r=[]; f=''; } else f+=c; }
@@ -442,7 +444,13 @@ function parseHour(v){ v=String(v||'').trim().toLowerCase().replace(/[٠-٩]/g,d
 function parseDate(v){ v=String(v||'').trim().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); let m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/); if(m) return m[1]+'-'+m[2].padStart(2,'0')+'-'+m[3].padStart(2,'0');
   m=v.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})/); if(m){ const y=m[3].length===2?'20'+m[3]:m[3]; return y+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0'); } return ''; }
 const yes=v=>/^(✓|✔|x|نعم|اه|ايوه|أيوه|yes|y|1|true|موجود|موجوده|موجودة)$/i.test(String(v||'').trim());
-const sheetGet=async u=>{ if(!u) return null; const r=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error(r.status); return parseCSV(await r.text()); };
+function sheetJsonp(u){ return new Promise((ok,bad)=>{ const cb='__gv'+Math.random().toString(36).slice(2); const sc=document.createElement('script');
+  const t=setTimeout(()=>{ cleanup(); bad(new Error('timeout')); },15000); function cleanup(){ clearTimeout(t); delete window[cb]; sc.remove(); }
+  window[cb]=res=>{ cleanup(); try{ const tb=res.table; const rows=[tb.cols.map(c=>String(c.label||''))]; tb.rows.forEach(r=>rows.push((r.c||[]).map(c=>c==null?'':String(c.f!=null?c.f:(c.v==null?'':c.v)).trim()))); ok(rows); }catch(e){ bad(e); } };
+  sc.onerror=()=>{ cleanup(); bad(new Error('jsonp')); }; sc.src=u.replace('tqx=out:csv','tqx=out:json;responseHandler:'+cb)+'&t='+Date.now(); document.head.appendChild(sc); }); }
+const sheetGet=async u=>{ if(!u) return null;
+  try{ const r=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error(r.status); return parseCSV(await r.text()); }
+  catch(e){ if(/gviz\/tq/.test(u)) return sheetJsonp(u); throw e; } };
 function stOf(v){ v=String(v||'').trim(); if(!v) return ''; if(/مش متاح|غير متاح|not avail|^no$/i.test(v)) return 'no'; if(/تأكيد|تاكيد|verify|confirm(ation)? needed|needs/i.test(v)) return 'warn'; if(/مؤكد|confirmed|^ok$/i.test(v)) return 'ok'; return ''; }
 function catOf(v){ v=String(v||'').trim(); if(!v) return ''; const k=Object.keys(CATS).find(k=>k===v.toLowerCase()||CATS[k]===v); if(k) return k;
   if(/بوتوكس|botox/i.test(v)) return 'botox'; if(/فيلر|filler/i.test(v)) return 'filler'; if(/نضار|كولاجين|skin|glow/i.test(v)) return 'skin'; if(/ليزر|laser/i.test(v)) return 'laser'; if(/وزن|تخسيس|weight/i.test(v)) return 'weight'; if(/نحت|دهون|body|fat/i.test(v)) return 'body'; return 'body'; }
