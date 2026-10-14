@@ -297,6 +297,51 @@ ol.tline2 b{font-size:14px}
 .totop{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:33;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--paper);box-shadow:var(--shadow)}
 .toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:8px 16px;border-radius:8px;z-index:50;font-size:14px}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+/* ===== Noor: the chatbot's character ===== */
+.noor{display:block;width:100%;height:100%;overflow:visible}
+.noor .face{fill:var(--rose)}
+.noor .shine{fill:#fff;opacity:.18}
+.noor .hs{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round}
+.noor .ear{fill:var(--ink)}
+.noor .mic{fill:var(--amber)}
+.noor .eye{fill:#fff}
+.noor .cheek{fill:#fff;opacity:.28}
+.noor .mouth{fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round}
+.noor .spark{fill:var(--amber)}
+.noor .eyes{transform-box:fill-box;transform-origin:center;animation:noorBlink 4.6s infinite}
+.noor.m-think .eyes{animation:noorLook 1.2s ease-in-out infinite alternate}
+.noor.m-happy .spark{transform-box:fill-box;transform-origin:center;animation:noorSpark 2.4s ease-in-out infinite}
+@keyframes noorBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes noorLook{from{transform:translate(-1.5px,-1.5px)}to{transform:translate(1.5px,-1.5px)}}
+@keyframes noorSpark{0%,100%{transform:scale(.7) rotate(0);opacity:.6}50%{transform:scale(1.1) rotate(20deg);opacity:1}}
+.av{flex:none;display:inline-block;width:28px;height:28px}
+.av.lg{width:46px;height:46px}
+.noorhead{align-items:center}
+.noorhead .who{display:flex;gap:10px;align-items:center;min-width:0}
+.noorhead .who b{display:block;font-family:var(--d);font-size:17px;line-height:1.2}
+.noorhead .st{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted);line-height:1.3}
+.noorhead .st i{width:8px;height:8px;border-radius:50%;background:var(--sage);flex:none;box-shadow:0 0 0 3px var(--sage-soft)}
+.chat,.chatlog{grid-template-columns:minmax(0,1fr)}
+.cmrow{display:flex;gap:8px;align-items:flex-end;justify-self:start;max-width:100%;min-width:0}
+.cmrow .cm{min-width:0}
+.cm{animation:noorPop .22s ease-out}
+@keyframes noorPop{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
+.cm .lead{font-weight:700;color:var(--rose);font-size:13.5px}
+.cm.typing{display:flex;gap:5px;padding:12px 14px}
+.cm.typing i{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:noorDot 1s infinite}
+.cm.typing i:nth-child(2){animation-delay:.15s}.cm.typing i:nth-child(3){animation-delay:.3s}
+@keyframes noorDot{0%,60%,100%{opacity:.3;transform:none}30%{opacity:1;transform:translateY(-4px)}}
+.fab.noorfab{display:none;align-items:center;gap:8px;padding:6px 16px 6px 8px;border-radius:30px}
+[dir=rtl] .fab.noorfab{padding:6px 8px 6px 16px}
+@media (max-width:1080px){.fab.noorfab{display:flex}}
+.fab.noorfab .av{width:34px;height:34px;background:var(--paper);border-radius:50%;padding:2px}
+.fab.noorfab .av .hs{stroke:var(--head)}.fab.noorfab .av .ear{fill:var(--head)}
+.fab.noorfab{animation:noorWave 1.6s ease-in-out 1.2s 2}
+@keyframes noorWave{0%,100%{transform:none}25%{transform:translateY(-4px)}50%{transform:none}75%{transform:translateY(-2px)}}
+.tbtn .av{width:22px;height:22px}
+.tbtn .av .hs{stroke:var(--head-ink)}.tbtn .av .ear{fill:var(--head-ink)}
+@media (prefers-reduced-motion:reduce){.noor *,.cm,.fab.noorfab,.cm.typing i{animation:none!important}}
+
 
 [dir=ltr] .sbox svg{right:auto;left:14px}
 [dir=ltr] .sbox kbd{left:auto;right:12px}
@@ -315,7 +360,7 @@ ol.tline2 b{font-size:14px}
       <input id="q" type="search" autocomplete="off" placeholder="Search: Botox, double chin, no appointments, remove my number…" aria-label="Search the guide"><kbd>/</kbd>
       <div class="results" id="res" hidden></div></div>
     <div class="tools">
-      <button class="tbtn" data-a="drawer" data-v="chat" title="Ask the guide">💬<span class="t">Ask the guide</span></button>
+      <button class="tbtn" data-a="drawer" data-v="chat" title="Ask Noor" id="noortb">💬<span class="t">Ask Noor</span></button>
       <button class="tbtn" data-a="drawer" data-v="call" title="Call checklist">☎<span class="t">Call assistant</span></button>
       <button class="tbtn" data-a="drawer" data-v="quote" title="Price calculator">＋<span class="t">Calculator</span></button>
       <button class="tbtn" data-a="drawer" data-v="wiz" title="Choose the call outcome">✓<span class="t">Outcome</span></button>
@@ -328,7 +373,7 @@ ol.tline2 b{font-size:14px}
   <main id="main"></main>
   <aside class="rail closed" id="rail" aria-label="Call tools"></aside>
 </div>
-<button class="fab" data-a="drawer" data-v="chat">💬 Ask the guide</button>
+<button class="fab noorfab" data-a="drawer" data-v="chat" id="noorfab">💬 Ask Noor</button>
 <button class="totop" data-a="totop" aria-label="Back to top" title="Back to top">↑</button>
 </div>
 <div id="toast" dir="ltr"></div>
@@ -738,6 +783,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['14 Oct 2026','"Ask the guide" is now Noor: a character that types before answering and changes expression with the answer. Answers are unchanged and come from the guide only.'],
  ['11 Oct 2026','The fat-dissolving course is now 1,500 AED with a gift.'],
  ['11 Oct 2026','Added Dr. Waleed, nutrition, in Abu Dhabi to the doctors schedule: 11 AM to 8 PM. This week Saturday, Sunday and Monday only; from 17 Oct, Saturday to Tuesday every week.'],
  ['7 Oct 2026','The last booking is now 30 minutes before the end of the doctor hours (8:30 PM for doctors who finish at 9, and 6:30 PM for Dr. Rogina), and it shows in the doctors schedule.'],
@@ -863,7 +909,7 @@ function prodHtml(p){
    </div></article>`;
 }
 const SEC={
-  home:()=>`<section id="home"><div class="sh"><div class="eyebrow">Keep it open during the call</div><h2>Quick answers</h2><p>Search at the top with any word, even in Gulf dialect, or tap <b>💬 Ask the guide</b> and type your question the way you think of it.</p></div>
+  home:()=>`<section id="home"><div class="sh"><div class="eyebrow">Keep it open during the call</div><h2>Quick answers</h2><p>Search at the top with any word, even in Gulf dialect, or tap <b>💬 Ask Noor</b> and type your question the way you think of it.</p></div>
    <div class="bstrip">${BRANCHES.map(b=>{const st=branchStatus(b);return `<button class="bmini" data-a="go" data-v="br-${b.id}"><b>Branch: ${esc(b.city)}</b><span class="bstat ${st.open?'on':'off'}" data-bstat="${b.id}">${esc(st.txt)}</span></button>`}).join('')}</div>
    <div class="quick">${QUICK.map(([k,b,s,go])=>`<button class="qa-card" data-a="go" data-v="${go}"><span class="k">${esc(k)}</span><b>${esc(b)}</b><span>${esc(s)}</span></button>`).join('')}</div>
    <div class="meta"><span>Last updated: ${UPDATED}</span><span>·</span><span>${OFFERS.filter(o=>o.st==='ok').length} confirmed offers, ${OFFERS.filter(o=>o.st==='warn').length} need confirmation, ${OFFERS.filter(o=>o.st==='no').length} without a price</span><span>·</span><span>Source: ${SRC}</span></div></section>`,
@@ -1172,9 +1218,26 @@ function botAnswerHtml(r){
   return h;
 }
 const BOT_CHIPS=['Abu Dhabi branch address','What time does Fujairah close?','Instructions before laser','How much is laser?','Customer says "There are never any appointments"','Had sessions and no results','Difference between Nabota and Dysport','How many sessions of Sculptra?','Customer is pregnant and wants laser','Customer said "Remove my number"','What does "باجر" (bacher) mean?','What do I log if no one answered?'];
+// Noor: a small character drawn inline so it follows the page theme. Moods: happy, think, unsure, care.
+function noorSvg(mood){ mood=mood||'happy';
+  const mouth={happy:'M24 41 Q32 48 40 41',think:'M27 43 L37 43',unsure:'M25 45 Q32 40 39 45',care:'M26 44 Q32 41 38 44'}[mood]||'M24 41 Q32 48 40 41';
+  return `<svg class="noor m-${mood}" viewBox="0 0 64 64" aria-hidden="true"><path class="hs" d="M9 33 a23 23 0 0 1 46 0"/><circle class="face" cx="32" cy="35" r="21"/><circle class="shine" cx="25" cy="25" r="8"/>`+
+   `<rect class="ear" x="5" y="29" width="7" height="13" rx="3.5"/><rect class="ear" x="52" y="29" width="7" height="13" rx="3.5"/><path class="hs" d="M55 40 q0 13 -13 13"/><circle class="mic" cx="40" cy="53" r="3.6"/>`+
+   `<g class="eyes"><ellipse class="eye" cx="25" cy="33" rx="3" ry="${mood==='think'?3:4}"/><ellipse class="eye" cx="39" cy="33" rx="3" ry="${mood==='think'?3:4}"/></g>`+
+   `<circle class="cheek" cx="19" cy="40" r="3.2"/><circle class="cheek" cx="45" cy="40" r="3.2"/><path class="mouth" d="${mouth}"/>`+
+   (mood==='happy'?`<path class="spark" d="M54 9 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>`:'')+
+   (mood==='care'?`<path class="spark" d="M53 6 h4 l-1 10 h-2z M55 19 m-2 0 a2 2 0 1 0 4 0 a2 2 0 1 0 -4 0"/>`:'')+`</svg>`; }
+const noorAv=(mood,cls)=>`<span class="av${cls?' '+cls:''}">${noorSvg(mood)}</span>`;
+const NOOR_LEADS=['Found it ✨','Here you go 👇','From the guide 👇','Here it is 👇'];
+function noorMood(r){ if(!r) return 'unsure'; return r.kind==='none'?'unsure':r.kind==='medical'?'care':'happy'; }
 function drawerChat(){
-  const log=BOT.msgs.length?BOT.msgs.map(m=>m.u?`<div class="cm u">${esc(m.u)}</div>`:`<div class="cm b">${m.h}</div>`).join(''):`<div class="cm b"><span>Type your question the way you think of it, in your own words or in the customer's Gulf words. I'll answer from the guide only, and if the answer isn't there I'll tell you.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>`;
-  return `<div class="dhead"><b>Ask the guide</b>${BOT.msgs.length?'<button class="btn" data-a="bclear">Clear</button>':''}</div>
+  const hr=new Date().getHours(), hello=hr>=5&&hr<12?"Good morning! I'm Noor 👋":"Good evening! I'm Noor 👋";
+  const last=[...BOT.msgs].reverse().find(m=>!m.u);
+  const mood=last?(last.typing?'think':last.mood||'happy'):'happy';
+  const row=(m,h,cls)=>`<div class="cmrow">${noorAv(m)}<div class="cm b${cls?' '+cls:''}">${h}</div></div>`;
+  const log=BOT.msgs.length?BOT.msgs.map(m=>m.u?`<div class="cm u">${esc(m.u)}</div>`:m.typing?row('think','<i></i><i></i><i></i>','typing'):row(m.mood||'happy',m.h)).join(''):
+    row('happy',`<b>${esc(hello)}</b><span>Type your question the way you think of it, in your own words or in the customer\'s Gulf words. I\'ll answer from the guide only, and if the answer isn\'t there I\'ll tell you straight.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div>`);
+  return `<div class="dhead noorhead"><div class="who">${noorAv(mood,'lg')}<div><b>Noor</b><span class="st"><i></i>Your guide assistant · answers from the guide only</span></div></div>${BOT.msgs.length?'<button class="btn" data-a="bclear">Clear</button>':''}</div>
    <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
    <div class="csug" id="csug" hidden></div><form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="e.g. Filler price? or The customer says it's expensive" aria-label="Your question"><button class="btn pri" type="submit">Ask</button></form></div>`;
 }
@@ -1184,18 +1247,27 @@ function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSugg
   if(!SUG.length){ b.hidden=true; b.innerHTML=''; return; }
   b.innerHTML='<div class="csh">Suggestions (click any one):</div>'+SUG.map((it,k)=>`<button type="button" data-a="sug" data-i="${k}"><span class="sec">${esc(SUGTYPE[it.type]||'')}</span>${esc(it.title)}${/^(oqa|pqa|pfact|pobj)$/.test(it.type)&&it.ref?`<small style="color:var(--muted)"> · ${esc(it.ref.ar||it.ref.name||'')}</small>`:''}</button>`).join('');
   b.hidden=false; }
-function pickSug(k){ const it=SUG[k]; if(!it) return; BOT.msgs.push({u:it.title}); BOT.msgs.push({h:botAnswerHtml({kind:'hit',best:it,more:[]})}); SUG=[];
-  renderRail(); const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; }
+function pickSug(k){ const it=SUG[k]; if(!it) return; SUG=[]; botReply(it.title,{kind:'hit',best:it,more:[]}); }
 document.addEventListener('input',e=>{ if(e.target.id==='cq'){ clearTimeout(showSug.h); showSug.h=setTimeout(showSug,120); } });
 document.addEventListener('keydown',e=>{ if(e.target.id!=='cq'||!SUG.length) return; const b=$('csug'); if(!b||b.hidden) return;
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); SUGI=(SUGI+(e.key==='ArrowDown'?1:-1)+SUG.length)%SUG.length; [...b.querySelectorAll('button')].forEach((x,k)=>x.classList.toggle('on',k===SUGI)); }
   else if(e.key==='Enter'&&SUGI>=0){ e.preventDefault(); pickSug(SUGI); }
   else if(e.key==='Escape'){ b.hidden=true; } });
+// Noor "types" for a moment before answering; the answer itself is the same handbook answer as before.
+function botShow(){ const i=$('cq'), keep=i?i.value:'', focus=document.activeElement===i; renderRail(); const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight;
+  const n=$('cq'); if(n){ n.value=keep; if(focus||!matchMedia('(max-width:1080px)').matches) n.focus(); } }
+function botReply(q,r){
+  BOT.msgs.push({u:q}); const t={typing:true}; BOT.msgs.push(t);
+  if(BOT.msgs.length>40) BOT.msgs=BOT.msgs.slice(-40);
+  const i=$('cq'); if(i) i.value=''; botShow();
+  const fast=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setTimeout(()=>{ const k=BOT.msgs.indexOf(t); if(k<0) return; const mood=noorMood(r||{kind:'none'});
+    const lead=r&&r.kind==='hit'?`<span class="lead">${NOOR_LEADS[Math.floor(Math.random()*NOOR_LEADS.length)]}</span>`:'';
+    BOT.msgs[k]={h:lead+botAnswerHtml(r||{kind:'none'}),mood}; botShow(); }, fast?60:Math.min(900,420+q.length*8));
+}
 function botSend(q){
   q=String(q||'').trim(); if(!q) return;
-  BOT.msgs.push({u:q}); const r=botAsk(q); BOT.msgs.push({h:botAnswerHtml(r||{kind:'none'})});
-  if(BOT.msgs.length>40) BOT.msgs=BOT.msgs.slice(-40);
-  renderRail(); const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; const i=$('cq'); if(i&&!matchMedia('(max-width:1080px)').matches) i.focus();
+  botReply(q,botAsk(q));
 }
 document.addEventListener('submit',e=>{ if(e.target.id==='cform'){ e.preventDefault(); botSend($('cq').value); } });
 function renderRail(){
@@ -1203,8 +1275,8 @@ function renderRail(){
   r.classList.toggle('closed',narrow&&!DRAWER);
   $('wrap').classList.toggle('drawer-open',!!DRAWER);
   document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===DRAWER));
-  const tool=DRAWER?`<div class="panel"><div class="dtabs">${[['chat','Ask'],['call','The call'],['quote','Calculator'],['wiz','Outcome']].map(([k,t])=>`<button data-a="drawer" data-v="${k}" class="${DRAWER===k?'on':''}">${t}</button>`).join('')}<button data-a="drawer" data-v="" aria-label="Close" title="Close">×</button></div>${DRAWER==='chat'?drawerChat():DRAWER==='call'?drawerCall():DRAWER==='quote'?drawerQuote():drawerWiz()}</div>`:'';
-  r.innerHTML=tool+(narrow&&DRAWER?'':railPins())+(!DRAWER&&!narrow?`<div class="panel"><h3>Call tools</h3><button class="btn pri" data-a="drawer" data-v="chat">💬 Ask the guide</button><button class="btn" data-a="drawer" data-v="call">☎ Call assistant (checklist)</button><button class="btn" data-a="drawer" data-v="quote">＋ Price calculator</button><button class="btn" data-a="drawer" data-v="wiz">✓ Choose the call outcome</button></div>`:'');
+  const tool=DRAWER?`<div class="panel"><div class="dtabs">${[['chat','Noor'],['call','The call'],['quote','Calculator'],['wiz','Outcome']].map(([k,t])=>`<button data-a="drawer" data-v="${k}" class="${DRAWER===k?'on':''}">${t}</button>`).join('')}<button data-a="drawer" data-v="" aria-label="Close" title="Close">×</button></div>${DRAWER==='chat'?drawerChat():DRAWER==='call'?drawerCall():DRAWER==='quote'?drawerQuote():drawerWiz()}</div>`:'';
+  r.innerHTML=tool+(narrow&&DRAWER?'':railPins())+(!DRAWER&&!narrow?`<div class="panel"><h3>Call tools</h3><button class="btn pri" data-a="drawer" data-v="chat">💬 Ask Noor</button><button class="btn" data-a="drawer" data-v="call">☎ Call assistant (checklist)</button><button class="btn" data-a="drawer" data-v="quote">＋ Price calculator</button><button class="btn" data-a="drawer" data-v="wiz">✓ Choose the call outcome</button></div>`:'');
 }
 const mm=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
 function toast(t){$('toast').innerHTML=`<div class="toast">${esc(t)}</div>`;clearTimeout(toast.h);toast.h=setTimeout(()=>$('toast').innerHTML='',1800)}
@@ -1311,6 +1383,7 @@ async function loadSheets(){ const offOk=await loadOfferSheets(); if(!SHEETS.doc
   }catch(e){ console.warn('sheet load failed',e); } }
 renderMain(); renderRail(); setHH(); tickBranches(); setInterval(tickBranches,60000); loadSheets();
 (function(){ const h=(location.hash||'').slice(1); if(h&&h!==VIEW&&document.getElementById(h)) setTimeout(()=>go(h),50); })();
+{ const f=$('noorfab'); if(f) f.innerHTML=noorAv('happy')+'<span>Ask Noor</span>'; const b=$('noortb'); if(b) b.innerHTML=noorAv('happy')+'<span class="t">Ask Noor</span>'; }
 </script>
 
 </body></html>
