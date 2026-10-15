@@ -356,6 +356,37 @@ ol.tline2 b{font-size:14px}
 @keyframes noorWave{0%,100%{transform:none}25%{transform:translateY(-4px)}50%{transform:none}75%{transform:translateY(-2px)}}
 .tbtn .av{width:26px;height:26px;margin:-4px 0}
 @media (prefers-reduced-motion:reduce){.noor *,.cm,.fab.noorfab,.cm.typing i{animation:none!important}}
+/* Noor buddy: always-on floating mascot */
+.buddy{position:fixed;inset-inline-start:16px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:36;display:flex;flex-direction:column;align-items:flex-start;pointer-events:none}
+.buddy>*{pointer-events:auto}
+.buddy[hidden]{display:none!important}
+.bbody{width:96px;height:96px;padding:0;border:0;background:none;cursor:pointer;animation:buddyIn .9s cubic-bezier(.3,1.5,.5,1) both;-webkit-tap-highlight-color:transparent}
+.bbody:focus-visible{outline:3px solid var(--rose);outline-offset:2px;border-radius:50%}
+.bbody.jump .noor .bob{animation:noorJump .7s cubic-bezier(.3,1.6,.5,1)}
+.bbody:hover .noor.m-happy .armR{animation:noorWave 1s ease-in-out infinite}
+.bbody .noor .zz{animation:noorZ 2.4s ease-in-out infinite;transform-origin:80px 20px}
+.bbody .noor .zz+.zz{animation-delay:1.2s}
+@keyframes noorZ{0%{opacity:0;transform:translate(0,4px) scale(.6)}40%{opacity:1}100%{opacity:0;transform:translate(6px,-10px) scale(1.1)}}
+@keyframes buddyIn{from{opacity:0;transform:translateY(60px) scale(.6)}to{opacity:1;transform:none}}
+.bbub{position:relative;max-width:min(280px,calc(100vw - 32px));margin-bottom:8px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:12px 14px 12px;box-shadow:var(--shadow);font-size:14px;line-height:1.6;animation:bubIn .35s cubic-bezier(.3,1.5,.5,1);transform-origin:bottom}
+[dir=rtl] .bbub{transform-origin:bottom right}
+.bbub:after{content:"";position:absolute;bottom:-7px;inset-inline-start:38px;width:12px;height:12px;background:var(--paper);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg)}
+.bbub b{color:var(--rose)}
+.bbub .bx{position:absolute;top:4px;inset-inline-end:6px;border:0;background:none;color:var(--muted);font-size:17px;line-height:1;padding:4px;cursor:pointer}
+.bbub .bt{padding-inline-end:16px}
+.bbub .ba{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.bbub .ba button{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:20px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+.bbub .ba button.pri{background:var(--rose);border-color:var(--rose);color:#fff}
+.bbub .ba input{flex:1;min-width:0;border:1px solid var(--line);border-radius:20px;padding:5px 12px;font:inherit;font-size:14px;background:var(--paper);color:var(--ink)}
+.bbub .mute{display:block;margin-top:6px;border:0;background:none;color:var(--muted);font:inherit;font-size:12px;padding:0;cursor:pointer;text-decoration:underline}
+@keyframes bubIn{from{opacity:0;transform:translateY(8px) scale(.85)}to{opacity:1;transform:none}}
+.confetti{position:fixed;z-index:60;pointer-events:none;width:0;height:0}
+.confetti i{position:absolute;width:8px;height:12px;border-radius:2px;animation:conf 1.2s cubic-bezier(.2,.7,.4,1) forwards}
+@keyframes conf{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+.totop{right:auto;inset-inline-start:30px;bottom:calc(118px + env(safe-area-inset-bottom,0px))}
+@media (max-width:1080px){.bbody{width:76px;height:76px}.totop{inset-inline-start:22px;bottom:calc(96px + env(safe-area-inset-bottom,0px))}}
+@media (prefers-reduced-motion:reduce){.bbody,.bbub,.confetti i,.bbody .noor *{animation:none!important}}
+
 
 
 [dir=ltr] .sbox svg{right:auto;left:14px}
@@ -388,7 +419,7 @@ ol.tline2 b{font-size:14px}
   <main id="main"></main>
   <aside class="rail closed" id="rail" aria-label="Call tools"></aside>
 </div>
-<button class="fab noorfab" data-a="drawer" data-v="chat" id="noorfab">💬 Ask Noor</button>
+<div class="buddy" id="buddy"><div class="bbub" id="bbub" hidden role="status" aria-live="polite"></div><button class="bbody" id="bbody" data-a="buddy"></button></div>
 <button class="totop" data-a="totop" aria-label="Back to top" title="Back to top">↑</button>
 </div>
 <div id="toast" dir="ltr"></div>
@@ -807,6 +838,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['15 Oct 2026','Noor is now with you on every page: she greets you by name, gives a tip when you open a section, cheers when you copy a line or finish the call steps, and offers to help when search finds nothing. Tap "Stop the tips" if you don\'t want tips.'],
  ['15 Oct 2026','The new-lead call now opens with the free consultation instead of "Do you have two minutes?". Logging the Odoo stage and tag is now the last call step and on the checklist.'],
  ['14 Oct 2026','The name said on calls is now "H&P Medical Center", at the client\'s request. Odoo stages, the recommended tags for each and what every tag means are now in the Call outcome section.'],
  ['14 Oct 2026','"Ask the guide" is now Noor: a character that types before answering and changes expression with the answer. Answers are unchanged and come from the guide only.'],
@@ -1269,18 +1301,21 @@ function noorSvg(mood){ mood=mood||'happy';
     happy:arm('armL',17,66,28)+arm('armR',86,40,-28),
     think:arm('armL',17,66,28)+arm('armR',64,76,62),
     unsure:arm('armL',12,52,-48)+arm('armR',88,52,48),
-    care:arm('armL',36,78,-58)+arm('armR',64,78,58)}[mood];
+    care:arm('armL',36,78,-58)+arm('armR',64,78,58),
+    sleep:arm('armL',17,68,28)+arm('armR',83,68,-28)}[mood];
   const mouth={
     happy:'<path d="M40 60 Q50 74 60 60 Z" fill="#4A1229"/><ellipse cx="50" cy="66.5" rx="4.5" ry="2.6" fill="#FF7FA6"/>',
     think:'<path d="M44 64 Q51 62 57 64" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>',
     unsure:'<path d="M42 65 Q46 61 50 64 Q54 67 58 62" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>',
-    care:'<path d="M43 61 Q50 68 57 61" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>'}[mood];
+    care:'<path d="M43 61 Q50 68 57 61" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>',
+    sleep:'<ellipse cx="50" cy="64" rx="3.2" ry="2.6" fill="#4A1229"/>'}[mood];
   const brows={think:'<path d="M31 33 Q38 29 45 33 M56 31 Q63 28 69 32" fill="none" stroke="#4A1229" stroke-width="2.6" stroke-linecap="round"/>',
     unsure:'<path d="M31 32 Q37 33 44 29 M56 29 Q63 33 69 32" fill="none" stroke="#4A1229" stroke-width="2.6" stroke-linecap="round"/>'}[mood]||'';
   const extra={
     happy:'<path class="spark" d="M86 7 l2.4 6 6 2.4 -6 2.4 -2.4 6 -2.4 -6 -6 -2.4 6 -2.4z" fill="url(#nrGold)"/>',
     think:'<g fill="#fff" stroke="#A63D63" stroke-width="1.5"><circle class="dot" cx="76" cy="14" r="3.2"/><circle class="dot" cx="84" cy="10" r="3.2"/><circle class="dot" cx="92" cy="6" r="3.2"/></g>',
     unsure:'<path class="drop" d="M80 22 q4 6 0 9 q-4 -3 0 -9z" fill="#9FD3F2" stroke="#4E95C4" stroke-width="1"/>',
+    sleep:'<text class="zz" x="76" y="22" font-size="15" font-weight="800" fill="#A63D63">z</text><text class="zz" x="84" y="12" font-size="11" font-weight="800" fill="#A63D63">z</text>',
     care:'<g class="prop"><path d="M50 88 C36 79 37 68 44 68 C47 68 49 70 50 72 C51 70 53 68 56 68 C63 68 64 79 50 88Z" fill="url(#nrGold)"/><path d="M48.4 72.5h3.2v3.2h3.2v3.2h-3.2v3.2h-3.2v-3.2h-3.2v-3.2h3.2z" fill="#fff"/></g>'}[mood];
   const pupY=mood==='think'?45:48;
   return `<svg class="noor m-${mood}" viewBox="0 0 100 100" aria-hidden="true"><ellipse class="sh" cx="50" cy="95" rx="27" ry="4.5" fill="url(#nrShade)"/><g class="bob">`+
@@ -1291,8 +1326,8 @@ function noorSvg(mood){ mood=mood||'happy';
    `<g class="face"><path d="M19 46 C19 15 81 15 81 46" fill="none" stroke="#18222E" stroke-width="4.5" stroke-linecap="round"/>`+
    `<rect x="10" y="38" width="12" height="19" rx="6" fill="url(#nrCup)"/><rect x="78" y="38" width="12" height="19" rx="6" fill="url(#nrCup)"/>`+
    `<path d="M83 55 C83 67 76 71 66 71" fill="none" stroke="#18222E" stroke-width="2.6" stroke-linecap="round"/><circle cx="65" cy="71" r="3.6" fill="url(#nrGold)"/>`+
-   brows+`<g class="eyes"><ellipse cx="38" cy="46" rx="9" ry="10.5" fill="url(#nrEye)"/><ellipse cx="62" cy="46" rx="9" ry="10.5" fill="url(#nrEye)"/>`+
-   `<g class="pup"><circle cx="39.5" cy="${pupY}" r="5.2" fill="#18222E"/><circle cx="60.5" cy="${pupY}" r="5.2" fill="#18222E"/><circle cx="41.6" cy="${pupY-2.6}" r="1.9" fill="#fff"/><circle cx="62.6" cy="${pupY-2.6}" r="1.9" fill="#fff"/></g></g>`+
+   brows+(mood==='sleep'?'<path d="M30 48 Q38 54 46 48 M54 48 Q62 54 70 48" fill="none" stroke="#4A1229" stroke-width="3" stroke-linecap="round"/>':`<g class="eyes"><ellipse cx="38" cy="46" rx="9" ry="10.5" fill="url(#nrEye)"/><ellipse cx="62" cy="46" rx="9" ry="10.5" fill="url(#nrEye)"/>`+
+   `<g class="trk"><g class="pup"><circle cx="39.5" cy="${pupY}" r="5.2" fill="#18222E"/><circle cx="60.5" cy="${pupY}" r="5.2" fill="#18222E"/><circle cx="41.6" cy="${pupY-2.6}" r="1.9" fill="#fff"/><circle cx="62.6" cy="${pupY-2.6}" r="1.9" fill="#fff"/></g></g></g>`)+
    `<ellipse cx="27" cy="60" rx="5.5" ry="3.2" fill="#FF8FB5" opacity=".6"/><ellipse cx="73" cy="60" rx="5.5" ry="3.2" fill="#FF8FB5" opacity=".6"/>`+mouth+
    `<ellipse cx="34" cy="23" rx="10" ry="5.5" transform="rotate(-28 34 23)" fill="#fff" opacity=".38"/></g>`+
    (mood==='happy'?'<g class="armR">'+arms.split('<g class="armR">')[1]:arms)+extra+`</g></svg>`; }
@@ -1343,7 +1378,7 @@ function renderRail(){
   const r=$('rail'); const narrow=matchMedia('(max-width:1080px)').matches;
   r.classList.toggle('closed',narrow&&!DRAWER);
   $('wrap').classList.toggle('drawer-open',!!DRAWER);
-  document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===DRAWER));
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.toggle('on',b.dataset.v===DRAWER)); buddySync();
   const tool=DRAWER?`<div class="panel"><div class="dtabs">${[['chat','Noor'],['call','The call'],['quote','Calculator'],['wiz','Outcome']].map(([k,t])=>`<button data-a="drawer" data-v="${k}" class="${DRAWER===k?'on':''}">${t}</button>`).join('')}<button data-a="drawer" data-v="" aria-label="Close" title="Close">×</button></div>${DRAWER==='chat'?drawerChat():DRAWER==='call'?drawerCall():DRAWER==='quote'?drawerQuote():drawerWiz()}</div>`:'';
   r.innerHTML=tool+(narrow&&DRAWER?'':railPins())+(!DRAWER&&!narrow?`<div class="panel"><h3>Call tools</h3><button class="btn pri" data-a="drawer" data-v="chat">💬 Ask Noor</button><button class="btn" data-a="drawer" data-v="call">☎ Call assistant (checklist)</button><button class="btn" data-a="drawer" data-v="quote">＋ Price calculator</button><button class="btn" data-a="drawer" data-v="wiz">✓ Choose the call outcome</button></div>`:'');
 }
@@ -1453,6 +1488,105 @@ async function loadSheets(){ const offOk=await loadOfferSheets(); if(!SHEETS.doc
 renderMain(); renderRail(); setHH(); tickBranches(); setInterval(tickBranches,60000); loadSheets();
 (function(){ const h=(location.hash||'').slice(1); if(h&&h!==VIEW&&document.getElementById(h)) setTimeout(()=>go(h),50); })();
 { const f=$('noorfab'); if(f) f.innerHTML=noorAv('happy')+'<span>Ask Noor</span>'; const b=$('noortb'); if(b) b.innerHTML=noorAv('happy')+'<span class="t">Ask Noor</span>'; }
+/* ===== Noor buddy: floats on every page, greets the agent and reacts to what they do ===== */
+const BUD_T={ar:{
+  ask:'اسأل نور',close:'اقفل',mute:'متطلعليش نصايح',unmute:'رجّع النصايح',later:'بعدين',go:'يلا',namePh:'اسمك',
+  first:'أهلاً بيك! أنا <b>نور</b> 👋 هبقى معاك طول الشيفت، وأجيبلك أي سعر أو رد من الدليل في ثانية. أناديك بإيه؟',
+  nice:n=>`اتشرفت بيك يا <b>${n}</b>! 🤝 أنا هنا في الركن ده، دوس عليا في أي وقت.`,
+  hi:(p,n)=>`${p}${n?' يا <b>'+n+'</b>':''}! ${p==='صباح الخير'?'☀️':'🌙'} جاهز للشيفت؟ لو احتجت أي حاجة دوس عليا.`,
+  parts:['صباح الخير','أهلاً','مساء الخير'],
+  tips:{offers:'العروض بتتغير، فقول السعر زي ما هو مكتوب هنا بالظبط، وكل عرض معاه هدية 🎁',
+   services:'لو العميل سأل سؤال طبي، متجاوبش من عندك. حوّله للدكتورة 🩺',
+   branches:'قبل ما تحجز، بص الفرع مفتوح ولا لأ، والدكتورة موجودة يوم إيه 🕐',
+   calls:'ابدأ بالاستشارة المجانية على طول، وفي الآخر سجّل المرحلة والتاج على أودوو ✅',
+   lang:'لو العميل قال كلمة خليجي مش فاهمها، اكتبها في البحث فوق 🔎',
+   todo:'الحاجات دي لسه مستنية تأكيد، متقولهاش للعميل كأنها أكيدة ⚠️'},
+  copy:['اتنسخت ✨','اتنسخت! قولها بثقة 💪','تمام، اتنسخت 👌'],
+  call:'بالتوفيق في المكالمة! ابدأ بالاستشارة المجانية 💪',
+  done:'برافو! عملت كل خطوات المكالمة 🎉',
+  nores:q=>`ملقتش "${q}" في البحث 🤔 تحب تسألني أنا؟`,
+  wake:'صحيت! 😄 أهلاً تاني. نصيحة سريعة:',
+  idle:['أول استشارة مجانية ومن غير أي التزام، دي أقوى حاجة تبدأ بيها.','متوعدش العميل بنتيجة، وأي سؤال طبي حوّله للدكتورة.','قبل ما تقفل، أكّد الاسم والرقم والفرع واليوم والساعة.','كل عرض معاه هدية، بس متوعدش بهدية معينة.','متنساش تسجّل المرحلة والتاج على أودوو بعد كل مكالمة.','لو العميل قال كلمة خليجي مش فاهمها، اكتبها في البحث.']
+ },en:{
+  ask:'Ask Noor',close:'Close',mute:'Stop the tips',unmute:'Bring tips back',later:'Later',go:'Go',namePh:'Your name',
+  first:'Hi! I\'m <b>Noor</b> 👋 I\'ll be with you all shift and find any price or answer in the guide in a second. What should I call you?',
+  nice:n=>`Nice to meet you, <b>${n}</b>! 🤝 I\'m right here in the corner. Tap me any time.`,
+  hi:(p,n)=>`${p}${n?', <b>'+n+'</b>':''}! ${p==='Good morning'?'☀️':'🌙'} Ready for the shift? Tap me if you need anything.`,
+  parts:['Good morning','Hello','Good evening'],
+  tips:{offers:'Offers change, so say the price exactly as written here. Every offer comes with a gift 🎁',
+   services:'If the customer asks a medical question, don\'t answer it yourself. Refer it to the doctor 🩺',
+   branches:'Before booking, check the branch is open and which days the doctor is in 🕐',
+   calls:'Open with the free consultation, and at the end log the stage and tag in Odoo ✅',
+   lang:'If the customer uses a Gulf word you don\'t know, type it in the search above 🔎',
+   todo:'These are still waiting for confirmation. Don\'t tell the customer they are certain ⚠️'},
+  copy:['Copied ✨','Copied! Say it with confidence 💪','Done, copied 👌'],
+  call:'Good luck with the call! Open with the free consultation 💪',
+  done:'Well done! You covered every call step 🎉',
+  nores:q=>`I didn\'t find "${q}" in search 🤔 Want to ask me instead?`,
+  wake:'I\'m awake! 😄 Welcome back. Quick tip:',
+  idle:['The first consultation is free with no obligation. It\'s the strongest way to open.','Never promise a result, and refer any medical question to the doctor.','Before closing, confirm the name, number, branch, day and time.','Every offer comes with a gift, but don\'t promise a specific one.','Don\'t forget to log the stage and tag in Odoo after every call.','If the customer uses a Gulf word you don\'t know, type it in the search.']
+ }}[LANG==='en'?'en':'ar'];
+const BUD={mood:'happy',shown:new Set(),idleT:0,asleep:false,hideT:0,last:Date.now()};
+const budLS=(k,v)=>{ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){ return null; } };
+const budMuted=()=>budLS('noor_mute')==='1';
+const budName=()=>budLS('noor_name')||'';
+function buddyMood(m){ const b=$('bbody'); if(!b||BUD.mood===m) return; BUD.mood=m; b.innerHTML=noorSvg(m); }
+function buddyJump(){ const b=$('bbody'); if(!b) return; b.classList.remove('jump'); void b.offsetWidth; b.classList.add('jump'); }
+function buddySay(html,opt){ opt=opt||{}; const u=$('bbub'); if(!u) return; if(opt.tip&&budMuted()) return;
+  clearTimeout(BUD.hideT);
+  u.innerHTML=`<button class="bx" data-a="bclose" aria-label="${BUD_T.close}">×</button><div class="bt">${html}</div>${opt.acts||''}${opt.tip?`<button class="mute" data-a="bmute">${BUD_T.mute}</button>`:''}`;
+  u.hidden=false; u.style.animation='none'; void u.offsetWidth; u.style.animation='';
+  if(opt.mood) buddyMood(opt.mood); buddyJump();
+  if(opt.ms) BUD.hideT=setTimeout(()=>{ u.hidden=true; buddyMood('happy'); },opt.ms); }
+function buddyHide(){ const u=$('bbub'); if(u) u.hidden=true; }
+function buddySync(){ const w=$('buddy'); if(!w) return; const narrow=matchMedia('(max-width:1080px)').matches;
+  w.hidden=(DRAWER==='chat')||(narrow&&!!DRAWER); }
+function confetti(){ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; const b=$('bbody'); if(!b) return; const r=b.getBoundingClientRect();
+  const c=document.createElement('div'); c.className='confetti'; c.style.left=(r.left+r.width/2)+'px'; c.style.top=(r.top+r.height/3)+'px';
+  const col=['#DA5A8C','#EDB04F','#5DC0A6','#7DB3E6','#F7A6C6'];
+  c.innerHTML=Array.from({length:28},(_,i)=>{ const a=(Math.PI*2*i/28)+Math.random()*.4, d=60+Math.random()*90;
+    return `<i style="background:${col[i%5]};--dx:${Math.round(Math.cos(a)*d)}px;--dy:${Math.round(Math.sin(a)*d-50)}px;--r:${Math.round(Math.random()*720-360)}deg"></i>`; }).join('');
+  document.body.appendChild(c); setTimeout(()=>c.remove(),1400); }
+function buddyGreet(){
+  const h=new Date().getHours(), p=BUD_T.parts[h>=5&&h<12?0:h<17?1:2], n=budName();
+  if(!n&&budLS('noor_asked')!=='1'){
+    buddySay(BUD_T.first,{mood:'happy',acts:`<form class="ba" id="bname"><input id="bnin" maxlength="24" placeholder="${BUD_T.namePh}" aria-label="${BUD_T.namePh}"><button class="pri" type="submit">${BUD_T.go}</button><button type="button" data-a="bclose">${BUD_T.later}</button></form>`});
+    budLS('noor_asked','1'); return; }
+  buddySay(BUD_T.hi(p,esc(n)),{mood:'happy',ms:7000}); }
+function buddyIdle(){ clearTimeout(BUD.idleT); BUD.idleT=setTimeout(()=>{ if($('buddy').hidden) return; BUD.asleep=true; buddyHide(); buddyMood('sleep'); },180000); }
+function buddyActive(){ BUD.last=Date.now();
+  if(BUD.asleep){ BUD.asleep=false; const t=BUD_T.idle[Math.floor(Math.random()*BUD_T.idle.length)];
+    if(budMuted()) buddyMood('happy'); else buddySay(`${BUD_T.wake} ${esc(t)}`,{mood:'happy',ms:8000,tip:true}); }
+  buddyIdle(); }
+['pointerdown','keydown','scroll'].forEach(ev=>window.addEventListener(ev,buddyActive,{passive:true}));
+/* eyes follow the pointer */
+let budRaf=0;
+window.addEventListener('pointermove',e=>{ if(budRaf) return; budRaf=requestAnimationFrame(()=>{ budRaf=0;
+  const b=$('bbody'); if(!b||BUD.asleep) return; const t=b.querySelector('.trk'); if(!t) return; const r=b.getBoundingClientRect();
+  const dx=e.clientX-(r.left+r.width/2), dy=e.clientY-(r.top+r.height*.45), d=Math.hypot(dx,dy)||1, k=Math.min(1,d/260);
+  t.setAttribute('transform',`translate(${(dx/d*2.6*k).toFixed(2)} ${(dy/d*2.6*k).toFixed(2)})`); });
+  if(Date.now()-BUD.last>20000) buddyActive(); },{passive:true});
+document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a;
+  if(a==='buddy'){ buddyHide(); DRAWER='chat'; renderRail(); const l=$('chatlog'); if(l) l.scrollTop=l.scrollHeight; const i=$('cq'); if(i&&!matchMedia('(max-width:1080px)').matches) i.focus(); }
+  if(a==='bclose'){ buddyHide(); buddyMood('happy'); }
+  if(a==='bmute'){ budLS('noor_mute','1'); buddySay(`👍 <button class="mute" data-a="bunmute">${BUD_T.unmute}</button>`,{ms:3500}); }
+  if(a==='bunmute'){ budLS('noor_mute',null); buddyHide(); }
+  if(a==='bask'){ const q=t.dataset.t; buddyHide(); DRAWER='chat'; botSend(q); }
+  if(a==='copy'||a==='qcopy'){ const c=BUD_T.copy; buddySay(c[Math.floor(Math.random()*c.length)],{mood:'happy',ms:2200}); }
+  if(a==='tstart') buddySay(BUD_T.call,{mood:'happy',ms:4000});
+});
+document.addEventListener('submit',e=>{ if(e.target.id!=='bname') return; e.preventDefault(); const v=($('bnin').value||'').trim().slice(0,24);
+  if(!v){ buddyHide(); return; } budLS('noor_name',v); buddySay(BUD_T.nice(esc(v)),{mood:'happy',ms:6000}); confetti(); });
+document.addEventListener('change',e=>{ if(e.target.dataset.a!=='ck') return; const all=[...document.querySelectorAll('#rail input[data-a="ck"]')];
+  if(all.length&&all.every(x=>x.checked)){ buddySay(BUD_T.done,{mood:'happy',ms:4500}); confetti(); } });
+$('tabs').addEventListener('click',e=>{ const a=e.target.closest('a[data-view]'); if(!a) return; const v=a.dataset.view, tip=BUD_T.tips[v];
+  if(tip&&!BUD.shown.has(v)){ BUD.shown.add(v); buddySay(tip,{mood:v==='services'?'care':v==='todo'?'unsure':'happy',ms:7000,tip:true}); } });
+$('q').addEventListener('input',()=>{ clearTimeout(BUD.qT); BUD.qT=setTimeout(()=>{ const q=$('q').value.trim();
+  if(q.length>=3&&!RES.length) buddySay(esc(BUD_T.nores(q)),{mood:'unsure',ms:6000,acts:`<div class="ba"><button class="pri" data-a="bask" data-t="${esc(q)}">${BUD_T.ask}</button></div>`});
+  else if(BUD.mood==='unsure'&&RES.length){ buddyHide(); buddyMood('happy'); } },700); });
+{ const w=$('buddy'); if(w){ $('bbody').innerHTML=noorSvg('happy'); $('bbody').setAttribute('aria-label',BUD_T.ask); $('bbody').title=BUD_T.ask; buddySync();
+  let seen=null; try{ seen=sessionStorage.getItem('noor_hi'); sessionStorage.setItem('noor_hi','1'); }catch(e){}
+  if(!seen) setTimeout(buddyGreet,1100); buddyIdle(); } }
 </script>
 
 </body></html>
