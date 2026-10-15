@@ -84,7 +84,9 @@ section{display:grid;gap:14px;scroll-margin-top:calc(var(--hh) + 16px)}
 .qa-card span{font-size:13.5px}
 .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
 
-.tagrow{display:flex;flex-wrap:wrap;gap:4px}.c-tag{background:var(--blue-soft);color:var(--blue)}
+.tagrow{display:flex;flex-wrap:wrap;gap:4px}.c-tag{background:var(--blue-soft);color:var(--blue)}.c-stage{background:var(--sage-soft);color:var(--sage);white-space:nowrap}
+.odt td{vertical-align:top}.tagf{width:100%;max-width:340px;margin:0 0 8px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font:inherit}
+.dcard{display:grid;gap:6px;margin-top:8px}.dcard .dr{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.dcard .dr>span{color:var(--muted);font-size:13px;min-width:74px}.dcard em{font-style:normal;font-weight:600;font-size:14px;font-family:inherit}
 .chip{display:inline-flex;align-items:center;gap:4px;padding:1px 9px;border-radius:12px;font-size:12px;font-weight:500;white-space:nowrap}
 .c-ok{background:var(--sage-soft);color:var(--sage)}
 .c-warn{background:var(--amber-soft);color:var(--amber)}
@@ -587,7 +589,7 @@ const FLOWS=[
   ['اربط الاستشارة المجانية باللي قالته، واعرض العرض والهدية.','حلو جداً. أول استشارة عندنا مجانية بالكامل ومن غير أي التزام مع الدكتورة ياسمين درويش، دكتورة الجلدية، هتقيّم بشرتك وتقولك العلاج الأنسب ليكي. وكمان عندنا دلوقتي عروض، وكل عرض معاه هدية تختاريها.'],
   ['اقفل باختيارين.','تحبي نحجز الاستشارة يوم [كذا] ولا [كذا]؟'],
   ['أكّد كل التفاصيل واقفل بأدب.','أأكد مع حضرتك: الاسم، الرقم، الفرع، اليوم والساعة. هتوصلك رسالة تأكيد.'],
-  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في قسم نتيجة المكالمة.']]},
+  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في تبويب أودوو، أو دوس ✓ النتيجة فوق.']]},
  {t:'فولو أب: حضر الاستشارة ومحجزش',steps:[
   ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح.','أهلاً أستاذة [الاسم]، معاكي [اسمك] من مركز H&P الطبي.'],
   ['اطمن على التجربة.','حضرتك شرفتينا في الاستشارة المجانية مع الدكتورة يوم [..]، وحبينا نطمن على تجربتك. كانت عاملة إيه؟'],
@@ -595,12 +597,12 @@ const FLOWS=[
   ['لو مقالتش سبب، اعرض اختيارات.','السعر؟ ولا المواعيد؟ ولا حاجة تانية؟'],
   ['اعرض حل حقيقي، وسجّل السبب في السيستم بالظبط.','لو السعر: العرض الحالي والهدية. لو مترددة: متابعة مجانية مع الدكتورة تجاوب على أسئلتك.'],
   ['احجز أو حدد Call back بميعاد.','تحبي نحجز يوم [كذا] ولا [كذا]؟'],
-  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في قسم نتيجة المكالمة.']]},
+  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في تبويب أودوو، أو دوس ✓ النتيجة فوق.']]},
  {t:'فولو أب: حجز ومجاش',steps:[
   ['اطمن عليه من غير لوم.','لاحظنا إنك مقدرتش تيجي ميعادك امبارح، إن شاء الله كله تمام؟'],
   ['اعرض ميعاد جديد.','الاستشارة لسه مجانية، تحب أحجزلك ميعاد تاني؟'],
   ['أكّد وابعت تأكيد.','أأكد مع حضرتك الميعاد الجديد…'],
-  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في قسم نتيجة المكالمة.']]},
+  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في تبويب أودوو، أو دوس ✓ النتيجة فوق.']]},
  {t:'عميل قديم (ومفيش عندنا الهيستوري بتاعه)',steps:[
   ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح.','أهلاً أستاذة [الاسم]، معاكي [اسمك] من مركز H&P الطبي. حضرتك نورتينا قبل كده، وحبينا نطمن عليكي ونعرّفك على عروضنا الجديدة.'],
   ['خلي العميل يحكيلك هو عمل إيه، وسجّل الكلام ده في السيستم.','آخر مرة كنتي عاملة معانا إيه؟ وكانت التجربة عاملة إيه؟'],
@@ -640,20 +642,9 @@ const OBJ=[
  ['بعيد عني','','"عندنا فرعين، أبوظبي والفجيرة، أنهي واحد أقرب ليكي؟"','إنك تقفل من غير ما تعرض بديل.']
 ];
 
-const DISP=[
- ['Booked – consultation / session','العميل وافق على ميعاد محدد.','الفرع والخدمة واليوم والساعة.'],
- ['Interested – call back','مهتم بس طلب نكلمه في وقت تاني.','ميعاد الـ Call back بتوقيت الإمارات، وسبب عدم الحجز لو فولو أب.'],
- ['Enquiry answered – no booking','سأل وخد إجابته ومحجزش (غالباً إن باوند).','ملاحظة باللي سأل عليه.'],
- ['Not interested','رفض بشكل واضح.','سبب الرفض من القايمة.'],
- ['Complaint raised','اشتكى من أي حاجة.','الكاتيجوري والخطورة والوصف بكلام العميل.'],
- ['Feedback – satisfied / neutral','مكالمة فيدباك.','التقييم من 10.'],
- ['Do not call – remove number','طلب يتشال رقمه.','ملاحظة قصيرة. الرقم هيتقفل على أي مكالمة أوت باوند.'],
- ['Wrong number','الرقم مش بتاع العميل.','—'],
- ['No answer','رن ومحدش رد.','السيستم بيحدد المحاولة الجاية.'],
- ['Busy / rejected','رفض المكالمة أو مشغول.','—'],
- ['Switched off / unreachable','مقفول أو خارج التغطية.','—'],
- ['Voicemail','دخلت على البريد الصوتي.','اسمك ورقم المركز بس، ومن غير أي تفاصيل صحية.']
-];
+// Odoo logging by situation: stage + tag from the client (14 Oct 2026); the activity column is our proposal until the client confirms.
+const DISP=[{"id": "noans", "st": "نفس المرحلة", "tg": "", "s": "رن ومحدش رد، أو مقفول، أو رفض المكالمة، أو بريد صوتي", "act": "Call: المحاولة الجاية", "note": "سيبه في مرحلته. في البريد الصوتي قول اسمك ورقم المركز بس، من غير أي تفاصيل صحية."}, {"id": "unreach", "st": "OLD DATA", "tg": "Un-Reachable", "s": "جربت كذا مرة ومفيش رد خالص", "act": "", "note": "عدد المحاولات قبل ما تحطه هنا اسأل عليه التيم ليدر."}, {"id": "wrong", "st": "Error", "tg": "Wrong Number", "s": "الرقم مش بتاع العميل أو مش شغال", "act": "", "note": ""}, {"id": "relative", "st": "In Progress", "tg": "Call Later", "s": "رد قريبه أو حد يعرفه", "act": "Call: في الوقت اللي قالوا عليه", "note": "متقولش أي تفاصيل عن الخدمة أو العلاج."}, {"id": "stop", "st": "Lost", "tg": "Stop", "s": "طلب ميتصلوش بيه تاني", "act": "", "note": "متتصلش بيه تاني. Black List قرار التيم ليدر."}, {"id": "problem", "st": "Problem", "tg": "Bad Experience / Upset", "s": "اشتكى أو زعلان من تجربة", "act": "صعّد الشكوى في نفس اليوم", "note": "اكتب الشكوى بكلام العميل. أثر جانبي أو حرق = عاجل."}, {"id": "noarb", "st": "Error", "tg": "No Arb or Eng", "s": "مش بيتكلم عربي ولا إنجليزي", "act": "", "note": ""}, {"id": "nouae", "st": "Error", "tg": "Without UAE Number", "s": "معندوش رقم إماراتي", "act": "", "note": ""}, {"id": "mistake", "st": "Error", "tg": "By Mistake", "s": "سجّل بالغلط", "act": "", "note": ""}, {"id": "hr", "st": "Error", "tg": "HR JOB", "s": "بيدور على شغل، مش على الخدمة", "act": "", "note": ""}, {"id": "company", "st": "Error", "tg": "company or quick reply", "s": "حساب شركة أو رد آلي أو كلمة مش كفاية", "act": "", "note": ""}, {"id": "booked", "st": "Booked", "tg": "Booked", "s": "حجز ميعاد", "act": "تأكيد قبل الميعاد بيوم", "note": "الفرع والخدمة واليوم والساعة."}, {"id": "noshow", "st": "Booked", "tg": "Not Arrived", "s": "كان حاجز ومحضرش", "act": "Call: ميعاد جديد", "note": ""}, {"id": "arrived", "st": "Booked", "tg": "Arrived", "s": "حضر الميعاد", "act": "", "note": ""}, {"id": "nopay", "st": "Booked", "tg": "Didn't Pay", "s": "وافق بس مدفعش", "act": "Call: فولو أب", "note": "اكتب سبب إنه مدفعش."}, {"id": "paid", "st": "Paid", "tg": "", "s": "دفع", "act": "", "note": ""}, {"id": "busy", "st": "In Progress", "tg": "Busy", "s": "مشغول دلوقتي", "act": "Call: في الوقت اللي قاله", "note": ""}, {"id": "later", "st": "In Progress", "tg": "Call Later", "s": "حددنا ميعاد أكلمه فيه", "act": "Call: في الميعاد بتوقيت الإمارات", "note": "لو فولو أب، اكتب سبب إنه محجزش."}, {"id": "willcall", "st": "In Progress", "tg": "Will Call Us Later", "s": "قال هو هيكلمنا", "act": "Call: فولو أب لو مكلمناش", "note": ""}, {"id": "wa", "st": "prefer whatsapp", "tg": "Prefer WA", "s": "بيفضّل واتساب", "act": "ابعت رسالة واتساب دلوقتي", "note": ""}, {"id": "nowa", "st": "In Progress", "tg": "Without What's app", "s": "معندوش واتساب", "act": "", "note": "كمّل معاه بالمكالمات."}, {"id": "preg", "st": "Hold", "tg": "pregnant", "s": "حامل", "act": "Call: بعد ميعاد الولادة", "note": "اكتب ميعاد الولادة المتوقع."}, {"id": "travel", "st": "Hold", "tg": "Travelling", "s": "مسافر", "act": "Call: بعد ما يرجع", "note": "اكتب هيرجع إمتى."}, {"id": "ni", "st": "Lost", "tg": "Not Interested", "s": "مش مهتم", "act": "", "note": "اكتب السبب لو قاله."}, {"id": "exp", "st": "Lost", "tg": "Too Expensive", "s": "شايفه غالي حتى بعد العروض", "act": "", "note": ""}, {"id": "area", "st": "Lost", "tg": "Out of Area", "s": "برّه منطقة الخدمة", "act": "", "note": ""}, {"id": "potarea", "st": "In Progress", "tg": "Potential out of area", "s": "ممكن يكون برّه المنطقة، محتاج تتأكد", "act": "", "note": "اتأكد قبل ما تقفله Lost."}, {"id": "otherbr", "st": "In Progress", "tg": "Active Client, Other Branch", "s": "شغال مع فرع تاني عندنا", "act": "", "note": ""}, {"id": "other", "st": "Lost", "tg": "Subscribe at Another Center", "s": "مشترك في مركز تاني", "act": "", "note": ""}, {"id": "ask", "st": "Lost", "tg": "Asking Only", "s": "كان بيسأل بس", "act": "", "note": ""}, {"id": "notserious", "st": "Lost", "tg": "Not Serious", "s": "مش جاد", "act": "", "note": ""}];
+const DISPBY=Object.fromEntries(DISP.map(d=>[d.id,d]));
 
 // Odoo stages and the tags the client recommends for each (14 Oct 2026).
 const STAGES=[{"n": "New Lead", "ar": "ليد جديد", "tags": []}, {"n": "Already Registered", "ar": "متسجل قبل كده", "tags": []}, {"n": "In Progress", "ar": "لسه شغالين عليه", "tags": ["Prefer WA", "Call Later", "Potential out of area", "Active Client, Other Branch", "Busy", "Will Call Us Later", "Without What's app"]}, {"n": "Error", "ar": "خطأ في الليد", "tags": ["No Arb or Eng", "Wrong Number", "Without UAE Number", "By Mistake", "HR JOB", "company or quick reply"]}, {"n": "Lost", "ar": "ضايع", "tags": ["Not Interested", "Too Expensive", "Out of Area", "Subscribe at Another Center", "Not Serious", "Competitos", "Black List", "Asking Only", "Diff Device", "Stop"]}, {"n": "Hold", "ar": "متأجل", "tags": ["pregnant", "Travelling"]}, {"n": "OLD DATA", "ar": "داتا قديمة", "tags": ["Un-Reachable", "Old Customer"]}, {"n": "Problem", "ar": "مشكلة", "tags": ["Bad Experience", "Upset"]}, {"n": "prefer whatsapp", "ar": "بيفضّل واتساب", "tags": ["Prefer WA"]}, {"n": "Booked", "ar": "محجوز", "tags": ["Booked", "Not Arrived", "Didn't Pay", "Arrived", "Invitation"]}, {"n": "Paid", "ar": "دفع", "tags": []}, {"n": "Transfer", "ar": "تحويل", "tags": []}];
@@ -778,6 +769,7 @@ const CENTER=[
 ];
 
 const TODO=[
+ 'قواعد الأكتيفيتي على أودوو (إمتى نعمل Activity ونوعها إيه)، وعدد المحاولات قبل ما الليد تبقى Un-Reachable.',
  'المعلومات الطبية في دليل المبيعات (المدد، عدد الجلسات) متراجعة من الدكتور؟',
  'اسم وعنوان الفرع التالت، وأنهي خدمات متاحة في كل فرع.',
  'لما العميل يحجز في الفجيرة، الإيجنت يعرّف نفسه بـ H&P ولا Tres Jolie؟',
@@ -810,9 +802,9 @@ function buildIndex(){
   OFFERS.forEach(o=>INDEX.push({sec:'العروض · '+CATS[o.cat],title:o.ar,sub:o.price+' AED · '+o.pn,go:'o-'+o.id,text:[o.ar,o.en,o.what,o.who,o.say,o.caution,o.qa.map(x=>x.join(' ')).join(' '),CATS[o.cat]].join(' ')}));
   OBJ.forEach((x,i)=>INDEX.push({sec:x[4]?'الاعتراضات · الأكتر تكراراً':'الاعتراضات',title:x[0],sub:x[2],go:'obj-'+i,text:x.slice(0,4).join(' ')+' '+(x[5]||[]).join(' ')}));
   FLOWS.forEach((f,i)=>INDEX.push({sec:'خطوات المكالمة',title:f.t,sub:f.steps[0][0],go:'flow-'+i,text:f.t+' '+f.steps.map(s=>s.join(' ')).join(' ')}));
-  STAGES.forEach(st=>INDEX.push({sec:'نتيجة المكالمة',title:'Stage: '+st.n,sub:st.tags.join(', '),go:'stages',text:[st.n,st.ar,st.tags.join(' '),'odoo stage مرحله اودوو'].join(' ')}));
-  TAGS.forEach(t=>INDEX.push({sec:'نتيجة المكالمة',title:'Tag: '+t.n,sub:t.ar,go:'tags',text:[t.n,t.ar,t.en,'odoo tag تاج اودوو'].join(' ')}));
-  DISP.forEach((d,i)=>INDEX.push({sec:'نتيجة المكالمة',title:d[0],sub:d[1],go:'disp',text:d.join(' ')}));
+  STAGES.forEach(st=>INDEX.push({sec:'أودوو',title:'Stage: '+st.n,sub:st.tags.join(', '),go:'stages',text:[st.n,st.ar,st.tags.join(' '),'odoo stage مرحله اودوو'].join(' ')}));
+  TAGS.forEach(t=>INDEX.push({sec:'أودوو',title:'Tag: '+t.n,sub:t.ar,go:'tags',text:[t.n,t.ar,t.en,'odoo tag تاج اودوو'].join(' ')}));
+  DISP.forEach(d=>INDEX.push({sec:'أودوو',title:d.s,sub:[d.st,d.tg,d.act].filter(Boolean).join(' · '),go:'disp',text:[d.s,d.st,d.tg,d.act,d.note,'odoo اودوو'].join(' ')}));
   GULF.forEach(g=>INDEX.push({sec:'قاموس الخليجي',title:g[0],sub:'= '+g[1],go:'gulf',text:g.join(' ')}));
   TERMS.forEach(t=>INDEX.push({sec:'المصطلحات',title:t[0],sub:t[2],go:'terms',text:t.join(' ')}));
   REGULAR.forEach(r=>INDEX.push({sec:'أسعار عادية (مش عروض)',title:r.ar,sub:`${r.price} درهم${r.pn?' · '+r.pn:''} · مش عرض، من غير هدية`,go:'regular',text:[r.ar,r.pn,r.price,'سعر عادي'].join(' ')}));
@@ -830,6 +822,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['15 أكتوبر 2026','أودوو بقى ليه تبويب لوحده: جدول "إيه اللي حصل وتسجله إزاي" (المرحلة والتاج والأكتيفيتي)، والمراحل، ومعنى كل تاج مع بحث. وزرار "النتيجة" بقى يقولك المرحلة والتاج والأكتيفيتي على طول.'],
  ['15 أكتوبر 2026','نور بقت معاك في كل صفحة: بترحب بيك باسمك، وبتديك نصيحة لما تفتح أي قسم، وبتفرح لما تنسخ جملة أو تخلص خطوات المكالمة، ولو البحث ملقاش حاجة بتعرض تسألها هي. لو مش عايز نصايح دوس "متطلعليش نصايح".'],
  ['15 أكتوبر 2026','بداية مكالمة الليد الجديدة بقت بالاستشارة المجانية على طول بدل "معاكي دقيقتين؟". واتضافت خطوة تسجيل المرحلة والتاج على أودوو في آخر خطوات المكالمة وفي التشيك ليست.'],
  ['14 أكتوبر 2026','الاسم اللي بيتقال في المكالمة بقى "مركز H&P الطبي" بطلب من الكلاينت. واتضافت مراحل أودوو والتاجز المقترحة لكل مرحلة ومعنى كل تاج في قسم نتيجة المكالمة.'],
@@ -900,17 +893,7 @@ const VARIANTS=[
  {id:'lw2',o:'laser2',t:'ليزر كامل مع ظهر وبطن: سيدات',p:1500,w:1},
  {id:'lm2',o:'laser2',t:'ليزر كامل مع ظهر وبطن: رجال',p:1800,w:1}
 ];
-const WIZ={
- start:{q:'حد رد على المكالمة؟',o:[['أيوه','who'],['لأ','nores']]},
- nores:{q:'إيه اللي حصل؟',o:[['رن لحد ما قفل','R:No answer'],['رسالة إن الرقم مقفول أو خارج التغطية','R:Switched off / unreachable'],['رفض المكالمة أو مشغول','R:Busy / rejected'],['دخلت على البريد الصوتي','R:Voicemail']]},
- who:{q:'بتكلم الشخص الصح؟',o:[['أيوه','dnc'],['لأ، الرقم مش بتاعه خالص','R:Wrong number'],['لأ، قريبه أو حد يعرفه','R:Interested – call back|اسأل عن وقت مناسب تكلمه فيه، ومتقولش أي تفاصيل عن العلاج.']]},
- dnc:{q:'طلب يتشال رقمه أو قال متتصلوش تاني؟',o:[['أيوه','R:Do not call – remove number'],['لأ','comp']]},
- comp:{q:'اشتكى من أي حاجة؟ (تجربة، أثر جانبي، معاملة، انتظار، فلوس)',o:[['أيوه','R:Complaint raised|اختار الكاتيجوري والخطورة. لو فيه أثر جانبي أو حرق، تبقى High وتتصعّد في نفس اليوم.'],['لأ','fb']]},
- fb:{q:'دي مكالمة فيدباك بعد جلسة؟',o:[['أيوه','R:Feedback – satisfied / neutral|سجّل التقييم من 10.'],['لأ','book']]},
- book:{q:'وافق على ميعاد محدد؟',o:[['أيوه','R:Booked – consultation / session|املا الفرع والخدمة واليوم والساعة.'],['لأ','cb']]},
- cb:{q:'مهتم بس طلب نكلمه في وقت تاني؟',o:[['أيوه','R:Interested – call back|حدد الميعاد بتوقيت الإمارات، ولو فولو أب اكتب سبب إنه محجزش.'],['لأ','ni']]},
- ni:{q:'رفض بشكل واضح؟',o:[['أيوه','R:Not interested|اختار السبب من القايمة.'],['لأ، سأل وخد إجابته بس','R:Enquiry answered – no booking']]}
-};
+const WIZ={"start": {"q": "حد رد على المكالمة؟", "o": [["أيوه", "who"], ["لأ", "nores"]]}, "nores": {"q": "إيه اللي حصل؟", "o": [["رن، أو مقفول، أو رفض، أو بريد صوتي", "R:noans"], ["دي آخر محاولة ومفيش رد خالص", "R:unreach"]]}, "who": {"q": "بتكلم الشخص الصح؟", "o": [["أيوه", "stop"], ["لأ، الرقم مش بتاعه خالص", "R:wrong"], ["لأ، قريبه أو حد يعرفه", "R:relative"]]}, "stop": {"q": "طلب ميتصلوش بيه تاني؟", "o": [["أيوه", "R:stop"], ["لأ", "prob"]]}, "prob": {"q": "اشتكى أو زعلان من تجربة؟", "o": [["أيوه", "R:problem"], ["لأ", "err"]]}, "err": {"q": "فيه مشكلة في الليد نفسها؟", "o": [["لأ، ليد عادية", "fu"], ["مش بيتكلم عربي ولا إنجليزي", "R:noarb"], ["معندوش رقم إماراتي", "R:nouae"], ["سجّل بالغلط", "R:mistake"], ["بيدور على شغل", "R:hr"], ["حساب شركة أو رد آلي", "R:company"]]}, "fu": {"q": "ده عميل كان حاجز وبتتابع معاه؟", "o": [["لأ", "book"], ["أيوه، ومحضرش", "R:noshow"], ["أيوه، وحضر", "R:arrived"], ["أيوه، وافق بس مدفعش", "R:nopay"], ["أيوه، ودفع", "R:paid"]]}, "book": {"q": "حجز ميعاد محدد؟", "o": [["أيوه", "R:booked"], ["لأ", "later"]]}, "later": {"q": "مهتم بس مش دلوقتي؟", "o": [["لأ", "hold"], ["مشغول دلوقتي", "R:busy"], ["حددنا ميعاد أكلمه فيه", "R:later"], ["قال هو هيكلمنا", "R:willcall"], ["بيفضّل واتساب", "R:wa"], ["معندوش واتساب", "R:nowa"]]}, "hold": {"q": "حامل أو مسافر؟", "o": [["لأ", "lost"], ["حامل", "R:preg"], ["مسافر", "R:travel"]]}, "lost": {"q": "ليه مش هيحجز؟", "o": [["مش مهتم", "R:ni"], ["شايفه غالي", "R:exp"], ["برّه منطقة الخدمة", "R:area"], ["ممكن يكون برّه المنطقة", "R:potarea"], ["مشترك في مركز تاني", "R:other"], ["شغال مع فرع تاني عندنا", "R:otherbr"], ["كان بيسأل بس", "R:ask"], ["مش جاد", "R:notserious"]]}};
 
 /* ================= STATE ================= */
 const LS='tj-kb-v2';
@@ -924,7 +907,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Number(n).toLocaleString('en-US');
 const stChip=s=>s==='ok'?'<span class="chip c-ok">مؤكد</span>':s==='warn'?'<span class="chip c-warn">محتاج تأكيد</span>':'<span class="chip c-no">السعر مش متاح، متقولوش</span>';
-const SECTIONS=[['home','الرئيسية'],['center','المركز'],['rules','قواعد الأسعار'],['offers','العروض'],['prices','جدول الأسعار'],['products','دليل المنتجات'],['objections','الاعتراضات'],['flows','خطوات المكالمة'],['disp','نتيجة المكالمة'],['gulf','قاموس الخليجي'],['terms','المصطلحات'],['todo','محتاج تأكيد'],['updates','التحديثات']];
+const SECTIONS=[['home','الرئيسية'],['center','المركز'],['rules','قواعد الأسعار'],['offers','العروض'],['prices','جدول الأسعار'],['products','دليل المنتجات'],['objections','الاعتراضات'],['flows','خطوات المكالمة'],['disp','أودوو'],['gulf','قاموس الخليجي'],['terms','المصطلحات'],['todo','محتاج تأكيد'],['updates','التحديثات']];
 const pinned=id=>ST.pins.includes(id);
 function renderTabs(){ $('tabs').innerHTML=VIEWS.map(([k,t])=>`<a href="#${k}" data-view="${k}" class="${VIEW===k?'on':''}" ${VIEW===k?'aria-current="page"':''}>${t}${k==='offers'?`<span class="cnt">${OFFERS.length}</span>`:k==='todo'?`<span class="cnt">${TODO.length}</span>`:''}</a>`).join(''); const a=document.querySelector('.tabs a.on'); if(a) a.scrollIntoView({block:'nearest',inline:'center'}); }
 function pinBtn(id){return `<button class="ib ${pinned(id)?'on':''}" data-a="pin" data-v="${id}" aria-pressed="${pinned(id)}" title="${pinned(id)?'شيل التثبيت':'ثبّت في الجنب'}">${pinned(id)?'★':'☆'}</button>`}
@@ -984,10 +967,10 @@ const SEC={
    <div class="objs">${OBJ.map(([t,ex,a,no,flag,steps],i)=>`<div class="obj ${flag?'hot':''}" id="obj-${i}"><div class="cq">${flag?'<span class="chip c-warn">الأكتر تكراراً حسب الكلاينت</span>':''}<span>${esc(t)} ${pinBtn('obj-'+i)}</span>${ex?`<small>${esc(ex)}</small>`:''}</div><div class="ans">${steps?`<ol class="steps">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}<div class="say"><div class="row"><span class="lbl">قول</span><button class="copy" data-a="copy" data-t="${esc(a)}">نسخ</button></div><p>${esc(a)}</p></div><div class="avoid">متقولش: ${esc(no)}</div></div></div>`).join('')}</div></section>`,
   flows:()=>`<section id="flows"><div class="sh"><div class="eyebrow">سكريبت مختصر</div><h2>خطوات المكالمة حسب نوعها</h2><p>كلام الإيجنت بالمصري. ممكن تفتح أي واحدة كتشيك ليست في مساعد المكالمة.</p><p><span class="chip c-warn">سكريبت مقترح، مستني موافقة الكلاينت النهائية</span></p></div>
    <div class="flows">${FLOWS.map((f,i)=>`<div class="flow" id="flow-${i}"><h3><span>${esc(f.t)}</span><button class="ib" data-a="useflow" data-v="${i}">☎ استخدمها</button></h3><ol>${f.steps.map(([s,l])=>`<li>${esc(s)}${l?`<span class="line">${esc(l)}</span>`:''}</li>`).join('')}</ol></div>`).join('')}</div></section>`,
-  disp:()=>`<section id="disp"><div class="sh"><div class="eyebrow">في السيستم</div><h2>تختار نتيجة المكالمة إزاي</h2><p>مش متأكد؟ افتح "النتيجة" من فوق وجاوب على كام سؤال.</p></div>
-   <div class="tw"><table><thead><tr><th>Call result</th><th>تختاره لما</th><th>لازم تملا</th></tr></thead><tbody>${DISP.map(d=>`<tr><td class="ltr" style="white-space:nowrap">${esc(d[0])}</td><td>${esc(d[1])}</td><td>${esc(d[2])}</td></tr>`).join('')}</tbody></table></div><h3 style="margin:22px 0 6px;font-size:17px" id="stages">مراحل أودوو والتاجز المقترحة</h3><p class="small">من الكلاينت (14 أكتوبر 2026). بعد كل مكالمة حط الليد في المرحلة الصح، واختار التاج اللي بيوصف حالة العميل.</p>
-   <div class="tw"><table><thead><tr><th>المرحلة</th><th>التاجز المقترحة</th></tr></thead><tbody>${STAGES.map(st=>`<tr><td><b class="ltr">${esc(st.n)}</b><br><span class="small">${esc(st.ar)}</span></td><td>${st.tags.length?`<span class="tagrow">${st.tags.map(n=>`<span class="chip c-tag ltr">${esc(n)}</span>`).join('')}</span>`:`<span class="small">مفيش تاج مطلوب</span>`}</td></tr>`).join('')}</tbody></table></div><p class="small">ملاحظة: تاج "Service Not Available" وتاج "QIU" مش متحطين تحت أي مرحلة في لستة الكلاينت. اسأل التيم ليدر قبل ما تستخدمهم.</p><h3 style="margin:18px 0 6px;font-size:17px" id="tags">معنى كل تاج</h3>
-   <div class="tw"><table><thead><tr><th>التاج</th><th>معناه</th></tr></thead><tbody>${TAGS.map(t=>`<tr><td class="ltr" style="white-space:nowrap"><b>${esc(t.n)}</b></td><td>${esc(t.ar)}</td></tr>`).join('')}</tbody></table></div></section>`,
+  disp:()=>`<section id="disp"><div class="sh"><div class="eyebrow">بعد كل مكالمة</div><h2>التسجيل على أودوو</h2><p>سجّل 3 حاجات: المرحلة، والتاج، والأكتيفيتي لو فيه خطوة جاية. مش متأكد؟ جاوب على كام سؤال وأنا أقولك.</p><button class="btn pri" data-a="drawer" data-v="wiz" style="margin-top:8px;width:auto;display:inline-flex">✓ جاوب على الأسئلة</button></div>
+   <h3 style="margin:4px 0 6px;font-size:17px">إيه اللي حصل؟ وتسجله إزاي</h3><div class="tw"><table class="odt"><thead><tr><th>اللي حصل</th><th>المرحلة</th><th>التاج</th><th>الأكتيفيتي</th><th>ملاحظات</th></tr></thead><tbody>${DISP.map(d=>`<tr><td>${esc(d.s)}</td><td><span class="chip c-stage ltr">${esc(d.st)}</span></td><td>${d.tg?`<span class="chip c-tag ltr">${esc(d.tg)}</span>`:'—'}</td><td>${esc(d.act||'—')}</td><td class="small">${esc(d.note)}</td></tr>`).join('')}</tbody></table></div><p class="small">عمود الأكتيفيتي مقترح لحد ما الكلاينت يأكد قواعد الأكتيفيتي، وعدد المحاولات قبل Un-Reachable.</p><h3 style="margin:22px 0 6px;font-size:17px" id="stages">مراحل أودوو والتاجز المقترحة</h3><p class="small">من الكلاينت (14 أكتوبر 2026). بعد كل مكالمة حط الليد في المرحلة الصح، واختار التاج اللي بيوصف حالة العميل.</p>
+   <div class="tw"><table><thead><tr><th>المرحلة</th><th>التاجز المقترحة</th></tr></thead><tbody>${STAGES.map(st=>`<tr><td><b class="ltr">${esc(st.n)}</b><br><span class="small">${esc(st.ar)}</span></td><td>${st.tags.length?`<span class="tagrow">${st.tags.map(n=>`<span class="chip c-tag ltr">${esc(n)}</span>`).join('')}</span>`:`<span class="small">مفيش تاج مطلوب</span>`}</td></tr>`).join('')}</tbody></table></div><p class="small">ملاحظة: تاج "Service Not Available" وتاج "QIU" مش متحطين تحت أي مرحلة في لستة الكلاينت. اسأل التيم ليدر قبل ما تستخدمهم.</p><h3 style="margin:18px 0 6px;font-size:17px" id="tags">معنى كل تاج</h3><input id="tagf" class="tagf" type="search" placeholder="دوّر على تاج…" aria-label="دوّر على تاج…">
+   <div class="tw"><table><thead><tr><th>التاج</th><th>تحت مرحلة</th><th>معناه</th></tr></thead><tbody id="tagbody">${TAGS.map(t=>`<tr data-k="${esc(norm(t.n+' '+t.ar+' '+t.en))}"><td class="ltr" style="white-space:nowrap"><b>${esc(t.n)}</b></td><td class="ltr small">${esc(STAGES.filter(st=>st.tags.includes(t.n)).map(st=>st.n).join(' / ')||'—')}</td><td>${esc(t.ar)}</td></tr>`).join('')}</tbody></table></div></section>`,
   gulf:()=>`<section id="gulf"><div class="sh"><div class="eyebrow">للإيجنت المصري</div><h2>قاموس الخليجي</h2><p>كلمات هتسمعها كتير من العملاء، ومعناها بالمصري.</p></div>
    <div class="gl">${GULF.map(([a,b])=>`<div class="g"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
    <h3 style="margin:8px 0 0;font-size:17px">خلي بالك من طريقة كلامك</h3>
@@ -1006,7 +989,8 @@ const VIEWS=[
  ['offers','العروض والأسعار',['offers','prices']],
  ['services','دليل الخدمات',['products','prep']],
  ['branches','الفروع والمواعيد',['branches','center']],
- ['calls','المكالمة',['flows','objections','disp']],
+ ['calls','المكالمة',['flows','objections']],
+ ['odoo','أودوو',['disp']],
  ['lang','الخليجي والمصطلحات',['gulf','terms']],
  ['todo','محتاج تأكيد',['todo']]
 ];
@@ -1124,11 +1108,13 @@ function drawerQuote(){
    <div>${rows}</div>
    <span style="font-size:12.5px;color:var(--muted)">دي أسعار العروض بس. السعر النهائي بيتأكد بعد استشارة الدكتور.</span>`;
 }
+function dispCard(d){ const tg=TAGS.find(x=>x.n===d.tg); const row=(k,v)=>`<div class="dr"><span>${k}</span><em>${v}</em></div>`;
+  return `<div class="dcard">${row('المرحلة',`<span class="chip c-stage ltr">${esc(d.st)}</span>`)}${row('التاج',d.tg?`<span class="chip c-tag ltr">${esc(d.tg)}</span>`:'—')}${tg?`<div class="small">${esc(tg.ar)}</div>`:''}${row('الأكتيفيتي',esc(d.act||'—'))}${d.note?row('ملاحظات',esc(d.note)):''}</div>`; }
 function drawerWiz(){
   const n=WZ.node;
-  if(n.startsWith('R:')){ const [r,note]=n.slice(2).split('|');
+  if(n.startsWith('R:')){ const d=DISPBY[n.slice(2)];
     return `<div class="dhead"><b>نتيجة المكالمة</b></div><div class="crumbs">${WZ.path.map(esc).join(' ← ')}</div>
-     <div class="wiz"><div class="res"><span style="font-size:13px">اختار في السيستم:</span><b class="ltr">${esc(r)}</b>${note?`<span style="font-size:14px">${esc(note)}</span>`:''}</div><button class="btn" data-a="wreset">من الأول</button></div>`;}
+     <div class="wiz"><div class="res"><span style="font-size:13px">سجّل على أودوو:</span><div style="font-weight:700;font-size:16px">${esc(d.s)}</div>${dispCard(d)}</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" data-a="wreset">من الأول</button><button class="btn" data-a="go" data-v="disp">الجدول كامل</button></div></div>`;}
   const node=WIZ[n];
   return `<div class="dhead"><b>نتيجة المكالمة</b>${WZ.path.length?'<button class="btn" data-a="wreset">من الأول</button>':''}</div>${WZ.path.length?`<div class="crumbs">${WZ.path.map(esc).join(' ← ')}</div>`:''}
    <div class="wiz"><div class="q">${esc(node.q)}</div><div class="opts">${node.o.map(([t,to],i)=>`<button data-a="wgo" data-i="${i}">${esc(t)}</button>`).join('')}</div></div>`;
@@ -1158,7 +1144,7 @@ function botItems(){
   FLOWS.forEach((f,i)=>add({type:'flow',ref:f,i,title:f.t,text:f.t+' سكريبت خطوات مكالمه '+f.steps.map(x=>x.join(' ')).join(' ')}));
   STAGES.forEach(st=>add({type:'stage',ref:st,title:'Stage '+st.n,text:[st.n,st.ar,st.tags.join(' '),'odoo stage مرحله اودوو اسجل'].join(' ')}));
   TAGS.forEach(t=>add({type:'tag',ref:t,title:t.n,text:[t.n,t.ar,t.en,'odoo tag تاج اودوو اسجل'].join(' ')}));
-  DISP.forEach(d=>add({type:'disp',ref:d,title:d[0],text:d.join(' ')+' نتيجه المكالمه السيستم اسجل'}));
+  DISP.forEach(d=>add({type:'disp',ref:d,title:d.s,text:[d.s,d.st,d.tg,d.act,d.note].join(' ')+' نتيجه المكالمه السيستم اسجل odoo اودوو'}));
   GULF.forEach(g=>add({type:'gulf',ref:g,title:g[0],text:g.join(' ')+' يعني معنى'}));
   TERMS.forEach(t=>add({type:'term',ref:t,title:t[0],text:t.join(' ')+' يعني معنى'}));
   REGULAR.forEach(r=>add({type:'reg',ref:r,title:r.ar,text:[r.ar,r.pn,'سعر عادي مش عرض',r.laser?'ليزر ازاله شعر':''].join(' ')}));
@@ -1262,7 +1248,7 @@ function botAnswerHtml(r){
     case 'flow': { const f=it.ref; h=`<div class="hd">${esc(f.t)}</div><ol>${f.steps.map(x=>`<li>${esc(x[0])}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="useflow" data-v="${it.i}">☎ افتحها في مساعد المكالمة</button>${go('flow-'+it.i)}</div>`; break; }
     case 'stage': { const st=it.ref; h=`<div class="hd">مرحلة <b class="ltr">${esc(st.n)}</b> (${esc(st.ar)})</div>${st.tags.length?`<span>التاجز المقترحة:</span><span class="tagrow">${st.tags.map(n=>`<span class="chip c-tag ltr">${esc(n)}</span>`).join('')}</span>`:'<span>مفيش تاج مطلوب.</span>'}<div class="acts">${go('stages','كل المراحل')}</div>`; break; }
     case 'tag': { const t=it.ref, sts=STAGES.filter(st=>st.tags.includes(t.n)).map(st=>st.n); h=`<div class="hd">تاج <b class="ltr">${esc(t.n)}</b></div><span>${esc(t.ar)}</span>${sts.length?`<span>تحت مرحلة: <b class="ltr">${esc(sts.join(' / '))}</b></span>`:'<div class="warn">التاج ده مش متحط تحت أي مرحلة. اسأل التيم ليدر.</div>'}<div class="acts">${go('tags','كل التاجز')}</div>`; break; }
-    case 'disp': { const d=it.ref; h=`<div class="hd">اختار في السيستم:</div><b class="ltr">${esc(d[0])}</b><span>تختاره لما: ${esc(d[1])}</span><span>لازم تملا: ${esc(d[2])}</span><div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ مش متأكد؟ جاوب على الأسئلة</button></div>`; break; }
+    case 'disp': { const d=it.ref; h=`<div class="hd">سجّل على أودوو:</div>${dispCard(d)}<div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ مش متأكد؟ جاوب على الأسئلة</button></div>`; break; }
     case 'gulf': h=`<div class="hd">${esc(it.ref[0])}</div><span>بالمصري: <b>${esc(it.ref[1])}</b></span>`; break;
     case 'term': h=`<div class="hd">${esc(it.ref[0])} <span class="small ltr">${esc(it.ref[1])}</span></div><span>${esc(it.ref[2])}</span>`; break;
     case 'rule': h=`<div class="hd">${esc(it.ref[1])}</div><span>${esc(it.ref[2])}</span>`; break;
@@ -1344,7 +1330,7 @@ function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSugg
   b.innerHTML='<div class="csh">اقتراحات (دوس على أي واحد):</div>'+SUG.map((it,k)=>`<button type="button" data-a="sug" data-i="${k}"><span class="sec">${esc(SUGTYPE[it.type]||'')}</span>${esc(it.title)}${/^(oqa|pqa|pfact|pobj)$/.test(it.type)&&it.ref?`<small style="color:var(--muted)"> · ${esc(it.ref.ar||it.ref.name||'')}</small>`:''}</button>`).join('');
   b.hidden=false; }
 function pickSug(k){ const it=SUG[k]; if(!it) return; SUG=[]; botReply(it.title,{kind:'hit',best:it,more:[]}); }
-document.addEventListener('input',e=>{ if(e.target.id==='cq'){ clearTimeout(showSug.h); showSug.h=setTimeout(showSug,120); } });
+document.addEventListener('input',e=>{ if(e.target.id==='tagf'){ const q=norm(e.target.value); document.querySelectorAll('#tagbody tr').forEach(r=>r.hidden=!!q&&!r.dataset.k.includes(q)); } if(e.target.id==='cq'){ clearTimeout(showSug.h); showSug.h=setTimeout(showSug,120); } });
 document.addEventListener('keydown',e=>{ if(e.target.id!=='cq'||!SUG.length) return; const b=$('csug'); if(!b||b.hidden) return;
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); SUGI=(SUGI+(e.key==='ArrowDown'?1:-1)+SUG.length)%SUG.length; [...b.querySelectorAll('button')].forEach((x,k)=>x.classList.toggle('on',k===SUGI)); }
   else if(e.key==='Enter'&&SUGI>=0){ e.preventDefault(); pickSug(SUGI); }
@@ -1490,6 +1476,7 @@ const BUD_T={ar:{
    branches:'قبل ما تحجز، بص الفرع مفتوح ولا لأ، والدكتورة موجودة يوم إيه 🕐',
    calls:'ابدأ بالاستشارة المجانية على طول، وفي الآخر سجّل المرحلة والتاج على أودوو ✅',
    lang:'لو العميل قال كلمة خليجي مش فاهمها، اكتبها في البحث فوق 🔎',
+   odoo:'جاوب على كام سؤال في "النتيجة" فوق وهقولك المرحلة والتاج والأكتيفيتي 🧭',
    todo:'الحاجات دي لسه مستنية تأكيد، متقولهاش للعميل كأنها أكيدة ⚠️'},
   copy:['اتنسخت ✨','اتنسخت! قولها بثقة 💪','تمام، اتنسخت 👌'],
   call:'بالتوفيق في المكالمة! ابدأ بالاستشارة المجانية 💪',
