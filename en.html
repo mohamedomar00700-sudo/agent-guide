@@ -84,7 +84,9 @@ section{display:grid;gap:14px;scroll-margin-top:calc(var(--hh) + 16px)}
 .qa-card span{font-size:13.5px}
 .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
 
-.tagrow{display:flex;flex-wrap:wrap;gap:4px}.c-tag{background:var(--blue-soft);color:var(--blue)}
+.tagrow{display:flex;flex-wrap:wrap;gap:4px}.c-tag{background:var(--blue-soft);color:var(--blue)}.c-stage{background:var(--sage-soft);color:var(--sage);white-space:nowrap}
+.odt td{vertical-align:top}.tagf{width:100%;max-width:340px;margin:0 0 8px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font:inherit}
+.dcard{display:grid;gap:6px;margin-top:8px}.dcard .dr{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.dcard .dr>span{color:var(--muted);font-size:13px;min-width:74px}.dcard em{font-style:normal;font-weight:600;font-size:14px;font-family:inherit}
 .chip{display:inline-flex;align-items:center;gap:4px;padding:1px 9px;border-radius:12px;font-size:12px;font-weight:500;white-space:nowrap}
 .c-ok{background:var(--sage-soft);color:var(--sage)}
 .c-warn{background:var(--amber-soft);color:var(--amber)}
@@ -595,7 +597,7 @@ const FLOWS=[
   ['Link the free consultation to what they told you, and mention the offer and the gift.','Great. Your first consultation with us is completely free with no obligation. Dr. Yasmine Darwish, our dermatologist, will assess your skin and tell you the most suitable treatment for you. We also have offers right now, and each offer comes with a gift of your choice.'],
   ['Close with two options.','Would you like to book the consultation on [day/time] or [day/time]?'],
   ['Confirm all the details and close politely.','Let me confirm with you: name, number, branch, day and time. You will receive a confirmation message.'],
-  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Call outcome section.']]},
+  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Follow-up: attended the consultation but didn\'t book',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center.'],
   ['Ask about their experience.','You visited us for the free consultation with the doctor on [..], and we wanted to check on your experience. How was it?'],
@@ -603,12 +605,12 @@ const FLOWS=[
   ['If they don\'t give a reason, offer options.','Was it the price? The appointment times? Or something else?'],
   ['Offer a real solution, and record the exact reason in the system.','If it\'s the price: the current offer and the gift. If they\'re hesitant: a free follow-up with the doctor to answer your questions.'],
   ['Book, or set a Call back with a time.','Would you like to book on [day/time] or [day/time]?'],
-  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Call outcome section.']]},
+  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Follow-up: booked but didn\'t show up',steps:[
   ['Check on them without blaming.','We noticed you couldn\'t make it to your appointment yesterday. I hope everything is okay?'],
   ['Offer a new appointment.','The consultation is still free. Would you like me to book you another appointment?'],
   ['Confirm and send a confirmation.','Let me confirm the new appointment with you…'],
-  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Call outcome section.']]},
+  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Previous customer (and we don\'t have their history)',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center. You visited us before, and we wanted to check on you and tell you about our new offers.'],
   ['Let the customer tell you what they had done, and record it in the system.','What did you have done with us last time? And how was the experience?'],
@@ -648,20 +650,9 @@ const OBJ=[
  ['It\'s far from me','','"We have two branches, Abu Dhabi and Fujairah. Which one is closer to you?"','Ending the call without offering an alternative.']
 ];
 
-const DISP=[
- ['Booked – consultation / session','The customer agreed to a specific appointment.','Branch, service, day and time.'],
- ['Interested – call back','Interested, but asked us to call at another time.','The Call back time in UAE time, and the reason for not booking if it\'s a follow-up.'],
- ['Enquiry answered – no booking','Asked, got an answer and didn\'t book (usually inbound).','A note of what they asked about.'],
- ['Not interested','Clearly refused.','Reason for refusal from the list.'],
- ['Complaint raised','Complained about anything.','Category, severity, and description in the customer\'s words.'],
- ['Feedback – satisfied / neutral','Feedback call.','Rating out of 10.'],
- ['Do not call – remove number','Asked for their number to be removed.','A short note. The number will be blocked from all outbound calls.'],
- ['Wrong number','The number doesn\'t belong to the customer.','—'],
- ['No answer','Rang and no one answered.','The system sets the next attempt.'],
- ['Busy / rejected','Rejected the call or busy.','—'],
- ['Switched off / unreachable','Switched off or out of coverage.','—'],
- ['Voicemail','Went to voicemail.','Only your name and the center\'s number, with no health details.']
-];
+// Odoo logging by situation: stage + tag from the client (14 Oct 2026); the activity column is our proposal until the client confirms.
+const DISP=[{"id": "noans", "st": "(same stage)", "tg": "", "s": "Rang with no answer, switched off, rejected, or voicemail", "act": "Call: the next attempt", "note": "Leave it in its stage. On voicemail leave only your name and the center's number, with no health details."}, {"id": "unreach", "st": "OLD DATA", "tg": "Un-Reachable", "s": "Tried several times with no answer at all", "act": "", "note": "Check with the team leader how many attempts come before this."}, {"id": "wrong", "st": "Error", "tg": "Wrong Number", "s": "The number isn't the customer's or doesn't work", "act": "", "note": ""}, {"id": "relative", "st": "In Progress", "tg": "Call Later", "s": "A relative or someone who knows them answered", "act": "Call: at the time they suggested", "note": "Don't share any service or treatment details."}, {"id": "stop", "st": "Lost", "tg": "Stop", "s": "Asked not to be contacted again", "act": "", "note": "Don't call again. Black List is the team leader's decision."}, {"id": "problem", "st": "Problem", "tg": "Bad Experience / Upset", "s": "Complained or upset about an experience", "act": "Escalate the complaint the same day", "note": "Write the complaint in the customer's words. A side effect or burn is urgent."}, {"id": "noarb", "st": "Error", "tg": "No Arb or Eng", "s": "Can't speak Arabic or English", "act": "", "note": ""}, {"id": "nouae", "st": "Error", "tg": "Without UAE Number", "s": "Has no UAE number", "act": "", "note": ""}, {"id": "mistake", "st": "Error", "tg": "By Mistake", "s": "Registered by mistake", "act": "", "note": ""}, {"id": "hr", "st": "Error", "tg": "HR JOB", "s": "Looking for a job, not the service", "act": "", "note": ""}, {"id": "company", "st": "Error", "tg": "company or quick reply", "s": "A company account, an auto reply, or a one-word reply", "act": "", "note": ""}, {"id": "booked", "st": "Booked", "tg": "Booked", "s": "Booked an appointment", "act": "A reminder one day before", "note": "Branch, service, day and time."}, {"id": "noshow", "st": "Booked", "tg": "Not Arrived", "s": "Had a booking and didn't come", "act": "Call: rebook", "note": ""}, {"id": "arrived", "st": "Booked", "tg": "Arrived", "s": "Came to the appointment", "act": "", "note": ""}, {"id": "nopay", "st": "Booked", "tg": "Didn't Pay", "s": "Agreed but didn't pay", "act": "Call: follow-up", "note": "Write why they didn't pay."}, {"id": "paid", "st": "Paid", "tg": "", "s": "Paid", "act": "", "note": ""}, {"id": "busy", "st": "In Progress", "tg": "Busy", "s": "Busy right now", "act": "Call: at the time they said", "note": ""}, {"id": "later", "st": "In Progress", "tg": "Call Later", "s": "We agreed a time to call back", "act": "Call: at that time, UAE time", "note": "If it's a follow-up, write why they didn't book."}, {"id": "willcall", "st": "In Progress", "tg": "Will Call Us Later", "s": "Said they will call us", "act": "Call: follow up if they don't", "note": ""}, {"id": "wa", "st": "prefer whatsapp", "tg": "Prefer WA", "s": "Prefers WhatsApp", "act": "Send a WhatsApp message now", "note": ""}, {"id": "nowa", "st": "In Progress", "tg": "Without What's app", "s": "Has no WhatsApp", "act": "", "note": "Continue by phone."}, {"id": "preg", "st": "Hold", "tg": "pregnant", "s": "Pregnant", "act": "Call: after the due date", "note": "Write the expected due date."}, {"id": "travel", "st": "Hold", "tg": "Travelling", "s": "Travelling", "act": "Call: after they return", "note": "Write when they return."}, {"id": "ni", "st": "Lost", "tg": "Not Interested", "s": "Not interested", "act": "", "note": "Write the reason if they gave one."}, {"id": "exp", "st": "Lost", "tg": "Too Expensive", "s": "Finds it too expensive even after the offers", "act": "", "note": ""}, {"id": "area", "st": "Lost", "tg": "Out of Area", "s": "Outside the service area", "act": "", "note": ""}, {"id": "potarea", "st": "In Progress", "tg": "Potential out of area", "s": "May be outside the area, needs checking", "act": "", "note": "Check before moving it to Lost."}, {"id": "otherbr", "st": "In Progress", "tg": "Active Client, Other Branch", "s": "Active with another of our branches", "act": "", "note": ""}, {"id": "other", "st": "Lost", "tg": "Subscribe at Another Center", "s": "Subscribed at another center", "act": "", "note": ""}, {"id": "ask", "st": "Lost", "tg": "Asking Only", "s": "Was only asking", "act": "", "note": ""}, {"id": "notserious", "st": "Lost", "tg": "Not Serious", "s": "Not serious", "act": "", "note": ""}];
+const DISPBY=Object.fromEntries(DISP.map(d=>[d.id,d]));
 
 // Odoo stages and the tags the client recommends for each (14 Oct 2026).
 const STAGES=[{"n": "New Lead", "ar": "ليد جديد", "tags": []}, {"n": "Already Registered", "ar": "متسجل قبل كده", "tags": []}, {"n": "In Progress", "ar": "لسه شغالين عليه", "tags": ["Prefer WA", "Call Later", "Potential out of area", "Active Client, Other Branch", "Busy", "Will Call Us Later", "Without What's app"]}, {"n": "Error", "ar": "خطأ في الليد", "tags": ["No Arb or Eng", "Wrong Number", "Without UAE Number", "By Mistake", "HR JOB", "company or quick reply"]}, {"n": "Lost", "ar": "ضايع", "tags": ["Not Interested", "Too Expensive", "Out of Area", "Subscribe at Another Center", "Not Serious", "Competitos", "Black List", "Asking Only", "Diff Device", "Stop"]}, {"n": "Hold", "ar": "متأجل", "tags": ["pregnant", "Travelling"]}, {"n": "OLD DATA", "ar": "داتا قديمة", "tags": ["Un-Reachable", "Old Customer"]}, {"n": "Problem", "ar": "مشكلة", "tags": ["Bad Experience", "Upset"]}, {"n": "prefer whatsapp", "ar": "بيفضّل واتساب", "tags": ["Prefer WA"]}, {"n": "Booked", "ar": "محجوز", "tags": ["Booked", "Not Arrived", "Didn't Pay", "Arrived", "Invitation"]}, {"n": "Paid", "ar": "دفع", "tags": []}, {"n": "Transfer", "ar": "تحويل", "tags": []}];
@@ -786,6 +777,7 @@ const CENTER=[
 ];
 
 const TODO=[
+ 'Odoo activity rules (when to create an activity and which type), and how many attempts before a lead becomes Un-Reachable.',
  'Has the medical information in the sales guide (timelines, number of sessions) been reviewed by the doctor?',
  'Name and address of the third branch, and which services are available at each branch.',
  'When a customer books in Fujairah, does the agent introduce themselves as H&P or Tres Jolie?',
@@ -818,9 +810,9 @@ function buildIndex(){
   OFFERS.forEach(o=>INDEX.push({sec:'Offers · '+CATS[o.cat],title:o.ar,sub:o.price+' AED · '+o.pn,go:'o-'+o.id,text:[o.ar,o.en,o.what,o.who,o.say,o.caution,o.qa.map(x=>x.join(' ')).join(' '),CATS[o.cat]].join(' ')}));
   OBJ.forEach((x,i)=>INDEX.push({sec:x[4]?'Objections · most common':'Objections',title:x[0],sub:x[2],go:'obj-'+i,text:x.slice(0,4).join(' ')+' '+(x[5]||[]).join(' ')}));
   FLOWS.forEach((f,i)=>INDEX.push({sec:'Call steps',title:f.t,sub:f.steps[0][0],go:'flow-'+i,text:f.t+' '+f.steps.map(s=>s.join(' ')).join(' ')}));
-  STAGES.forEach(st=>INDEX.push({sec:'Call outcome',title:'Stage: '+st.n,sub:st.tags.join(', '),go:'stages',text:[st.n,st.ar,st.tags.join(' '),'odoo stage مرحله اودوو'].join(' ')}));
-  TAGS.forEach(t=>INDEX.push({sec:'Call outcome',title:'Tag: '+t.n,sub:t.en,go:'tags',text:[t.n,t.ar,t.en,'odoo tag تاج اودوو'].join(' ')}));
-  DISP.forEach((d,i)=>INDEX.push({sec:'Call outcome',title:d[0],sub:d[1],go:'disp',text:d.join(' ')}));
+  STAGES.forEach(st=>INDEX.push({sec:'Odoo',title:'Stage: '+st.n,sub:st.tags.join(', '),go:'stages',text:[st.n,st.ar,st.tags.join(' '),'odoo stage مرحله اودوو'].join(' ')}));
+  TAGS.forEach(t=>INDEX.push({sec:'Odoo',title:'Tag: '+t.n,sub:t.en,go:'tags',text:[t.n,t.ar,t.en,'odoo tag تاج اودوو'].join(' ')}));
+  DISP.forEach(d=>INDEX.push({sec:'Odoo',title:d.s,sub:[d.st,d.tg,d.act].filter(Boolean).join(' · '),go:'disp',text:[d.s,d.st,d.tg,d.act,d.note,'odoo اودوو'].join(' ')}));
   GULF.forEach(g=>INDEX.push({sec:'Gulf dialect glossary',title:g[0],sub:'= '+g[1],go:'gulf',text:g.join(' ')}));
   TERMS.forEach(t=>INDEX.push({sec:'Terms',title:t[0],sub:t[2],go:'terms',text:t.join(' ')}));
   REGULAR.forEach(r=>INDEX.push({sec:'Regular prices (not offers)',title:r.ar,sub:`${r.price} AED${r.pn?' · '+r.pn:''} · not an offer, no gift`,go:'regular',text:[r.ar,r.pn,r.price,'Regular price'].join(' ')}));
@@ -838,6 +830,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['15 Oct 2026','Odoo now has its own tab: a "what happened and how to log it" table (stage, tag and activity), the stages, and what each tag means with a search box. The "Outcome" button now gives the stage, tag and activity directly.'],
  ['15 Oct 2026','Noor is now with you on every page: she greets you by name, gives a tip when you open a section, cheers when you copy a line or finish the call steps, and offers to help when search finds nothing. Tap "Stop the tips" if you don\'t want tips.'],
  ['15 Oct 2026','The new-lead call now opens with the free consultation instead of "Do you have two minutes?". Logging the Odoo stage and tag is now the last call step and on the checklist.'],
  ['14 Oct 2026','The name said on calls is now "H&P Medical Center", at the client\'s request. Odoo stages, the recommended tags for each and what every tag means are now in the Call outcome section.'],
@@ -908,17 +901,7 @@ const VARIANTS=[
  {id:'lw2',o:'laser2',t:'Full laser with back and abdomen: women',p:1500,w:1},
  {id:'lm2',o:'laser2',t:'Full laser with back and abdomen: men',p:1800,w:1}
 ];
-const WIZ={
- start:{q:'Did anyone answer the call?',o:[['Yes','who'],['No','nores']]},
- nores:{q:'What happened?',o:[['Rang until it hung up','R:No answer'],['Message that the number is switched off or out of coverage','R:Switched off / unreachable'],['Rejected the call or busy','R:Busy / rejected'],['Went to voicemail','R:Voicemail']]},
- who:{q:'Are you speaking to the right person?',o:[['Yes','dnc'],['No, it\'s not their number at all','R:Wrong number'],['No, a relative or someone who knows them','R:Interested – call back|Ask for a good time to call them, and don\'t share any treatment details.']]},
- dnc:{q:'Did they ask to have their number removed or say don\'t call again?',o:[['Yes','R:Do not call – remove number'],['No','comp']]},
- comp:{q:'Did they complain about anything? (experience, side effect, treatment by staff, waiting, money)',o:[['Yes','R:Complaint raised|Choose the category and severity. If there is a side effect or burn, it is High and must be escalated the same day.'],['No','fb']]},
- fb:{q:'Is this a feedback call after a session?',o:[['Yes','R:Feedback – satisfied / neutral|Log the rating out of 10.'],['No','book']]},
- book:{q:'Did they agree to a specific appointment?',o:[['Yes','R:Booked – consultation / session|Fill in the branch, service, day and time.'],['No','cb']]},
- cb:{q:'Interested but asked us to call at another time?',o:[['Yes','R:Interested – call back|Set the time in UAE time, and if it\'s a follow-up, write why they didn\'t book.'],['No','ni']]},
- ni:{q:'Did they clearly refuse?',o:[['Yes','R:Not interested|Choose the reason from the list.'],['No, they just asked a question and got the answer','R:Enquiry answered – no booking']]}
-};
+const WIZ={"start": {"q": "Did anyone answer the call?", "o": [["Yes", "who"], ["No", "nores"]]}, "nores": {"q": "What happened?", "o": [["Rang, switched off, rejected or voicemail", "R:noans"], ["This was the last attempt and never any answer", "R:unreach"]]}, "who": {"q": "Are you speaking to the right person?", "o": [["Yes", "stop"], ["No, it's not their number at all", "R:wrong"], ["No, a relative or someone who knows them", "R:relative"]]}, "stop": {"q": "Did they ask not to be contacted again?", "o": [["Yes", "R:stop"], ["No", "prob"]]}, "prob": {"q": "Did they complain or sound upset about an experience?", "o": [["Yes", "R:problem"], ["No", "err"]]}, "err": {"q": "Is something wrong with the lead itself?", "o": [["No, a normal lead", "fu"], ["Can't speak Arabic or English", "R:noarb"], ["No UAE number", "R:nouae"], ["Registered by mistake", "R:mistake"], ["Looking for a job", "R:hr"], ["Company account or auto reply", "R:company"]]}, "fu": {"q": "Is this a customer who had booked and you're following up?", "o": [["No", "book"], ["Yes, and didn't come", "R:noshow"], ["Yes, and came", "R:arrived"], ["Yes, agreed but didn't pay", "R:nopay"], ["Yes, and paid", "R:paid"]]}, "book": {"q": "Did they book a specific appointment?", "o": [["Yes", "R:booked"], ["No", "later"]]}, "later": {"q": "Interested, but not now?", "o": [["No", "hold"], ["Busy right now", "R:busy"], ["We agreed a time to call", "R:later"], ["Said they will call us", "R:willcall"], ["Prefers WhatsApp", "R:wa"], ["Has no WhatsApp", "R:nowa"]]}, "hold": {"q": "Pregnant or travelling?", "o": [["No", "lost"], ["Pregnant", "R:preg"], ["Travelling", "R:travel"]]}, "lost": {"q": "Why won't they book?", "o": [["Not interested", "R:ni"], ["Too expensive", "R:exp"], ["Outside the service area", "R:area"], ["May be outside the area", "R:potarea"], ["Subscribed at another center", "R:other"], ["Active with another of our branches", "R:otherbr"], ["Was only asking", "R:ask"], ["Not serious", "R:notserious"]]}};
 
 /* ================= STATE ================= */
 const LS='tj-kb-v2';
@@ -932,7 +915,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Number(n).toLocaleString('en-US');
 const stChip=s=>s==='ok'?'<span class="chip c-ok">Confirmed</span>':s==='warn'?'<span class="chip c-warn">Needs confirmation</span>':'<span class="chip c-no">Price not available, don\'t say it</span>';
-const SECTIONS=[['home','Home'],['center','The center'],['rules','Price rules'],['offers','Offers'],['prices','Price table'],['products','Product guide'],['objections','Objections'],['flows','Call steps'],['disp','Call outcome'],['gulf','Gulf dialect glossary'],['terms','Terms'],['todo','Needs confirmation'],['updates','Updates']];
+const SECTIONS=[['home','Home'],['center','The center'],['rules','Price rules'],['offers','Offers'],['prices','Price table'],['products','Product guide'],['objections','Objections'],['flows','Call steps'],['disp','Odoo'],['gulf','Gulf dialect glossary'],['terms','Terms'],['todo','Needs confirmation'],['updates','Updates']];
 const pinned=id=>ST.pins.includes(id);
 function renderTabs(){ $('tabs').innerHTML=VIEWS.map(([k,t])=>`<a href="#${k}" data-view="${k}" class="${VIEW===k?'on':''}" ${VIEW===k?'aria-current="page"':''}>${t}${k==='offers'?`<span class="cnt">${OFFERS.length}</span>`:k==='todo'?`<span class="cnt">${TODO.length}</span>`:''}</a>`).join(''); const a=document.querySelector('.tabs a.on'); if(a) a.scrollIntoView({block:'nearest',inline:'center'}); }
 function pinBtn(id){return `<button class="ib ${pinned(id)?'on':''}" data-a="pin" data-v="${id}" aria-pressed="${pinned(id)}" title="${pinned(id)?'Unpin':'Pin to side'}">${pinned(id)?'★':'☆'}</button>`}
@@ -992,10 +975,10 @@ const SEC={
    <div class="objs">${OBJ.map(([t,ex,a,no,flag,steps],i)=>`<div class="obj ${flag?'hot':''}" id="obj-${i}"><div class="cq">${flag?'<span class="chip c-warn">Most common, according to the client</span>':''}<span>${esc(t)} ${pinBtn('obj-'+i)}</span>${ex?`<small>${esc(ex)}</small>`:''}</div><div class="ans">${steps?`<ol class="steps">${steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}<div class="say"><div class="row"><span class="lbl">Say</span><button class="copy" data-a="copy" data-t="${esc(a)}">Copy</button></div><p>${esc(a)}</p></div><div class="avoid">Don't say: ${esc(no)}</div></div></div>`).join('')}</div></section>`,
   flows:()=>`<section id="flows"><div class="sh"><div class="eyebrow">Short script</div><h2>Call steps by call type</h2><p>The agent's lines. You can open any of them as a checklist in the Call assistant.</p><p><span class="chip c-warn">Suggested script, waiting for the client's final approval</span></p></div>
    <div class="flows">${FLOWS.map((f,i)=>`<div class="flow" id="flow-${i}"><h3><span>${esc(f.t)}</span><button class="ib" data-a="useflow" data-v="${i}">☎ Use it</button></h3><ol>${f.steps.map(([s,l])=>`<li>${esc(s)}${l?`<span class="line">${esc(l)}</span>`:''}</li>`).join('')}</ol></div>`).join('')}</div></section>`,
-  disp:()=>`<section id="disp"><div class="sh"><div class="eyebrow">In the system</div><h2>How to choose the call outcome</h2><p>Not sure? Open "Outcome" at the top and answer a few questions.</p></div>
-   <div class="tw"><table><thead><tr><th>Call result</th><th>Choose it when</th><th>You must fill in</th></tr></thead><tbody>${DISP.map(d=>`<tr><td class="ltr" style="white-space:nowrap">${esc(d[0])}</td><td>${esc(d[1])}</td><td>${esc(d[2])}</td></tr>`).join('')}</tbody></table></div><h3 style="margin:22px 0 6px;font-size:17px" id="stages">Odoo stages and recommended tags</h3><p class="small">From the client (14 Oct 2026). After every call, put the lead in the right stage and pick the tag that describes the customer.</p>
-   <div class="tw"><table><thead><tr><th>Stage</th><th>Recommended tags</th></tr></thead><tbody>${STAGES.map(st=>`<tr><td><b class="ltr">${esc(st.n)}</b></td><td>${st.tags.length?`<span class="tagrow">${st.tags.map(n=>`<span class="chip c-tag ltr">${esc(n)}</span>`).join('')}</span>`:`<span class="small">No tag needed</span>`}</td></tr>`).join('')}</tbody></table></div><p class="small">Note: the tags "Service Not Available" and "QIU" are not listed under any stage in the client's list. Check with the team leader before using them.</p><h3 style="margin:18px 0 6px;font-size:17px" id="tags">What each tag means</h3>
-   <div class="tw"><table><thead><tr><th>Tag</th><th>What it means</th></tr></thead><tbody>${TAGS.map(t=>`<tr><td class="ltr" style="white-space:nowrap"><b>${esc(t.n)}</b></td><td>${esc(t.en)}</td></tr>`).join('')}</tbody></table></div></section>`,
+  disp:()=>`<section id="disp"><div class="sh"><div class="eyebrow">After every call</div><h2>Logging in Odoo</h2><p>Log 3 things: the stage, the tag, and an activity if there is a next step. Not sure? Answer a few questions and I'll tell you.</p><button class="btn pri" data-a="drawer" data-v="wiz" style="margin-top:8px;width:auto;display:inline-flex">✓ Answer the questions</button></div>
+   <h3 style="margin:4px 0 6px;font-size:17px">What happened, and how to log it</h3><div class="tw"><table class="odt"><thead><tr><th>What happened</th><th>Stage</th><th>Tag</th><th>Activity</th><th>Notes</th></tr></thead><tbody>${DISP.map(d=>`<tr><td>${esc(d.s)}</td><td><span class="chip c-stage ltr">${esc(d.st)}</span></td><td>${d.tg?`<span class="chip c-tag ltr">${esc(d.tg)}</span>`:'—'}</td><td>${esc(d.act||'—')}</td><td class="small">${esc(d.note)}</td></tr>`).join('')}</tbody></table></div><p class="small">The activity column is a proposal until the client confirms the activity rules and how many attempts come before Un-Reachable.</p><h3 style="margin:22px 0 6px;font-size:17px" id="stages">Odoo stages and recommended tags</h3><p class="small">From the client (14 Oct 2026). After every call, put the lead in the right stage and pick the tag that describes the customer.</p>
+   <div class="tw"><table><thead><tr><th>Stage</th><th>Recommended tags</th></tr></thead><tbody>${STAGES.map(st=>`<tr><td><b class="ltr">${esc(st.n)}</b></td><td>${st.tags.length?`<span class="tagrow">${st.tags.map(n=>`<span class="chip c-tag ltr">${esc(n)}</span>`).join('')}</span>`:`<span class="small">No tag needed</span>`}</td></tr>`).join('')}</tbody></table></div><p class="small">Note: the tags "Service Not Available" and "QIU" are not listed under any stage in the client's list. Check with the team leader before using them.</p><h3 style="margin:18px 0 6px;font-size:17px" id="tags">What each tag means</h3><input id="tagf" class="tagf" type="search" placeholder="Find a tag…" aria-label="Find a tag…">
+   <div class="tw"><table><thead><tr><th>Tag</th><th>Under stage</th><th>What it means</th></tr></thead><tbody id="tagbody">${TAGS.map(t=>`<tr data-k="${esc(norm(t.n+' '+t.en+' '+t.en))}"><td class="ltr" style="white-space:nowrap"><b>${esc(t.n)}</b></td><td class="ltr small">${esc(STAGES.filter(st=>st.tags.includes(t.n)).map(st=>st.n).join(' / ')||'—')}</td><td>${esc(t.en)}</td></tr>`).join('')}</tbody></table></div></section>`,
   gulf:()=>`<section id="gulf"><div class="sh"><div class="eyebrow">For the Egyptian agent</div><h2>Gulf dialect dictionary</h2><p>Words you will hear a lot from customers, and what they mean.</p></div>
    <div class="gl">${GULF.map(([a,b])=>`<div class="g"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
    <h3 style="margin:8px 0 0;font-size:17px">Watch the way you speak</h3>
@@ -1014,7 +997,8 @@ const VIEWS=[
  ['offers','Offers & prices',['offers','prices']],
  ['services','Service guide',['products','prep']],
  ['branches','Branches & hours',['branches','center']],
- ['calls','The call',['flows','objections','disp']],
+ ['calls','The call',['flows','objections']],
+ ['odoo','Odoo',['disp']],
  ['lang','Gulf dialect & terms',['gulf','terms']],
  ['todo','Needs confirmation',['todo']]
 ];
@@ -1132,11 +1116,13 @@ function drawerQuote(){
    <div>${rows}</div>
    <span style="font-size:12.5px;color:var(--muted)">These are offer prices only. The final price is confirmed after the doctor's consultation.</span>`;
 }
+function dispCard(d){ const tg=TAGS.find(x=>x.n===d.tg); const row=(k,v)=>`<div class="dr"><span>${k}</span><em>${v}</em></div>`;
+  return `<div class="dcard">${row('Stage',`<span class="chip c-stage ltr">${esc(d.st)}</span>`)}${row('Tag',d.tg?`<span class="chip c-tag ltr">${esc(d.tg)}</span>`:'—')}${tg?`<div class="small">${esc(tg.en)}</div>`:''}${row('Activity',esc(d.act||'—'))}${d.note?row('Notes',esc(d.note)):''}</div>`; }
 function drawerWiz(){
   const n=WZ.node;
-  if(n.startsWith('R:')){ const [r,note]=n.slice(2).split('|');
+  if(n.startsWith('R:')){ const d=DISPBY[n.slice(2)];
     return `<div class="dhead"><b>Call outcome</b></div><div class="crumbs">${WZ.path.map(esc).join(' ← ')}</div>
-     <div class="wiz"><div class="res"><span style="font-size:13px">Choose in the system:</span><b class="ltr">${esc(r)}</b>${note?`<span style="font-size:14px">${esc(note)}</span>`:''}</div><button class="btn" data-a="wreset">Start over</button></div>`;}
+     <div class="wiz"><div class="res"><span style="font-size:13px">Log in Odoo:</span><div style="font-weight:700;font-size:16px">${esc(d.s)}</div>${dispCard(d)}</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn" data-a="wreset">Start over</button><button class="btn" data-a="go" data-v="disp">Full table</button></div></div>`;}
   const node=WIZ[n];
   return `<div class="dhead"><b>Call outcome</b>${WZ.path.length?'<button class="btn" data-a="wreset">Start over</button>':''}</div>${WZ.path.length?`<div class="crumbs">${WZ.path.map(esc).join(' ← ')}</div>`:''}
    <div class="wiz"><div class="q">${esc(node.q)}</div><div class="opts">${node.o.map(([t,to],i)=>`<button data-a="wgo" data-i="${i}">${esc(t)}</button>`).join('')}</div></div>`;
@@ -1166,7 +1152,7 @@ function botItems(){
   FLOWS.forEach((f,i)=>add({type:'flow',ref:f,i,title:f.t,text:f.t+' script steps call '+f.steps.map(x=>x.join(' ')).join(' ')}));
   STAGES.forEach(st=>add({type:'stage',ref:st,title:'Stage '+st.n,text:[st.n,st.ar,st.tags.join(' '),'odoo stage مرحله اودوو اسجل'].join(' ')}));
   TAGS.forEach(t=>add({type:'tag',ref:t,title:t.n,text:[t.n,t.ar,t.en,'odoo tag تاج اودوو اسجل'].join(' ')}));
-  DISP.forEach(d=>add({type:'disp',ref:d,title:d[0],text:d.join(' ')+' call outcome result system log record'}));
+  DISP.forEach(d=>add({type:'disp',ref:d,title:d.s,text:[d.s,d.st,d.tg,d.act,d.note].join(' ')+' call outcome result system log record odoo اودوو'}));
   GULF.forEach(g=>add({type:'gulf',ref:g,title:g[0],text:g.join(' ')+' means meaning'}));
   TERMS.forEach(t=>add({type:'term',ref:t,title:t[0],text:t.join(' ')+' means meaning'}));
   REGULAR.forEach(r=>add({type:'reg',ref:r,title:r.ar,text:[r.ar,r.pn,'regular price not offer',r.laser?'laser hair removal':''].join(' ')}));
@@ -1270,7 +1256,7 @@ function botAnswerHtml(r){
     case 'flow': { const f=it.ref; h=`<div class="hd">${esc(f.t)}</div><ol>${f.steps.map(x=>`<li>${esc(x[0])}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="useflow" data-v="${it.i}">☎ Open it in the Call assistant</button>${go('flow-'+it.i)}</div>`; break; }
     case 'stage': { const st=it.ref; h=`<div class="hd">Stage <b class="ltr">${esc(st.n)}</b></div>${st.tags.length?`<span>Recommended tags:</span><span class="tagrow">${st.tags.map(n=>`<span class="chip c-tag ltr">${esc(n)}</span>`).join('')}</span>`:'<span>No tag needed.</span>'}<div class="acts">${go('stages','All stages')}</div>`; break; }
     case 'tag': { const t=it.ref, sts=STAGES.filter(st=>st.tags.includes(t.n)).map(st=>st.n); h=`<div class="hd">Tag <b class="ltr">${esc(t.n)}</b></div><span>${esc(t.en)}</span>${sts.length?`<span>Under stage: <b class="ltr">${esc(sts.join(' / '))}</b></span>`:'<div class="warn">This tag is not under any stage. Check with the team leader.</div>'}<div class="acts">${go('tags','All tags')}</div>`; break; }
-    case 'disp': { const d=it.ref; h=`<div class="hd">Choose in the system:</div><b class="ltr">${esc(d[0])}</b><span>Choose it when: ${esc(d[1])}</span><span>You must fill in: ${esc(d[2])}</span><div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ Not sure? Answer the questions</button></div>`; break; }
+    case 'disp': { const d=it.ref; h=`<div class="hd">Log in Odoo:</div>${dispCard(d)}<div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ Not sure? Answer the questions</button></div>`; break; }
     case 'gulf': h=`<div class="hd">${esc(it.ref[0])}</div><span>Meaning: <b>${esc(it.ref[1])}</b></span>`; break;
     case 'term': h=`<div class="hd">${esc(it.ref[0])} <span class="small ltr">${esc(it.ref[1])}</span></div><span>${esc(it.ref[2])}</span>`; break;
     case 'rule': h=`<div class="hd">${esc(it.ref[1])}</div><span>${esc(it.ref[2])}</span>`; break;
@@ -1352,7 +1338,7 @@ function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSugg
   b.innerHTML='<div class="csh">Suggestions (click any one):</div>'+SUG.map((it,k)=>`<button type="button" data-a="sug" data-i="${k}"><span class="sec">${esc(SUGTYPE[it.type]||'')}</span>${esc(it.title)}${/^(oqa|pqa|pfact|pobj)$/.test(it.type)&&it.ref?`<small style="color:var(--muted)"> · ${esc(it.ref.ar||it.ref.name||'')}</small>`:''}</button>`).join('');
   b.hidden=false; }
 function pickSug(k){ const it=SUG[k]; if(!it) return; SUG=[]; botReply(it.title,{kind:'hit',best:it,more:[]}); }
-document.addEventListener('input',e=>{ if(e.target.id==='cq'){ clearTimeout(showSug.h); showSug.h=setTimeout(showSug,120); } });
+document.addEventListener('input',e=>{ if(e.target.id==='tagf'){ const q=norm(e.target.value); document.querySelectorAll('#tagbody tr').forEach(r=>r.hidden=!!q&&!r.dataset.k.includes(q)); } if(e.target.id==='cq'){ clearTimeout(showSug.h); showSug.h=setTimeout(showSug,120); } });
 document.addEventListener('keydown',e=>{ if(e.target.id!=='cq'||!SUG.length) return; const b=$('csug'); if(!b||b.hidden) return;
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); SUGI=(SUGI+(e.key==='ArrowDown'?1:-1)+SUG.length)%SUG.length; [...b.querySelectorAll('button')].forEach((x,k)=>x.classList.toggle('on',k===SUGI)); }
   else if(e.key==='Enter'&&SUGI>=0){ e.preventDefault(); pickSug(SUGI); }
@@ -1518,6 +1504,7 @@ const BUD_T={ar:{
    branches:'Before booking, check the branch is open and which days the doctor is in 🕐',
    calls:'Open with the free consultation, and at the end log the stage and tag in Odoo ✅',
    lang:'If the customer uses a Gulf word you don\'t know, type it in the search above 🔎',
+   odoo:'Answer a few questions under "Outcome" at the top and I\'ll tell you the stage, tag and activity 🧭',
    todo:'These are still waiting for confirmation. Don\'t tell the customer they are certain ⚠️'},
   copy:['Copied ✨','Copied! Say it with confidence 💪','Done, copied 👌'],
   call:'Good luck with the call! Open with the free consultation 💪',
