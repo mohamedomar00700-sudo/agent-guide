@@ -84,6 +84,7 @@ section{display:grid;gap:14px;scroll-margin-top:calc(var(--hh) + 16px)}
 .qa-card span{font-size:13.5px}
 .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
 
+.tagrow{display:flex;flex-wrap:wrap;gap:4px}.c-tag{background:var(--blue-soft);color:var(--blue)}
 .chip{display:inline-flex;align-items:center;gap:4px;padding:1px 9px;border-radius:12px;font-size:12px;font-weight:500;white-space:nowrap}
 .c-ok{background:var(--sage-soft);color:var(--sage)}
 .c-warn{background:var(--amber-soft);color:var(--amber)}
@@ -299,23 +300,39 @@ ol.tline2 b{font-size:14px}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 /* ===== Noor: the chatbot's character ===== */
 .noor{display:block;width:100%;height:100%;overflow:visible}
-.noor .face{fill:var(--rose)}
-.noor .shine{fill:#fff;opacity:.18}
-.noor .hs{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round}
-.noor .ear{fill:var(--ink)}
-.noor .mic{fill:var(--amber)}
-.noor .eye{fill:#fff}
-.noor .cheek{fill:#fff;opacity:.28}
-.noor .mouth{fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round}
-.noor .spark{fill:var(--amber)}
-.noor .eyes{transform-box:fill-box;transform-origin:center;animation:noorBlink 4.6s infinite}
-.noor.m-think .eyes{animation:noorLook 1.2s ease-in-out infinite alternate}
-.noor.m-happy .spark{transform-box:fill-box;transform-origin:center;animation:noorSpark 2.4s ease-in-out infinite}
+.noor g,.noor ellipse,.noor path,.noor circle,.noor rect{transform-box:view-box}
+.noor .bob{transform-origin:50px 94px;animation:noorBob 2.8s ease-in-out infinite}
+.noor .sh{transform-origin:50px 95px;animation:noorShadow 2.8s ease-in-out infinite}
+.noor .eyes{transform-origin:50px 47px;animation:noorBlink 4.6s infinite}
+.noor .face{transform-origin:50px 60px}
+.noor .armL{transform-origin:22px 60px}.noor .armR{transform-origin:78px 60px}
+.noor.m-happy .armR{animation:noorWave 1s ease-in-out 3}
+.noor.m-happy .spark{transform-origin:86px 16px;animation:noorSpark 2.4s ease-in-out infinite}
+.noor.m-think .face{animation:noorTilt 2.4s ease-in-out infinite alternate}
+.noor.m-think .pup{animation:noorLook 1.4s ease-in-out infinite alternate}
+.noor.m-think .dot{animation:noorDot 1.2s ease-in-out infinite}.noor.m-think .dot:nth-of-type(2){animation-delay:.2s}.noor.m-think .dot:nth-of-type(3){animation-delay:.4s}
+.noor.m-unsure .face{animation:noorShake .5s ease-in-out 2}
+.noor.m-unsure .armL,.noor.m-unsure .armR{animation:noorShrug 1.8s ease-in-out infinite}
+.noor.m-unsure .drop{animation:noorDrop 2.2s ease-in infinite}
+.noor.m-care .prop{transform-origin:50px 76px;animation:noorPulse 1.6s ease-in-out infinite}
+.noor.m-care .face{animation:noorTilt 3.2s ease-in-out infinite alternate}
+.chatlog .cmrow:last-child .noor .bob{animation:noorJump .7s cubic-bezier(.3,1.6,.5,1),noorBob 2.8s ease-in-out .7s infinite}
+.chatlog .cmrow:not(:last-child) .noor *{animation:none!important}
+@keyframes noorBob{0%,100%{transform:none}50%{transform:translateY(-3px) scale(1.015,.985)}}
+@keyframes noorShadow{0%,100%{transform:none;opacity:1}50%{transform:scaleX(.88);opacity:.75}}
+@keyframes noorJump{0%{transform:translateY(0) scale(1.08,.9)}40%{transform:translateY(-12px) scale(.95,1.06)}75%{transform:translateY(0) scale(1.06,.94)}100%{transform:none}}
 @keyframes noorBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
-@keyframes noorLook{from{transform:translate(-1.5px,-1.5px)}to{transform:translate(1.5px,-1.5px)}}
+@keyframes noorWave{0%,100%{transform:rotate(0)}25%{transform:rotate(-22deg)}75%{transform:rotate(14deg)}}
+@keyframes noorTilt{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes noorLook{from{transform:translate(-1.5px,-2px)}to{transform:translate(1.8px,-2.5px)}}
+@keyframes noorShake{0%,100%{transform:none}25%{transform:translateX(-3px) rotate(-3deg)}75%{transform:translateX(3px) rotate(3deg)}}
+@keyframes noorShrug{0%,100%{transform:none}50%{transform:translateY(-3px)}}
+@keyframes noorDrop{0%{transform:translateY(-2px);opacity:0}30%{opacity:1}100%{transform:translateY(6px);opacity:0}}
+@keyframes noorPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 @keyframes noorSpark{0%,100%{transform:scale(.7) rotate(0);opacity:.6}50%{transform:scale(1.1) rotate(20deg);opacity:1}}
-.av{flex:none;display:inline-block;width:28px;height:28px}
-.av.lg{width:46px;height:46px}
+.av{flex:none;display:inline-block;width:38px;height:38px}
+.av.lg{width:56px;height:56px}
+.noorhero{width:120px;height:120px;margin:2px auto 6px}
 .noorhead{align-items:center}
 .noorhead .who{display:flex;gap:10px;align-items:center;min-width:0}
 .noorhead .who b{display:block;font-family:var(--d);font-size:17px;line-height:1.2}
@@ -334,12 +351,10 @@ ol.tline2 b{font-size:14px}
 .fab.noorfab{display:none;align-items:center;gap:8px;padding:6px 16px 6px 8px;border-radius:30px}
 [dir=rtl] .fab.noorfab{padding:6px 8px 6px 16px}
 @media (max-width:1080px){.fab.noorfab{display:flex}}
-.fab.noorfab .av{width:34px;height:34px;background:var(--paper);border-radius:50%;padding:2px}
-.fab.noorfab .av .hs{stroke:var(--head)}.fab.noorfab .av .ear{fill:var(--head)}
+.fab.noorfab .av{width:40px;height:40px;margin:-8px 0 -4px}
 .fab.noorfab{animation:noorWave 1.6s ease-in-out 1.2s 2}
 @keyframes noorWave{0%,100%{transform:none}25%{transform:translateY(-4px)}50%{transform:none}75%{transform:translateY(-2px)}}
-.tbtn .av{width:22px;height:22px}
-.tbtn .av .hs{stroke:var(--head-ink)}.tbtn .av .ear{fill:var(--head-ink)}
+.tbtn .av{width:26px;height:26px;margin:-4px 0}
 @media (prefers-reduced-motion:reduce){.noor *,.cm,.fab.noorfab,.cm.typing i{animation:none!important}}
 
 </style>
@@ -347,7 +362,7 @@ ol.tline2 b{font-size:14px}
 <div dir="rtl" lang="ar">
 <header class="top" id="top">
   <div class="bar">
-    <div class="brand"><b>دليل الإيجنت</b><span>Handsome &amp; Pretty · أكاونت Tres Jolie</span></div>
+    <div class="brand"><b>دليل الإيجنت</b><span>H&amp;P · أكاونت Tres Jolie</span></div>
     <div class="sbox"><svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="1.7"/></svg>
       <input id="q" type="search" autocomplete="off" placeholder="دوّر: بوتوكس، دبل تشن، ما في موعد، شيلوا رقمي…" aria-label="بحث في الدليل"><kbd>/</kbd>
       <div class="results" id="res" hidden></div></div>
@@ -373,7 +388,7 @@ ol.tline2 b{font-size:14px}
 <script>
 /* ================= DATA ================= */
 const UPDATED='11 أكتوبر 2026';
-const CLINIC_AR='مركز هاندسم آند بريتي الطبي';
+const CLINIC_AR='مركز H&P الطبي';
 const SRC='شيت "Services and Offers by Category" · عروض Discounts & Big Gift Week';
 const CATS={botox:'بوتوكس',filler:'فيلر',skin:'نضارة وكولاجين',body:'نحت وإذابة دهون',weight:'إنقاص الوزن',laser:'ليزر إزالة الشعر'};
 
@@ -518,7 +533,7 @@ async function loadOfferSheets(){ if(!SHEETS.offers&&!SHEETS.regular) return fal
 
 const RULES=[
  ['yes','الاستشارة الأولى والمتابعة مجانيين','اعرض المتابعة المجانية مع الدكتورة في الفولو أب، ولو العميل بيقول مفيش نتيجة.'],
- ['yes','عرّف نفسك بـ Handsome & Pretty','"معاك [اسمك] من مركز هاندسم آند بريتي الطبي". متقولش Tres Jolie في المكالمة.'],
+ ['yes','عرّف نفسك بـ H&P','"معاك [اسمك] من مركز H&P الطبي". متقولش Tres Jolie في المكالمة.'],
  ['yes','قول سعر العرض زي ما هو مكتوب','الأسعار اللي عليها علامة "مؤكد" تقدر تقولها. وأي خدمة مش في العروض، سعرها بيتحدد بعد استشارة الدكتور.'],
  ['yes','كل عرض معاه هدية يختارها العميل','وسكلبترا معاه هديتين. قايمة الهدايا لسه موصلتناش، فمتوعدش بهدية معينة.'],
  ['no','متضمنش نتيجة ولا عدد كيلوهات','"النتيجة بتختلف من شخص للتاني والدكتور هيوضحلك المتوقع."'],
@@ -535,32 +550,35 @@ const RULES=[
 
 const FLOWS=[
  {t:'ليد جديدة (حتى لو العميل مش محدد هو عايز إيه)',steps:[
-  ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح.','مساء الخير، معاكي [اسمك] من مركز هاندسم آند بريتي الطبي. هل بكلم أستاذة [الاسم]؟'],
-  ['قول سبب المكالمة، واسأل لو الوقت مناسب.','بكلمك بخصوص استفسارك الأخير عن خدماتنا، معاكي دقيقتين؟'],
+  ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح.','مساء الخير، معاكي [اسمك] من مركز H&P الطبي. هل بكلم أستاذة [الاسم]؟'],
+  ['قول سبب المكالمة وادخل على الاستشارة المجانية على طول. متسألش "معاكي دقيقتين؟" لأن أسهل رد عليها "لأ".','بكلمك بخصوص استفسارك عن [الخدمة / خدماتنا]، وعندي ليكي خبر حلو: أول استشارة مع الدكتورة مجانية بالكامل ومن غير أي التزام، وبتعرفي فيها العلاج الأنسب ليكي بالظبط.'],
   ['اكتشف الاحتياج.','عشان أقدر أفيدك صح، هل بتدوري على خدمة معينة زي الليزر أو الفيلر، ولا حابة حد يساعدك تختاري الأنسب ليكي؟ وإيه أكتر حاجة حابة تحسّنيها؟'],
-  ['اعرض الاستشارة المجانية والعرض والهدية.','حلو جداً. أول استشارة عندنا مجانية بالكامل ومن غير أي التزام مع الدكتورة ياسمين درويش، دكتورة الجلدية، هتقيّم بشرتك وتقولك العلاج الأنسب ليكي. وكمان عندنا دلوقتي عروض، وكل عرض معاه هدية تختاريها.'],
+  ['اربط الاستشارة المجانية باللي قالته، واعرض العرض والهدية.','حلو جداً. أول استشارة عندنا مجانية بالكامل ومن غير أي التزام مع الدكتورة ياسمين درويش، دكتورة الجلدية، هتقيّم بشرتك وتقولك العلاج الأنسب ليكي. وكمان عندنا دلوقتي عروض، وكل عرض معاه هدية تختاريها.'],
   ['اقفل باختيارين.','تحبي نحجز الاستشارة يوم [كذا] ولا [كذا]؟'],
-  ['أكّد كل التفاصيل واقفل بأدب.','أأكد مع حضرتك: الاسم، الرقم، الفرع، اليوم والساعة. هتوصلك رسالة تأكيد.']]},
+  ['أكّد كل التفاصيل واقفل بأدب.','أأكد مع حضرتك: الاسم، الرقم، الفرع، اليوم والساعة. هتوصلك رسالة تأكيد.'],
+  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في قسم نتيجة المكالمة.']]},
  {t:'فولو أب: حضر الاستشارة ومحجزش',steps:[
-  ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح.','أهلاً أستاذة [الاسم]، معاكي [اسمك] من مركز هاندسم آند بريتي الطبي.'],
+  ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح.','أهلاً أستاذة [الاسم]، معاكي [اسمك] من مركز H&P الطبي.'],
   ['اطمن على التجربة.','حضرتك شرفتينا في الاستشارة المجانية مع الدكتورة يوم [..]، وحبينا نطمن على تجربتك. كانت عاملة إيه؟'],
   ['اسأل سؤال مفتوح الأول.','خطة العلاج كانت واضحة؟ هل فيه حاجة خلتك تترددي تبدأي؟'],
   ['لو مقالتش سبب، اعرض اختيارات.','السعر؟ ولا المواعيد؟ ولا حاجة تانية؟'],
   ['اعرض حل حقيقي، وسجّل السبب في السيستم بالظبط.','لو السعر: العرض الحالي والهدية. لو مترددة: متابعة مجانية مع الدكتورة تجاوب على أسئلتك.'],
-  ['احجز أو حدد Call back بميعاد.','تحبي نحجز يوم [كذا] ولا [كذا]؟']]},
+  ['احجز أو حدد Call back بميعاد.','تحبي نحجز يوم [كذا] ولا [كذا]؟'],
+  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في قسم نتيجة المكالمة.']]},
  {t:'فولو أب: حجز ومجاش',steps:[
   ['اطمن عليه من غير لوم.','لاحظنا إنك مقدرتش تيجي ميعادك امبارح، إن شاء الله كله تمام؟'],
   ['اعرض ميعاد جديد.','الاستشارة لسه مجانية، تحب أحجزلك ميعاد تاني؟'],
-  ['أكّد وابعت تأكيد.','أأكد مع حضرتك الميعاد الجديد…']]},
+  ['أكّد وابعت تأكيد.','أأكد مع حضرتك الميعاد الجديد…'],
+  ['سجّل على أودوو المرحلة والتاج المناسب.','مثلاً: حجز = Booked، مش مهتم = Lost + Not Interested، طلبت نكلمها بعدين = In Progress + Call Later. الجدول كامل في قسم نتيجة المكالمة.']]},
  {t:'عميل قديم (ومفيش عندنا الهيستوري بتاعه)',steps:[
-  ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح.','أهلاً أستاذة [الاسم]، معاكي [اسمك] من مركز هاندسم آند بريتي الطبي. حضرتك نورتينا قبل كده، وحبينا نطمن عليكي ونعرّفك على عروضنا الجديدة.'],
+  ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح.','أهلاً أستاذة [الاسم]، معاكي [اسمك] من مركز H&P الطبي. حضرتك نورتينا قبل كده، وحبينا نطمن عليكي ونعرّفك على عروضنا الجديدة.'],
   ['خلي العميل يحكيلك هو عمل إيه، وسجّل الكلام ده في السيستم.','آخر مرة كنتي عاملة معانا إيه؟ وكانت التجربة عاملة إيه؟'],
   ['لو اشتكى: وقّف البيع فوراً وسجّل شكوى.',''],
   ['لو مفيش شكوى: اعرض تكملة أو استشارة مجانية.','تحبي تكملي في نفس النوع، ولا تجربي استشارة مجانية مع الدكتورة تشوف بشرتك محتاجة إيه دلوقتي؟'],
   ['لو سأل "انتوا مش عارفين أنا عملت إيه؟"','بنحب نسمع منك الأول عشان نتأكد إن المعلومات عندنا محدّثة.'],
   ['متقولش كلام مش حقيقي عشان تغطي إن الداتا مش موجودة.','زي "بنحدّث الملفات الطبية لعملاء الـ VIP".']]},
  {t:'مكالمة إن باوند / ردّ على مكالمة فايتة',steps:[
-  ['رد بالاسم.','مركز هاندسم آند بريتي الطبي، معاك [اسمك]. أقدر أساعد حضرتك إزاي؟'],
+  ['رد بالاسم.','مركز H&P الطبي، معاك [اسمك]. أقدر أساعد حضرتك إزاي؟'],
   ['دوّر على الرقم في السيستم قبل أي حاجة.','عشان المكالمة تتسجل على نفس العميل ومتعملش عميل مكرر.'],
   ['كمّل بنفس خطوات الليد الجديدة.','']]},
  {t:'شكوى في أي مكالمة',steps:[
@@ -584,7 +602,7 @@ const OBJ=[
  ['شيلوا رقمي','"لا تتصلون مرة ثانية"','"تمام، هنشيل رقمك من قايمة الاتصال، وآسف على الإزعاج." وسجّل Do not call.','إنك تكمّل تعرض أو تسأل "ليه؟".'],
  ['مشغول','"أنا في الدوام"','"أكيد، إمتى يناسبك أكلمك بالظبط؟" وسجّل Call back.','"دقيقتين بس!".'],
  ['رحت مركز ثاني','','"ربنا يوفقك. ممكن أعرف إيه اللي خلاكي تختاريهم؟ ولو احتجتينا إحنا موجودين."','إنك تتكلم وحش عن المنافس.'],
- ['أنا حامل','"أنا حامل، أبي أسوي ليزر"','"سلامتك أهم حاجة. الخدمات دي بنأجلها في فترة الحمل، فخليني أكلمك بعد الولادة بالسلامة إن شاء الله، إمتى ميعادك؟" وسجّل Hold، والتاج Travel / Hold، وActivity بعد الولادة. ولو صممت تعمل الخدمة: احجزلها استشارة واكتب في الملاحظات إنها حامل.','"عادي مفيش مشكلة"، أو تشرح أعراض جانبية، أو تحجز استشارة من غير ما تصمم.'],
+ ['أنا حامل','"أنا حامل، أبي أسوي ليزر"','"سلامتك أهم حاجة. الخدمات دي بنأجلها في فترة الحمل، فخليني أكلمك بعد الولادة بالسلامة إن شاء الله، إمتى ميعادك؟" وسجّل Hold، والتاج pregnant، وActivity بعد الولادة. ولو صممت تعمل الخدمة: احجزلها استشارة واكتب في الملاحظات إنها حامل.','"عادي مفيش مشكلة"، أو تشرح أعراض جانبية، أو تحجز استشارة من غير ما تصمم.'],
  ['سؤال طبي','"عندي سكر"، "آخذ دوا"، "أنا مرضع"','"ده سؤال طبي مهم، والدكتور هو اللي يقدر يجاوبك بعد ما يقيّم حالتك. أحجزلك استشارة مجانية؟"','"عادي مفيش مشكلة" أو "ممنوع".'],
  ['الاستشارة صدق مجانية؟','','"أيوه، أول استشارة مجانية بالكامل ومن غير أي التزام."','"مجانية لو حجزت".'],
  ['أرسلي التفاصيل واتساب','','ابعت بس المعلومات المعتمدة حسب سياسة الكلاينت، وحدد Call back.','إنك تبعت صور أو أسعار مش معتمدة.'],
@@ -605,6 +623,10 @@ const DISP=[
  ['Switched off / unreachable','مقفول أو خارج التغطية.','—'],
  ['Voicemail','دخلت على البريد الصوتي.','اسمك ورقم المركز بس، ومن غير أي تفاصيل صحية.']
 ];
+
+// Odoo stages and the tags the client recommends for each (14 Oct 2026).
+const STAGES=[{"n": "New Lead", "ar": "ليد جديد", "tags": []}, {"n": "Already Registered", "ar": "متسجل قبل كده", "tags": []}, {"n": "In Progress", "ar": "لسه شغالين عليه", "tags": ["Prefer WA", "Call Later", "Potential out of area", "Active Client, Other Branch", "Busy", "Will Call Us Later", "Without What's app"]}, {"n": "Error", "ar": "خطأ في الليد", "tags": ["No Arb or Eng", "Wrong Number", "Without UAE Number", "By Mistake", "HR JOB", "company or quick reply"]}, {"n": "Lost", "ar": "ضايع", "tags": ["Not Interested", "Too Expensive", "Out of Area", "Subscribe at Another Center", "Not Serious", "Competitos", "Black List", "Asking Only", "Diff Device", "Stop"]}, {"n": "Hold", "ar": "متأجل", "tags": ["pregnant", "Travelling"]}, {"n": "OLD DATA", "ar": "داتا قديمة", "tags": ["Un-Reachable", "Old Customer"]}, {"n": "Problem", "ar": "مشكلة", "tags": ["Bad Experience", "Upset"]}, {"n": "prefer whatsapp", "ar": "بيفضّل واتساب", "tags": ["Prefer WA"]}, {"n": "Booked", "ar": "محجوز", "tags": ["Booked", "Not Arrived", "Didn't Pay", "Arrived", "Invitation"]}, {"n": "Paid", "ar": "دفع", "tags": []}, {"n": "Transfer", "ar": "تحويل", "tags": []}];
+const TAGS=[{"n": "No Arb or Eng", "en": "Customer cannot communicate in Arabic or English.", "ar": "العميل مش بيعرف يتكلم عربي ولا إنجليزي."}, {"n": "Will Call Us Later", "en": "Customer stated they will contact us at a later time.", "ar": "العميل قال إنه هيكلمنا هو بعدين."}, {"n": "Not Interested", "en": "Customer clearly expressed no interest in the service.", "ar": "العميل قال بوضوح إنه مش مهتم بالخدمة."}, {"n": "Asking Only", "en": "Customer was only requesting information with no intention to proceed currently.", "ar": "العميل كان بيسأل بس، ومفيش نية يحجز أو يشتري دلوقتي."}, {"n": "Too Expensive", "en": "Customer considers the price too high.", "ar": "العميل شايف السعر غالي."}, {"n": "Out of Area", "en": "Customer is outside the service coverage area.", "ar": "العميل برّه منطقة الخدمة."}, {"n": "Un-Reachable", "en": "Unable to contact the customer after multiple attempts.", "ar": "مقدرناش نوصل للعميل بعد كذا محاولة."}, {"n": "Wrong Number", "en": "The phone number provided is incorrect or invalid.", "ar": "الرقم غلط أو مش شغال."}, {"n": "Without What's app", "en": "Customer does not have WhatsApp.", "ar": "العميل معندوش واتساب."}, {"n": "Booked", "en": "Appointment or visit has been scheduled.", "ar": "اتحجز للعميل ميعاد."}, {"n": "Travelling", "en": "Customer is currently traveling and unavailable.", "ar": "العميل مسافر ومش متاح دلوقتي."}, {"n": "Without UAE Number", "en": "Customer does not have a UAE contact number.", "ar": "العميل معندوش رقم إماراتي."}, {"n": "Busy", "en": "Customer requested contact at another time due to being busy.", "ar": "العميل مشغول وطلب نكلمه في وقت تاني."}, {"n": "Prefer WA", "en": "Customer prefers communication through WhatsApp.", "ar": "العميل بيفضّل نتواصل معاه على الواتساب."}, {"n": "Not Arrived", "en": "Customer did not attend the scheduled appointment.", "ar": "العميل محضرش الميعاد."}, {"n": "Didn't Pay", "en": "Customer agreed but did not complete payment.", "ar": "العميل وافق بس مدفعش."}, {"n": "By Mistake", "en": "Inquiry or registration was submitted by mistake.", "ar": "الطلب أو التسجيل اتبعت بالغلط."}, {"n": "Upset", "en": "Customer is dissatisfied or upset.", "ar": "العميل مضايق أو مش راضي."}, {"n": "Old Customer", "en": "Customer has previously interacted with the company.", "ar": "العميل اتعامل معانا قبل كده."}, {"n": "Black List", "en": "Customer is restricted from further communication or service.", "ar": "العميل في البلاك ليست، ممنوع نتواصل معاه أو نخدمه."}, {"n": "Call Later", "en": "Customer requested a callback at a specific later time.", "ar": "العميل طلب نرجع نكلمه في ميعاد محدد."}, {"n": "Invitation", "en": "Invitation or event invitation has been sent.", "ar": "اتبعتله دعوة أو دعوة لإيفنت."}, {"n": "HR JOB", "en": "Customer is inquiring about employment opportunities, not services.", "ar": "بيسأل على شغل، مش على الخدمة."}, {"n": "Arrived", "en": "Customer attended the branch, center, or appointment.", "ar": "العميل حضر الفرع أو الميعاد."}, {"n": "pregnant", "en": "Customer indicated pregnancy and may require special handling.", "ar": "العميلة قالت إنها حامل، ومحتاجة تعامل خاص."}, {"n": "Diff Device", "en": "Service or registration issue due to a different device being used.", "ar": "فيه مشكلة بسبب إن الجهاز المستخدم مختلف."}, {"n": "Bad Experience", "en": "Customer reported a previous negative experience.", "ar": "العميل اتكلم عن تجربة وحشة قبل كده."}, {"n": "Service Not Available", "en": "Requested service is not available for the customer.", "ar": "الخدمة اللي طالبها مش متاحة."}, {"n": "Subscribe at Another Center", "en": "Customer is already subscribed with another center.", "ar": "العميل مشترك في مركز تاني."}, {"n": "Not Serious", "en": "Customer is not demonstrating genuine intent to proceed.", "ar": "العميل مش جاد في إنه يكمل."}, {"n": "Competitos", "en": "Customer is associated with or comparing competitor services.", "ar": "العميل بيتعامل مع منافس أو بيقارن بيه."}, {"n": "Potential out of area", "en": "Customer may be outside the service area but requires verification.", "ar": "ممكن يكون برّه منطقة الخدمة، ومحتاجين نتأكد."}, {"n": "Active Client, Other Branch", "en": "Customer is currently active with another branch.", "ar": "العميل شغال حالياً مع فرع تاني."}, {"n": "company or quick reply", "en": "Automated company account or customer only sends brief/non-actionable responses.", "ar": "حساب شركة أو رد آلي، أو عميل بيرد بكلمة مش كفاية نكمل عليها."}, {"n": "Stop", "en": "Customer requested no further communication.", "ar": "العميل طلب نوقف التواصل معاه."}, {"n": "QIU", "en": "Special operational category requiring management review or internal follow-up.", "ar": "تصنيف تشغيلي خاص محتاج مراجعة من الإدارة أو متابعة داخلية."}];
 
 const GULF=[
  ['وش؟ / شو؟','إيه؟'],['أبي / أبغى','عايز'],['الحين','دلوقتي'],['باجر','بكرة'],['عقب / بعدين','بعدين'],['زين','كويس / تمام'],['مو','مش'],['وايد','كتير'],['شوي','شوية'],['صدق؟ / صج؟','بجد؟'],
@@ -711,9 +733,9 @@ const TERMS=[
 ];
 
 const CENTER=[
- ['الاسم اللي بتقوله','Handsome & Pretty Medical Center (مركز هاندسم آند بريتي الطبي). الكلاينت طلب إن الإيجنتس يقولوا الاسم ده.','ok'],
+ ['الاسم اللي بتقوله','H&P Medical Center (مركز H&P الطبي). الكلاينت طلب في 14 أكتوبر إن الإيجنتس يقولوا الاسم ده.','ok'],
  ['الفروع','فرع أبوظبي اسمه Handsome & Pretty، وفرع الفجيرة اسمه Tres Jolie. الكلاينت قال إن عنده 3 فروع، والفرع التالت لسه معندناش بياناته. العناوين والمواعيد في صفحة الفروع.','warn'],
- ['الأكاونت','Tres Jolie هو اسم الأكاونت عندنا. في المكالمة متقولوش، قول Handsome & Pretty.','ok'],
+ ['الأكاونت','Tres Jolie هو اسم الأكاونت عندنا. في المكالمة متقولوش، قول H&P.','ok'],
  ['الرقم الأرضي','02 443 3221 (أبوظبي)، وهو الرقم اللي على شيت العروض','ok'],
  ['الضريبة','الأسعار مش شاملة الضريبة. النسبة لسه بتتأكد.','warn'],
  ['التقسيط','متاح مع تابي وتمارا. نسبة الرسوم الإدارية لسه بتتأكد.','warn'],
@@ -727,7 +749,7 @@ const CENTER=[
 const TODO=[
  'المعلومات الطبية في دليل المبيعات (المدد، عدد الجلسات) متراجعة من الدكتور؟',
  'اسم وعنوان الفرع التالت، وأنهي خدمات متاحة في كل فرع.',
- 'لما العميل يحجز في الفجيرة، الإيجنت يعرّف نفسه بـ Handsome & Pretty ولا Tres Jolie؟',
+ 'لما العميل يحجز في الفجيرة، الإيجنت يعرّف نفسه بـ H&P ولا Tres Jolie؟',
  'سعر الميزو بوتوكس لمنطقة واحدة (مش الوش كامل).',
  'هل فعلاً جزء من التيم هيمسك فرع الفجيرة؟ وإمتى؟ ونحوّل العميل إزاي لو من منطقة فرع تاني؟',
  'قايمة الهدايا اللي العميل يختار منها، وشروطها.',
@@ -757,6 +779,8 @@ function buildIndex(){
   OFFERS.forEach(o=>INDEX.push({sec:'العروض · '+CATS[o.cat],title:o.ar,sub:o.price+' AED · '+o.pn,go:'o-'+o.id,text:[o.ar,o.en,o.what,o.who,o.say,o.caution,o.qa.map(x=>x.join(' ')).join(' '),CATS[o.cat]].join(' ')}));
   OBJ.forEach((x,i)=>INDEX.push({sec:x[4]?'الاعتراضات · الأكتر تكراراً':'الاعتراضات',title:x[0],sub:x[2],go:'obj-'+i,text:x.slice(0,4).join(' ')+' '+(x[5]||[]).join(' ')}));
   FLOWS.forEach((f,i)=>INDEX.push({sec:'خطوات المكالمة',title:f.t,sub:f.steps[0][0],go:'flow-'+i,text:f.t+' '+f.steps.map(s=>s.join(' ')).join(' ')}));
+  STAGES.forEach(st=>INDEX.push({sec:'نتيجة المكالمة',title:'Stage: '+st.n,sub:st.tags.join(', '),go:'stages',text:[st.n,st.ar,st.tags.join(' '),'odoo stage مرحله اودوو'].join(' ')}));
+  TAGS.forEach(t=>INDEX.push({sec:'نتيجة المكالمة',title:'Tag: '+t.n,sub:t.ar,go:'tags',text:[t.n,t.ar,t.en,'odoo tag تاج اودوو'].join(' ')}));
   DISP.forEach((d,i)=>INDEX.push({sec:'نتيجة المكالمة',title:d[0],sub:d[1],go:'disp',text:d.join(' ')}));
   GULF.forEach(g=>INDEX.push({sec:'قاموس الخليجي',title:g[0],sub:'= '+g[1],go:'gulf',text:g.join(' ')}));
   TERMS.forEach(t=>INDEX.push({sec:'المصطلحات',title:t[0],sub:t[2],go:'terms',text:t.join(' ')}));
@@ -775,6 +799,8 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['15 أكتوبر 2026','بداية مكالمة الليد الجديدة بقت بالاستشارة المجانية على طول بدل "معاكي دقيقتين؟". واتضافت خطوة تسجيل المرحلة والتاج على أودوو في آخر خطوات المكالمة وفي التشيك ليست.'],
+ ['14 أكتوبر 2026','الاسم اللي بيتقال في المكالمة بقى "مركز H&P الطبي" بطلب من الكلاينت. واتضافت مراحل أودوو والتاجز المقترحة لكل مرحلة ومعنى كل تاج في قسم نتيجة المكالمة.'],
  ['14 أكتوبر 2026','"اسأل الدليل" بقى اسمه نور: شخصية بتكتب قبل ما ترد، وملامحها بتتغير مع الإجابة. الإجابات زي ما هي، من الدليل بس.'],
  ['11 أكتوبر 2026','كورس إذابة الدهون بقى سعره 1,500 درهم ومعاه هدية.'],
  ['11 أكتوبر 2026','اتضاف د. وليد، تغذية، في أبوظبي في جدول الدكاترة: من 11 الصبح لـ 8 بالليل. الأسبوع ده السبت والأحد والاتنين بس، ومن 17 أكتوبر السبت لحد الثلاثاء كل أسبوع.'],
@@ -800,7 +826,7 @@ const UPDATES=[
 const QUICK=[
  ['العنوان والمواعيد','أبوظبي والفجيرة','السبت لحد الخميس، والجمعة مقفول.','branches'],
  ['قبل جلسة الليزر','احلق في البيت قبلها بيوم','وابعد عن الشمس والتقشير.','prep'],
- ['الاسم في المكالمة','Handsome & Pretty','"معاك [اسمك] من مركز هاندسم آند بريتي الطبي"','center'],
+ ['الاسم في المكالمة','H&P','"معاك [اسمك] من مركز H&P الطبي"','center'],
  ['الهدية','هدية مع كل عرض','وسكلبترا معاه هديتين. متوعدش بهدية معينة.','rules'],
  ['أكتر اعتراض','مفيش مواعيد ليزر','زودنا عدد الأجهزة، واحجزله ميعاد على طول.','obj-0'],
  ['تاني أكتر اعتراض','مفيش نتيجة','اسأل الأول، ومتلومش، واعرض متابعة مجانية مع الدكتورة.','obj-1'],
@@ -811,12 +837,13 @@ const CALLCK={
  NEW:{t:'ليد جديدة',f:0},NOBOOK:{t:'فولو أب: حضر ومحجزش',f:1},NOSHOW:{t:'فولو أب: حجز ومجاش',f:2},REENG:{t:'عميل قديم: عرض جديد',f:3},INB:{t:'إن باوند',f:4},COMPLAINT:{t:'شكوى',f:5}
 };
 const COMPCK=[
- 'عرّفت نفسك واسم المركز (Handsome & Pretty)',
+ 'عرّفت نفسك واسم المركز (H&P)',
  'اتأكدت إنك بتكلم الشخص الصح قبل أي تفاصيل',
  'موعدتش بنتيجة ومدتش نصيحة طبية',
  'قلت إن الاستشارة مجانية ومن غير التزام (مكالمات البيع)',
  'أكدت التفاصيل (الاسم، الرقم، الفرع، اليوم والساعة) لو حجز',
- 'حددت الخطوة الجاية وقفلت بأدب'
+ 'حددت الخطوة الجاية وقفلت بأدب',
+ 'سجّلت المرحلة والتاج الصح على أودوو'
 ];
 const VARIANTS=[
  {id:'nab1',o:'nabota',t:'نابوتا: منطقة واحدة',p:499,unit:'منطقة',q:true},
@@ -926,7 +953,9 @@ const SEC={
   flows:()=>`<section id="flows"><div class="sh"><div class="eyebrow">سكريبت مختصر</div><h2>خطوات المكالمة حسب نوعها</h2><p>كلام الإيجنت بالمصري. ممكن تفتح أي واحدة كتشيك ليست في مساعد المكالمة.</p><p><span class="chip c-warn">سكريبت مقترح، مستني موافقة الكلاينت النهائية</span></p></div>
    <div class="flows">${FLOWS.map((f,i)=>`<div class="flow" id="flow-${i}"><h3><span>${esc(f.t)}</span><button class="ib" data-a="useflow" data-v="${i}">☎ استخدمها</button></h3><ol>${f.steps.map(([s,l])=>`<li>${esc(s)}${l?`<span class="line">${esc(l)}</span>`:''}</li>`).join('')}</ol></div>`).join('')}</div></section>`,
   disp:()=>`<section id="disp"><div class="sh"><div class="eyebrow">في السيستم</div><h2>تختار نتيجة المكالمة إزاي</h2><p>مش متأكد؟ افتح "النتيجة" من فوق وجاوب على كام سؤال.</p></div>
-   <div class="tw"><table><thead><tr><th>Call result</th><th>تختاره لما</th><th>لازم تملا</th></tr></thead><tbody>${DISP.map(d=>`<tr><td class="ltr" style="white-space:nowrap">${esc(d[0])}</td><td>${esc(d[1])}</td><td>${esc(d[2])}</td></tr>`).join('')}</tbody></table></div></section>`,
+   <div class="tw"><table><thead><tr><th>Call result</th><th>تختاره لما</th><th>لازم تملا</th></tr></thead><tbody>${DISP.map(d=>`<tr><td class="ltr" style="white-space:nowrap">${esc(d[0])}</td><td>${esc(d[1])}</td><td>${esc(d[2])}</td></tr>`).join('')}</tbody></table></div><h3 style="margin:22px 0 6px;font-size:17px" id="stages">مراحل أودوو والتاجز المقترحة</h3><p class="small">من الكلاينت (14 أكتوبر 2026). بعد كل مكالمة حط الليد في المرحلة الصح، واختار التاج اللي بيوصف حالة العميل.</p>
+   <div class="tw"><table><thead><tr><th>المرحلة</th><th>التاجز المقترحة</th></tr></thead><tbody>${STAGES.map(st=>`<tr><td><b class="ltr">${esc(st.n)}</b><br><span class="small">${esc(st.ar)}</span></td><td>${st.tags.length?`<span class="tagrow">${st.tags.map(n=>`<span class="chip c-tag ltr">${esc(n)}</span>`).join('')}</span>`:`<span class="small">مفيش تاج مطلوب</span>`}</td></tr>`).join('')}</tbody></table></div><p class="small">ملاحظة: تاج "Service Not Available" وتاج "QIU" مش متحطين تحت أي مرحلة في لستة الكلاينت. اسأل التيم ليدر قبل ما تستخدمهم.</p><h3 style="margin:18px 0 6px;font-size:17px" id="tags">معنى كل تاج</h3>
+   <div class="tw"><table><thead><tr><th>التاج</th><th>معناه</th></tr></thead><tbody>${TAGS.map(t=>`<tr><td class="ltr" style="white-space:nowrap"><b>${esc(t.n)}</b></td><td>${esc(t.ar)}</td></tr>`).join('')}</tbody></table></div></section>`,
   gulf:()=>`<section id="gulf"><div class="sh"><div class="eyebrow">للإيجنت المصري</div><h2>قاموس الخليجي</h2><p>كلمات هتسمعها كتير من العملاء، ومعناها بالمصري.</p></div>
    <div class="gl">${GULF.map(([a,b])=>`<div class="g"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
    <h3 style="margin:8px 0 0;font-size:17px">خلي بالك من طريقة كلامك</h3>
@@ -952,6 +981,7 @@ const VIEWS=[
 let VIEW='home';
 function viewOf(t){
   for(const [v,,secs] of VIEWS){ if(v===t||secs.includes(t)) return v; }
+  if(t==='stages'||t==='tags') return viewOf('disp');
   if(/^o-/.test(t)||t==='regular') return 'offers'; if(/^p-/.test(t)) return 'services'; if(/^(obj|flow)-/.test(t)) return 'calls'; if(/^br-/.test(t)||t==='doctors') return 'branches';
   return null;
 }
@@ -1010,7 +1040,7 @@ function branchesHtml(){ const d=tzDiff(); const t=uaeParts();
   return `<section id="branches"><div class="sh"><div class="eyebrow">عناوين ومواعيد</div><h2>الفروع والمواعيد</h2><p>الساعة دلوقتي في الإمارات <b class="m" id="uaeclock">${String(t.h).padStart(2,'0')}:${String(t.m).padStart(2,'0')}</b>، والإمارات قدام مصر ب${d===2?'ساعتين':'ساعة'}. أي حجز لازم يبقى جوه مواعيد الفرع.</p></div>
    <div class="branches">${BRANCHES.map(branchCard).join('')}</div>
    </section>${doctorsHtml()}<section>
-   <div class="caution"><b>خلي بالك:</b> فرع الفجيرة اسمه على اليافطة "تري جولي". لو العميل حجز هناك، قوله اسم الفرع ده عشان يلاقيه، وفي أول المكالمة فضّل على "هاندسم آند بريتي" لحد ما الكلاينت يقول غير كده.</div>
+   <div class="caution"><b>خلي بالك:</b> فرع الفجيرة اسمه على اليافطة "تري جولي". لو العميل حجز هناك، قوله اسم الفرع ده عشان يلاقيه، وفي أول المكالمة فضّل على "H&P" لحد ما الكلاينت يقول غير كده.</div>
    <div class="src">المصدر: ${KBSRC}</div></section>`; }
 function prepHtml(){ const txt='تعليمات قبل جلسة الليزر:\n'+PREP.map((x,i)=>(i+1)+'. '+x).join('\n');
   return `<section id="prep"><div class="sh"><div class="eyebrow">ليزر إزالة الشعر</div><h2>قبل جلسة الليزر</h2><p>فكّر العميل بالحاجات دي لما تأكد معاه الحجز.</p></div>
@@ -1022,7 +1052,7 @@ function prepHtml(){ const txt='تعليمات قبل جلسة الليزر:\n'+
     <div class="src">المصدر: ${KBSRC}</div></div></div></section>`; }
 function renderMain(){
   const v=VIEWS.find(x=>x[0]===VIEW)||VIEWS[0];
-  $('main').innerHTML=v[2].map(k=>SEC[k]()).join('\n')+`<div class="foot">دليل داخلي لتيم Tech Source على أكاونت Tres Jolie (Handsome &amp; Pretty). آخر تحديث ${UPDATED}. أي سعر أو معلومة مش مؤكدة، ارجع فيها للتيم ليدر.</div>`;
+  $('main').innerHTML=v[2].map(k=>SEC[k]()).join('\n')+`<div class="foot">دليل داخلي لتيم Tech Source على أكاونت Tres Jolie (H&amp;P). آخر تحديث ${UPDATED}. أي سعر أو معلومة مش مؤكدة، ارجع فيها للتيم ليدر.</div>`;
   renderTabs();
 }
 /* ===== rail: pins + drawer tools ===== */
@@ -1094,6 +1124,8 @@ function botItems(){
     pr.facts.forEach(f=>add({type:'pfact',ref:pr,qa:f,title:f[0],text:pr.name+' '+pr.en+' '+f.join(' ')}));
     pr.objs.forEach(f=>add({type:'pobj',ref:pr,qa:f,title:f[0],text:pr.name+' '+pr.en+' '+f.join(' ')})); });
   FLOWS.forEach((f,i)=>add({type:'flow',ref:f,i,title:f.t,text:f.t+' سكريبت خطوات مكالمه '+f.steps.map(x=>x.join(' ')).join(' ')}));
+  STAGES.forEach(st=>add({type:'stage',ref:st,title:'Stage '+st.n,text:[st.n,st.ar,st.tags.join(' '),'odoo stage مرحله اودوو اسجل'].join(' ')}));
+  TAGS.forEach(t=>add({type:'tag',ref:t,title:t.n,text:[t.n,t.ar,t.en,'odoo tag تاج اودوو اسجل'].join(' ')}));
   DISP.forEach(d=>add({type:'disp',ref:d,title:d[0],text:d.join(' ')+' نتيجه المكالمه السيستم اسجل'}));
   GULF.forEach(g=>add({type:'gulf',ref:g,title:g[0],text:g.join(' ')+' يعني معنى'}));
   TERMS.forEach(t=>add({type:'term',ref:t,title:t[0],text:t.join(' ')+' يعني معنى'}));
@@ -1182,7 +1214,7 @@ const sayBox=(t,l)=>`<div class="say"><div class="row"><span class="lbl">${l||'�
 function botAnswerHtml(r){
   if(r.kind==='greet') return `<span>أهلاً! اسألني عن أي عرض أو سعر، أو اكتبلي العميل قال إيه وأقولك ترد إزاي.</span>`;
   if(r.kind==='thanks') return `<span>العفو، بالتوفيق في المكالمة 👍</span>`;
-  if(r.kind==='medical' && /حامل|حمل|pregnan/.test(r.q) && !/رضاع|مرضع|breastfe|nursing/.test(r.q)) return `<div class="hd">عميلة حامل: Hold</div>${sayBox('سلامتك أهم حاجة. الخدمات دي بنأجلها في فترة الحمل، فخليني أكلمك بعد الولادة بالسلامة إن شاء الله. إمتى ميعادك؟')}<div class="warn">على Odoo: Hold، والتاج Travel / Hold، وActivity بعد الولادة. منحجزش استشارة إلا لو صممت تعمل الخدمة، ووقتها اكتب في الملاحظات إنها حامل.</div><div class="no">متقولش "عادي"، ومتشرحش أعراض جانبية.</div>`;
+  if(r.kind==='medical' && /حامل|حمل|pregnan/.test(r.q) && !/رضاع|مرضع|breastfe|nursing/.test(r.q)) return `<div class="hd">عميلة حامل: Hold</div>${sayBox('سلامتك أهم حاجة. الخدمات دي بنأجلها في فترة الحمل، فخليني أكلمك بعد الولادة بالسلامة إن شاء الله. إمتى ميعادك؟')}<div class="warn">على Odoo: Hold، والتاج pregnant، وActivity بعد الولادة. منحجزش استشارة إلا لو صممت تعمل الخدمة، ووقتها اكتب في الملاحظات إنها حامل.</div><div class="no">متقولش "عادي"، ومتشرحش أعراض جانبية.</div>`;
   if(r.kind==='medical') return `<div class="hd">سؤال طبي: حوّله للدكتور</div>${sayBox('ده سؤال طبي مهم، والدكتور هو اللي يقدر يجاوبك بعد ما يقيّم حالتك. تحبي أحجزلك استشارة مجانية؟')}<div class="no">متقولش "عادي مفيش مشكلة" ولا "ممنوع"، ومتتكلمش عن جرعات أو أعراض.</div>${/مونجارو|جرعه|mounjaro|dose/.test(r.q)?'<div class="warn">مونجارو دوا بروشتة، والدكتور بس هو اللي يقرر إذا كان مناسب.</div>':''}`;
   if(r.kind==='none') return `<span>مش لاقي إجابة لده في الدليل. جرّب تكتبها بكلمة تانية، زي اسم الخدمة أو كلمة العميل نفسها. ولو مش موجودة، ارجع للتيم ليدر ومتألفش إجابة للعميل.</span>${r.sugg&&r.sugg.length?`<div class="lbl">ممكن تقصد:</div><div class="chips2">${r.sugg.map(x=>`<button data-a="bq" data-t="${esc(x.title)}">${esc(x.title)}</button>`).join('')}</div>`:''}`;
   const it=r.best; let h='';
@@ -1196,6 +1228,8 @@ function botAnswerHtml(r){
     case 'pfact': h=`<div class="hd">${esc(it.ref.name)}: ${esc(it.qa[0])}</div><span>${esc(it.qa[1])}</span><div class="warn">قولها بكلمة "عادةً"، وإنها بتختلف من شخص للتاني.</div><div class="acts">${go('p-'+it.ref.id,'دليل المنتج')}</div>`; break;
     case 'product': { const pr=it.ref; h=`<div class="hd">${esc(pr.name)}</div>${pr.avail?'<div class="warn">مش موجود في العروض الحالية. متقولش سعر لحد ما نتأكد إنه متاح وسعره كام.</div>':''}${pr.price?`<div class="warn">السعر ${esc(pr.price)} درهم من غير الضريبة. ده مش عرض، فمفيش هدية معاه.</div>`:''}<span>${esc(pr.what)}</span><ul>${pr.areas.map(a=>`<li>${esc(a)}</li>`).join('')}</ul><div class="acts">${go('p-'+pr.id,'دليل المنتج')}</div>`; break; }
     case 'flow': { const f=it.ref; h=`<div class="hd">${esc(f.t)}</div><ol>${f.steps.map(x=>`<li>${esc(x[0])}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="useflow" data-v="${it.i}">☎ افتحها في مساعد المكالمة</button>${go('flow-'+it.i)}</div>`; break; }
+    case 'stage': { const st=it.ref; h=`<div class="hd">مرحلة <b class="ltr">${esc(st.n)}</b> (${esc(st.ar)})</div>${st.tags.length?`<span>التاجز المقترحة:</span><span class="tagrow">${st.tags.map(n=>`<span class="chip c-tag ltr">${esc(n)}</span>`).join('')}</span>`:'<span>مفيش تاج مطلوب.</span>'}<div class="acts">${go('stages','كل المراحل')}</div>`; break; }
+    case 'tag': { const t=it.ref, sts=STAGES.filter(st=>st.tags.includes(t.n)).map(st=>st.n); h=`<div class="hd">تاج <b class="ltr">${esc(t.n)}</b></div><span>${esc(t.ar)}</span>${sts.length?`<span>تحت مرحلة: <b class="ltr">${esc(sts.join(' / '))}</b></span>`:'<div class="warn">التاج ده مش متحط تحت أي مرحلة. اسأل التيم ليدر.</div>'}<div class="acts">${go('tags','كل التاجز')}</div>`; break; }
     case 'disp': { const d=it.ref; h=`<div class="hd">اختار في السيستم:</div><b class="ltr">${esc(d[0])}</b><span>تختاره لما: ${esc(d[1])}</span><span>لازم تملا: ${esc(d[2])}</span><div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ مش متأكد؟ جاوب على الأسئلة</button></div>`; break; }
     case 'gulf': h=`<div class="hd">${esc(it.ref[0])}</div><span>بالمصري: <b>${esc(it.ref[1])}</b></span>`; break;
     case 'term': h=`<div class="hd">${esc(it.ref[0])} <span class="small ltr">${esc(it.ref[1])}</span></div><span>${esc(it.ref[2])}</span>`; break;
@@ -1211,14 +1245,49 @@ function botAnswerHtml(r){
 }
 const BOT_CHIPS=['عنوان فرع أبوظبي','الفجيرة بتقفل الساعة كام؟','تعليمات قبل الليزر','الليزر بكام؟','العميل بيقول ما في موعد','عملت جلسات ومفيش نتيجة','الفرق بين نابوتا وديسبورت','سكلبترا كام جلسة؟','العميلة حامل وعايزة ليزر','العميل قال شيلوا رقمي','يعني إيه باجر؟','أسجل إيه لو محدش رد؟'];
 // Noor: a small character drawn inline so it follows the page theme. Moods: happy, think, unsure, care.
+// Noor: a rounded 3D-style mascot drawn in SVG. Shading comes from shared gradients injected once below.
+const NOOR_DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>'+
+ '<radialGradient id="nrBody" cx="36%" cy="26%" r="80%"><stop offset="0" stop-color="#F7A6C6"/><stop offset=".42" stop-color="#DA5A8C"/><stop offset=".78" stop-color="#A63D63"/><stop offset="1" stop-color="#76243F"/></radialGradient>'+
+ '<radialGradient id="nrBelly" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#FFF1F6"/><stop offset="1" stop-color="#F4B3CB"/></radialGradient>'+
+ '<radialGradient id="nrEye" cx="40%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".65" stop-color="#fff"/><stop offset="1" stop-color="#D5DDE6"/></radialGradient>'+
+ '<radialGradient id="nrCup" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#5A6A7C"/><stop offset="1" stop-color="#141C26"/></radialGradient>'+
+ '<radialGradient id="nrGold" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#FFE0A0"/><stop offset=".5" stop-color="#EDB04F"/><stop offset="1" stop-color="#A8660C"/></radialGradient>'+
+ '<radialGradient id="nrShade"><stop offset="0" stop-color="#000" stop-opacity=".3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>'+
+ '</defs></svg>';
+document.body.insertAdjacentHTML('afterbegin',NOOR_DEFS);
 function noorSvg(mood){ mood=mood||'happy';
-  const mouth={happy:'M24 41 Q32 48 40 41',think:'M27 43 L37 43',unsure:'M25 45 Q32 40 39 45',care:'M26 44 Q32 41 38 44'}[mood]||'M24 41 Q32 48 40 41';
-  return `<svg class="noor m-${mood}" viewBox="0 0 64 64" aria-hidden="true"><path class="hs" d="M9 33 a23 23 0 0 1 46 0"/><circle class="face" cx="32" cy="35" r="21"/><circle class="shine" cx="25" cy="25" r="8"/>`+
-   `<rect class="ear" x="5" y="29" width="7" height="13" rx="3.5"/><rect class="ear" x="52" y="29" width="7" height="13" rx="3.5"/><path class="hs" d="M55 40 q0 13 -13 13"/><circle class="mic" cx="40" cy="53" r="3.6"/>`+
-   `<g class="eyes"><ellipse class="eye" cx="25" cy="33" rx="3" ry="${mood==='think'?3:4}"/><ellipse class="eye" cx="39" cy="33" rx="3" ry="${mood==='think'?3:4}"/></g>`+
-   `<circle class="cheek" cx="19" cy="40" r="3.2"/><circle class="cheek" cx="45" cy="40" r="3.2"/><path class="mouth" d="${mouth}"/>`+
-   (mood==='happy'?`<path class="spark" d="M54 9 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>`:'')+
-   (mood==='care'?`<path class="spark" d="M53 6 h4 l-1 10 h-2z M55 19 m-2 0 a2 2 0 1 0 4 0 a2 2 0 1 0 -4 0"/>`:'')+`</svg>`; }
+  const arm=(cls,cx,cy,rot)=>`<g class="${cls}"><ellipse cx="${cx}" cy="${cy}" rx="7.5" ry="12" transform="rotate(${rot} ${cx} ${cy})" fill="url(#nrBody)"/></g>`;
+  const arms={
+    happy:arm('armL',17,66,28)+arm('armR',86,40,-28),
+    think:arm('armL',17,66,28)+arm('armR',64,76,62),
+    unsure:arm('armL',12,52,-48)+arm('armR',88,52,48),
+    care:arm('armL',36,78,-58)+arm('armR',64,78,58)}[mood];
+  const mouth={
+    happy:'<path d="M40 60 Q50 74 60 60 Z" fill="#4A1229"/><ellipse cx="50" cy="66.5" rx="4.5" ry="2.6" fill="#FF7FA6"/>',
+    think:'<path d="M44 64 Q51 62 57 64" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>',
+    unsure:'<path d="M42 65 Q46 61 50 64 Q54 67 58 62" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>',
+    care:'<path d="M43 61 Q50 68 57 61" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>'}[mood];
+  const brows={think:'<path d="M31 33 Q38 29 45 33 M56 31 Q63 28 69 32" fill="none" stroke="#4A1229" stroke-width="2.6" stroke-linecap="round"/>',
+    unsure:'<path d="M31 32 Q37 33 44 29 M56 29 Q63 33 69 32" fill="none" stroke="#4A1229" stroke-width="2.6" stroke-linecap="round"/>'}[mood]||'';
+  const extra={
+    happy:'<path class="spark" d="M86 7 l2.4 6 6 2.4 -6 2.4 -2.4 6 -2.4 -6 -6 -2.4 6 -2.4z" fill="url(#nrGold)"/>',
+    think:'<g fill="#fff" stroke="#A63D63" stroke-width="1.5"><circle class="dot" cx="76" cy="14" r="3.2"/><circle class="dot" cx="84" cy="10" r="3.2"/><circle class="dot" cx="92" cy="6" r="3.2"/></g>',
+    unsure:'<path class="drop" d="M80 22 q4 6 0 9 q-4 -3 0 -9z" fill="#9FD3F2" stroke="#4E95C4" stroke-width="1"/>',
+    care:'<g class="prop"><path d="M50 88 C36 79 37 68 44 68 C47 68 49 70 50 72 C51 70 53 68 56 68 C63 68 64 79 50 88Z" fill="url(#nrGold)"/><path d="M48.4 72.5h3.2v3.2h3.2v3.2h-3.2v3.2h-3.2v-3.2h-3.2v-3.2h3.2z" fill="#fff"/></g>'}[mood];
+  const pupY=mood==='think'?45:48;
+  return `<svg class="noor m-${mood}" viewBox="0 0 100 100" aria-hidden="true"><ellipse class="sh" cx="50" cy="95" rx="27" ry="4.5" fill="url(#nrShade)"/><g class="bob">`+
+   `<ellipse cx="38" cy="89" rx="9.5" ry="5.5" fill="#76243F"/><ellipse cx="62" cy="89" rx="9.5" ry="5.5" fill="#76243F"/>`+
+   (mood==='happy'?arms.split('<g class="armR">')[0]:'')+
+   `<path d="M50 12 C75 12 87 32 87 56 C87 79 71 92 50 92 C29 92 13 79 13 56 C13 32 25 12 50 12Z" fill="url(#nrBody)"/>`+
+   `<ellipse cx="50" cy="73" rx="21" ry="14" fill="url(#nrBelly)" opacity=".92"/>`+
+   `<g class="face"><path d="M19 46 C19 15 81 15 81 46" fill="none" stroke="#18222E" stroke-width="4.5" stroke-linecap="round"/>`+
+   `<rect x="10" y="38" width="12" height="19" rx="6" fill="url(#nrCup)"/><rect x="78" y="38" width="12" height="19" rx="6" fill="url(#nrCup)"/>`+
+   `<path d="M83 55 C83 67 76 71 66 71" fill="none" stroke="#18222E" stroke-width="2.6" stroke-linecap="round"/><circle cx="65" cy="71" r="3.6" fill="url(#nrGold)"/>`+
+   brows+`<g class="eyes"><ellipse cx="38" cy="46" rx="9" ry="10.5" fill="url(#nrEye)"/><ellipse cx="62" cy="46" rx="9" ry="10.5" fill="url(#nrEye)"/>`+
+   `<g class="pup"><circle cx="39.5" cy="${pupY}" r="5.2" fill="#18222E"/><circle cx="60.5" cy="${pupY}" r="5.2" fill="#18222E"/><circle cx="41.6" cy="${pupY-2.6}" r="1.9" fill="#fff"/><circle cx="62.6" cy="${pupY-2.6}" r="1.9" fill="#fff"/></g></g>`+
+   `<ellipse cx="27" cy="60" rx="5.5" ry="3.2" fill="#FF8FB5" opacity=".6"/><ellipse cx="73" cy="60" rx="5.5" ry="3.2" fill="#FF8FB5" opacity=".6"/>`+mouth+
+   `<ellipse cx="34" cy="23" rx="10" ry="5.5" transform="rotate(-28 34 23)" fill="#fff" opacity=".38"/></g>`+
+   (mood==='happy'?'<g class="armR">'+arms.split('<g class="armR">')[1]:arms)+extra+`</g></svg>`; }
 const noorAv=(mood,cls)=>`<span class="av${cls?' '+cls:''}">${noorSvg(mood)}</span>`;
 const NOOR_LEADS=['لقيتها ✨','أهي 👇','بص يا سيدي 👇','دي الإجابة من الدليل 👇'];
 function noorMood(r){ if(!r) return 'unsure'; return r.kind==='none'?'unsure':r.kind==='medical'?'care':'happy'; }
@@ -1228,12 +1297,12 @@ function drawerChat(){
   const mood=last?(last.typing?'think':last.mood||'happy'):'happy';
   const row=(m,h,cls)=>`<div class="cmrow">${noorAv(m)}<div class="cm b${cls?' '+cls:''}">${h}</div></div>`;
   const log=BOT.msgs.length?BOT.msgs.map(m=>m.u?`<div class="cm u">${esc(m.u)}</div>`:m.typing?row('think','<i></i><i></i><i></i>','typing'):row(m.mood||'happy',m.h)).join(''):
-    row('happy',`<b>${esc(hello)}</b><span>اكتبلي سؤالك زي ما بتفكر فيه، بالمصري أو بكلام العميل الخليجي. هرد عليك من الدليل بس، ولو الإجابة مش موجودة هقولك بصراحة.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div>`);
+    row('happy',`<div class="noorhero">${noorSvg('happy')}</div><b>${esc(hello)}</b><span>اكتبلي سؤالك زي ما بتفكر فيه، بالمصري أو بكلام العميل الخليجي. هرد عليك من الدليل بس، ولو الإجابة مش موجودة هقولك بصراحة.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div>`);
   return `<div class="dhead noorhead"><div class="who">${noorAv(mood,'lg')}<div><b>نور</b><span class="st"><i></i>مساعدتك في الدليل · بترد من الدليل بس</span></div></div>${BOT.msgs.length?'<button class="btn" data-a="bclear">مسح</button>':''}</div>
    <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
    <div class="csug" id="csug" hidden></div><form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="مثلاً: سعر الفيلر؟ أو العميل بيقول غالي" aria-label="سؤالك"><button class="btn pri" type="submit">اسأل</button></form></div>`;
 }
-const SUGTYPE={reg:'سعر عادي',offer:'عرض',oqa:'سؤال عميل',obj:'اعتراض',product:'خدمة',pqa:'سؤال عميل',pobj:'اعتراض',rule:'قاعدة',center:'المركز',branch:'فرع',prep:'تعليمات',disp:'نتيجة مكالمة',todo:'محتاج تأكيد',flow:'سكريبت',gulf:'خليجي',term:'مصطلح'};
+const SUGTYPE={stage:'مرحلة أودوو',tag:'تاج أودوو',reg:'سعر عادي',offer:'عرض',oqa:'سؤال عميل',obj:'اعتراض',product:'خدمة',pqa:'سؤال عميل',pobj:'اعتراض',rule:'قاعدة',center:'المركز',branch:'فرع',prep:'تعليمات',disp:'نتيجة مكالمة',todo:'محتاج تأكيد',flow:'سكريبت',gulf:'خليجي',term:'مصطلح'};
 let SUG=[],SUGI=-1;
 function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSuggest(i.value); SUGI=-1;
   if(!SUG.length){ b.hidden=true; b.innerHTML=''; return; }
