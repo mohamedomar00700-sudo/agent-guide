@@ -300,23 +300,39 @@ ol.tline2 b{font-size:14px}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 /* ===== Noor: the chatbot's character ===== */
 .noor{display:block;width:100%;height:100%;overflow:visible}
-.noor .face{fill:var(--rose)}
-.noor .shine{fill:#fff;opacity:.18}
-.noor .hs{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round}
-.noor .ear{fill:var(--ink)}
-.noor .mic{fill:var(--amber)}
-.noor .eye{fill:#fff}
-.noor .cheek{fill:#fff;opacity:.28}
-.noor .mouth{fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round}
-.noor .spark{fill:var(--amber)}
-.noor .eyes{transform-box:fill-box;transform-origin:center;animation:noorBlink 4.6s infinite}
-.noor.m-think .eyes{animation:noorLook 1.2s ease-in-out infinite alternate}
-.noor.m-happy .spark{transform-box:fill-box;transform-origin:center;animation:noorSpark 2.4s ease-in-out infinite}
+.noor g,.noor ellipse,.noor path,.noor circle,.noor rect{transform-box:view-box}
+.noor .bob{transform-origin:50px 94px;animation:noorBob 2.8s ease-in-out infinite}
+.noor .sh{transform-origin:50px 95px;animation:noorShadow 2.8s ease-in-out infinite}
+.noor .eyes{transform-origin:50px 47px;animation:noorBlink 4.6s infinite}
+.noor .face{transform-origin:50px 60px}
+.noor .armL{transform-origin:22px 60px}.noor .armR{transform-origin:78px 60px}
+.noor.m-happy .armR{animation:noorWave 1s ease-in-out 3}
+.noor.m-happy .spark{transform-origin:86px 16px;animation:noorSpark 2.4s ease-in-out infinite}
+.noor.m-think .face{animation:noorTilt 2.4s ease-in-out infinite alternate}
+.noor.m-think .pup{animation:noorLook 1.4s ease-in-out infinite alternate}
+.noor.m-think .dot{animation:noorDot 1.2s ease-in-out infinite}.noor.m-think .dot:nth-of-type(2){animation-delay:.2s}.noor.m-think .dot:nth-of-type(3){animation-delay:.4s}
+.noor.m-unsure .face{animation:noorShake .5s ease-in-out 2}
+.noor.m-unsure .armL,.noor.m-unsure .armR{animation:noorShrug 1.8s ease-in-out infinite}
+.noor.m-unsure .drop{animation:noorDrop 2.2s ease-in infinite}
+.noor.m-care .prop{transform-origin:50px 76px;animation:noorPulse 1.6s ease-in-out infinite}
+.noor.m-care .face{animation:noorTilt 3.2s ease-in-out infinite alternate}
+.chatlog .cmrow:last-child .noor .bob{animation:noorJump .7s cubic-bezier(.3,1.6,.5,1),noorBob 2.8s ease-in-out .7s infinite}
+.chatlog .cmrow:not(:last-child) .noor *{animation:none!important}
+@keyframes noorBob{0%,100%{transform:none}50%{transform:translateY(-3px) scale(1.015,.985)}}
+@keyframes noorShadow{0%,100%{transform:none;opacity:1}50%{transform:scaleX(.88);opacity:.75}}
+@keyframes noorJump{0%{transform:translateY(0) scale(1.08,.9)}40%{transform:translateY(-12px) scale(.95,1.06)}75%{transform:translateY(0) scale(1.06,.94)}100%{transform:none}}
 @keyframes noorBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
-@keyframes noorLook{from{transform:translate(-1.5px,-1.5px)}to{transform:translate(1.5px,-1.5px)}}
+@keyframes noorWave{0%,100%{transform:rotate(0)}25%{transform:rotate(-22deg)}75%{transform:rotate(14deg)}}
+@keyframes noorTilt{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes noorLook{from{transform:translate(-1.5px,-2px)}to{transform:translate(1.8px,-2.5px)}}
+@keyframes noorShake{0%,100%{transform:none}25%{transform:translateX(-3px) rotate(-3deg)}75%{transform:translateX(3px) rotate(3deg)}}
+@keyframes noorShrug{0%,100%{transform:none}50%{transform:translateY(-3px)}}
+@keyframes noorDrop{0%{transform:translateY(-2px);opacity:0}30%{opacity:1}100%{transform:translateY(6px);opacity:0}}
+@keyframes noorPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 @keyframes noorSpark{0%,100%{transform:scale(.7) rotate(0);opacity:.6}50%{transform:scale(1.1) rotate(20deg);opacity:1}}
-.av{flex:none;display:inline-block;width:28px;height:28px}
-.av.lg{width:46px;height:46px}
+.av{flex:none;display:inline-block;width:38px;height:38px}
+.av.lg{width:56px;height:56px}
+.noorhero{width:120px;height:120px;margin:2px auto 6px}
 .noorhead{align-items:center}
 .noorhead .who{display:flex;gap:10px;align-items:center;min-width:0}
 .noorhead .who b{display:block;font-family:var(--d);font-size:17px;line-height:1.2}
@@ -335,12 +351,10 @@ ol.tline2 b{font-size:14px}
 .fab.noorfab{display:none;align-items:center;gap:8px;padding:6px 16px 6px 8px;border-radius:30px}
 [dir=rtl] .fab.noorfab{padding:6px 8px 6px 16px}
 @media (max-width:1080px){.fab.noorfab{display:flex}}
-.fab.noorfab .av{width:34px;height:34px;background:var(--paper);border-radius:50%;padding:2px}
-.fab.noorfab .av .hs{stroke:var(--head)}.fab.noorfab .av .ear{fill:var(--head)}
+.fab.noorfab .av{width:40px;height:40px;margin:-8px 0 -4px}
 .fab.noorfab{animation:noorWave 1.6s ease-in-out 1.2s 2}
 @keyframes noorWave{0%,100%{transform:none}25%{transform:translateY(-4px)}50%{transform:none}75%{transform:translateY(-2px)}}
-.tbtn .av{width:22px;height:22px}
-.tbtn .av .hs{stroke:var(--head-ink)}.tbtn .av .ear{fill:var(--head-ink)}
+.tbtn .av{width:26px;height:26px;margin:-4px 0}
 @media (prefers-reduced-motion:reduce){.noor *,.cm,.fab.noorfab,.cm.typing i{animation:none!important}}
 
 
@@ -545,22 +559,25 @@ const RULES=[
 const FLOWS=[
  {t:'New lead (even if the customer doesn\'t know exactly what they want)',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Good evening, this is [your name] from H&P Medical Center. Am I speaking with Ms. [name]?'],
-  ['State the reason for the call, and ask if it\'s a good time.','I\'m calling about your recent inquiry about our services. Do you have two minutes?'],
+  ['State the reason for the call and lead with the free consultation. Don\'t ask "Do you have two minutes?", because the easiest answer is "no".','I\'m calling about your inquiry about [the service / our services], and I have good news for you: your first consultation with the doctor is completely free with no obligation, and it tells you exactly which treatment suits you.'],
   ['Find out the need.','So I can help you properly, are you looking for a specific service like laser or filler, or would you like help choosing what suits you best? And what would you most like to improve?'],
-  ['Offer the free consultation, the offer, and the gift.','Great. Your first consultation with us is completely free with no obligation. Dr. Yasmine Darwish, our dermatologist, will assess your skin and tell you the most suitable treatment for you. We also have offers right now, and each offer comes with a gift of your choice.'],
+  ['Link the free consultation to what they told you, and mention the offer and the gift.','Great. Your first consultation with us is completely free with no obligation. Dr. Yasmine Darwish, our dermatologist, will assess your skin and tell you the most suitable treatment for you. We also have offers right now, and each offer comes with a gift of your choice.'],
   ['Close with two options.','Would you like to book the consultation on [day/time] or [day/time]?'],
-  ['Confirm all the details and close politely.','Let me confirm with you: name, number, branch, day and time. You will receive a confirmation message.']]},
+  ['Confirm all the details and close politely.','Let me confirm with you: name, number, branch, day and time. You will receive a confirmation message.'],
+  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Call outcome section.']]},
  {t:'Follow-up: attended the consultation but didn\'t book',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center.'],
   ['Ask about their experience.','You visited us for the free consultation with the doctor on [..], and we wanted to check on your experience. How was it?'],
   ['Ask an open question first.','Was the treatment plan clear? Was there anything that made you hesitate to start?'],
   ['If they don\'t give a reason, offer options.','Was it the price? The appointment times? Or something else?'],
   ['Offer a real solution, and record the exact reason in the system.','If it\'s the price: the current offer and the gift. If they\'re hesitant: a free follow-up with the doctor to answer your questions.'],
-  ['Book, or set a Call back with a time.','Would you like to book on [day/time] or [day/time]?']]},
+  ['Book, or set a Call back with a time.','Would you like to book on [day/time] or [day/time]?'],
+  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Call outcome section.']]},
  {t:'Follow-up: booked but didn\'t show up',steps:[
   ['Check on them without blaming.','We noticed you couldn\'t make it to your appointment yesterday. I hope everything is okay?'],
   ['Offer a new appointment.','The consultation is still free. Would you like me to book you another appointment?'],
-  ['Confirm and send a confirmation.','Let me confirm the new appointment with you…']]},
+  ['Confirm and send a confirmation.','Let me confirm the new appointment with you…'],
+  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Call outcome section.']]},
  {t:'Previous customer (and we don\'t have their history)',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center. You visited us before, and we wanted to check on you and tell you about our new offers.'],
   ['Let the customer tell you what they had done, and record it in the system.','What did you have done with us last time? And how was the experience?'],
@@ -790,6 +807,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['15 Oct 2026','The new-lead call now opens with the free consultation instead of "Do you have two minutes?". Logging the Odoo stage and tag is now the last call step and on the checklist.'],
  ['14 Oct 2026','The name said on calls is now "H&P Medical Center", at the client\'s request. Odoo stages, the recommended tags for each and what every tag means are now in the Call outcome section.'],
  ['14 Oct 2026','"Ask the guide" is now Noor: a character that types before answering and changes expression with the answer. Answers are unchanged and come from the guide only.'],
  ['11 Oct 2026','The fat-dissolving course is now 1,500 AED with a gift.'],
@@ -832,7 +850,8 @@ const COMPCK=[
  'Didn\'t promise results or give medical advice',
  'Said the consultation is free with no commitment (sales calls)',
  'Confirmed the details (name, number, branch, day and time) if booked',
- 'Set the next step and closed politely'
+ 'Set the next step and closed politely',
+ 'Logged the right stage and tag in Odoo'
 ];
 const VARIANTS=[
  {id:'nab1',o:'nabota',t:'Nabota: one area',p:499,unit:'Area',q:true},
@@ -1234,14 +1253,49 @@ function botAnswerHtml(r){
 }
 const BOT_CHIPS=['Abu Dhabi branch address','What time does Fujairah close?','Instructions before laser','How much is laser?','Customer says "There are never any appointments"','Had sessions and no results','Difference between Nabota and Dysport','How many sessions of Sculptra?','Customer is pregnant and wants laser','Customer said "Remove my number"','What does "باجر" (bacher) mean?','What do I log if no one answered?'];
 // Noor: a small character drawn inline so it follows the page theme. Moods: happy, think, unsure, care.
+// Noor: a rounded 3D-style mascot drawn in SVG. Shading comes from shared gradients injected once below.
+const NOOR_DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>'+
+ '<radialGradient id="nrBody" cx="36%" cy="26%" r="80%"><stop offset="0" stop-color="#F7A6C6"/><stop offset=".42" stop-color="#DA5A8C"/><stop offset=".78" stop-color="#A63D63"/><stop offset="1" stop-color="#76243F"/></radialGradient>'+
+ '<radialGradient id="nrBelly" cx="45%" cy="30%" r="75%"><stop offset="0" stop-color="#FFF1F6"/><stop offset="1" stop-color="#F4B3CB"/></radialGradient>'+
+ '<radialGradient id="nrEye" cx="40%" cy="32%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".65" stop-color="#fff"/><stop offset="1" stop-color="#D5DDE6"/></radialGradient>'+
+ '<radialGradient id="nrCup" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#5A6A7C"/><stop offset="1" stop-color="#141C26"/></radialGradient>'+
+ '<radialGradient id="nrGold" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#FFE0A0"/><stop offset=".5" stop-color="#EDB04F"/><stop offset="1" stop-color="#A8660C"/></radialGradient>'+
+ '<radialGradient id="nrShade"><stop offset="0" stop-color="#000" stop-opacity=".3"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>'+
+ '</defs></svg>';
+document.body.insertAdjacentHTML('afterbegin',NOOR_DEFS);
 function noorSvg(mood){ mood=mood||'happy';
-  const mouth={happy:'M24 41 Q32 48 40 41',think:'M27 43 L37 43',unsure:'M25 45 Q32 40 39 45',care:'M26 44 Q32 41 38 44'}[mood]||'M24 41 Q32 48 40 41';
-  return `<svg class="noor m-${mood}" viewBox="0 0 64 64" aria-hidden="true"><path class="hs" d="M9 33 a23 23 0 0 1 46 0"/><circle class="face" cx="32" cy="35" r="21"/><circle class="shine" cx="25" cy="25" r="8"/>`+
-   `<rect class="ear" x="5" y="29" width="7" height="13" rx="3.5"/><rect class="ear" x="52" y="29" width="7" height="13" rx="3.5"/><path class="hs" d="M55 40 q0 13 -13 13"/><circle class="mic" cx="40" cy="53" r="3.6"/>`+
-   `<g class="eyes"><ellipse class="eye" cx="25" cy="33" rx="3" ry="${mood==='think'?3:4}"/><ellipse class="eye" cx="39" cy="33" rx="3" ry="${mood==='think'?3:4}"/></g>`+
-   `<circle class="cheek" cx="19" cy="40" r="3.2"/><circle class="cheek" cx="45" cy="40" r="3.2"/><path class="mouth" d="${mouth}"/>`+
-   (mood==='happy'?`<path class="spark" d="M54 9 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z"/>`:'')+
-   (mood==='care'?`<path class="spark" d="M53 6 h4 l-1 10 h-2z M55 19 m-2 0 a2 2 0 1 0 4 0 a2 2 0 1 0 -4 0"/>`:'')+`</svg>`; }
+  const arm=(cls,cx,cy,rot)=>`<g class="${cls}"><ellipse cx="${cx}" cy="${cy}" rx="7.5" ry="12" transform="rotate(${rot} ${cx} ${cy})" fill="url(#nrBody)"/></g>`;
+  const arms={
+    happy:arm('armL',17,66,28)+arm('armR',86,40,-28),
+    think:arm('armL',17,66,28)+arm('armR',64,76,62),
+    unsure:arm('armL',12,52,-48)+arm('armR',88,52,48),
+    care:arm('armL',36,78,-58)+arm('armR',64,78,58)}[mood];
+  const mouth={
+    happy:'<path d="M40 60 Q50 74 60 60 Z" fill="#4A1229"/><ellipse cx="50" cy="66.5" rx="4.5" ry="2.6" fill="#FF7FA6"/>',
+    think:'<path d="M44 64 Q51 62 57 64" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>',
+    unsure:'<path d="M42 65 Q46 61 50 64 Q54 67 58 62" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>',
+    care:'<path d="M43 61 Q50 68 57 61" fill="none" stroke="#4A1229" stroke-width="2.8" stroke-linecap="round"/>'}[mood];
+  const brows={think:'<path d="M31 33 Q38 29 45 33 M56 31 Q63 28 69 32" fill="none" stroke="#4A1229" stroke-width="2.6" stroke-linecap="round"/>',
+    unsure:'<path d="M31 32 Q37 33 44 29 M56 29 Q63 33 69 32" fill="none" stroke="#4A1229" stroke-width="2.6" stroke-linecap="round"/>'}[mood]||'';
+  const extra={
+    happy:'<path class="spark" d="M86 7 l2.4 6 6 2.4 -6 2.4 -2.4 6 -2.4 -6 -6 -2.4 6 -2.4z" fill="url(#nrGold)"/>',
+    think:'<g fill="#fff" stroke="#A63D63" stroke-width="1.5"><circle class="dot" cx="76" cy="14" r="3.2"/><circle class="dot" cx="84" cy="10" r="3.2"/><circle class="dot" cx="92" cy="6" r="3.2"/></g>',
+    unsure:'<path class="drop" d="M80 22 q4 6 0 9 q-4 -3 0 -9z" fill="#9FD3F2" stroke="#4E95C4" stroke-width="1"/>',
+    care:'<g class="prop"><path d="M50 88 C36 79 37 68 44 68 C47 68 49 70 50 72 C51 70 53 68 56 68 C63 68 64 79 50 88Z" fill="url(#nrGold)"/><path d="M48.4 72.5h3.2v3.2h3.2v3.2h-3.2v3.2h-3.2v-3.2h-3.2v-3.2h3.2z" fill="#fff"/></g>'}[mood];
+  const pupY=mood==='think'?45:48;
+  return `<svg class="noor m-${mood}" viewBox="0 0 100 100" aria-hidden="true"><ellipse class="sh" cx="50" cy="95" rx="27" ry="4.5" fill="url(#nrShade)"/><g class="bob">`+
+   `<ellipse cx="38" cy="89" rx="9.5" ry="5.5" fill="#76243F"/><ellipse cx="62" cy="89" rx="9.5" ry="5.5" fill="#76243F"/>`+
+   (mood==='happy'?arms.split('<g class="armR">')[0]:'')+
+   `<path d="M50 12 C75 12 87 32 87 56 C87 79 71 92 50 92 C29 92 13 79 13 56 C13 32 25 12 50 12Z" fill="url(#nrBody)"/>`+
+   `<ellipse cx="50" cy="73" rx="21" ry="14" fill="url(#nrBelly)" opacity=".92"/>`+
+   `<g class="face"><path d="M19 46 C19 15 81 15 81 46" fill="none" stroke="#18222E" stroke-width="4.5" stroke-linecap="round"/>`+
+   `<rect x="10" y="38" width="12" height="19" rx="6" fill="url(#nrCup)"/><rect x="78" y="38" width="12" height="19" rx="6" fill="url(#nrCup)"/>`+
+   `<path d="M83 55 C83 67 76 71 66 71" fill="none" stroke="#18222E" stroke-width="2.6" stroke-linecap="round"/><circle cx="65" cy="71" r="3.6" fill="url(#nrGold)"/>`+
+   brows+`<g class="eyes"><ellipse cx="38" cy="46" rx="9" ry="10.5" fill="url(#nrEye)"/><ellipse cx="62" cy="46" rx="9" ry="10.5" fill="url(#nrEye)"/>`+
+   `<g class="pup"><circle cx="39.5" cy="${pupY}" r="5.2" fill="#18222E"/><circle cx="60.5" cy="${pupY}" r="5.2" fill="#18222E"/><circle cx="41.6" cy="${pupY-2.6}" r="1.9" fill="#fff"/><circle cx="62.6" cy="${pupY-2.6}" r="1.9" fill="#fff"/></g></g>`+
+   `<ellipse cx="27" cy="60" rx="5.5" ry="3.2" fill="#FF8FB5" opacity=".6"/><ellipse cx="73" cy="60" rx="5.5" ry="3.2" fill="#FF8FB5" opacity=".6"/>`+mouth+
+   `<ellipse cx="34" cy="23" rx="10" ry="5.5" transform="rotate(-28 34 23)" fill="#fff" opacity=".38"/></g>`+
+   (mood==='happy'?'<g class="armR">'+arms.split('<g class="armR">')[1]:arms)+extra+`</g></svg>`; }
 const noorAv=(mood,cls)=>`<span class="av${cls?' '+cls:''}">${noorSvg(mood)}</span>`;
 const NOOR_LEADS=['Found it ✨','Here you go 👇','From the guide 👇','Here it is 👇'];
 function noorMood(r){ if(!r) return 'unsure'; return r.kind==='none'?'unsure':r.kind==='medical'?'care':'happy'; }
@@ -1251,7 +1305,7 @@ function drawerChat(){
   const mood=last?(last.typing?'think':last.mood||'happy'):'happy';
   const row=(m,h,cls)=>`<div class="cmrow">${noorAv(m)}<div class="cm b${cls?' '+cls:''}">${h}</div></div>`;
   const log=BOT.msgs.length?BOT.msgs.map(m=>m.u?`<div class="cm u">${esc(m.u)}</div>`:m.typing?row('think','<i></i><i></i><i></i>','typing'):row(m.mood||'happy',m.h)).join(''):
-    row('happy',`<b>${esc(hello)}</b><span>Type your question the way you think of it, in your own words or in the customer\'s Gulf words. I\'ll answer from the guide only, and if the answer isn\'t there I\'ll tell you straight.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div>`);
+    row('happy',`<div class="noorhero">${noorSvg('happy')}</div><b>${esc(hello)}</b><span>Type your question the way you think of it, in your own words or in the customer\'s Gulf words. I\'ll answer from the guide only, and if the answer isn\'t there I\'ll tell you straight.</span><div class="chips2">${BOT_CHIPS.map(c=>`<button data-a="bq" data-t="${esc(c)}">${esc(c)}</button>`).join('')}</div>`);
   return `<div class="dhead noorhead"><div class="who">${noorAv(mood,'lg')}<div><b>Noor</b><span class="st"><i></i>Your guide assistant · answers from the guide only</span></div></div>${BOT.msgs.length?'<button class="btn" data-a="bclear">Clear</button>':''}</div>
    <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
    <div class="csug" id="csug" hidden></div><form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="e.g. Filler price? or The customer says it's expensive" aria-label="Your question"><button class="btn pri" type="submit">Ask</button></form></div>`;
