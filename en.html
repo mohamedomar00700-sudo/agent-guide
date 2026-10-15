@@ -84,6 +84,7 @@ section{display:grid;gap:14px;scroll-margin-top:calc(var(--hh) + 16px)}
 .qa-card span{font-size:13.5px}
 .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
 
+.ib.say{padding:2px 7px;line-height:1.2;vertical-align:middle}
 .tagrow{display:flex;flex-wrap:wrap;gap:4px}.c-tag{background:var(--blue-soft);color:var(--blue)}.c-stage{background:var(--sage-soft);color:var(--sage);white-space:nowrap}
 .odt td{vertical-align:top}.tagf{width:100%;max-width:340px;margin:0 0 8px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font:inherit}
 .dcard{display:grid;gap:6px;margin-top:8px}.dcard .dr{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.dcard .dr>span{color:var(--muted);font-size:13px;min-width:74px}.dcard em{font-style:normal;font-weight:600;font-size:14px;font-family:inherit}
@@ -830,6 +831,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['15 Oct 2026','English names of services and materials now have a 🔊 button to hear the right pronunciation, plus a "Pronunciation" section in the Gulf dialect & terms tab. You can also ask Noor "how do I say Sculptra?".'],
  ['15 Oct 2026','Odoo now has its own tab: a "what happened and how to log it" table (stage, tag and activity), the stages, and what each tag means with a search box. The "Outcome" button now gives the stage, tag and activity directly.'],
  ['15 Oct 2026','Noor is now with you on every page: she greets you by name, gives a tip when you open a section, cheers when you copy a line or finish the call steps, and offers to help when search finds nothing. Tap "Stop the tips" if you don\'t want tips.'],
  ['15 Oct 2026','The new-lead call now opens with the free consultation instead of "Do you have two minutes?". Logging the Odoo stage and tag is now the last call step and on the checklist.'],
@@ -903,6 +905,22 @@ const VARIANTS=[
 ];
 const WIZ={"start": {"q": "Did anyone answer the call?", "o": [["Yes", "who"], ["No", "nores"]]}, "nores": {"q": "What happened?", "o": [["Rang, switched off, rejected or voicemail", "R:noans"], ["This was the last attempt and never any answer", "R:unreach"]]}, "who": {"q": "Are you speaking to the right person?", "o": [["Yes", "stop"], ["No, it's not their number at all", "R:wrong"], ["No, a relative or someone who knows them", "R:relative"]]}, "stop": {"q": "Did they ask not to be contacted again?", "o": [["Yes", "R:stop"], ["No", "prob"]]}, "prob": {"q": "Did they complain or sound upset about an experience?", "o": [["Yes", "R:problem"], ["No", "err"]]}, "err": {"q": "Is something wrong with the lead itself?", "o": [["No, a normal lead", "fu"], ["Can't speak Arabic or English", "R:noarb"], ["No UAE number", "R:nouae"], ["Registered by mistake", "R:mistake"], ["Looking for a job", "R:hr"], ["Company account or auto reply", "R:company"]]}, "fu": {"q": "Is this a customer who had booked and you're following up?", "o": [["No", "book"], ["Yes, and didn't come", "R:noshow"], ["Yes, and came", "R:arrived"], ["Yes, agreed but didn't pay", "R:nopay"], ["Yes, and paid", "R:paid"]]}, "book": {"q": "Did they book a specific appointment?", "o": [["Yes", "R:booked"], ["No", "later"]]}, "later": {"q": "Interested, but not now?", "o": [["No", "hold"], ["Busy right now", "R:busy"], ["We agreed a time to call", "R:later"], ["Said they will call us", "R:willcall"], ["Prefers WhatsApp", "R:wa"], ["Has no WhatsApp", "R:nowa"]]}, "hold": {"q": "Pregnant or travelling?", "o": [["No", "lost"], ["Pregnant", "R:preg"], ["Travelling", "R:travel"]]}, "lost": {"q": "Why won't they book?", "o": [["Not interested", "R:ni"], ["Too expensive", "R:exp"], ["Outside the service area", "R:area"], ["May be outside the area", "R:potarea"], ["Subscribed at another center", "R:other"], ["Active with another of our branches", "R:otherbr"], ["Was only asking", "R:ask"], ["Not serious", "R:notserious"]]}};
 
+
+// Pronunciation of English names: the browser's English voice reads a respelled form; the Arabic spelling and stress guide work offline.
+const PRON=[["Botox", "Botox", "بوتوكس", "BOH-tox"], ["Nabota", "Na-boh-ta", "نابوتا", "na-BOH-ta"], ["Dysport", "Dis-port", "ديسبورت", "DIS-port"], ["Meso Botox", "Mezzo Botox", "ميزو بوتوكس", "MEH-zo BOH-tox"], ["Sculptra", "Skulp-tra", "سكَلبترا", "SKULP-tra"], ["Galderma", "Gal-derma", "جالديرما", "gal-DER-ma"], ["Endolaser", "Endo laser", "إندوليزر", "EN-do-LAY-zer"], ["Candela GentleMax Pro Plus", "Can-della, Gentle Max, Pro Plus", "كانديلا جنتل ماكس برو بلس", "kan-DEL-a JEN-tl max"], ["Restylane Kysse", "Resty-lane Kiss", "ريستالين كِس", "RES-ti-lane KISS"], ["AILEENE", "Eye-leen", "أيلين", "eye-LEEN"], ["Dermapen", "Derma pen", "ديرمابن", "DER-ma-pen"], ["RRS", "R. R. S.", "آر آر إس", "ar-ar-ES"], ["Silutrix", "Silu-tricks", "سيلوتريكس", "SIL-u-trix"], ["Mounjaro", "Mown-jar-oh", "مونجارو", "mown-JAR-oh"], ["Filler", "Filler", "فيلر", "FIL-er"], ["Cellulite", "Cell-you-light", "سيليولايت", "SEL-yoo-lite"], ["Lymphatic drainage", "Lim-fatic drainage", "ليمفاتيك دريناج", "lim-FAT-ik DRAY-nij"], ["PLLA", "P. L. L. A.", "بي إل إل إيه", "pee-el-el-AY"], ["Poly-L-lactic acid", "Polly, L, lactic acid", "بولي إل لاكتيك أسيد", "POL-ee el LAK-tik"], ["Lidocaine", "Lie-doe-cane", "لايدوكين", "LYE-doh-kane"], ["Hyaluronic acid", "High-a-lu-ronic acid", "هايالورونيك أسيد", "hy-a-loo-RON-ik"], ["Collagen", "Collagen", "كولاجين", "KOL-a-jin"], ["Radiofrequency", "Radio frequency", "راديو فريكوينسي", "RAY-dee-oh FREE-kwen-see"]];
+const PRON_KEYS=PRON.map(p=>p[0]).sort((a,b)=>b.length-a.length);
+function pronSay(text){ let t=String(text||'').replace(/\([^)]*\)/g,' ');
+  PRON_KEYS.forEach(k=>{ const p=PRON.find(x=>x[0]===k); t=t.replace(new RegExp(k.replace(/[-.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),p[1]); });
+  return t.replace(/\s+/g,' ').trim(); }
+function pronHits(text){ const s=String(text||'').toLowerCase(); const h=PRON.filter(p=>s.includes(p[0].toLowerCase())); return h.filter(p=>!h.some(q=>q!==p&&q[0].toLowerCase().includes(p[0].toLowerCase()))); }
+const pronBtn=(text)=>pronHits(text).length?`<button class="ib say" data-a="say" data-t="${esc(text)}" title="Hear it: ${esc(pronHits(text).map(p=>p[2]).join(' · '))}" aria-label="Hear it: ${esc(text)}">🔊</button>`:'';
+function speak(text){ try{ const ss=window.speechSynthesis; if(!ss||typeof SpeechSynthesisUtterance==='undefined'){ toast('This device has no speech support. Read the written guide.'); return; }
+  ss.cancel(); const u=new SpeechSynthesisUtterance(pronSay(text)); u.lang='en-US'; u.rate=.8;
+  const v=(ss.getVoices()||[]).filter(v=>/^en[-_]/i.test(v.lang)); const pick=v.find(v=>/en[-_]US/i.test(v.lang)&&/female|samantha|google us/i.test(v.name))||v.find(v=>/en[-_]US/i.test(v.lang))||v[0]; if(pick) u.voice=pick;
+  ss.speak(u); }catch(e){ toast('This device has no speech support. Read the written guide.'); } }
+try{ if(window.speechSynthesis) speechSynthesis.getVoices(); }catch(e){}
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-a="say"]'); if(!b) return; e.stopPropagation(); speak(b.dataset.t); if(typeof buddySay==='function') buddySay('🔊 '+esc(b.dataset.t)+' · <b dir="rtl">'+esc(pronHits(b.dataset.t).map(p=>p[2]).join(' · '))+'</b>',{mood:'happy',ms:3500}); },true);
+
 /* ================= STATE ================= */
 const LS='tj-kb-v2';
 let ST={pins:[],call:{},callType:'NEW',quote:{}};
@@ -915,7 +933,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Number(n).toLocaleString('en-US');
 const stChip=s=>s==='ok'?'<span class="chip c-ok">Confirmed</span>':s==='warn'?'<span class="chip c-warn">Needs confirmation</span>':'<span class="chip c-no">Price not available, don\'t say it</span>';
-const SECTIONS=[['home','Home'],['center','The center'],['rules','Price rules'],['offers','Offers'],['prices','Price table'],['products','Product guide'],['objections','Objections'],['flows','Call steps'],['disp','Odoo'],['gulf','Gulf dialect glossary'],['terms','Terms'],['todo','Needs confirmation'],['updates','Updates']];
+const SECTIONS=[['home','Home'],['center','The center'],['rules','Price rules'],['offers','Offers'],['prices','Price table'],['products','Product guide'],['objections','Objections'],['flows','Call steps'],['disp','Odoo'],['gulf','Gulf dialect glossary'],['terms','Terms'],['pron','Pronunciation'],['todo','Needs confirmation'],['updates','Updates']];
 const pinned=id=>ST.pins.includes(id);
 function renderTabs(){ $('tabs').innerHTML=VIEWS.map(([k,t])=>`<a href="#${k}" data-view="${k}" class="${VIEW===k?'on':''}" ${VIEW===k?'aria-current="page"':''}>${t}${k==='offers'?`<span class="cnt">${OFFERS.length}</span>`:k==='todo'?`<span class="cnt">${TODO.length}</span>`:''}</a>`).join(''); const a=document.querySelector('.tabs a.on'); if(a) a.scrollIntoView({block:'nearest',inline:'center'}); }
 function pinBtn(id){return `<button class="ib ${pinned(id)?'on':''}" data-a="pin" data-v="${id}" aria-pressed="${pinned(id)}" title="${pinned(id)?'Unpin':'Pin to side'}">${pinned(id)?'★':'☆'}</button>`}
@@ -925,7 +943,7 @@ function offerHtml(o){
   return `<article class="offer" id="o-${o.id}"><div class="ohead">
     <button class="tt" data-a="toggle" data-v="${o.id}" aria-expanded="${open}"><h3>${esc(o.ar)}</h3><span class="en ltr">${esc(o.en)}</span><span class="chips"><span class="chip c-cat">${CATS[o.cat]}</span>${stChip(o.st)}</span></button>
     <div class="price"><span class="v">${o.price==='—'?'—':esc(o.price)} ${o.price==='—'?'':'<small>AED</small>'}</span><span class="n">${esc(o.pn)}</span>
-     <span class="acts">${pinBtn('o-'+o.id)}${vs.length?`<button class="ib" data-a="addq" data-v="${vs[0].id}" title="Add to calculator">＋ Calculator</button>`:''}</span></div></div>
+     <span class="acts">${pronBtn(o.en)}${pinBtn('o-'+o.id)}${vs.length?`<button class="ib" data-a="addq" data-v="${vs[0].id}" title="Add to calculator">＋ Calculator</button>`:''}</span></div></div>
    ${open?`<div class="obody">
     <div class="two"><div><div class="lbl">What it is (in simple words)</div><div>${esc(o.what)}</div></div><div><div class="lbl">When to offer it</div><div>${esc(o.who)}</div></div></div>
     <div class="say"><div class="row"><span class="lbl">Say it like this</span><button class="copy" data-a="copy" data-t="${esc(o.say)}">Copy</button></div><p>${esc(o.say)}</p></div>
@@ -936,7 +954,7 @@ function offerHtml(o){
 function prodHtml(p){
   const offs=p.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean);
   return `<article class="prod" id="p-${p.id}">
-   <div class="phead"><div><h3>${esc(p.name)}</h3><span class="en ltr">${esc(p.en)}</span></div>
+   <div class="phead"><div><h3>${esc(p.name)}</h3><span class="en ltr">${esc(p.en)}</span> ${pronBtn(p.en)}</div>
     <div class="pchips">${p.price?`<span class="chip c-warn">Not an offer · ${esc(p.price)} AED</span>`:''}${p.avail?'<span class="chip c-warn">Not in current offers</span>':''}${offs.map(o=>`<a class="ib" href="#o-${o.id}" data-a="go" data-v="o-${o.id}">${esc(o.ar)} · <span class="m">${esc(o.price)}</span></a>`).join('')}</div></div>
    <div class="pbody">
     <div class="two"><div><div class="lbl">What it is</div><p class="pp">${esc(p.what)}</p></div><div><div class="lbl">What it treats</div><ul class="tick">${p.areas.map(a=>`<li>${esc(a)}</li>`).join('')}</ul></div></div>
@@ -983,8 +1001,10 @@ const SEC={
    <div class="gl">${GULF.map(([a,b])=>`<div class="g"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
    <h3 style="margin:8px 0 0;font-size:17px">Watch the way you speak</h3>
    <div class="rules">${TONE.map(([a,b])=>`<div class="rule no"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div></section>`,
+  pron:()=>`<section id="pron"><div class="sh"><div class="eyebrow">Listen before you say it</div><h2>Pronunciation</h2><p>Tap 🔊 to hear the right pronunciation, then repeat it aloud twice. Capital letters show the stressed syllable.</p></div>
+   <div class="gl">${PRON.map(p=>`<div class="g"><b class="ltr">${esc(p[0])} <button class="ib say" data-a="say" data-t="${esc(p[0])}" aria-label="Hear it: ${esc(p[0])}">🔊</button></b><i class="ltr">${esc(p[3])}</i><span>${esc(p[2])}</span></div>`).join('')}</div></section>`,
   terms:()=>`<section id="terms"><div class="sh"><div class="eyebrow">To understand and explain simply</div><h2>Terms</h2><p>This is for your understanding only. Don't explain anything medical to the customer beyond this.</p></div>
-   <div class="gl">${TERMS.map(([a,b,c])=>`<div class="g"><b>${esc(a)}</b><i class="ltr">${esc(b)}</i><span>${esc(c)}</span></div>`).join('')}</div></section>`,
+   <div class="gl">${TERMS.map(([a,b,c])=>`<div class="g"><b>${esc(a)}</b><i class="ltr">${esc(b)} ${pronBtn(b+' '+a)}</i><span>${esc(c)}</span></div>`).join('')}</div></section>`,
   todo:()=>`<section id="todo"><div class="sh"><div class="eyebrow">For the team leader and trainer</div><h2>Needs confirmation from the client</h2><p>Until these are confirmed, the agent says "I'll confirm these details for you before booking".</p></div>
    <ol class="todo">${TODO.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></section>`,
   updates:()=>`<section id="updates"><div class="sh"><div class="eyebrow">What changed</div><h2>Latest updates</h2></div>
@@ -999,7 +1019,7 @@ const VIEWS=[
  ['branches','Branches & hours',['branches','center']],
  ['calls','The call',['flows','objections']],
  ['odoo','Odoo',['disp']],
- ['lang','Gulf dialect & terms',['gulf','terms']],
+ ['lang','Gulf dialect & terms',['gulf','terms','pron']],
  ['todo','Needs confirmation',['todo']]
 ];
 let VIEW='home';
@@ -1145,6 +1165,7 @@ function botItems(){
   const add=(o)=>{o.ws=wset(o.text+' '+o.title);o.wt=wset(o.title);it.push(o)};
   OFFERS.forEach(o=>{ add({type:'offer',ref:o,title:o.ar,text:[o.ar,o.en,o.what,o.who,CATS[o.cat],o.pn,'Offer'].join(' ')});
     o.qa.forEach(q=>add({type:'oqa',ref:o,qa:q,title:q[0],text:o.ar+' '+o.en+' '+CATS[o.cat]+' '+q.join(' ')})); });
+  PRON.forEach(p=>add({type:'pron',ref:p,title:(LANG==='en'?'How to say ':'نطق ')+p[0],text:[p[0],p[2],'نطق انطق ينطق بتتنطق بيتنطق ازاي pronounce pronunciation say'].join(' ')}));
   OBJ.forEach((x,i)=>add({type:'obj',ref:x,i,title:x[0],text:[x[0],x[1],x[2],(x[5]||[]).join(' ')].join(' ')}));
   PRODUCTS.forEach(pr=>{ add({type:'product',ref:pr,title:pr.name,text:[pr.name,pr.en,pr.what,pr.areas.join(' '),(pr.features||[]).join(' '),(pr.compare||[]).map(r=>r.join(' ')).join(' ')].join(' ')});
     pr.facts.forEach(f=>add({type:'pfact',ref:pr,qa:f,title:f[0],text:pr.name+' '+pr.en+' '+f.join(' ')}));
@@ -1259,6 +1280,7 @@ function botAnswerHtml(r){
     case 'disp': { const d=it.ref; h=`<div class="hd">Log in Odoo:</div>${dispCard(d)}<div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ Not sure? Answer the questions</button></div>`; break; }
     case 'gulf': h=`<div class="hd">${esc(it.ref[0])}</div><span>Meaning: <b>${esc(it.ref[1])}</b></span>`; break;
     case 'term': h=`<div class="hd">${esc(it.ref[0])} <span class="small ltr">${esc(it.ref[1])}</span></div><span>${esc(it.ref[2])}</span>`; break;
+    case 'pron': { const p=it.ref; h=`<div class="hd">Pronunciation: <b class="ltr">${esc(p[0])}</b></div><span>${esc(p[2])} <span class="small ltr">(${esc(p[3])})</span></span><div class="acts"><button class="ib" data-a="say" data-t="${esc(p[0])}">🔊 Hear it</button></div>`; break; }
     case 'rule': h=`<div class="hd">${esc(it.ref[1])}</div><span>${esc(it.ref[2])}</span>`; break;
     case 'branch': { const b=it.ref, st=branchStatus(b); h=`<div class="hd">${esc(b.nameAr)} <span class="bstat ${st.open?'on':'off'}">${esc(st.txt)}</span></div><span>${esc(b.addrAr)}</span><span class="small">Saturday to Thursday: ${hh(b.open)} – ${hh(b.close)} · Friday closed</span><ul>${b.landmarks.map(l=>`<li>${esc(l)}</li>`).join('')}</ul><div class="acts"><button class="ib" data-a="copy" data-t="${esc(b.nameAr+'\n'+b.addrAr+'\n'+b.map)}">Copy address</button>${go('br-'+b.id,'Branch page')}</div>`; break; }
     case 'prep': h=`<div class="hd">Before the laser session</div><ol>${PREP.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="copy" data-t="${esc('Instructions before the laser session:\n'+PREP.map((x,i)=>(i+1)+'. '+x).join('\n'))}">Copy instructions</button>${go('prep')}</div>`; break;
@@ -1331,7 +1353,7 @@ function drawerChat(){
    <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
    <div class="csug" id="csug" hidden></div><form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="e.g. Filler price? or The customer says it's expensive" aria-label="Your question"><button class="btn pri" type="submit">Ask</button></form></div>`;
 }
-const SUGTYPE={stage:'Odoo stage',tag:'Odoo tag',reg:'Regular price',offer:'Offer',oqa:'Customer question',obj:'Objection',product:'Service',pqa:'Customer question',pobj:'Objection',rule:'Rule',center:'The center',branch:'Branch',prep:'Instructions',disp:'Call outcome',todo:'Needs confirmation',flow:'Script',gulf:'Gulf',term:'Term'};
+const SUGTYPE={pron:'Pronunciation',stage:'Odoo stage',tag:'Odoo tag',reg:'Regular price',offer:'Offer',oqa:'Customer question',obj:'Objection',product:'Service',pqa:'Customer question',pobj:'Objection',rule:'Rule',center:'The center',branch:'Branch',prep:'Instructions',disp:'Call outcome',todo:'Needs confirmation',flow:'Script',gulf:'Gulf',term:'Term'};
 let SUG=[],SUGI=-1;
 function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSuggest(i.value); SUGI=-1;
   if(!SUG.length){ b.hidden=true; b.innerHTML=''; return; }
@@ -1448,6 +1470,7 @@ PRODUCTS.forEach(p=>{
   p.facts.forEach(f=>INDEX.push({sec:'Product guide · '+p.name,title:f[0],sub:f[1],go:'p-'+p.id,text:p.name+' '+f.join(' ')}));
   p.objs.forEach(o=>INDEX.push({sec:'Objection · '+p.name,title:o[0],sub:o[1],go:'p-'+p.id,text:p.name+' '+o.join(' ')}));
 });
+PRON.forEach(p=>INDEX.push({sec:'Pronunciation',title:p[0],sub:p[2]+' · '+p[3],go:'pron',text:[p[0],p[2],p[3],'نطق انطق ينطق تتنطق pronounce pronunciation say'].join(' ')}));
 INDEX.forEach(e=>{ if(!e.n) e.n=norm(e.text+' '+e.title); });
 INDEX.push({sec:'Tools',title:'Price calculator',sub:'Add up the prices of several offers and see the number of gifts',go:'prices',text:'calculator prices total how much sum gifts',n:norm('calculator price calculator prices total how much sum gifts')});
 UPDATES.forEach(u=>INDEX.push({sec:'Updates',title:u[1].slice(0,60),sub:u[0],go:'updates',text:u[1],n:norm(u[1])}));

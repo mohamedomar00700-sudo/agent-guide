@@ -84,6 +84,7 @@ section{display:grid;gap:14px;scroll-margin-top:calc(var(--hh) + 16px)}
 .qa-card span{font-size:13.5px}
 .meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
 
+.ib.say{padding:2px 7px;line-height:1.2;vertical-align:middle}
 .tagrow{display:flex;flex-wrap:wrap;gap:4px}.c-tag{background:var(--blue-soft);color:var(--blue)}.c-stage{background:var(--sage-soft);color:var(--sage);white-space:nowrap}
 .odt td{vertical-align:top}.tagf{width:100%;max-width:340px;margin:0 0 8px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);font:inherit}
 .dcard{display:grid;gap:6px;margin-top:8px}.dcard .dr{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.dcard .dr>span{color:var(--muted);font-size:13px;min-width:74px}.dcard em{font-style:normal;font-weight:600;font-size:14px;font-family:inherit}
@@ -822,6 +823,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['15 أكتوبر 2026','أسماء الخدمات والمواد الإنجليزي بقى جنبها زرار 🔊 تسمع منه النطق الصح، وفيه قسم "نطق الأسماء" في تبويب الخليجي والمصطلحات. وتقدر تسأل نور "ازاي أنطق سكلبترا؟".'],
  ['15 أكتوبر 2026','أودوو بقى ليه تبويب لوحده: جدول "إيه اللي حصل وتسجله إزاي" (المرحلة والتاج والأكتيفيتي)، والمراحل، ومعنى كل تاج مع بحث. وزرار "النتيجة" بقى يقولك المرحلة والتاج والأكتيفيتي على طول.'],
  ['15 أكتوبر 2026','نور بقت معاك في كل صفحة: بترحب بيك باسمك، وبتديك نصيحة لما تفتح أي قسم، وبتفرح لما تنسخ جملة أو تخلص خطوات المكالمة، ولو البحث ملقاش حاجة بتعرض تسألها هي. لو مش عايز نصايح دوس "متطلعليش نصايح".'],
  ['15 أكتوبر 2026','بداية مكالمة الليد الجديدة بقت بالاستشارة المجانية على طول بدل "معاكي دقيقتين؟". واتضافت خطوة تسجيل المرحلة والتاج على أودوو في آخر خطوات المكالمة وفي التشيك ليست.'],
@@ -895,6 +897,22 @@ const VARIANTS=[
 ];
 const WIZ={"start": {"q": "حد رد على المكالمة؟", "o": [["أيوه", "who"], ["لأ", "nores"]]}, "nores": {"q": "إيه اللي حصل؟", "o": [["رن، أو مقفول، أو رفض، أو بريد صوتي", "R:noans"], ["دي آخر محاولة ومفيش رد خالص", "R:unreach"]]}, "who": {"q": "بتكلم الشخص الصح؟", "o": [["أيوه", "stop"], ["لأ، الرقم مش بتاعه خالص", "R:wrong"], ["لأ، قريبه أو حد يعرفه", "R:relative"]]}, "stop": {"q": "طلب ميتصلوش بيه تاني؟", "o": [["أيوه", "R:stop"], ["لأ", "prob"]]}, "prob": {"q": "اشتكى أو زعلان من تجربة؟", "o": [["أيوه", "R:problem"], ["لأ", "err"]]}, "err": {"q": "فيه مشكلة في الليد نفسها؟", "o": [["لأ، ليد عادية", "fu"], ["مش بيتكلم عربي ولا إنجليزي", "R:noarb"], ["معندوش رقم إماراتي", "R:nouae"], ["سجّل بالغلط", "R:mistake"], ["بيدور على شغل", "R:hr"], ["حساب شركة أو رد آلي", "R:company"]]}, "fu": {"q": "ده عميل كان حاجز وبتتابع معاه؟", "o": [["لأ", "book"], ["أيوه، ومحضرش", "R:noshow"], ["أيوه، وحضر", "R:arrived"], ["أيوه، وافق بس مدفعش", "R:nopay"], ["أيوه، ودفع", "R:paid"]]}, "book": {"q": "حجز ميعاد محدد؟", "o": [["أيوه", "R:booked"], ["لأ", "later"]]}, "later": {"q": "مهتم بس مش دلوقتي؟", "o": [["لأ", "hold"], ["مشغول دلوقتي", "R:busy"], ["حددنا ميعاد أكلمه فيه", "R:later"], ["قال هو هيكلمنا", "R:willcall"], ["بيفضّل واتساب", "R:wa"], ["معندوش واتساب", "R:nowa"]]}, "hold": {"q": "حامل أو مسافر؟", "o": [["لأ", "lost"], ["حامل", "R:preg"], ["مسافر", "R:travel"]]}, "lost": {"q": "ليه مش هيحجز؟", "o": [["مش مهتم", "R:ni"], ["شايفه غالي", "R:exp"], ["برّه منطقة الخدمة", "R:area"], ["ممكن يكون برّه المنطقة", "R:potarea"], ["مشترك في مركز تاني", "R:other"], ["شغال مع فرع تاني عندنا", "R:otherbr"], ["كان بيسأل بس", "R:ask"], ["مش جاد", "R:notserious"]]}};
 
+
+// Pronunciation of English names: the browser's English voice reads a respelled form; the Arabic spelling and stress guide work offline.
+const PRON=[["Botox", "Botox", "بوتوكس", "BOH-tox"], ["Nabota", "Na-boh-ta", "نابوتا", "na-BOH-ta"], ["Dysport", "Dis-port", "ديسبورت", "DIS-port"], ["Meso Botox", "Mezzo Botox", "ميزو بوتوكس", "MEH-zo BOH-tox"], ["Sculptra", "Skulp-tra", "سكَلبترا", "SKULP-tra"], ["Galderma", "Gal-derma", "جالديرما", "gal-DER-ma"], ["Endolaser", "Endo laser", "إندوليزر", "EN-do-LAY-zer"], ["Candela GentleMax Pro Plus", "Can-della, Gentle Max, Pro Plus", "كانديلا جنتل ماكس برو بلس", "kan-DEL-a JEN-tl max"], ["Restylane Kysse", "Resty-lane Kiss", "ريستالين كِس", "RES-ti-lane KISS"], ["AILEENE", "Eye-leen", "أيلين", "eye-LEEN"], ["Dermapen", "Derma pen", "ديرمابن", "DER-ma-pen"], ["RRS", "R. R. S.", "آر آر إس", "ar-ar-ES"], ["Silutrix", "Silu-tricks", "سيلوتريكس", "SIL-u-trix"], ["Mounjaro", "Mown-jar-oh", "مونجارو", "mown-JAR-oh"], ["Filler", "Filler", "فيلر", "FIL-er"], ["Cellulite", "Cell-you-light", "سيليولايت", "SEL-yoo-lite"], ["Lymphatic drainage", "Lim-fatic drainage", "ليمفاتيك دريناج", "lim-FAT-ik DRAY-nij"], ["PLLA", "P. L. L. A.", "بي إل إل إيه", "pee-el-el-AY"], ["Poly-L-lactic acid", "Polly, L, lactic acid", "بولي إل لاكتيك أسيد", "POL-ee el LAK-tik"], ["Lidocaine", "Lie-doe-cane", "لايدوكين", "LYE-doh-kane"], ["Hyaluronic acid", "High-a-lu-ronic acid", "هايالورونيك أسيد", "hy-a-loo-RON-ik"], ["Collagen", "Collagen", "كولاجين", "KOL-a-jin"], ["Radiofrequency", "Radio frequency", "راديو فريكوينسي", "RAY-dee-oh FREE-kwen-see"]];
+const PRON_KEYS=PRON.map(p=>p[0]).sort((a,b)=>b.length-a.length);
+function pronSay(text){ let t=String(text||'').replace(/\([^)]*\)/g,' ');
+  PRON_KEYS.forEach(k=>{ const p=PRON.find(x=>x[0]===k); t=t.replace(new RegExp(k.replace(/[-.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),p[1]); });
+  return t.replace(/\s+/g,' ').trim(); }
+function pronHits(text){ const s=String(text||'').toLowerCase(); const h=PRON.filter(p=>s.includes(p[0].toLowerCase())); return h.filter(p=>!h.some(q=>q!==p&&q[0].toLowerCase().includes(p[0].toLowerCase()))); }
+const pronBtn=(text)=>pronHits(text).length?`<button class="ib say" data-a="say" data-t="${esc(text)}" title="اسمع النطق: ${esc(pronHits(text).map(p=>p[2]).join(' · '))}" aria-label="اسمع النطق: ${esc(text)}">🔊</button>`:'';
+function speak(text){ try{ const ss=window.speechSynthesis; if(!ss||typeof SpeechSynthesisUtterance==='undefined'){ toast('الجهاز ده مش بيدعم الصوت. اقرا طريقة النطق المكتوبة.'); return; }
+  ss.cancel(); const u=new SpeechSynthesisUtterance(pronSay(text)); u.lang='en-US'; u.rate=.8;
+  const v=(ss.getVoices()||[]).filter(v=>/^en[-_]/i.test(v.lang)); const pick=v.find(v=>/en[-_]US/i.test(v.lang)&&/female|samantha|google us/i.test(v.name))||v.find(v=>/en[-_]US/i.test(v.lang))||v[0]; if(pick) u.voice=pick;
+  ss.speak(u); }catch(e){ toast('الجهاز ده مش بيدعم الصوت. اقرا طريقة النطق المكتوبة.'); } }
+try{ if(window.speechSynthesis) speechSynthesis.getVoices(); }catch(e){}
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-a="say"]'); if(!b) return; e.stopPropagation(); speak(b.dataset.t); if(typeof buddySay==='function') buddySay('🔊 '+esc(b.dataset.t)+' · <b dir="rtl">'+esc(pronHits(b.dataset.t).map(p=>p[2]).join(' · '))+'</b>',{mood:'happy',ms:3500}); },true);
+
 /* ================= STATE ================= */
 const LS='tj-kb-v2';
 let ST={pins:[],call:{},callType:'NEW',quote:{}};
@@ -907,7 +925,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>Number(n).toLocaleString('en-US');
 const stChip=s=>s==='ok'?'<span class="chip c-ok">مؤكد</span>':s==='warn'?'<span class="chip c-warn">محتاج تأكيد</span>':'<span class="chip c-no">السعر مش متاح، متقولوش</span>';
-const SECTIONS=[['home','الرئيسية'],['center','المركز'],['rules','قواعد الأسعار'],['offers','العروض'],['prices','جدول الأسعار'],['products','دليل المنتجات'],['objections','الاعتراضات'],['flows','خطوات المكالمة'],['disp','أودوو'],['gulf','قاموس الخليجي'],['terms','المصطلحات'],['todo','محتاج تأكيد'],['updates','التحديثات']];
+const SECTIONS=[['home','الرئيسية'],['center','المركز'],['rules','قواعد الأسعار'],['offers','العروض'],['prices','جدول الأسعار'],['products','دليل المنتجات'],['objections','الاعتراضات'],['flows','خطوات المكالمة'],['disp','أودوو'],['gulf','قاموس الخليجي'],['terms','المصطلحات'],['pron','نطق الأسماء'],['todo','محتاج تأكيد'],['updates','التحديثات']];
 const pinned=id=>ST.pins.includes(id);
 function renderTabs(){ $('tabs').innerHTML=VIEWS.map(([k,t])=>`<a href="#${k}" data-view="${k}" class="${VIEW===k?'on':''}" ${VIEW===k?'aria-current="page"':''}>${t}${k==='offers'?`<span class="cnt">${OFFERS.length}</span>`:k==='todo'?`<span class="cnt">${TODO.length}</span>`:''}</a>`).join(''); const a=document.querySelector('.tabs a.on'); if(a) a.scrollIntoView({block:'nearest',inline:'center'}); }
 function pinBtn(id){return `<button class="ib ${pinned(id)?'on':''}" data-a="pin" data-v="${id}" aria-pressed="${pinned(id)}" title="${pinned(id)?'شيل التثبيت':'ثبّت في الجنب'}">${pinned(id)?'★':'☆'}</button>`}
@@ -917,7 +935,7 @@ function offerHtml(o){
   return `<article class="offer" id="o-${o.id}"><div class="ohead">
     <button class="tt" data-a="toggle" data-v="${o.id}" aria-expanded="${open}"><h3>${esc(o.ar)}</h3><span class="en ltr">${esc(o.en)}</span><span class="chips"><span class="chip c-cat">${CATS[o.cat]}</span>${stChip(o.st)}</span></button>
     <div class="price"><span class="v">${o.price==='—'?'—':esc(o.price)} ${o.price==='—'?'':'<small>AED</small>'}</span><span class="n">${esc(o.pn)}</span>
-     <span class="acts">${pinBtn('o-'+o.id)}${vs.length?`<button class="ib" data-a="addq" data-v="${vs[0].id}" title="ضيف للحاسبة">＋ حاسبة</button>`:''}</span></div></div>
+     <span class="acts">${pronBtn(o.en)}${pinBtn('o-'+o.id)}${vs.length?`<button class="ib" data-a="addq" data-v="${vs[0].id}" title="ضيف للحاسبة">＋ حاسبة</button>`:''}</span></div></div>
    ${open?`<div class="obody">
     <div class="two"><div><div class="lbl">هي إيه (بكلام بسيط)</div><div>${esc(o.what)}</div></div><div><div class="lbl">تعرضها إمتى</div><div>${esc(o.who)}</div></div></div>
     <div class="say"><div class="row"><span class="lbl">قولها كده</span><button class="copy" data-a="copy" data-t="${esc(o.say)}">نسخ</button></div><p>${esc(o.say)}</p></div>
@@ -928,7 +946,7 @@ function offerHtml(o){
 function prodHtml(p){
   const offs=p.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean);
   return `<article class="prod" id="p-${p.id}">
-   <div class="phead"><div><h3>${esc(p.name)}</h3><span class="en ltr">${esc(p.en)}</span></div>
+   <div class="phead"><div><h3>${esc(p.name)}</h3><span class="en ltr">${esc(p.en)}</span> ${pronBtn(p.en)}</div>
     <div class="pchips">${p.price?`<span class="chip c-warn">مش عرض · ${esc(p.price)} درهم</span>`:''}${p.avail?'<span class="chip c-warn">مش في العروض الحالية</span>':''}${offs.map(o=>`<a class="ib" href="#o-${o.id}" data-a="go" data-v="o-${o.id}">${esc(o.ar)} · <span class="m">${esc(o.price)}</span></a>`).join('')}</div></div>
    <div class="pbody">
     <div class="two"><div><div class="lbl">هو إيه</div><p class="pp">${esc(p.what)}</p></div><div><div class="lbl">بيعالج إيه</div><ul class="tick">${p.areas.map(a=>`<li>${esc(a)}</li>`).join('')}</ul></div></div>
@@ -975,8 +993,10 @@ const SEC={
    <div class="gl">${GULF.map(([a,b])=>`<div class="g"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div>
    <h3 style="margin:8px 0 0;font-size:17px">خلي بالك من طريقة كلامك</h3>
    <div class="rules">${TONE.map(([a,b])=>`<div class="rule no"><b>${esc(a)}</b><span>${esc(b)}</span></div>`).join('')}</div></section>`,
+  pron:()=>`<section id="pron"><div class="sh"><div class="eyebrow">اسمع قبل ما تقول</div><h2>نطق الأسماء</h2><p>دوس 🔊 عشان تسمع النطق الصح، وكرره بصوتك مرتين. الحروف الكبيرة هي المقطع اللي عليه الضغط.</p></div>
+   <div class="gl">${PRON.map(p=>`<div class="g"><b class="ltr">${esc(p[0])} <button class="ib say" data-a="say" data-t="${esc(p[0])}" aria-label="اسمع النطق: ${esc(p[0])}">🔊</button></b><i class="ltr">${esc(p[3])}</i><span>${esc(p[2])}</span></div>`).join('')}</div></section>`,
   terms:()=>`<section id="terms"><div class="sh"><div class="eyebrow">عشان تفهم وتشرح ببساطة</div><h2>المصطلحات</h2><p>ده للفهم بس. متشرحش حاجة طبية للعميل أكتر من كده.</p></div>
-   <div class="gl">${TERMS.map(([a,b,c])=>`<div class="g"><b>${esc(a)}</b><i class="ltr">${esc(b)}</i><span>${esc(c)}</span></div>`).join('')}</div></section>`,
+   <div class="gl">${TERMS.map(([a,b,c])=>`<div class="g"><b>${esc(a)}</b><i class="ltr">${esc(b)} ${pronBtn(b+' '+a)}</i><span>${esc(c)}</span></div>`).join('')}</div></section>`,
   todo:()=>`<section id="todo"><div class="sh"><div class="eyebrow">للتيم ليدر والتريْنر</div><h2>محتاج تأكيد من الكلاينت</h2><p>لحد ما دول يتأكدوا، الإيجنت يقول "هأكدلك التفاصيل دي قبل الحجز".</p></div>
    <ol class="todo">${TODO.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></section>`,
   updates:()=>`<section id="updates"><div class="sh"><div class="eyebrow">اللي اتغير</div><h2>آخر التحديثات</h2></div>
@@ -991,7 +1011,7 @@ const VIEWS=[
  ['branches','الفروع والمواعيد',['branches','center']],
  ['calls','المكالمة',['flows','objections']],
  ['odoo','أودوو',['disp']],
- ['lang','الخليجي والمصطلحات',['gulf','terms']],
+ ['lang','الخليجي والمصطلحات',['gulf','terms','pron']],
  ['todo','محتاج تأكيد',['todo']]
 ];
 let VIEW='home';
@@ -1137,6 +1157,7 @@ function botItems(){
   const add=(o)=>{o.ws=wset(o.text+' '+o.title);o.wt=wset(o.title);it.push(o)};
   OFFERS.forEach(o=>{ add({type:'offer',ref:o,title:o.ar,text:[o.ar,o.en,o.what,o.who,CATS[o.cat],o.pn,'عرض سعر'].join(' ')});
     o.qa.forEach(q=>add({type:'oqa',ref:o,qa:q,title:q[0],text:o.ar+' '+o.en+' '+CATS[o.cat]+' '+q.join(' ')})); });
+  PRON.forEach(p=>add({type:'pron',ref:p,title:(LANG==='en'?'How to say ':'نطق ')+p[0],text:[p[0],p[2],'نطق انطق ينطق بتتنطق بيتنطق ازاي pronounce pronunciation say'].join(' ')}));
   OBJ.forEach((x,i)=>add({type:'obj',ref:x,i,title:x[0],text:[x[0],x[1],x[2],(x[5]||[]).join(' ')].join(' ')}));
   PRODUCTS.forEach(pr=>{ add({type:'product',ref:pr,title:pr.name,text:[pr.name,pr.en,pr.what,pr.areas.join(' '),(pr.features||[]).join(' '),(pr.compare||[]).map(r=>r.join(' ')).join(' ')].join(' ')});
     pr.facts.forEach(f=>add({type:'pfact',ref:pr,qa:f,title:f[0],text:pr.name+' '+pr.en+' '+f.join(' ')}));
@@ -1251,6 +1272,7 @@ function botAnswerHtml(r){
     case 'disp': { const d=it.ref; h=`<div class="hd">سجّل على أودوو:</div>${dispCard(d)}<div class="acts"><button class="ib" data-a="drawer" data-v="wiz">✓ مش متأكد؟ جاوب على الأسئلة</button></div>`; break; }
     case 'gulf': h=`<div class="hd">${esc(it.ref[0])}</div><span>بالمصري: <b>${esc(it.ref[1])}</b></span>`; break;
     case 'term': h=`<div class="hd">${esc(it.ref[0])} <span class="small ltr">${esc(it.ref[1])}</span></div><span>${esc(it.ref[2])}</span>`; break;
+    case 'pron': { const p=it.ref; h=`<div class="hd">النطق: <b class="ltr">${esc(p[0])}</b></div><span>${esc(p[2])} <span class="small ltr">(${esc(p[3])})</span></span><div class="acts"><button class="ib" data-a="say" data-t="${esc(p[0])}">🔊 اسمع النطق</button></div>`; break; }
     case 'rule': h=`<div class="hd">${esc(it.ref[1])}</div><span>${esc(it.ref[2])}</span>`; break;
     case 'branch': { const b=it.ref, st=branchStatus(b); h=`<div class="hd">${esc(b.nameAr)} <span class="bstat ${st.open?'on':'off'}">${esc(st.txt)}</span></div><span>${esc(b.addrAr)}</span><span class="small">السبت لحد الخميس: ${hh(b.open)} – ${hh(b.close)} · الجمعة مقفول</span><ul>${b.landmarks.map(l=>`<li>${esc(l)}</li>`).join('')}</ul><div class="acts"><button class="ib" data-a="copy" data-t="${esc(b.nameAr+'\n'+b.addrAr+'\n'+b.map)}">نسخ العنوان</button>${go('br-'+b.id,'صفحة الفرع')}</div>`; break; }
     case 'prep': h=`<div class="hd">قبل جلسة الليزر</div><ol>${PREP.map(x=>`<li>${esc(x)}</li>`).join('')}</ol><div class="acts"><button class="ib" data-a="copy" data-t="${esc('تعليمات قبل جلسة الليزر:\n'+PREP.map((x,i)=>(i+1)+'. '+x).join('\n'))}">نسخ التعليمات</button>${go('prep')}</div>`; break;
@@ -1323,7 +1345,7 @@ function drawerChat(){
    <div class="chat"><div class="chatlog" id="chatlog">${log}</div>
    <div class="csug" id="csug" hidden></div><form class="cin" id="cform" autocomplete="off"><input id="cq" placeholder="مثلاً: سعر الفيلر؟ أو العميل بيقول غالي" aria-label="سؤالك"><button class="btn pri" type="submit">اسأل</button></form></div>`;
 }
-const SUGTYPE={stage:'مرحلة أودوو',tag:'تاج أودوو',reg:'سعر عادي',offer:'عرض',oqa:'سؤال عميل',obj:'اعتراض',product:'خدمة',pqa:'سؤال عميل',pobj:'اعتراض',rule:'قاعدة',center:'المركز',branch:'فرع',prep:'تعليمات',disp:'نتيجة مكالمة',todo:'محتاج تأكيد',flow:'سكريبت',gulf:'خليجي',term:'مصطلح'};
+const SUGTYPE={pron:'نطق',stage:'مرحلة أودوو',tag:'تاج أودوو',reg:'سعر عادي',offer:'عرض',oqa:'سؤال عميل',obj:'اعتراض',product:'خدمة',pqa:'سؤال عميل',pobj:'اعتراض',rule:'قاعدة',center:'المركز',branch:'فرع',prep:'تعليمات',disp:'نتيجة مكالمة',todo:'محتاج تأكيد',flow:'سكريبت',gulf:'خليجي',term:'مصطلح'};
 let SUG=[],SUGI=-1;
 function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSuggest(i.value); SUGI=-1;
   if(!SUG.length){ b.hidden=true; b.innerHTML=''; return; }
@@ -1438,6 +1460,7 @@ PRODUCTS.forEach(p=>{
   p.facts.forEach(f=>INDEX.push({sec:'دليل المنتجات · '+p.name,title:f[0],sub:f[1],go:'p-'+p.id,text:p.name+' '+f.join(' ')}));
   p.objs.forEach(o=>INDEX.push({sec:'اعتراض · '+p.name,title:o[0],sub:o[1],go:'p-'+p.id,text:p.name+' '+o.join(' ')}));
 });
+PRON.forEach(p=>INDEX.push({sec:'نطق الأسماء',title:p[0],sub:p[2]+' · '+p[3],go:'pron',text:[p[0],p[2],p[3],'نطق انطق ينطق تتنطق pronounce pronunciation say'].join(' ')}));
 INDEX.forEach(e=>{ if(!e.n) e.n=norm(e.text+' '+e.title); });
 INDEX.push({sec:'أدوات',title:'حاسبة الأسعار',sub:'اجمع أسعار أكتر من عرض واعرف عدد الهدايا',go:'prices',text:'حاسبه اسعار اجمالي كام مجموع هدايا',n:norm('حاسبه حاسبة اسعار اجمالي كام مجموع هدايا')});
 UPDATES.forEach(u=>INDEX.push({sec:'التحديثات',title:u[1].slice(0,60),sub:u[0],go:'updates',text:u[1],n:norm(u[1])}));
