@@ -23,6 +23,8 @@
 .wa-note{font-size:13px;background:var(--soft);border-radius:8px;padding:8px 10px}
 .wa-warn{color:var(--red);font-size:13px;font-weight:600}
 .wa-warn[hidden]{display:none}
+.wa-kind{align-self:flex-start}.wa-row2{grid-template-columns:1fr 1fr}
+.wa-form input[type=date],.wa-form input[type=time]{min-height:42px}
 .wa-sel{font:inherit;font-size:15px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
 </style></head><body>
 <title>Tres Jolie Agent Handbook</title>
@@ -566,7 +568,7 @@ function parseDate(v){ v=String(v||'').trim().replace(/[٠-٩]/g,d=>'٠١٢٣٤�
 const yes=v=>/^(✓|✔|x|نعم|اه|ايوه|أيوه|yes|y|1|true|موجود|موجوده|موجودة)$/i.test(String(v||'').trim());
 function sheetJsonp(u){ return new Promise((ok,bad)=>{ const cb='__gv'+Math.random().toString(36).slice(2); const sc=document.createElement('script');
   const t=setTimeout(()=>{ cleanup(); bad(new Error('timeout')); },15000); function cleanup(){ clearTimeout(t); delete window[cb]; sc.remove(); }
-  window[cb]=res=>{ cleanup(); try{ const tb=res.table; const rows=[tb.cols.map(c=>String(c.label||''))]; tb.rows.forEach(r=>rows.push((r.c||[]).map(c=>c==null?'':String(c.f!=null?c.f:(c.v==null?'':c.v)).trim()))); ok(rows); }catch(e){ bad(e); } };
+  window[cb]=res=>{ cleanup(); try{ const tb=res.table; const lab=tb.cols.map(c=>String(c.label||'')); const rows=lab.some(Boolean)?[lab]:[]; /* no labels: the sheet's header is the first data row */ tb.rows.forEach(r=>rows.push((r.c||[]).map(c=>c==null?'':String(c.f!=null?c.f:(c.v==null?'':c.v)).trim()))); ok(rows); }catch(e){ bad(e); } };
   sc.onerror=()=>{ cleanup(); bad(new Error('jsonp')); }; sc.src=u.replace('tqx=out:csv','tqx=out:json;responseHandler:'+cb)+'&t='+Date.now(); document.head.appendChild(sc); }); }
 const sheetGet=async u=>{ if(!u) return null;
   try{ const r=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error(r.status); return parseCSV(await r.text()); }
@@ -864,6 +866,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['22 Oct 2026','"📲 Send to customer" now has a "Booking confirmation" type for customers who already booked: pick the day, time, doctor and the offer they booked, and the message comes out with the location. It warns you if the doctor isn\'t there that day or the time is outside the hours.'],
  ['22 Oct 2026','New tab "⏸ AUX Email": before going on AUX on Avaya (IT issue, Lunch or Break), pick your name and the reason and press Send: a ready email opens to Mostafa and Eslam with Hussein and Ahmed (RTM) in CC. Press "I\'m back" when you return. And in "Send to customer", if your WhatsApp is down you now just pick your colleague\'s name: her email is filled in, with Hussein, Mostafa, Eslam and Zeinab (Quality) in CC.'],
  ['22 Oct 2026','New tab "📲 Send to customer": after the call, type the customer\'s number, pick the offers they asked about and the branch, and the message writes itself with prices, the gift and the location. Press "Open WhatsApp Web" and the chat opens on that number with the message ready, you just press send. If your WhatsApp is down, one button emails the request to a colleague who sends it for you. Another copies a note for Odoo.'],
  ['22 Oct 2026','Noor now shows the Odoo service name (English and Arabic, with copy buttons) under any answer about a service, so typing "Botox" or "Nabota price" gives you the name right under the reply. Typing "all service names in Odoo" shows the full list.'],
@@ -1110,8 +1113,8 @@ const WA_UI={
   noPrice:'السعر مش مؤكد، فهيتبعت من غير سعر',copied:'الرسالة اتنسخت',reqCopied:'الطلب اتنسخ، ابعته للزميلة',noteCopied:'الملاحظة اتنسخت، حطها في أودوو',
   mailSubj:'ابعتي للعميل على الواتساب مكاني',mailIntro:'ممكن تبعتي الرسالة دي للعميل على الواتساب؟ الواتساب عندي واقف.',mailOpen:'افتحي الشات من هنا',mailMsg:'الرسالة:',thanks:'شكراً',
   noteTxt:(o,b,t)=>'اتبعت للعميل على الواتساب'+(o?': '+o:'')+(b?(o?' + ':': ')+'لوكيشن '+b:'')+' ('+t+')',mateNote:' (بعتتها زميلة لأن الواتساب عندي واقف)'},
- en:{tab:'📲 Send to customer',eyebrow:'Right after the call',title:'Send offers and location on WhatsApp',
-  intro:'Type the customer\'s number, pick the offers and the branch, and the message writes itself. Press "Open WhatsApp": the chat opens on that number with the message ready, you just press send.',
+ en:{tab:'📲 Send to customer',eyebrow:'Right after the call',title:'Send to the customer on WhatsApp',kind:'Message type',kOffers:'Offers & location',kBook:'Booking confirmation',date:'Day',time:'Time',doc:'Doctor',docNone:'Not set',extra:'Note for the customer (optional)',extraPh:'e.g. please arrive 15 minutes early',offersBook:'Offer they booked',needWhen:'Enter the booking day and time.',bookNote:(o,d,w,b,t)=>'Booking confirmation sent on WhatsApp: '+[o,d?'with '+d:'',w,b?b+' branch':''].filter(Boolean).join(' · ')+' ('+t+')',
+  intro:'Pick the message type: offers & location for a customer still deciding, or booking confirmation for one who already booked (day, time, doctor, offer and location). Type the number and the message writes itself. Press "Open WhatsApp": the chat opens on that number with the message ready, you just press send.',
   phone:'Customer number',phoneHint:'05xxxxxxxx or +9715xxxxxxxx',name:'Customer name (optional)',gender:'Customer',f:'Woman',m:'Man',agent:'Your name',agentSay:'Your name in the message',lang:'Message language',
   offers:'Offers the customer asked about',branch:'Branch',none:'No location',preview:'Message (you can edit it)',reset:'Restore the original message',
   web:'Open WhatsApp Web',app:'Open WhatsApp app',copy:'Copy message',down:'Your WhatsApp is down?',downHint:'Choose a colleague to send it for you. A ready email to her opens with the number, the message and the chat link, with Hussein, Mostafa, Eslam and Zeinab (Quality) in CC.',
@@ -1126,14 +1129,55 @@ function waLine(o,ar){ const l=WA_LINES[o.id];
   if(o.st!=='ok') return l?l[ar?0:1]:(ar?(o.ar+': السعر هنأكده مع حضرتك'):((o.en||o.ar)+': we will confirm the price with you'));
   if(l&&l[2]===o.price) return l[ar?0:1];
   return ar?(o.ar+': '+o.price+' درهم'):((o.en||o.ar)+': '+String(o.price).replace('من','from')+' AED'); }
-let WA=Object.assign({phone:'',name:'',gender:'f',lang:'ar',offers:[],branch:'ad',agent:'',mate:'',msg:'',edited:false},(()=>{try{return JSON.parse(localStorage.getItem('tj-wa')||'{}')}catch(e){return {}}})());
-WA.phone='';WA.name='';WA.offers=[];WA.msg='';WA.edited=false; // a fresh customer every time the page opens
+let WA=Object.assign({kind:'offers',phone:'',name:'',gender:'f',lang:'ar',offers:[],branch:'ad',agent:'',mate:'',msg:'',edited:false,date:'',time:'',doc:'',extra:''},(()=>{try{return JSON.parse(localStorage.getItem('tj-wa')||'{}')}catch(e){return {}}})());
+WA.phone='';WA.name='';WA.offers=[];WA.msg='';WA.edited=false;WA.kind='offers';WA.date='';WA.time='';WA.doc='';WA.extra=''; // a fresh customer every time the page opens
 const waSave=()=>{try{localStorage.setItem('tj-wa',JSON.stringify({gender:WA.gender,lang:WA.lang,branch:WA.branch,agent:WA.agent,mate:WA.mate}))}catch(e){}};
 // UAE numbers to 9715XXXXXXXX; anything else keeps its digits (international numbers must include the country code).
 function waNum(p){ let d=String(p||'').replace(/[^\d+]/g,''); if(d.startsWith('+')) d=d.slice(1); if(d.startsWith('00')) d=d.slice(2);
   if(/^05\d{8}$/.test(d)) d='971'+d.slice(1); else if(/^5\d{8}$/.test(d)) d='971'+d; else if(/^9710\d{9}$/.test(d)) d='971'+d.slice(4); return d; }
 const waOk=n=>/^9715\d{8}$/.test(n);
+// Doctor names in both languages (the doctors sheet can reorder or replace DOCTORS, so match by name).
+const DOC_NAMES=[['د. ياسمين درويش','Dr. Yasmine Darwish','جلدية','Dermatology'],['د. روجينا','Dr. Rogina','تغذية','Nutrition'],['د. وليد','Dr. Waleed','تغذية','Nutrition'],['د. راندا','Dr. Randa','جلدية','Dermatology'],['د. نهى','Dr. Noha','تخسيس','Weight loss']];
+const waDoc=(i,ar)=>{ const d=DOCTORS[i]; if(!d) return ''; const k=DOC_NAMES.find(n=>n[0]===(d.key||d.name)||n[1]===d.name); return k?(ar?k[0]+' ('+k[2]+')':k[1]+' ('+k[3]+')'):d.name+(d.spec?' ('+d.spec+')':''); };
+function waWhen(ar){ if(!WA.date) return ['','']; const d=new Date(WA.date+'T12:00:00');
+  const day=d.toLocaleDateString(ar?'ar-EG-u-nu-latn':'en-GB',{weekday:'long',day:'numeric',month:'long'});
+  let tm=''; if(WA.time){ let [h,m]=WA.time.split(':').map(Number); const pm=h>=12; const h12=((h+11)%12)+1; tm=h12+':'+String(m).padStart(2,'0')+' '+(ar?(pm?'مساءً':'صباحاً'):(pm?'PM':'AM')); }
+  return [day,tm]; }
+// Warn the agent (not the customer) when the doctor doesn't work that day or hour, or the branch is closed.
+function waBookWarn(){ const W=[]; if(!WA.date) return W; const d=new Date(WA.date+'T12:00:00'); const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+  const h=WA.time?(+WA.time.split(':')[0]+(+WA.time.split(':')[1])/60):null; const en=LANG==='en';
+  if(dn==='Fri') W.push(en?'The branches are closed on Friday.':'الفروع مقفولة يوم الجمعة.');
+  const br=BRANCHES.find(b=>b.id===WA.branch); if(br&&h!=null&&(h<br.open||h>=br.close)) W.push(en?'This time is outside the branch hours.':'الساعة دي برّه مواعيد الفرع.');
+  const doc=DOCTORS[+WA.doc]; if(WA.doc!==''&&doc){ if(!doc.days.includes(dn)) W.push(en?'This doctor doesn\'t work on this day. Check the doctors\' schedule.':'الدكتور ده مش موجود اليوم ده. راجع جدول الدكاترة.');
+    else if(h!=null&&(h<doc.from||h>=doc.to)) W.push(en?'This time is outside the doctor\'s hours.':'الساعة دي برّه مواعيد الدكتور.');
+    if(doc.br!==WA.branch&&WA.branch) W.push(en?'This doctor is in the other branch.':'الدكتور ده في الفرع التاني.'); }
+  return W; }
+function waBookText(){
+  const ar=WA.lang!=='en', f=WA.gender!=='m', nm=WA.name.trim(), ag=WA.agent.trim();
+  const off=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).map(o=>'• '+waLine(o,ar));
+  const br=WA_BR[WA.branch]; const [day,tm]=waWhen(ar); const doc=WA.doc!==''?waDoc(+WA.doc,ar):''; const x=WA.extra.trim();
+  const L=[];
+  if(ar){
+    L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
+    L.push(''); L.push('بنأكد حجز حضرتك ✅');
+    if(day) L.push('🗓 اليوم: '+day); if(tm) L.push('⏰ الساعة: '+tm); if(doc) L.push('👩‍⚕️ مع: '+doc);
+    if(off.length){ L.push(''); L.push(off.length>1?'العروض اللي '+(f?'حجزتيها':'حجزتها')+':':'العرض اللي '+(f?'حجزتيه':'حجزته')+':'); L.push(...off); L.push('🎁 ومع العرض هدية من اختيار حضرتك. الأسعار غير شاملة ضريبة القيمة المضافة.'); }
+    if(br){ L.push(''); L.push('📍 '+br.ar.split('\n').filter(l=>!l.startsWith('المواعيد')).join('\n')); L.push('اللوكيشن: '+br.map); }
+    if(x){ L.push(''); L.push('📝 '+x); }
+    L.push(''); L.push('لو حضرتك '+(f?'حابة تغيري':'حابب تغير')+' الميعاد أو عندك أي سؤال، '+(f?'ابعتيلنا':'ابعتلنا')+' هنا وإحنا معاك'+(f?'ي':'')+' 🙏'); L.push('في انتظار حضرتك 🌸');
+  } else {
+    L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
+    L.push(''); L.push('We are confirming your booking ✅');
+    if(day) L.push('🗓 Day: '+day); if(tm) L.push('⏰ Time: '+tm); if(doc) L.push('👩‍⚕️ With: '+doc);
+    if(off.length){ L.push(''); L.push(off.length>1?'The offers you booked:':'The offer you booked:'); L.push(...off); L.push('🎁 It comes with a gift of your choice. Prices exclude VAT.'); }
+    if(br){ L.push(''); L.push('📍 '+br.en.split('\n').filter(l=>!l.startsWith('Open')).join('\n')); L.push('Location: '+br.map); }
+    if(x){ L.push(''); L.push('📝 '+x); }
+    L.push(''); L.push('If you need to change the appointment or have any question, just message us here 🙏'); L.push('We look forward to seeing you 🌸');
+  }
+  return L.join('\n');
+}
 function waText(){
+  if(WA.kind==='book') return waBookText();
   const ar=WA.lang!=='en', f=WA.gender!=='m', nm=WA.name.trim(), ag=WA.agent.trim();
   const off=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).map(o=>'• '+waLine(o,ar));
   const br=WA_BR[WA.branch];
@@ -1155,15 +1199,19 @@ function waNote(){
   const now=new Date(), t=now.toLocaleDateString('en-GB')+' '+now.toTimeString().slice(0,5);
   const names=WA.offers.map(id=>{const o=OFFERS.find(x=>x.id===id); return o?(LANG==='en'?o.en||o.ar:o.ar):id}).join(LANG==='en'?', ':'، ');
   const b=WA.branch&&WA_BR[WA.branch]?(LANG==='en'?(WA.branch==='ad'?'Abu Dhabi':'Fujairah'):(WA.branch==='ad'?'أبوظبي':'الفجيرة')):'';
+  if(WA.kind==='book'){ const [day,tm]=waWhen(LANG!=='en'); const doc=WA.doc!==''?waDoc(+WA.doc,LANG!=='en'):''; return WAU.bookNote(names,doc,[day,tm].filter(Boolean).join(' '),b,t); }
   return WAU.noteTxt(names,b,t);
 }
 function waHtml(){
   const msg=WA.edited?WA.msg:waText(); const num=waNum(WA.phone);
   const ok=OFFERS.filter(o=>o.price&&o.price!=='—');
   const cats=[...new Set(ok.map(o=>o.cat))];
+  const brHtml=`    <div class="wa-lbl">${WAU.branch}</div>
+    <div class="wa-chips">${[['ad',LANG==='en'?'Abu Dhabi':'أبوظبي'],['fuj',LANG==='en'?'Fujairah':'الفجيرة'],['',WAU.none]].map(([k,t])=>`<button data-a="wab" data-v="${k}" class="${(WA.branch||'')===k?'on':''}">${t}</button>`).join('')}</div>`;
   return `<section id="wa"><div class="sh"><div class="eyebrow">${WAU.eyebrow}</div><h2>${WAU.title}</h2><p>${WAU.intro}</p></div>
   <div class="wa-grid">
    <div class="wa-form">
+    <div class="wa-lbl">${WAU.kind}</div><span class="wa-seg wa-kind"><button data-a="wak" data-v="offers" class="${WA.kind!=='book'?'on':''}">💬 ${WAU.kOffers}</button><button data-a="wak" data-v="book" class="${WA.kind==='book'?'on':''}">✅ ${WAU.kBook}</button></span>
     <label>${WAU.phone}<input id="waPhone" type="tel" inputmode="tel" dir="ltr" placeholder="${WAU.phoneHint}" value="${esc(WA.phone)}" autocomplete="off"></label>
     <div class="wa-warn" id="waPhoneWarn" ${WA.phone&&!waOk(num)?'':'hidden'}>${WAU.badPhone}</div>
     <div class="wa-row"><label>${WAU.name}<input id="waName" value="${esc(WA.name)}" autocomplete="off"></label>
@@ -1171,10 +1219,14 @@ function waHtml(){
     <label>${WAU.agent}${meSelect('waMe')}</label>
     <div class="wa-row"><label>${WAU.agentSay}<input id="waAgent" value="${esc(WA.agent)}" autocomplete="name"></label>
      <label>${WAU.lang}<span class="wa-seg"><button data-a="wal" data-v="ar" class="${WA.lang!=='en'?'on':''}">عربي</button><button data-a="wal" data-v="en" class="${WA.lang==='en'?'on':''}">English</button></span></label></div>
-    <div class="wa-lbl">${WAU.offers}</div>
+    ${WA.kind==='book'?brHtml:''}
+    ${WA.kind==='book'?`<div class="wa-row wa-row2"><label>${WAU.date}<input id="waDate" type="date" value="${esc(WA.date)}"></label><label>${WAU.time}<input id="waTime" type="time" step="900" value="${esc(WA.time)}"></label></div>
+    <label>${WAU.doc}<select id="waDoc" class="wa-sel"><option value="">${WAU.docNone}</option>${DOCTORS.map((d,i)=>[d,i]).filter(([d])=>!WA.branch||d.br===WA.branch).map(([d,i])=>`<option value="${i}" ${String(WA.doc)===String(i)?'selected':''}>${esc(waDoc(i,LANG!=='en'))}</option>`).join('')}</select></label>
+    <div class="wa-warn" id="waBookWarn" ${waBookWarn().length?'':'hidden'}>${waBookWarn().map(esc).join('<br>')}</div>
+    <label>${WAU.extra}<input id="waExtra" value="${esc(WA.extra)}" placeholder="${WAU.extraPh}"></label>`:''}
+    <div class="wa-lbl">${WA.kind==='book'?WAU.offersBook:WAU.offers}</div>
     ${cats.map(c=>`<div class="wa-cat"><span>${esc(CATS[c]||c)}</span><div class="wa-chips">${ok.filter(o=>o.cat===c).map(o=>`<button data-a="wao" data-v="${o.id}" class="${WA.offers.includes(o.id)?'on':''}" title="${o.st!=='ok'?esc(WAU.noPrice):''}">${esc(LANG==='en'?o.en||o.ar:o.ar)}${o.st!=='ok'?' *':''}</button>`).join('')}</div></div>`).join('')}
-    <div class="wa-lbl">${WAU.branch}</div>
-    <div class="wa-chips">${[['ad',LANG==='en'?'Abu Dhabi':'أبوظبي'],['fuj',LANG==='en'?'Fujairah':'الفجيرة'],['',WAU.none]].map(([k,t])=>`<button data-a="wab" data-v="${k}" class="${(WA.branch||'')===k?'on':''}">${t}</button>`).join('')}</div>
+    ${WA.kind!=='book'?brHtml:''}
    </div>
    <div class="wa-out">
     <label>${WAU.preview}<textarea id="waMsg" rows="14" dir="${WA.lang==='en'?'ltr':'rtl'}">${esc(msg)}</textarea></label>
@@ -1191,7 +1243,8 @@ function waHtml(){
 function waCheck(){
   const n=waNum(WA.phone);
   if(!WA.phone.trim()){ toast(WAU.needPhone); const i=$('waPhone'); if(i) i.focus(); return null; }
-  if(!WA.offers.length&&!WA.branch){ toast(WAU.needAny); return null; }
+  if(WA.kind!=='book'&&!WA.offers.length&&!WA.branch){ toast(WAU.needAny); return null; }
+  if(WA.kind==='book'&&(!WA.date||!WA.time)){ toast(WAU.needWhen); const i=$(!WA.date?'waDate':'waTime'); if(i) i.focus(); return null; }
   return n;
 }
 const waMsgNow=()=>{ const t=$('waMsg'); return t?t.value:(WA.edited?WA.msg:waText()); };
@@ -1205,6 +1258,7 @@ function waRefresh(){ // update the preview and note without re-rendering the in
 }
 document.addEventListener('input',e=>{
   const id=e.target.id; if(!id||!id.startsWith('wa')) return;
+  if(id==='waDate'||id==='waTime'){ WA[id==='waDate'?'date':'time']=e.target.value; const w=$('waBookWarn'); if(w){ const W=waBookWarn(); w.hidden=!W.length; w.innerHTML=W.map(esc).join('<br>'); } } if(id==='waDoc'){ WA.doc=e.target.value; const w=$('waBookWarn'); if(w){ const W=waBookWarn(); w.hidden=!W.length; w.innerHTML=W.map(esc).join('<br>'); } } if(id==='waExtra') WA.extra=e.target.value;
   if(id==='waPhone') WA.phone=e.target.value; if(id==='waName') WA.name=e.target.value; if(id==='waAgent'){ WA.agent=e.target.value; waSave(); }
   if(id==='waMsg'){ WA.msg=e.target.value; if(!WA.edited){ WA.edited=true; renderMain(); const m=$('waMsg'); if(m){ m.focus(); m.setSelectionRange(m.value.length,m.value.length);} } return; }
   waRefresh();
@@ -1214,7 +1268,8 @@ document.addEventListener('click',e=>{
   if(!a.startsWith('wa')) return;
   e.preventDefault();
   if(a==='wao'){ WA.offers=WA.offers.includes(v)?WA.offers.filter(x=>x!==v):[...WA.offers,v]; renderMain(); return; }
-  if(a==='wab'){ WA.branch=v; waSave(); renderMain(); return; }
+  if(a==='wab'){ WA.branch=v; const d=DOCTORS[+WA.doc]; if(WA.doc!==''&&d&&v&&d.br!==v) WA.doc=''; waSave(); renderMain(); return; }
+  if(a==='wak'){ WA.kind=v; renderMain(); return; }
   if(a==='wag'){ WA.gender=v; waSave(); renderMain(); return; }
   if(a==='wal'){ WA.lang=v; waSave(); renderMain(); return; }
   if(a==='wareset'){ WA.edited=false; WA.msg=''; renderMain(); return; }
