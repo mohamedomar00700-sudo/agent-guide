@@ -1,4 +1,29 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}/* WhatsApp sender */
+.wa-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.wa-grid{grid-template-columns:1fr}}
+.wa-form,.wa-out{display:flex;flex-direction:column;gap:10px}
+.wa-form label,.wa-out label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.wa-form input,.wa-out input,.wa-out textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%;box-sizing:border-box}
+.wa-out textarea{line-height:1.6;resize:vertical;min-height:260px}
+.wa-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.wa-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.wa-seg button{border:0;background:transparent;padding:9px 12px;font:inherit;cursor:pointer;color:inherit}
+.wa-seg button.on{background:var(--rose);color:#fff}
+.wa-lbl{font-weight:700;margin-top:6px}
+.wa-cat{display:flex;flex-direction:column;gap:4px}.wa-cat>span{font-size:12px;color:var(--muted)}
+.wa-chips{display:flex;flex-wrap:wrap;gap:6px}
+.wa-chips button{border:1px solid var(--line);background:var(--paper);color:inherit;border-radius:999px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer;min-height:36px}
+.wa-chips button.on{background:var(--sage-soft);border-color:var(--sage);color:var(--sage);font-weight:700}
+.wa-chips button.on::before{content:"✓ "}
+.wa-acts{display:flex;flex-wrap:wrap;gap:8px}
+.wa-go,.wa-go2{border:0;border-radius:10px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer;min-height:44px}
+.wa-go{background:#25d366;color:#08331a}.wa-go2{background:var(--rose);color:#fff}
+.wa-box{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.wa-box summary{cursor:pointer}
+.wa-note{font-size:13px;background:var(--soft);border-radius:8px;padding:8px 10px}
+.wa-warn{color:var(--red);font-size:13px;font-weight:600}
+.wa-warn[hidden]{display:none}
+</style></head><body>
 <title>Tres Jolie Agent Handbook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -551,7 +576,7 @@ function catOf(v){ v=String(v||'').trim(); if(!v) return ''; const k=Object.keys
 /* Offers tab columns: A id | B name AR | C name EN | D category | E price | F price details AR | G price details EN | H status |
    I say AR | J say EN | K what AR | L what EN | M agent note AR | N agent note EN | O calculator AR "label=price; ..." | P calculator labels EN "label; ..." | Q hidden */
 function applyOfferRows(rows){ const en=LANG==='en'; const pick=(a,b)=>(en&&b)?b:a;
-  rows.slice(1).filter(r=>r[0]).forEach(r=>{ const id=r[0].trim(); let o=OFFERS.find(x=>x.id===id);
+  rows.slice(1).filter(r=>r[0]&&!/كود العرض|offer code/i.test(r[0])).forEach(r=>{ const id=r[0].trim(); let o=OFFERS.find(x=>x.id===id);
     if(/^(نعم|yes|y|✓|1|true|مخفي|hide)$/i.test((r[16]||'').trim())){ if(o) OFFERS.splice(OFFERS.indexOf(o),1); return; }
     if(!o){ o={id,cat:'body',ar:'',en:'',price:'—',pn:'',st:'warn',slide:'',what:'',who:'',say:'',qa:[],caution:''}; OFFERS.push(o); }
     const set=(k,v)=>{ if(v!=null&&String(v).trim()!=='') o[k]=String(v).trim(); };
@@ -838,6 +863,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['22 Oct 2026','New tab "📲 Send to customer": after the call, type the customer\'s number, pick the offers they asked about and the branch, and the message writes itself with prices, the gift and the location. Press "Open WhatsApp Web" and the chat opens on that number with the message ready, you just press send. If your WhatsApp is down, one button emails the request to a colleague who sends it for you. Another copies a note for Odoo.'],
  ['22 Oct 2026','Noor now shows the Odoo service name (English and Arabic, with copy buttons) under any answer about a service, so typing "Botox" or "Nabota price" gives you the name right under the reply. Typing "all service names in Odoo" shows the full list.'],
  ['22 Oct 2026','The Odoo tab now has a "Service name in Odoo" table: every service in English and Arabic with a copy button, plus a search box. You can also ask Noor "service name in Odoo" or type the service name, and it gives you the name to copy.'],
  ['22 Oct 2026','The client\'s official service list is now in the Branches & hours tab (Center info), split into Dermatology and Nutrition. Three new services were added: HydraFacial, Lip Rejuvenation and Skin Peeling. They have no price or description yet, so book a consultation and don\'t quote a price.'],
@@ -1023,8 +1049,167 @@ const SEC={
   branches:()=>branchesHtml(),
   prep:()=>prepHtml()
 };
+/* ===== Send offers + location to the customer on WhatsApp ===== */
+// Customer-facing lines [ar, en, price they were written for]. Offers whose price isn't confirmed go out without a price;
+// if the offers sheet changes a price, the line falls back to the live name + price.
+const WA_LINES={
+ nabota:['بوتوكس نابوتا (كوري): المنطقة الواحدة 499 درهم، والوش كله 700 درهم','Nabota Botox (Korea): one area 499 AED, full face 700 AED','499 / 700'],
+ dysport:['بوتوكس ديسبورت: السعر هنأكده مع حضرتك','Dysport Botox: we will confirm the price with you'],
+ meso:['ميزو بوتوكس للوش كامل: السعر هنأكده مع حضرتك','Meso Botox (full face): we will confirm the price with you'],
+ lipfill:['فيلر شفايف AILEENE: يبدأ من 599 درهم (1 مل)','AILEENE lip filler: from 599 AED (1 ml)','من 599'],
+ facefill:['فيلر وش AILEENE (2 مل): 999 درهم','AILEENE face filler (2 ml): 999 AED','999'],
+ dermapen:['ديرمابن: 699 درهم للجلسة مع سيرم مناسب','Dermapen: 699 AED per session with a suitable serum','699'],
+ rrs:['RRS لونج لاستنج (إسباني): السعر هنأكده مع حضرتك','RRS Long Lasting (Spain): we will confirm the price with you'],
+ rrseye:['RRS للعين (إسباني): 499 درهم للإبرة، والبوكس (3 إبر) 1,799 درهم','RRS Eye (Spain): 499 AED per syringe, box of 3 for 1,799 AED','499'],
+ sculptra:['سكلبترا (أمريكي، Galderma): 1,499 درهم ومعاه هديتين','Sculptra (USA, Galderma): 1,499 AED with two gifts','1,499'],
+ endolaser:['إندوليزر: 1,500 درهم للمنطقة الواحدة','Endolaser: 1,500 AED per area','1,500'],
+ silutrix:['إبرة سيلوتريكس للغبغب: 700 درهم ومعاها جلسة راديو فريكونسي','Silutrix double-chin injection: 700 AED with a radiofrequency session','700'],
+ fatcourse:['كورس أجهزة إذابة الدهون (16 جلسة): 1,500 درهم','Fat-dissolving devices course (16 sessions): 1,500 AED','1,500'],
+ cellulite:['كورس إزالة السيلوليت (10 جلسات): 1,500 درهم','Cellulite removal course (10 sessions): 1,500 AED','1,500'],
+ lymph:['مساج لمفاوي بالخشب (10 جلسات): 1,000 درهم','Wooden lymphatic massage (10 sessions): 1,000 AED','1,000'],
+ mounjaro:['كورس مونجارو (3 شهور): 2,999 درهم','Mounjaro course (3 months): 2,999 AED','2,999'],
+ laser1:['ليزر الجسم كامل بدون الظهر والبطن (6 جلسات): سيدات 1,000 درهم، رجال 1,250 درهم','Full body laser without back & abdomen (6 sessions): women 1,000 AED, men 1,250 AED','1,000 / 1,250'],
+ laser2:['ليزر الجسم كامل مع الظهر والبطن: سيدات 1,500 درهم، رجال 1,800 درهم','Full body laser with back & abdomen: women 1,500 AED, men 1,800 AED','1,500 / 1,800']
+};
+const WA_BR={
+ ad:{ar:'فرع أبوظبي: مبنى 311، شارع حمدان بن محمد، مقابل قصر الحصن، أبوظبي.\nالمواعيد: من السبت للخميس، من 9 الصبح لـ 10 بالليل (الجمعة مقفول).\nتليفون: 02 443 3221',
+     en:'Abu Dhabi branch: Building 311, Hamdan Bin Mohammed St, opposite Qasr Al Hosn, Abu Dhabi.\nOpen Saturday to Thursday, 9 am to 10 pm (closed Friday).\nPhone: 02 443 3221',
+     map:'https://www.google.com/maps/search/?api=1&query=311+Hamdan+Bin+Mohammed+St+Al+Hosn+Abu+Dhabi'},
+ fuj:{ar:'فرع الفجيرة: منطقة الغرفة، الفجيرة (اليافطة مكتوب عليها "مركز تري جولي الطبي").\nالمواعيد: من السبت للخميس، من 10 الصبح لـ 10 بالليل (الجمعة مقفول).',
+      en:'Fujairah branch: Al Ghurfah, Fujairah (the sign says "Tres Jolie Medical Center").\nOpen Saturday to Thursday, 10 am to 10 pm (closed Friday).',
+      map:'https://www.google.com/maps/search/?api=1&query=48CW%2B5WQ+Al+Ghurfah+Fujairah'}
+};
+const WA_UI={
+ ar:{tab:'📲 ابعت للعميل',eyebrow:'بعد المكالمة على طول',title:'ابعت العروض واللوكيشن على الواتساب',
+  intro:'اكتب رقم العميل، واختار العروض والفرع، والرسالة هتتكتب لوحدها. دوس "افتح الواتساب" وهيفتحلك الشات على الرقم والرسالة جاهزة، إنت بس تدوس إرسال.',
+  phone:'رقم العميل',phoneHint:'05xxxxxxxx أو +9715xxxxxxxx',name:'اسم العميل (اختياري)',gender:'العميل',f:'سيدة',m:'راجل',agent:'اسمك',lang:'لغة الرسالة',
+  offers:'العروض اللي العميل سأل عليها',branch:'الفرع',none:'من غير لوكيشن',preview:'الرسالة (تقدر تعدّل فيها)',reset:'رجّع الرسالة الأصلية',
+  web:'افتح واتساب ويب',app:'افتح تطبيق الواتساب',copy:'انسخ الرسالة',down:'الواتساب عندي واقف؟',downHint:'ابعت الطلب لزميلة تبعت مكانك. هيفتحلك إيميل جاهز فيه الرقم والرسالة ولينك الشات.',
+  mate:'إيميل الزميلة',mail:'ابعت لها إيميل',mailCopy:'انسخ الطلب (لو الإيميل مفتحش)',odoo:'سجّل في أودوو',odooBtn:'انسخ ملاحظة أودوو',
+  badPhone:'الرقم ده مش شكل موبايل إماراتي (9715 وبعده 8 أرقام). اتأكد منه.',needPhone:'اكتب رقم العميل الأول.',needAny:'اختار عرض أو فرع على الأقل.',
+  noPrice:'السعر مش مؤكد، فهيتبعت من غير سعر',copied:'الرسالة اتنسخت',reqCopied:'الطلب اتنسخ، ابعته للزميلة',noteCopied:'الملاحظة اتنسخت، حطها في أودوو',
+  mailSubj:'ابعتي للعميل على الواتساب مكاني',mailIntro:'ممكن تبعتي الرسالة دي للعميل على الواتساب؟ الواتساب عندي واقف.',mailOpen:'افتحي الشات من هنا',mailMsg:'الرسالة:',thanks:'شكراً',
+  noteTxt:(o,b,t)=>'اتبعت للعميل على الواتساب'+(o?': '+o:'')+(b?(o?' + ':': ')+'لوكيشن '+b:'')+' ('+t+')',mateNote:' (بعتتها زميلة لأن الواتساب عندي واقف)'},
+ en:{tab:'📲 Send to customer',eyebrow:'Right after the call',title:'Send offers and location on WhatsApp',
+  intro:'Type the customer\'s number, pick the offers and the branch, and the message writes itself. Press "Open WhatsApp": the chat opens on that number with the message ready, you just press send.',
+  phone:'Customer number',phoneHint:'05xxxxxxxx or +9715xxxxxxxx',name:'Customer name (optional)',gender:'Customer',f:'Woman',m:'Man',agent:'Your name',lang:'Message language',
+  offers:'Offers the customer asked about',branch:'Branch',none:'No location',preview:'Message (you can edit it)',reset:'Restore the original message',
+  web:'Open WhatsApp Web',app:'Open WhatsApp app',copy:'Copy message',down:'Your WhatsApp is down?',downHint:'Send the request to a colleague who sends it for you. An email opens with the number, the message and the chat link.',
+  mate:'Colleague\'s email',mail:'Email her',mailCopy:'Copy the request (if email didn\'t open)',odoo:'Log it in Odoo',odooBtn:'Copy Odoo note',
+  badPhone:'This doesn\'t look like a UAE mobile (9715 then 8 digits). Check it.',needPhone:'Type the customer\'s number first.',needAny:'Pick at least one offer or a branch.',
+  noPrice:'price not confirmed, sent without a price',copied:'Message copied',reqCopied:'Request copied, send it to your colleague',noteCopied:'Note copied, paste it in Odoo',
+  mailSubj:'Please WhatsApp this customer for me',mailIntro:'Could you send this message to the customer on WhatsApp? My WhatsApp is down.',mailOpen:'Open the chat here',mailMsg:'Message:',thanks:'Thanks',
+  noteTxt:(o,b,t)=>'Sent on WhatsApp'+(o?': '+o:'')+(b?(o?' + ':': ')+b+' location':'')+' ('+t+')',mateNote:' (sent by a colleague, my WhatsApp is down)'}
+};
+const WAU=WA_UI[LANG==='en'?'en':'ar'];
+function waLine(o,ar){ const l=WA_LINES[o.id];
+  if(o.st!=='ok') return l?l[ar?0:1]:(ar?(o.ar+': السعر هنأكده مع حضرتك'):((o.en||o.ar)+': we will confirm the price with you'));
+  if(l&&l[2]===o.price) return l[ar?0:1];
+  return ar?(o.ar+': '+o.price+' درهم'):((o.en||o.ar)+': '+String(o.price).replace('من','from')+' AED'); }
+let WA=Object.assign({phone:'',name:'',gender:'f',lang:'ar',offers:[],branch:'ad',agent:'',mate:'',msg:'',edited:false},(()=>{try{return JSON.parse(localStorage.getItem('tj-wa')||'{}')}catch(e){return {}}})());
+WA.phone='';WA.name='';WA.offers=[];WA.msg='';WA.edited=false; // a fresh customer every time the page opens
+const waSave=()=>{try{localStorage.setItem('tj-wa',JSON.stringify({gender:WA.gender,lang:WA.lang,branch:WA.branch,agent:WA.agent,mate:WA.mate}))}catch(e){}};
+// UAE numbers to 9715XXXXXXXX; anything else keeps its digits (international numbers must include the country code).
+function waNum(p){ let d=String(p||'').replace(/[^\d+]/g,''); if(d.startsWith('+')) d=d.slice(1); if(d.startsWith('00')) d=d.slice(2);
+  if(/^05\d{8}$/.test(d)) d='971'+d.slice(1); else if(/^5\d{8}$/.test(d)) d='971'+d; else if(/^9710\d{9}$/.test(d)) d='971'+d.slice(4); return d; }
+const waOk=n=>/^9715\d{8}$/.test(n);
+function waText(){
+  const ar=WA.lang!=='en', f=WA.gender!=='m', nm=WA.name.trim(), ag=WA.agent.trim();
+  const off=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).map(o=>'• '+waLine(o,ar));
+  const br=WA_BR[WA.branch];
+  const L=[];
+  if(ar){
+    L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
+    if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off); L.push(''); L.push('🎁 ومع كل عرض هدية من اختيار حضرتك، والاستشارة الأولى مع الدكتور مجانية.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
+    if(br){ L.push(''); L.push('📍 '+br.ar); L.push('اللوكيشن: '+br.map); }
+    L.push(''); L.push('لو حضرتك '+(f?'حابة':'حابب')+' نحجزلك ميعاد، '+(f?'ابعتيلنا':'ابعتلنا')+' اليوم والوقت اللي يناسبك هنا 🙏');
+  } else {
+    L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
+    if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off); L.push(''); L.push('🎁 Every offer comes with a gift of your choice, and the first consultation with the doctor is free.'); L.push('Prices exclude VAT.'); }
+    if(br){ L.push(''); L.push('📍 '+br.en); L.push('Location: '+br.map); }
+    L.push(''); L.push('If you would like to book, just reply here with the day and time that suit you 🙏');
+  }
+  return L.join('\n');
+}
+function waNote(){
+  const now=new Date(), t=now.toLocaleDateString('en-GB')+' '+now.toTimeString().slice(0,5);
+  const names=WA.offers.map(id=>{const o=OFFERS.find(x=>x.id===id); return o?(LANG==='en'?o.en||o.ar:o.ar):id}).join(LANG==='en'?', ':'، ');
+  const b=WA.branch&&WA_BR[WA.branch]?(LANG==='en'?(WA.branch==='ad'?'Abu Dhabi':'Fujairah'):(WA.branch==='ad'?'أبوظبي':'الفجيرة')):'';
+  return WAU.noteTxt(names,b,t);
+}
+function waHtml(){
+  const msg=WA.edited?WA.msg:waText(); const num=waNum(WA.phone);
+  const ok=OFFERS.filter(o=>o.price&&o.price!=='—');
+  const cats=[...new Set(ok.map(o=>o.cat))];
+  return `<section id="wa"><div class="sh"><div class="eyebrow">${WAU.eyebrow}</div><h2>${WAU.title}</h2><p>${WAU.intro}</p></div>
+  <div class="wa-grid">
+   <div class="wa-form">
+    <label>${WAU.phone}<input id="waPhone" type="tel" inputmode="tel" dir="ltr" placeholder="${WAU.phoneHint}" value="${esc(WA.phone)}" autocomplete="off"></label>
+    <div class="wa-warn" id="waPhoneWarn" ${WA.phone&&!waOk(num)?'':'hidden'}>${WAU.badPhone}</div>
+    <div class="wa-row"><label>${WAU.name}<input id="waName" value="${esc(WA.name)}" autocomplete="off"></label>
+     <label>${WAU.gender}<span class="wa-seg"><button data-a="wag" data-v="f" class="${WA.gender!=='m'?'on':''}">${WAU.f}</button><button data-a="wag" data-v="m" class="${WA.gender==='m'?'on':''}">${WAU.m}</button></span></label></div>
+    <div class="wa-row"><label>${WAU.agent}<input id="waAgent" value="${esc(WA.agent)}" autocomplete="name"></label>
+     <label>${WAU.lang}<span class="wa-seg"><button data-a="wal" data-v="ar" class="${WA.lang!=='en'?'on':''}">عربي</button><button data-a="wal" data-v="en" class="${WA.lang==='en'?'on':''}">English</button></span></label></div>
+    <div class="wa-lbl">${WAU.offers}</div>
+    ${cats.map(c=>`<div class="wa-cat"><span>${esc(CATS[c]||c)}</span><div class="wa-chips">${ok.filter(o=>o.cat===c).map(o=>`<button data-a="wao" data-v="${o.id}" class="${WA.offers.includes(o.id)?'on':''}" title="${o.st!=='ok'?esc(WAU.noPrice):''}">${esc(LANG==='en'?o.en||o.ar:o.ar)}${o.st!=='ok'?' *':''}</button>`).join('')}</div></div>`).join('')}
+    <div class="wa-lbl">${WAU.branch}</div>
+    <div class="wa-chips">${[['ad',LANG==='en'?'Abu Dhabi':'أبوظبي'],['fuj',LANG==='en'?'Fujairah':'الفجيرة'],['',WAU.none]].map(([k,t])=>`<button data-a="wab" data-v="${k}" class="${(WA.branch||'')===k?'on':''}">${t}</button>`).join('')}</div>
+   </div>
+   <div class="wa-out">
+    <label>${WAU.preview}<textarea id="waMsg" rows="14" dir="${WA.lang==='en'?'ltr':'rtl'}">${esc(msg)}</textarea></label>
+    ${WA.edited?`<button class="ib" data-a="wareset">${WAU.reset}</button>`:''}
+    <div class="wa-acts"><button class="wa-go" data-a="waweb">🟢 ${WAU.web}</button><button class="wa-go2" data-a="waapp">${WAU.app}</button><button class="ib" data-a="wacopy">${WAU.copy}</button></div>
+    <div class="wa-box"><b>${WAU.odoo}</b><div class="wa-note" id="waNote">${esc(waNote())}</div><button class="ib" data-a="wanote">${WAU.odooBtn}</button></div>
+    <details class="wa-box"><summary><b>${WAU.down}</b></summary><p class="small">${WAU.downHint}</p>
+     <label>${WAU.mate}<input id="waMate" type="email" dir="ltr" value="${esc(WA.mate)}" placeholder="name@techsource-gds.com" autocomplete="email"></label>
+     <div class="wa-acts"><button class="wa-go2" data-a="wamail">✉ ${WAU.mail}</button><button class="ib" data-a="wamailcopy">${WAU.mailCopy}</button></div></details>
+   </div>
+  </div></section>`;
+}
+function waCheck(){
+  const n=waNum(WA.phone);
+  if(!WA.phone.trim()){ toast(WAU.needPhone); const i=$('waPhone'); if(i) i.focus(); return null; }
+  if(!WA.offers.length&&!WA.branch){ toast(WAU.needAny); return null; }
+  return n;
+}
+const waMsgNow=()=>{ const t=$('waMsg'); return t?t.value:(WA.edited?WA.msg:waText()); };
+function waRequest(n){
+  return [WAU.mailIntro,'',WAU.phone+': +'+n+(WA.name.trim()?' ('+WA.name.trim()+')':''),WAU.mailOpen+': https://wa.me/'+n,'',WAU.mailMsg,waMsgNow(),'',WAU.thanks+(WA.agent.trim()?'\n'+WA.agent.trim():'')].join('\n');
+}
+function waRefresh(){ // update the preview and note without re-rendering the inputs being typed in
+  const m=$('waMsg'); if(m&&!WA.edited){ m.value=waText(); m.dir=WA.lang==='en'?'ltr':'rtl'; }
+  const w=$('waPhoneWarn'); if(w) w.hidden=!(WA.phone&&!waOk(waNum(WA.phone)));
+  const nt=$('waNote'); if(nt) nt.textContent=waNote();
+}
+document.addEventListener('input',e=>{
+  const id=e.target.id; if(!id||!id.startsWith('wa')) return;
+  if(id==='waPhone') WA.phone=e.target.value; if(id==='waName') WA.name=e.target.value; if(id==='waAgent'){ WA.agent=e.target.value; waSave(); }
+  if(id==='waMate'){ WA.mate=e.target.value.trim(); waSave(); }
+  if(id==='waMsg'){ WA.msg=e.target.value; if(!WA.edited){ WA.edited=true; renderMain(); const m=$('waMsg'); if(m){ m.focus(); m.setSelectionRange(m.value.length,m.value.length);} } return; }
+  waRefresh();
+});
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a, v=t.dataset.v;
+  if(!a.startsWith('wa')) return;
+  e.preventDefault();
+  if(a==='wao'){ WA.offers=WA.offers.includes(v)?WA.offers.filter(x=>x!==v):[...WA.offers,v]; renderMain(); return; }
+  if(a==='wab'){ WA.branch=v; waSave(); renderMain(); return; }
+  if(a==='wag'){ WA.gender=v; waSave(); renderMain(); return; }
+  if(a==='wal'){ WA.lang=v; waSave(); renderMain(); return; }
+  if(a==='wareset'){ WA.edited=false; WA.msg=''; renderMain(); return; }
+  if(a==='wacopy'){ copyText(waMsgNow(),WAU.copied); return; }
+  if(a==='wanote'){ copyText(waNote(),WAU.noteCopied); return; }
+  const n=waCheck(); if(!n) return;
+  if(a==='waweb') window.open('https://web.whatsapp.com/send?phone='+n+'&text='+encodeURIComponent(waMsgNow()),'tj-whatsapp');
+  if(a==='waapp') window.open('https://wa.me/'+n+'?text='+encodeURIComponent(waMsgNow()),'_blank');
+  if(a==='wamail'){ location.href='mailto:'+encodeURIComponent(WA.mate||'')+'?subject='+encodeURIComponent(WAU.mailSubj+' +'+n)+'&body='+encodeURIComponent(waRequest(n)); }
+  if(a==='wamailcopy'){ copyText(WAU.mailSubj+' +'+n+'\n\n'+waRequest(n),WAU.reqCopied); }
+  if(a==='wamail'||a==='wamailcopy'){ const nt=$('waNote'); if(nt) nt.textContent=waNote()+WAU.mateNote; }
+});
+
 const VIEWS=[
  ['home','Home',['home','rules','updates']],
+ ['wa','📲 Send to customer',['wa']],
  ['offers','Offers & prices',['offers','prices']],
  ['services','Service guide',['products','prep']],
  ['branches','Branches & hours',['branches','center']],
@@ -1033,6 +1218,7 @@ const VIEWS=[
  ['lang','Gulf dialect & terms',['gulf','terms','pron']],
  ['todo','Needs confirmation',['todo']]
 ];
+SEC.wa=waHtml;
 let VIEW='home';
 function viewOf(t){
   for(const [v,,secs] of VIEWS){ if(v===t||secs.includes(t)) return v; }
