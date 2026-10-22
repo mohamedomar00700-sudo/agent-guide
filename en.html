@@ -771,6 +771,9 @@ const CENTER=[
  ['VAT','Prices exclude VAT. The rate is still being confirmed.','warn'],
  ['Installments','Available with Tabby and Tamara. The admin fee rate is still being confirmed.','warn'],
  ['Specialties','Dermatology, aesthetics, cosmetic dentistry, body contouring and weight loss','ok'],
+ ['Dermatology (Derma) services','Botox Nabota (Korean), Botox Dysport, Full-Face Meso Botox, AILEENE Lip Filler (1 ml), Restylane Kysse Filler, AILEENE Face Filler (2 ml), Dermapen, RRS Long Lasting (Spanish), RRS Eyes (Spanish), Sculptra (American, Galderma), Endolaser, Silutrix double-chin injection, Cellulite removal course, Mounjaro course, Laser Hair Removal, HydraFacial, Lip Rejuvenation, Skin Peeling. The consultation is with a dermatologist.','ok'],
+ ['Nutrition services','Wood therapy lymphatic massage, Fat-dissolving device course, Mounjaro course. The consultation is with a nutritionist. Mounjaro is listed under both departments, so ask whether the customer wants it for weight loss, and check with your team leader which doctor to book.','ok'],
+ ['New services without details','HydraFacial, Lip Rejuvenation and Skin Peeling are on the client\'s service list, but we have no offer, price or description for them yet. If a customer asks: say the service is available and book a free consultation where the doctor explains everything. Don\'t give a price.','warn'],
  ['License','Licensed by the Department of Health Abu Dhabi (DOH), according to general guidelines','warn'],
  ['Currency','UAE Dirham (AED)','ok'],
  ['Time difference','The UAE is currently 1 hour ahead of Egypt, and it becomes 2 hours when Egypt ends daylight saving time at the end of October.','ok'],
@@ -778,6 +781,8 @@ const CENTER=[
 ];
 
 const TODO=[
+ 'HydraFacial, Lip Rejuvenation and Skin Peeling: price, whether there is an offer, and what we tell the customer about them.',
+ 'Mounjaro course is listed under both Dermatology and Nutrition: which doctor do we book?',
  'Odoo activity rules (when to create an activity and which type), and how many attempts before a lead becomes Un-Reachable.',
  'Has the medical information in the sales guide (timelines, number of sessions) been reviewed by the doctor?',
  'Name and address of the third branch, and which services are available at each branch.',
@@ -832,6 +837,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['22 Oct 2026','The client\'s official service list is now in the Branches & hours tab (Center info), split into Dermatology and Nutrition. Three new services were added: HydraFacial, Lip Rejuvenation and Skin Peeling. They have no price or description yet, so book a consultation and don\'t quote a price.'],
  ['15 Oct 2026','Pronunciation now plays the real name without splitting it into syllables, the way the agent should say it to the customer.'],
  ['15 Oct 2026','English names of services and materials now have a 🔊 button to hear the right pronunciation, plus a "Pronunciation" section in the Gulf dialect & terms tab. You can also ask Noor "how do I say Sculptra?".'],
  ['15 Oct 2026','Odoo now has its own tab: a "what happened and how to log it" table (stage, tag and activity), the stages, and what each tag means with a search box. The "Outcome" button now gives the stage, tag and activity directly.'],
@@ -909,7 +915,7 @@ const WIZ={"start": {"q": "Did anyone answer the call?", "o": [["Yes", "who"], [
 
 
 // Pronunciation of English names: the browser's English voice reads a respelled form; the Arabic spelling and stress guide work offline.
-const PRON=[["Botox", "Botox", "بوتوكس", "BOH-tox"], ["Nabota", "Nabota", "نابوتا", "na-BOH-ta"], ["Dysport", "Dysport", "ديسبورت", "DIS-port"], ["Meso Botox", "Mezzo Botox", "ميزو بوتوكس", "MEH-zo BOH-tox"], ["Sculptra", "Sculptra", "سكَلبترا", "SKULP-tra"], ["Galderma", "Galderma", "جالديرما", "gal-DER-ma"], ["Endolaser", "Endo laser", "إندوليزر", "EN-do-LAY-zer"], ["Candela GentleMax Pro Plus", "Candela, Gentle Max, Pro Plus", "كانديلا جنتل ماكس برو بلس", "kan-DEL-a JEN-tl max"], ["Restylane Kysse", "Restylane Kiss", "ريستالين كِس", "RES-ti-lane KISS"], ["AILEENE", "Aileen", "أيلين", "eye-LEEN"], ["Dermapen", "Dermapen", "ديرمابن", "DER-ma-pen"], ["RRS", "R, R, S", "آر آر إس", "ar-ar-ES"], ["Silutrix", "Silutrix", "سيلوتريكس", "SIL-u-trix"], ["Mounjaro", "Mounjaro", "مونجارو", "mown-JAR-oh"], ["Filler", "Filler", "فيلر", "FIL-er"], ["Cellulite", "Cellulite", "سيليولايت", "SEL-yoo-lite"], ["Lymphatic drainage", "Lymphatic drainage", "ليمفاتيك دريناج", "lim-FAT-ik DRAY-nij"], ["PLLA", "P, L, L, A", "بي إل إل إيه", "pee-el-el-AY"], ["Poly-L-lactic acid", "Poly L lactic acid", "بولي إل لاكتيك أسيد", "POL-ee el LAK-tik"], ["Lidocaine", "Lidocaine", "لايدوكين", "LYE-doh-kane"], ["Hyaluronic acid", "Hyaluronic acid", "هايالورونيك أسيد", "hy-a-loo-RON-ik"], ["Collagen", "Collagen", "كولاجين", "KOL-a-jin"], ["Radiofrequency", "Radio frequency", "راديو فريكوينسي", "RAY-dee-oh FREE-kwen-see"]];
+const PRON=[["Botox", "Botox", "بوتوكس", "BOH-tox"], ["Nabota", "Nabota", "نابوتا", "na-BOH-ta"], ["Dysport", "Dysport", "ديسبورت", "DIS-port"], ["Meso Botox", "Mezzo Botox", "ميزو بوتوكس", "MEH-zo BOH-tox"], ["Sculptra", "Sculptra", "سكَلبترا", "SKULP-tra"], ["Galderma", "Galderma", "جالديرما", "gal-DER-ma"], ["Endolaser", "Endo laser", "إندوليزر", "EN-do-LAY-zer"], ["Candela GentleMax Pro Plus", "Candela, Gentle Max, Pro Plus", "كانديلا جنتل ماكس برو بلس", "kan-DEL-a JEN-tl max"], ["Restylane Kysse", "Restylane Kiss", "ريستالين كِس", "RES-ti-lane KISS"], ["AILEENE", "Aileen", "أيلين", "eye-LEEN"], ["Dermapen", "Dermapen", "ديرمابن", "DER-ma-pen"], ["RRS", "R, R, S", "آر آر إس", "ar-ar-ES"], ["Silutrix", "Silutrix", "سيلوتريكس", "SIL-u-trix"], ["Mounjaro", "Mounjaro", "مونجارو", "mown-JAR-oh"], ["Filler", "Filler", "فيلر", "FIL-er"], ["Cellulite", "Cellulite", "سيليولايت", "SEL-yoo-lite"], ["Lymphatic drainage", "Lymphatic drainage", "ليمفاتيك دريناج", "lim-FAT-ik DRAY-nij"], ["PLLA", "P, L, L, A", "بي إل إل إيه", "pee-el-el-AY"], ["Poly-L-lactic acid", "Poly L lactic acid", "بولي إل لاكتيك أسيد", "POL-ee el LAK-tik"], ["Lidocaine", "Lidocaine", "لايدوكين", "LYE-doh-kane"], ["Hyaluronic acid", "Hyaluronic acid", "هايالورونيك أسيد", "hy-a-loo-RON-ik"], ["Collagen", "Collagen", "كولاجين", "KOL-a-jin"], ["Radiofrequency", "Radio frequency", "راديو فريكوينسي", "RAY-dee-oh FREE-kwen-see"], ["HydraFacial", "Hydra facial", "هايدرا فيشيال", "HY-dra FAY-shul"]];
 const PRON_KEYS=PRON.map(p=>p[0]).sort((a,b)=>b.length-a.length);
 function pronSay(text){ let t=String(text||'').replace(/\([^)]*\)/g,' ');
   PRON_KEYS.forEach(k=>{ const p=PRON.find(x=>x[0]===k); t=t.replace(new RegExp(k.replace(/[-.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),p[1]); });

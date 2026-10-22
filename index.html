@@ -763,6 +763,9 @@ const CENTER=[
  ['الضريبة','الأسعار مش شاملة الضريبة. النسبة لسه بتتأكد.','warn'],
  ['التقسيط','متاح مع تابي وتمارا. نسبة الرسوم الإدارية لسه بتتأكد.','warn'],
  ['التخصصات','جلدية، تجميل، أسنان تجميلية، نحت جسم وتخسيس','ok'],
+ ['خدمات قسم الجلدية (Derma)','بوتوكس نابوتا (كوري)، بوتوكس ديسبورت، ميزو بوتوكس للوجه، فيلر شفايف AILEENE (1 مل)، فيلر ريستالين كايس للشفايف، فيلر وجه AILEENE (2 مل)، ديرما بن، RRS لونج لاستنج (إسباني)، RRS للعين (إسباني)، سكلبترا (أمريكي، Galderma)، إندوليزر، إبرة سيلوتريكس للغبغب، كورس إزالة السيلوليت، كورس مونجارو، ليزر إزالة الشعر، هيدروفيشيل، توريد شفايف، تقشير البشرة. الاستشارة بتبقى مع دكتور جلدية.','ok'],
+ ['خدمات قسم التغذية (Nutrition)','مساج لمفاوي بالخشب، كورس أجهزة إذابة الدهون، كورس مونجارو. الاستشارة بتبقى مع دكتور تغذية. كورس مونجارو موجود في القسمين، فاسأل العميل هو عايزه للتخسيس ولا لأ، واتأكد من التيم ليدر يتحجز عند مين.','ok'],
+ ['خدمات جديدة من غير تفاصيل','هيدروفيشيل (HydraFacial)، توريد شفايف (Lip Rejuvenation)، تقشير البشرة (Skin Peeling): موجودين في قايمة خدمات الكلاينت، بس ملهمش عرض ولا سعر ولا شرح عندنا لسه. لو العميل سأل: قول إن الخدمة موجودة، واحجزله استشارة مجانية والدكتور يوضحله كل حاجة. متقولش سعر.','warn'],
  ['الترخيص','مرخّص من دائرة الصحة أبوظبي (DOH)، حسب الدلايل العامة','warn'],
  ['العملة','درهم إماراتي (AED)','ok'],
  ['فرق التوقيت','الإمارات قدام مصر بساعة دلوقتي، وبتبقى ساعتين لما مصر تلغي التوقيت الصيفي آخر أكتوبر.','ok'],
@@ -770,6 +773,8 @@ const CENTER=[
 ];
 
 const TODO=[
+ 'هيدروفيشيل وتوريد الشفايف وتقشير البشرة: السعر، وفيه عرض ولا لأ، والشرح اللي نقوله للعميل.',
+ 'كورس مونجارو موجود في قسم الجلدية وقسم التغذية: يتحجز عند مين؟',
  'قواعد الأكتيفيتي على أودوو (إمتى نعمل Activity ونوعها إيه)، وعدد المحاولات قبل ما الليد تبقى Un-Reachable.',
  'المعلومات الطبية في دليل المبيعات (المدد، عدد الجلسات) متراجعة من الدكتور؟',
  'اسم وعنوان الفرع التالت، وأنهي خدمات متاحة في كل فرع.',
@@ -824,6 +829,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['22 أكتوبر 2026','قايمة الخدمات الرسمية من الكلاينت بقت في تبويب الفروع والمواعيد (معلومات المركز)، متقسمة على قسم الجلدية وقسم التغذية. واتضاف 3 خدمات جديدة: هيدروفيشيل، وتوريد الشفايف، وتقشير البشرة. لسه ملهمش سعر ولا شرح، فاحجز استشارة ومتقولش سعر.'],
  ['15 أكتوبر 2026','النطق بقى بالاسم الحقيقي من غير تقطيع، زي ما الإيجنت المفروض يقوله للعميل.'],
  ['15 أكتوبر 2026','أسماء الخدمات والمواد الإنجليزي بقى جنبها زرار 🔊 تسمع منه النطق الصح، وفيه قسم "نطق الأسماء" في تبويب الخليجي والمصطلحات. وتقدر تسأل نور "ازاي أنطق سكلبترا؟".'],
  ['15 أكتوبر 2026','أودوو بقى ليه تبويب لوحده: جدول "إيه اللي حصل وتسجله إزاي" (المرحلة والتاج والأكتيفيتي)، والمراحل، ومعنى كل تاج مع بحث. وزرار "النتيجة" بقى يقولك المرحلة والتاج والأكتيفيتي على طول.'],
@@ -901,7 +907,7 @@ const WIZ={"start": {"q": "حد رد على المكالمة؟", "o": [["أيو�
 
 
 // Pronunciation of English names: the browser's English voice reads a respelled form; the Arabic spelling and stress guide work offline.
-const PRON=[["Botox", "Botox", "بوتوكس", "BOH-tox"], ["Nabota", "Nabota", "نابوتا", "na-BOH-ta"], ["Dysport", "Dysport", "ديسبورت", "DIS-port"], ["Meso Botox", "Mezzo Botox", "ميزو بوتوكس", "MEH-zo BOH-tox"], ["Sculptra", "Sculptra", "سكَلبترا", "SKULP-tra"], ["Galderma", "Galderma", "جالديرما", "gal-DER-ma"], ["Endolaser", "Endo laser", "إندوليزر", "EN-do-LAY-zer"], ["Candela GentleMax Pro Plus", "Candela, Gentle Max, Pro Plus", "كانديلا جنتل ماكس برو بلس", "kan-DEL-a JEN-tl max"], ["Restylane Kysse", "Restylane Kiss", "ريستالين كِس", "RES-ti-lane KISS"], ["AILEENE", "Aileen", "أيلين", "eye-LEEN"], ["Dermapen", "Dermapen", "ديرمابن", "DER-ma-pen"], ["RRS", "R, R, S", "آر آر إس", "ar-ar-ES"], ["Silutrix", "Silutrix", "سيلوتريكس", "SIL-u-trix"], ["Mounjaro", "Mounjaro", "مونجارو", "mown-JAR-oh"], ["Filler", "Filler", "فيلر", "FIL-er"], ["Cellulite", "Cellulite", "سيليولايت", "SEL-yoo-lite"], ["Lymphatic drainage", "Lymphatic drainage", "ليمفاتيك دريناج", "lim-FAT-ik DRAY-nij"], ["PLLA", "P, L, L, A", "بي إل إل إيه", "pee-el-el-AY"], ["Poly-L-lactic acid", "Poly L lactic acid", "بولي إل لاكتيك أسيد", "POL-ee el LAK-tik"], ["Lidocaine", "Lidocaine", "لايدوكين", "LYE-doh-kane"], ["Hyaluronic acid", "Hyaluronic acid", "هايالورونيك أسيد", "hy-a-loo-RON-ik"], ["Collagen", "Collagen", "كولاجين", "KOL-a-jin"], ["Radiofrequency", "Radio frequency", "راديو فريكوينسي", "RAY-dee-oh FREE-kwen-see"]];
+const PRON=[["Botox", "Botox", "بوتوكس", "BOH-tox"], ["Nabota", "Nabota", "نابوتا", "na-BOH-ta"], ["Dysport", "Dysport", "ديسبورت", "DIS-port"], ["Meso Botox", "Mezzo Botox", "ميزو بوتوكس", "MEH-zo BOH-tox"], ["Sculptra", "Sculptra", "سكَلبترا", "SKULP-tra"], ["Galderma", "Galderma", "جالديرما", "gal-DER-ma"], ["Endolaser", "Endo laser", "إندوليزر", "EN-do-LAY-zer"], ["Candela GentleMax Pro Plus", "Candela, Gentle Max, Pro Plus", "كانديلا جنتل ماكس برو بلس", "kan-DEL-a JEN-tl max"], ["Restylane Kysse", "Restylane Kiss", "ريستالين كِس", "RES-ti-lane KISS"], ["AILEENE", "Aileen", "أيلين", "eye-LEEN"], ["Dermapen", "Dermapen", "ديرمابن", "DER-ma-pen"], ["RRS", "R, R, S", "آر آر إس", "ar-ar-ES"], ["Silutrix", "Silutrix", "سيلوتريكس", "SIL-u-trix"], ["Mounjaro", "Mounjaro", "مونجارو", "mown-JAR-oh"], ["Filler", "Filler", "فيلر", "FIL-er"], ["Cellulite", "Cellulite", "سيليولايت", "SEL-yoo-lite"], ["Lymphatic drainage", "Lymphatic drainage", "ليمفاتيك دريناج", "lim-FAT-ik DRAY-nij"], ["PLLA", "P, L, L, A", "بي إل إل إيه", "pee-el-el-AY"], ["Poly-L-lactic acid", "Poly L lactic acid", "بولي إل لاكتيك أسيد", "POL-ee el LAK-tik"], ["Lidocaine", "Lidocaine", "لايدوكين", "LYE-doh-kane"], ["Hyaluronic acid", "Hyaluronic acid", "هايالورونيك أسيد", "hy-a-loo-RON-ik"], ["Collagen", "Collagen", "كولاجين", "KOL-a-jin"], ["Radiofrequency", "Radio frequency", "راديو فريكوينسي", "RAY-dee-oh FREE-kwen-see"], ["HydraFacial", "Hydra facial", "هايدرا فيشيال", "HY-dra FAY-shul"]];
 const PRON_KEYS=PRON.map(p=>p[0]).sort((a,b)=>b.length-a.length);
 function pronSay(text){ let t=String(text||'').replace(/\([^)]*\)/g,' ');
   PRON_KEYS.forEach(k=>{ const p=PRON.find(x=>x[0]===k); t=t.replace(new RegExp(k.replace(/[-.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),p[1]); });
