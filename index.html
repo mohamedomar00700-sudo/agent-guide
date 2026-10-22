@@ -856,7 +856,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
- ['22 أكتوبر 2026','تبويب جديد "⏸ إيميل AUX": قبل ما تحط AUX على الأفايا (مشكلة IT أو Lunch أو Break) اختار اسمك والسبب ودوس ابعت، هيفتحلك إيميل جاهز لمصطفى وإسلام وفي الـ CC حسين وأحمد (RTM). ولما ترجع دوس "رجعت". وفي "ابعت للعميل" لو الواتساب عندك واقف، بقيت تختار اسم زميلتك بس والإيميل بيتحط لوحده، وفي الـ CC حسين ومصطفى وإسلام.'],
+ ['22 أكتوبر 2026','تبويب جديد "⏸ إيميل AUX": قبل ما تحط AUX على الأفايا (مشكلة IT أو Lunch أو Break) اختار اسمك والسبب ودوس ابعت، هيفتحلك إيميل جاهز لمصطفى وإسلام وفي الـ CC حسين وأحمد (RTM). ولما ترجع دوس "رجعت". وفي "ابعت للعميل" لو الواتساب عندك واقف، بقيت تختار اسم زميلتك بس والإيميل بيتحط لوحده، وفي الـ CC حسين ومصطفى وإسلام وزينب (الكواليتي).'],
  ['22 أكتوبر 2026','تبويب جديد "📲 ابعت للعميل": بعد المكالمة اكتب رقم العميل واختار العروض اللي سأل عليها والفرع، والرسالة هتتكتب لوحدها بالأسعار والهدية واللوكيشن. دوس "افتح واتساب ويب" هيفتحلك الشات على الرقم والرسالة جاهزة، إنت بس تدوس إرسال. ولو الواتساب عندك واقف، فيه زرار يبعت الطلب لزميلة على الإيميل تبعت مكانك. وفيه زرار ينسخلك ملاحظة لأودوو.'],
  ['22 أكتوبر 2026','نور بقى يطلّعلك اسم الخدمة على أودوو (إنجليزي وعربي مع زرار نسخ) تحت أي إجابة عن خدمة، يعني لو كتبت "بوتوكس" أو "نابوتا بكام" هتلاقي الاسم تحت الرد على طول. ولو كتبت "أسامي الخدمات على أودوو" يطلعلك القايمة كلها.'],
  ['22 أكتوبر 2026','في تبويب أودوو بقى فيه جدول "اسم الخدمة على أودوو": كل خدمة بالإنجليزي والعربي وجنبها زرار نسخ، ومعاه بحث. وتقدر تسأل نور "اسم الخدمة على أودوو" أو تكتب اسم الخدمة، وهتديك الاسم تنسخه.'],
@@ -1051,10 +1051,10 @@ const TEAM=[
  {id:'yara',en:'Yara Mohamed',ar:'يارا',email:'Yara.Mohamed@techsource-gds.com'},
  {id:'salma',en:'Salma Remah',ar:'سلمى',email:'Salma.Remah@techsource-gds.com'},
  {id:'nancy',en:'Nancy Ashraf',ar:'نانسي',email:'Nancy.Ashraf@techsource-gds.com'},
- {id:'zeinab',en:'Zeinab Saber',ar:'زينب',email:'Zeinab.Saber@techsource-gds.com'}
+ {id:'zeinab',en:'Zeinab Saber',ar:'زينب',email:'Zeinab.Saber@techsource-gds.com',qa:true}
 ];
-const LEADS={mostafa:'Mostafa.Kamel@techsource-gds.com',eslam:'Eslam.Shehata@techsource-gds.com',hussein:'Hussein.Elmasry@techsource-gds.com',ahmed:'Ahmed.Osman@techsource-gds.com'};
-const WA_CC=[LEADS.hussein,LEADS.mostafa,LEADS.eslam];          // WhatsApp-down request: to the colleague, cc leads
+const LEADS={mostafa:'Mostafa.Kamel@techsource-gds.com',eslam:'Eslam.Shehata@techsource-gds.com',hussein:'Hussein.Elmasry@techsource-gds.com',zeinab:'Zeinab.Saber@techsource-gds.com',ahmed:'Ahmed.Osman@techsource-gds.com'};
+const WA_CC=[LEADS.hussein,LEADS.mostafa,LEADS.eslam,LEADS.zeinab]; // WhatsApp-down request: to the colleague, cc leads + quality
 const AUX_TO=[LEADS.mostafa,LEADS.eslam], AUX_CC=[LEADS.hussein,LEADS.ahmed]; // AUX on Avaya: to team leads, cc Hussein + RTM
 const meGet=()=>{try{return localStorage.getItem('tj-me')||''}catch(e){return ''}};
 const meSet=v=>{try{localStorage.setItem('tj-me',v)}catch(e){}};
@@ -1096,7 +1096,7 @@ const WA_UI={
   intro:'اكتب رقم العميل، واختار العروض والفرع، والرسالة هتتكتب لوحدها. دوس "افتح الواتساب" وهيفتحلك الشات على الرقم والرسالة جاهزة، إنت بس تدوس إرسال.',
   phone:'رقم العميل',phoneHint:'05xxxxxxxx أو +9715xxxxxxxx',name:'اسم العميل (اختياري)',gender:'العميل',f:'سيدة',m:'راجل',agent:'اسمك',agentSay:'اسمك في الرسالة',lang:'لغة الرسالة',
   offers:'العروض اللي العميل سأل عليها',branch:'الفرع',none:'من غير لوكيشن',preview:'الرسالة (تقدر تعدّل فيها)',reset:'رجّع الرسالة الأصلية',
-  web:'افتح واتساب ويب',app:'افتح تطبيق الواتساب',copy:'انسخ الرسالة',down:'الواتساب عندي واقف؟',downHint:'اختار زميلة تبعت مكانك. هيفتحلك إيميل جاهز ليها فيه الرقم والرسالة ولينك الشات، وفي الـ CC حسين ومصطفى وإسلام.',
+  web:'افتح واتساب ويب',app:'افتح تطبيق الواتساب',copy:'انسخ الرسالة',down:'الواتساب عندي واقف؟',downHint:'اختار زميلة تبعت مكانك. هيفتحلك إيميل جاهز ليها فيه الرقم والرسالة ولينك الشات، وفي الـ CC حسين ومصطفى وإسلام وزينب (الكواليتي).',
   mate:'الزميلة اللي هتبعت مكانك',matePick:'اختار الزميلة',needMate:'اختار الزميلة الأول.',mail:'ابعت لها إيميل',mailCopy:'انسخ الطلب (لو الإيميل مفتحش)',odoo:'سجّل في أودوو',odooBtn:'انسخ ملاحظة أودوو',
   badPhone:'الرقم ده مش شكل موبايل إماراتي (9715 وبعده 8 أرقام). اتأكد منه.',needPhone:'اكتب رقم العميل الأول.',needAny:'اختار عرض أو فرع على الأقل.',
   noPrice:'السعر مش مؤكد، فهيتبعت من غير سعر',copied:'الرسالة اتنسخت',reqCopied:'الطلب اتنسخ، ابعته للزميلة',noteCopied:'الملاحظة اتنسخت، حطها في أودوو',
@@ -1173,8 +1173,8 @@ function waHtml(){
     ${WA.edited?`<button class="ib" data-a="wareset">${WAU.reset}</button>`:''}
     <div class="wa-acts"><button class="wa-go" data-a="waweb">🟢 ${WAU.web}</button><button class="wa-go2" data-a="waapp">${WAU.app}</button><button class="ib" data-a="wacopy">${WAU.copy}</button></div>
     <div class="wa-box"><b>${WAU.odoo}</b><div class="wa-note" id="waNote">${esc(waNote())}</div><button class="ib" data-a="wanote">${WAU.odooBtn}</button></div>
-    <details class="wa-box"><summary><b>${WAU.down}</b></summary><p class="small">${WAU.downHint}</p>
-     <label>${WAU.mate}<select id="waMate" class="wa-sel"><option value="">${WAU.matePick}</option>${TEAM.filter(t=>t.id!==meGet()).map(t=>`<option value="${t.email}" ${WA.mate===t.email?'selected':''}>${esc(LANG==='en'?t.en:t.en+' · '+t.ar)}</option>`).join('')}</select></label>
+    <details class="wa-box" id="waDown" ${WA.downOpen?'open':''}><summary><b>${WAU.down}</b></summary><p class="small">${WAU.downHint}</p>
+     <label>${WAU.mate}<select id="waMate" class="wa-sel"><option value="">${WAU.matePick}</option>${TEAM.filter(t=>t.id!==meGet()&&!t.qa).map(t=>`<option value="${t.email}" ${WA.mate===t.email?'selected':''}>${esc(LANG==='en'?t.en:t.en+' · '+t.ar)}</option>`).join('')}</select></label>
      <div class="small" dir="ltr">CC: ${WA_CC.join(', ')}</div>
      <div class="wa-acts"><button class="wa-go2" data-a="wamail">✉ ${WAU.mail}</button><button class="ib" data-a="wamailcopy">${WAU.mailCopy}</button></div></details>
    </div>
@@ -1270,7 +1270,8 @@ function auxMail(back){ const me=teamBy(meGet()); if(!me){ toast(AXU.needMe); co
   return back?{s:AXU.subjBack(me.en,t),b:AXU.bodyBack(r,me.en,t,AUX.since)}:{s:AXU.subj(r,me.en,t),b:AXU.body(r,me.en,t,AUX.note.trim())}; }
 document.addEventListener('input',e=>{ if(e.target.id==='auxNote') AUX.note=e.target.value; });
 document.addEventListener('change',e=>{ if(e.target.id==='auxMe'||e.target.id==='waMe'){ meSet(e.target.value); if(e.target.id==='waMe'){ const t=teamBy(e.target.value); if(t){ WA.agent=WA.lang==='en'?t.en.split(' ')[0]:t.ar; waSave(); } renderMain(); } }
-  if(e.target.id==='waMate'){ WA.mate=e.target.value; waSave(); renderMain(); } });
+  if(e.target.id==='waMate'){ WA.mate=e.target.value; waSave(); } });
+document.addEventListener('toggle',e=>{ if(e.target.id==='waDown') WA.downOpen=e.target.open; },true);
 document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a; if(!a.startsWith('ax')) return; e.preventDefault();
   if(a==='axr'){ AUX.reason=t.dataset.v; auxSave(); renderMain(); return; }
   const m=auxMail(a==='axback'); if(!m) return;
