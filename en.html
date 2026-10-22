@@ -1313,7 +1313,7 @@ function botAnswerHtml(r){
     case 'reg': { const g=it.ref; h=`<div class="hd">${esc(g.ar)} <span class="chip c-warn">Regular price, not an offer</span></div>${sayBox(`${g.ar}${g.pn?': '+g.pn:''} for ${g.price} AED, before VAT.`)}<div class="warn">This is a regular price, not an offer, so no gift comes with it.</div>`; break; }
     case 'center': h=`<div class="hd">${esc(it.ref[0])} ${it.ref[2]==='ok'?'<span class="chip c-ok">Confirmed</span>':'<span class="chip c-warn">Needs confirmation</span>'}</div><span>${esc(it.ref[1])}</span>`; break;
   }
-  if(it.type!=='svc'&&it.type!=='svclist'&&r.q) h+=svcStrip(svcFor(r.q).length?svcFor(r.q):svcFor(it.title||''));
+  if(it.type!=='svc'&&it.type!=='svclist') h+=svcStrip(svcFor(r.q||'').length?svcFor(r.q||''):svcFor(it.title||''));
   if(r.more&&r.more.length) h+=`<div class="lbl">Related questions:</div><div class="chips2">${r.more.map(x=>`<button data-a="bq" data-t="${esc(x.title)}">${esc(x.title)}</button>`).join('')}</div>`;
   return h;
 }
@@ -1385,7 +1385,7 @@ function showSug(){ const i=$('cq'), b=$('csug'); if(!i||!b) return; SUG=botSugg
   if(!SUG.length){ b.hidden=true; b.innerHTML=''; return; }
   b.innerHTML='<div class="csh">Suggestions (click any one):</div>'+SUG.map((it,k)=>`<button type="button" data-a="sug" data-i="${k}"><span class="sec">${esc(SUGTYPE[it.type]||'')}</span>${esc(it.title)}${/^(oqa|pqa|pfact|pobj)$/.test(it.type)&&it.ref?`<small style="color:var(--muted)"> · ${esc(it.ref.ar||it.ref.name||'')}</small>`:''}</button>`).join('');
   b.hidden=false; }
-function pickSug(k){ const it=SUG[k]; if(!it) return; SUG=[]; botReply(it.title,{kind:'hit',best:it,more:[]}); }
+function pickSug(k){ const it=SUG[k]; if(!it) return; SUG=[]; botReply(it.title,{kind:'hit',best:it,more:[],q:norm($('cq')&&$('cq').value||it.title)}); }
 document.addEventListener('input',e=>{ if(e.target.id==='svcf'){ const q=norm(e.target.value); document.querySelectorAll('#svcbody tr').forEach(r=>r.hidden=!!q&&!r.dataset.k.includes(q)); } if(e.target.id==='tagf'){ const q=norm(e.target.value); document.querySelectorAll('#tagbody tr').forEach(r=>r.hidden=!!q&&!r.dataset.k.includes(q)); } if(e.target.id==='cq'){ clearTimeout(showSug.h); showSug.h=setTimeout(showSug,120); } });
 document.addEventListener('keydown',e=>{ if(e.target.id!=='cq'||!SUG.length) return; const b=$('csug'); if(!b||b.hidden) return;
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); SUGI=(SUGI+(e.key==='ArrowDown'?1:-1)+SUG.length)%SUG.length; [...b.querySelectorAll('button')].forEach((x,k)=>x.classList.toggle('on',k===SUGI)); }
