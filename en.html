@@ -602,6 +602,7 @@ async function loadOfferSheets(){ if(!SHEETS.offers&&!SHEETS.regular) return fal
   catch(e){ console.warn('offer sheet failed',e); return false; } }
 
 const RULES=[
+ ['warn','Last free consultation slot is 7:30 PM','Don\'t book a free consultation after 7:30 PM, even if the branch is still open. If the customer wants an evening slot, offer a time before 7:30 or another day.'],
  ['yes','The first consultation and the follow-up are free','Offer the free follow-up with the doctor during follow-up calls, and if the customer says they saw no result.'],
  ['yes','Introduce yourself as H&P','"This is [your name] from H&P Medical Center." Don\'t say Tres Jolie on the call.'],
  ['yes','Say the offer price exactly as written','You can say prices marked "Confirmed". For any service not in the offers, the price is set after the doctor\'s consultation.'],
@@ -866,6 +867,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['25 October 2026','The last free consultation slot is now 7:30 PM. It\'s added to the rules, and "Booking confirmation" in "📲 Send to customer" warns you if you pick a time after 7:30.'],
  ['22 Oct 2026','"📲 Send to customer" now has a "Booking confirmation" type for customers who already booked: pick the day, time, doctor and the offer they booked, and the message comes out with the location. It warns you if the doctor isn\'t there that day or the time is outside the hours.'],
  ['22 Oct 2026','New tab "⏸ AUX Email": before going on AUX on Avaya (IT issue, Lunch or Break), pick your name and the reason and press Send: a ready email opens to Mostafa and Eslam with Hussein and Ahmed (RTM) in CC. Press "I\'m back" when you return. And in "Send to customer", if your WhatsApp is down you now just pick your colleague\'s name: her email is filled in, with Hussein, Mostafa, Eslam and Zeinab (Quality) in CC.'],
  ['22 Oct 2026','New tab "📲 Send to customer": after the call, type the customer\'s number, pick the offers they asked about and the branch, and the message writes itself with prices, the gift and the location. Press "Open WhatsApp Web" and the chat opens on that number with the message ready, you just press send. If your WhatsApp is down, one button emails the request to a colleague who sends it for you. Another copies a note for Odoo.'],
@@ -1146,6 +1148,7 @@ function waWhen(ar){ if(!WA.date) return ['','']; const d=new Date(WA.date+'T12:
 // Warn the agent (not the customer) when the doctor doesn't work that day or hour, or the branch is closed.
 function waBookWarn(){ const W=[]; if(!WA.date) return W; const d=new Date(WA.date+'T12:00:00'); const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
   const h=WA.time?(+WA.time.split(':')[0]+(+WA.time.split(':')[1])/60):null; const en=LANG==='en';
+  if(h!=null&&h>19.5) W.push(en?'The last free consultation slot is 7:30 PM.':'آخر ميعاد للاستشارة المجانية 7:30 مساءً.');
   if(dn==='Fri') W.push(en?'The branches are closed on Friday.':'الفروع مقفولة يوم الجمعة.');
   const br=BRANCHES.find(b=>b.id===WA.branch); if(br&&h!=null&&(h<br.open||h>=br.close)) W.push(en?'This time is outside the branch hours.':'الساعة دي برّه مواعيد الفرع.');
   const doc=DOCTORS[+WA.doc]; if(WA.doc!==''&&doc){ if(!doc.days.includes(dn)) W.push(en?'This doctor doesn\'t work on this day. Check the doctors\' schedule.':'الدكتور ده مش موجود اليوم ده. راجع جدول الدكاترة.');
