@@ -1405,6 +1405,7 @@ function branchCard(b){ const st=branchStatus(b);
    </div></article>`; }
 function branchesHtml(){ const d=tzDiff(); const t=uaeParts();
   return `<section id="branches"><div class="sh"><div class="eyebrow">Addresses and hours</div><h2>Branches & hours</h2><p>The time in the UAE now is <b class="m" id="uaeclock">${String(t.h).padStart(2,'0')}:${String(t.m).padStart(2,'0')}</b>, and the UAE is ahead of Egypt by ${d===2?'2 hours':'1 hour'}. Any booking must be within the branch's working hours.</p></div>
+   <div class="caution"><b>The last free consultation slot is 7:30 PM</b> (UAE time), even if the branch is still open. If the customer wants an evening slot, offer a time before 7:30 or another day.</div>
    <div class="branches">${BRANCHES.map(branchCard).join('')}</div>
    </section>${doctorsHtml()}<section>
    <div class="caution"><b>Be careful:</b> The Fujairah branch's name on the sign is "Tres Jolie". If the customer books there, tell them this branch name so they can find it, and at the start of the call keep using "H&P" until the client says otherwise.</div>

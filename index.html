@@ -1397,6 +1397,7 @@ function branchCard(b){ const st=branchStatus(b);
    </div></article>`; }
 function branchesHtml(){ const d=tzDiff(); const t=uaeParts();
   return `<section id="branches"><div class="sh"><div class="eyebrow">عناوين ومواعيد</div><h2>الفروع والمواعيد</h2><p>الساعة دلوقتي في الإمارات <b class="m" id="uaeclock">${String(t.h).padStart(2,'0')}:${String(t.m).padStart(2,'0')}</b>، والإمارات قدام مصر ب${d===2?'ساعتين':'ساعة'}. أي حجز لازم يبقى جوه مواعيد الفرع.</p></div>
+   <div class="caution"><b>آخر ميعاد للاستشارة المجانية الساعة 7:30 مساءً</b> (بتوقيت الإمارات)، حتى لو الفرع لسه فاتح. لو العميل عايز ميعاد بالليل، اعرض عليه ساعة قبل 7:30 أو يوم تاني.</div>
    <div class="branches">${BRANCHES.map(branchCard).join('')}</div>
    </section>${doctorsHtml()}<section>
    <div class="caution"><b>خلي بالك:</b> فرع الفجيرة اسمه على اليافطة "تري جولي". لو العميل حجز هناك، قوله اسم الفرع ده عشان يلاقيه، وفي أول المكالمة فضّل على "H&P" لحد ما الكلاينت يقول غير كده.</div>
