@@ -869,6 +869,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['26 October 2026','"⏸ AUX email" is now "⏸ AUX request": the email asks Mostafa and Eslam for approval instead of just telling them, and has a field for the duration in minutes. Don\'t go on AUX on Avaya until one of them approves.'],
  ['26 October 2026','"📲 Send to customer" won\'t open WhatsApp until you choose your name, and your name is no longer kept after you close the page, so nobody sends under someone else\'s name on a shared PC. Choose your name when you open the page.'],
  ['26 October 2026','The name lists in "📲 Send to customer" and "⏸ AUX email" now have a search box: type part of the name, then press Enter or pick from the list.'],
  ['26 October 2026','In "📲 Send to customer" and "⏸ AUX email": if your name or a colleague\'s name is missing, pick "➕ My name isn\'t here" or "➕ Colleague not in the list" and type the name and email. It stays saved on your device.'],
@@ -1316,7 +1317,7 @@ document.addEventListener('click',e=>{
 const VIEWS=[
  ['home','Home',['home','rules','updates']],
  ['wa','📲 Send to customer',['wa']],
- ['aux','⏸ AUX Email',['aux']],
+ ['aux','⏸ AUX request',['aux']],
  ['offers','Offers & prices',['offers','prices']],
  ['services','Service guide',['products','prep']],
  ['branches','Branches & hours',['branches','center']],
@@ -1328,16 +1329,16 @@ const VIEWS=[
 
 /* ===== AUX on Avaya: email the team leads ===== */
 const AUX_UI={
- ar:{eyebrow:'قبل ما تحط AUX على الأفايا',title:'إيميل الـ AUX',intro:'اختار اسمك والسبب، ودوس "ابعت الإيميل". هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين وأحمد (RTM). ولما ترجع، دوس "رجعت" عشان يعرفوا إنك متاح تاني.',
-  me:'اسمك',reason:'السبب',note:'تفاصيل (اختياري، ومهمة لو مشكلة IT)',notePh:'مثلاً: الأفايا فاصلة / الهيدسيت مش شغال / النت واقع',send:'ابعت الإيميل',back:'رجعت، ابعت إيميل الرجوع',copy:'انسخ الإيميل (لو الإيميل مفتحش)',
-  needMe:'اختار اسمك الأول.',copied:'الإيميل اتنسخ',to:'رايح لـ',cc:'وفي الـ CC',since:'من الساعة',
+ ar:{eyebrow:'قبل ما تحط AUX على الأفايا',title:'طلب AUX',intro:'ده طلب مش إبلاغ: اختار اسمك والسبب ودوس "ابعت الطلب". هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين وأحمد (RTM). متحطش AUX على الأفايا غير لما حد فيهم يوافق. ولما ترجع، دوس "رجعت" عشان يعرفوا إنك متاح تاني.',wait:'⏳ مستني الموافقة. متحطش AUX غير لما مصطفى أو إسلام يردوا بالموافقة.',mins:'المدة بالدقايق (اختياري)',
+  me:'اسمك',reason:'السبب',note:'تفاصيل (اختياري، ومهمة لو مشكلة IT)',notePh:'مثلاً: الأفايا فاصلة / الهيدسيت مش شغال / النت واقع',send:'ابعت طلب AUX',back:'رجعت، ابعت إيميل الرجوع',copy:'انسخ الإيميل (لو الإيميل مفتحش)',
+  needMe:'اختار اسمك الأول.',copied:'الإيميل اتنسخ',to:'رايح لـ',cc:'وفي الـ CC',since:'طلبت الساعة',
   r:{it:'مشكلة IT',lunch:'Lunch',break:'Break'},
-  subj:(r,n,t)=>'AUX: '+r+' | '+n+' | '+t, subjBack:(n,t)=>'Back from AUX | '+n+' | '+t,
-  body:(r,n,t,x)=>'Hi Mostafa, Eslam,\n\nI am going on AUX now.\nReason: '+r+'\nTime: '+t+(x?'\nDetails: '+x:'')+'\n\nThanks,\n'+n,
+  subj:(r,n,t)=>'AUX request: '+r+' | '+n+' | '+t, subjBack:(n,t)=>'Back from AUX | '+n+' | '+t,
+  body:(r,n,t,x,m)=>'Hi Mostafa, Eslam,\n\nMay I go on AUX, please?\nReason: '+r+'\nRequested at: '+t+(m?'\nFor about: '+m+' minutes':'')+(x?'\nDetails: '+x:'')+'\n\nI will stay available until you approve.\n\nThanks,\n'+n,
   bodyBack:(r,n,t,s)=>'Hi Mostafa, Eslam,\n\nI am back from AUX and available now.\nReason was: '+r+(s?'\nFrom '+s+' to '+t:'\nBack at: '+t)+'\n\nThanks,\n'+n},
- en:{eyebrow:'Before you go on AUX on Avaya',title:'AUX email',intro:'Pick your name and the reason, then press "Send email". A ready email opens to Mostafa and Eslam, with Hussein and Ahmed (RTM) in CC. When you are back, press "I\'m back" so they know you are available again.',
-  me:'Your name',reason:'Reason',note:'Details (optional, important for an IT issue)',notePh:'e.g. Avaya disconnected / headset not working / internet down',send:'Send email',back:'I\'m back, send the back email',copy:'Copy the email (if email didn\'t open)',
-  needMe:'Pick your name first.',copied:'Email copied',to:'To',cc:'CC',since:'since',
+ en:{eyebrow:'Before you go on AUX on Avaya',title:'AUX request',intro:'This is a request, not a notice: pick your name and the reason, then press "Send request". A ready email opens to Mostafa and Eslam, with Hussein and Ahmed (RTM) in CC. Don\'t go on AUX on Avaya until one of them approves. When you are back, press "I\'m back" so they know you are available again.',wait:'⏳ Waiting for approval. Don\'t go on AUX until Mostafa or Eslam replies to approve.',mins:'Duration in minutes (optional)',
+  me:'Your name',reason:'Reason',note:'Details (optional, important for an IT issue)',notePh:'e.g. Avaya disconnected / headset not working / internet down',send:'Send AUX request',back:'I\'m back, send the back email',copy:'Copy the email (if email didn\'t open)',
+  needMe:'Pick your name first.',copied:'Email copied',to:'To',cc:'CC',since:'requested at',
   r:{it:'IT issue',lunch:'Lunch',break:'Break'}}
 };
 AUX_UI.en.subj=AUX_UI.ar.subj; AUX_UI.en.subjBack=AUX_UI.ar.subjBack; AUX_UI.en.body=AUX_UI.ar.body; AUX_UI.en.bodyBack=AUX_UI.ar.bodyBack;
@@ -1352,16 +1353,17 @@ function auxHtml(){
    <label>${AXU.me}${meSelect('auxMe')}</label>
    <div class="wa-lbl">${AXU.reason}</div>
    <div class="wa-chips">${Object.keys(AXU.r).map(k=>`<button data-a="axr" data-v="${k}" class="${AUX.reason===k?'on':''}">${AXU.r[k]}</button>`).join('')}</div>
+   <label>${AXU.mins}<input id="auxMins" type="number" min="1" max="120" inputmode="numeric" value="${esc(AUX.mins||'')}"></label>
    <label>${AXU.note}<input id="auxNote" placeholder="${AXU.notePh}" value="${esc(AUX.note)}"></label>
    <div class="wa-acts"><button class="wa-go2" data-a="axsend">✉ ${AXU.send}</button><button class="wa-go" data-a="axback">✅ ${AXU.back}</button></div>
    <button class="ib" data-a="axcopy">${AXU.copy}</button>
-   ${AUX.since?`<div class="wa-note">AUX: ${esc(AXU.r[AUX.reason]||AUX.reason)} · ${AXU.since} ${esc(AUX.since)}</div>`:''}
+   ${AUX.since?`<div class="wa-note">AUX: ${esc(AXU.r[AUX.reason]||AUX.reason)} · ${AXU.since} ${esc(AUX.since)}<br>${AXU.wait}</div>`:''}
   </div><div class="wa-out"><div class="wa-box"><b>${AXU.to}</b><span dir="ltr" class="small">${AUX_TO.join(', ')}</span><b>${AXU.cc}</b><span dir="ltr" class="small">${AUX_CC.join(', ')}</span></div></div></div></section>`;
 }
 function auxMail(back){ const me=teamBy(meGet()); if(!me){ toast(AXU.needMe); const s=$('auxMe'); if(s) s.focus(); return null; }
   const r=AUX_EN[AUX.reason], t=hhmm();
-  return back?{s:AXU.subjBack(me.en,t),b:AXU.bodyBack(r,me.en,t,AUX.since)}:{s:AXU.subj(r,me.en,t),b:AXU.body(r,me.en,t,AUX.note.trim())}; }
-document.addEventListener('input',e=>{ if(e.target.id==='auxNote') AUX.note=e.target.value; });
+  return back?{s:AXU.subjBack(me.en,t),b:AXU.bodyBack(r,me.en,t,AUX.since)}:{s:AXU.subj(r,me.en,t),b:AXU.body(r,me.en,t,AUX.note.trim(),String(AUX.mins||'').trim())}; }
+document.addEventListener('input',e=>{ if(e.target.id==='auxNote') AUX.note=e.target.value; if(e.target.id==='auxMins') AUX.mins=e.target.value; });
 document.addEventListener('change',e=>{ if((e.target.id==='auxMe'||e.target.id==='waMe'||e.target.id==='waMate')&&e.target.value===TEAM_ADD){ const t=teamPrompt(e.target.id==='waMate'); if(e.target.id==='waMate'){ WA.mate=t?t.email:''; waSave(); } else { meSet(t?t.id:meGet()); if(t&&e.target.id==='waMe'){ WA.agent=t.en.split(' ')[0]; waSave(); } } renderMain(); return; }
   if(e.target.id==='auxMe'||e.target.id==='waMe'){ meSet(e.target.value); if(e.target.id==='waMe'){ const t=teamBy(e.target.value); if(t){ WA.agent=WA.lang==='en'?t.en.split(' ')[0]:t.ar; waSave(); } renderMain(); } }
   if(e.target.id==='waMate'){ WA.mate=e.target.value; waSave(); } });
