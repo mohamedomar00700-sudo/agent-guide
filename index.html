@@ -25,6 +25,7 @@
 .wa-warn[hidden]{display:none}
 .wa-kind{align-self:flex-start}.wa-row2{grid-template-columns:1fr 1fr}
 .wa-form input[type=date],.wa-form input[type=time]{min-height:42px}
+.team-q{font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:7px 11px;width:100%;margin:4px 0}
 .wa-sel{font:inherit;font-size:15px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
 </style></head><body>
 <title>Tres Jolie Agent Handbook</title>
@@ -859,6 +860,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['26 أكتوبر 2026','قوايم الأسامي في "📲 ابعت للعميل" و"⏸ إيميل AUX" بقى فوقها خانة بحث: اكتب جزء من الاسم بالعربي أو بالإنجليزي، ودوس Enter أو اختار من القايمة.'],
  ['26 أكتوبر 2026','في "📲 ابعت للعميل" و"⏸ إيميل AUX": لو اسمك أو اسم زميلتك مش في القايمة، اختار "➕ اسمي مش موجود" أو "➕ زميلة مش في القايمة" واكتب الاسم والإيميل، وهيفضل محفوظ على جهازك.'],
  ['25 أكتوبر 2026','آخر ميعاد لحجز الاستشارة المجانية بقى الساعة 7:30 مساءً. اتضاف في القواعد، و"تأكيد حجز" في "📲 ابعت للعميل" بينبهك لو اخترت ساعة بعد 7:30.'],
  ['22 أكتوبر 2026','"📲 ابعت للعميل" بقى فيه نوع "تأكيد حجز" للعميل اللي حجز خلاص: اختار اليوم والساعة والدكتور والعرض اللي حجزه، والرسالة بتطلع بالتفاصيل واللوكيشن. وبينبهك لو الدكتور مش موجود اليوم ده أو الساعة برّه المواعيد.'],
@@ -1084,7 +1086,8 @@ function teamPrompt(mate){ const en=LANG==='en';
   const id='x-'+teamSlug(name), L=teamExtra().filter(t=>t.id!==id); L.push({id,en:name,ar:name,email});
   try{localStorage.setItem(TEAM_KEY,JSON.stringify(L))}catch(e){} mergeTeam(); return TEAM.find(t=>t.id===id||t.email.toLowerCase()===email.toLowerCase()); }
 mergeTeam();
-function meSelect(id){ const me=meGet(); return `<select id="${id}" class="wa-sel"><option value="">${LANG==='en'?'Choose your name':'اختار اسمك'}</option>${TEAM.map(t=>`<option value="${t.id}" ${me===t.id?'selected':''}>${esc(LANG==='en'||t.ar===t.en?t.en:t.en+' · '+t.ar)}</option>`).join('')}<option value="${TEAM_ADD}">${LANG==='en'?'➕ My name isn\'t here':'➕ اسمي مش موجود'}</option></select>`; }
+const teamQ=id=>TEAM.length>8?`<input type="search" class="team-q" data-for="${id}" placeholder="${LANG==='en'?'🔍 Search names':'🔍 دوّر على الاسم'}" autocomplete="off">`:'';
+function meSelect(id){ const me=meGet(); return `${teamQ(id)}<select id="${id}" class="wa-sel"><option value="">${LANG==='en'?'Choose your name':'اختار اسمك'}</option>${TEAM.map(t=>`<option value="${t.id}" ${me===t.id?'selected':''}>${esc(LANG==='en'||t.ar===t.en?t.en:t.en+' · '+t.ar)}</option>`).join('')}<option value="${TEAM_ADD}">${LANG==='en'?'➕ My name isn\'t here':'➕ اسمي مش موجود'}</option></select>`; }
 /* ===== Send offers + location to the customer on WhatsApp ===== */
 // Customer-facing lines [ar, en, price they were written for]. Offers whose price isn't confirmed go out without a price;
 // if the offers sheet changes a price, the line falls back to the live name + price.
@@ -1248,7 +1251,7 @@ function waHtml(){
     <div class="wa-acts"><button class="wa-go" data-a="waweb">🟢 ${WAU.web}</button><button class="wa-go2" data-a="waapp">${WAU.app}</button><button class="ib" data-a="wacopy">${WAU.copy}</button></div>
     <div class="wa-box"><b>${WAU.odoo}</b><div class="wa-note" id="waNote">${esc(waNote())}</div><button class="ib" data-a="wanote">${WAU.odooBtn}</button></div>
     <details class="wa-box" id="waDown" ${WA.downOpen?'open':''}><summary><b>${WAU.down}</b></summary><p class="small">${WAU.downHint}</p>
-     <label>${WAU.mate}<select id="waMate" class="wa-sel"><option value="">${WAU.matePick}</option>${TEAM.filter(t=>t.id!==meGet()&&!t.qa&&t.email).map(t=>`<option value="${t.email}" ${WA.mate===t.email?'selected':''}>${esc(LANG==='en'||t.ar===t.en?t.en:t.en+' · '+t.ar)}</option>`).join('')}<option value="${TEAM_ADD}">${LANG==='en'?'➕ Colleague not in the list':'➕ زميلة مش في القايمة'}</option></select></label>
+     <label>${WAU.mate}${teamQ('waMate')}<select id="waMate" class="wa-sel"><option value="">${WAU.matePick}</option>${TEAM.filter(t=>t.id!==meGet()&&!t.qa&&t.email).map(t=>`<option value="${t.email}" ${WA.mate===t.email?'selected':''}>${esc(LANG==='en'||t.ar===t.en?t.en:t.en+' · '+t.ar)}</option>`).join('')}<option value="${TEAM_ADD}">${LANG==='en'?'➕ Colleague not in the list':'➕ زميلة مش في القايمة'}</option></select></label>
      <div class="small" dir="ltr">CC: ${WA_CC.join(', ')}</div>
      <div class="wa-acts"><button class="wa-go2" data-a="wamail">✉ ${WAU.mail}</button><button class="ib" data-a="wamailcopy">${WAU.mailCopy}</button></div></details>
    </div>
@@ -1843,6 +1846,13 @@ async function loadSheets(){ const offOk=await loadOfferSheets(); if(!SHEETS.doc
     syncDoctors(); reindex(); renderMain(); tickBranches();
     const s=document.getElementById('docsrc'); if(s) s.textContent='المواعيد دي بتتحدث تلقائي من شيت المواعيد.';
   }catch(e){ console.warn('sheet load failed',e); } }
+// Name search: hides non-matching options and opens the list; Enter picks the first match.
+const qNorm=s=>String(s).toLowerCase().replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/\s+/g,' ').trim();
+document.addEventListener('input',e=>{ if(!e.target.classList||!e.target.classList.contains('team-q')) return; const sel=$(e.target.dataset.for); if(!sel) return;
+  const q=qNorm(e.target.value); let n=0; [...sel.options].forEach(o=>{ const keep=!o.value||o.value===TEAM_ADD; const hit=!q||keep||qNorm(o.textContent).includes(q); o.hidden=!hit; if(hit&&!keep) n++; });
+  sel.size=q?Math.min(n+2,8):0; });
+document.addEventListener('keydown',e=>{ if(e.key!=='Enter'||!e.target.classList||!e.target.classList.contains('team-q')) return; e.preventDefault(); const sel=$(e.target.dataset.for); if(!sel) return;
+  const o=[...sel.options].find(o=>!o.hidden&&o.value&&o.value!==TEAM_ADD); if(o){ sel.value=o.value; sel.dispatchEvent(new Event('change',{bubbles:true})); } });
 // "الفريق" tab: English name | Arabic name | email | role (Quality for QA, Left to remove). Header must mention email, because gviz returns the first tab when a tab is missing.
 async function loadTeamSheet(){ try{ const tm=await sheetGet(SHEETS.team); if(!tm||!tm.length||!/mail|إيميل|ايميل/i.test(tm[0].join(' '))) return;
   // Rows add to (or correct) the built-in list. A row needs a name; with no email one is guessed from the English name. Role "Left" removes the person.
