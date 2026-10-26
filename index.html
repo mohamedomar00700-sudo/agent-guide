@@ -547,7 +547,7 @@ const LANG='ar';
    Each tab is published (File → Share → Publish to web → CSV) and its link goes here. Empty = built-in data. */
 const SHEET_ID='1kKXesKcnse3ofMTc0_FbuUWOz6I6fPf7';
 const gviz=name=>'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(name);
-const SHEETS={doctors:gviz('الدكاترة'),exceptions:gviz('الاستثناءات'),updates:gviz('التحديثات'),offers:gviz('العروض'),regular:gviz('أسعار عادية')};
+const SHEETS={doctors:gviz('الدكاترة'),exceptions:gviz('الاستثناءات'),updates:gviz('التحديثات'),offers:gviz('العروض'),regular:gviz('أسعار عادية'),team:gviz('الفريق')};
 function parseCSV(t){ const rows=[]; let r=[],f='',q=false; for(let i=0;i<t.length;i++){ const c=t[i];
   if(q){ if(c==='"'){ if(t[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
   else if(c==='"') q=true; else if(c===','){ r.push(f); f=''; } else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; r.push(f); rows.push(r); r=[]; f=''; } else f+=c; }
@@ -859,6 +859,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['26 أكتوبر 2026','في "📲 ابعت للعميل" و"⏸ إيميل AUX": لو اسمك أو اسم زميلتك مش في القايمة، اختار "➕ اسمي مش موجود" أو "➕ زميلة مش في القايمة" واكتب الاسم والإيميل، وهيفضل محفوظ على جهازك.'],
  ['25 أكتوبر 2026','آخر ميعاد لحجز الاستشارة المجانية بقى الساعة 7:30 مساءً. اتضاف في القواعد، و"تأكيد حجز" في "📲 ابعت للعميل" بينبهك لو اخترت ساعة بعد 7:30.'],
  ['22 أكتوبر 2026','"📲 ابعت للعميل" بقى فيه نوع "تأكيد حجز" للعميل اللي حجز خلاص: اختار اليوم والساعة والدكتور والعرض اللي حجزه، والرسالة بتطلع بالتفاصيل واللوكيشن. وبينبهك لو الدكتور مش موجود اليوم ده أو الساعة برّه المواعيد.'],
  ['22 أكتوبر 2026','تبويب جديد "⏸ إيميل AUX": قبل ما تحط AUX على الأفايا (مشكلة IT أو Lunch أو Break) اختار اسمك والسبب ودوس ابعت، هيفتحلك إيميل جاهز لمصطفى وإسلام وفي الـ CC حسين وأحمد (RTM). ولما ترجع دوس "رجعت". وفي "ابعت للعميل" لو الواتساب عندك واقف، بقيت تختار اسم زميلتك بس والإيميل بيتحط لوحده، وفي الـ CC حسين ومصطفى وإسلام وزينب (الكواليتي).'],
@@ -1065,7 +1066,20 @@ const meGet=()=>{try{return localStorage.getItem('tj-me')||''}catch(e){return ''
 const meSet=v=>{try{localStorage.setItem('tj-me',v)}catch(e){}};
 const teamBy=id=>TEAM.find(t=>t.id===id);
 const mailto=(to,cc,subj,body)=>'mailto:'+to.join(',')+'?'+(cc.length?'cc='+cc.join(',')+'&':'')+'subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
-function meSelect(id){ const me=meGet(); return `<select id="${id}" class="wa-sel"><option value="">${LANG==='en'?'Choose your name':'اختار اسمك'}</option>${TEAM.map(t=>`<option value="${t.id}" ${me===t.id?'selected':''}>${esc(LANG==='en'?t.en:t.en+' · '+t.ar)}</option>`).join('')}</select>`; }
+// Names not in TEAM: an agent can type one (saved in this browser only); the "الفريق" sheet tab replaces TEAM for everyone.
+const TEAM_KEY='tj-team-extra', TEAM_ADD='__add';
+const teamSlug=s=>String(s).trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'-');
+const teamExtra=()=>{try{return JSON.parse(localStorage.getItem(TEAM_KEY)||'[]')}catch(e){return []}};
+function mergeTeam(){ teamExtra().forEach(t=>{ if(!TEAM.some(x=>x.id===t.id||(t.email&&x.email&&x.email.toLowerCase()===t.email.toLowerCase()))) TEAM.push(t); }); }
+function teamPrompt(mate){ const en=LANG==='en';
+  const name=(prompt(mate?(en?"Colleague's name (in English)":'اسم زميلتك (بالإنجليزي)'):(en?'Your name (in English, e.g. Margaret Adel)':'اسمك بالإنجليزي (مثلاً Margaret Adel)'))||'').trim(); if(!name) return null;
+  const parts=name.split(/\s+/), guess=parts.length>1&&/^[A-Za-z]/.test(name)?parts[0]+'.'+parts[parts.length-1]+'@techsource-gds.com':'';
+  const email=(prompt(en?'Work email':'الإيميل بتاع الشغل',guess)||'').trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ toast(en?'Write a valid email.':'اكتب إيميل صحيح.'); return null; }
+  const id='x-'+teamSlug(name), L=teamExtra().filter(t=>t.id!==id); L.push({id,en:name,ar:name,email});
+  try{localStorage.setItem(TEAM_KEY,JSON.stringify(L))}catch(e){} mergeTeam(); return TEAM.find(t=>t.id===id||t.email.toLowerCase()===email.toLowerCase()); }
+mergeTeam();
+function meSelect(id){ const me=meGet(); return `<select id="${id}" class="wa-sel"><option value="">${LANG==='en'?'Choose your name':'اختار اسمك'}</option>${TEAM.map(t=>`<option value="${t.id}" ${me===t.id?'selected':''}>${esc(LANG==='en'||t.ar===t.en?t.en:t.en+' · '+t.ar)}</option>`).join('')}<option value="${TEAM_ADD}">${LANG==='en'?'➕ My name isn\'t here':'➕ اسمي مش موجود'}</option></select>`; }
 /* ===== Send offers + location to the customer on WhatsApp ===== */
 // Customer-facing lines [ar, en, price they were written for]. Offers whose price isn't confirmed go out without a price;
 // if the offers sheet changes a price, the line falls back to the live name + price.
@@ -1229,7 +1243,7 @@ function waHtml(){
     <div class="wa-acts"><button class="wa-go" data-a="waweb">🟢 ${WAU.web}</button><button class="wa-go2" data-a="waapp">${WAU.app}</button><button class="ib" data-a="wacopy">${WAU.copy}</button></div>
     <div class="wa-box"><b>${WAU.odoo}</b><div class="wa-note" id="waNote">${esc(waNote())}</div><button class="ib" data-a="wanote">${WAU.odooBtn}</button></div>
     <details class="wa-box" id="waDown" ${WA.downOpen?'open':''}><summary><b>${WAU.down}</b></summary><p class="small">${WAU.downHint}</p>
-     <label>${WAU.mate}<select id="waMate" class="wa-sel"><option value="">${WAU.matePick}</option>${TEAM.filter(t=>t.id!==meGet()&&!t.qa).map(t=>`<option value="${t.email}" ${WA.mate===t.email?'selected':''}>${esc(LANG==='en'?t.en:t.en+' · '+t.ar)}</option>`).join('')}</select></label>
+     <label>${WAU.mate}<select id="waMate" class="wa-sel"><option value="">${WAU.matePick}</option>${TEAM.filter(t=>t.id!==meGet()&&!t.qa).map(t=>`<option value="${t.email}" ${WA.mate===t.email?'selected':''}>${esc(LANG==='en'||t.ar===t.en?t.en:t.en+' · '+t.ar)}</option>`).join('')}<option value="${TEAM_ADD}">${LANG==='en'?'➕ Colleague not in the list':'➕ زميلة مش في القايمة'}</option></select></label>
      <div class="small" dir="ltr">CC: ${WA_CC.join(', ')}</div>
      <div class="wa-acts"><button class="wa-go2" data-a="wamail">✉ ${WAU.mail}</button><button class="ib" data-a="wamailcopy">${WAU.mailCopy}</button></div></details>
    </div>
@@ -1327,7 +1341,8 @@ function auxMail(back){ const me=teamBy(meGet()); if(!me){ toast(AXU.needMe); co
   const r=AUX_EN[AUX.reason], t=hhmm();
   return back?{s:AXU.subjBack(me.en,t),b:AXU.bodyBack(r,me.en,t,AUX.since)}:{s:AXU.subj(r,me.en,t),b:AXU.body(r,me.en,t,AUX.note.trim())}; }
 document.addEventListener('input',e=>{ if(e.target.id==='auxNote') AUX.note=e.target.value; });
-document.addEventListener('change',e=>{ if(e.target.id==='auxMe'||e.target.id==='waMe'){ meSet(e.target.value); if(e.target.id==='waMe'){ const t=teamBy(e.target.value); if(t){ WA.agent=WA.lang==='en'?t.en.split(' ')[0]:t.ar; waSave(); } renderMain(); } }
+document.addEventListener('change',e=>{ if((e.target.id==='auxMe'||e.target.id==='waMe'||e.target.id==='waMate')&&e.target.value===TEAM_ADD){ const t=teamPrompt(e.target.id==='waMate'); if(e.target.id==='waMate'){ WA.mate=t?t.email:''; waSave(); } else { meSet(t?t.id:meGet()); if(t&&e.target.id==='waMe'){ WA.agent=t.en.split(' ')[0]; waSave(); } } renderMain(); return; }
+  if(e.target.id==='auxMe'||e.target.id==='waMe'){ meSet(e.target.value); if(e.target.id==='waMe'){ const t=teamBy(e.target.value); if(t){ WA.agent=WA.lang==='en'?t.en.split(' ')[0]:t.ar; waSave(); } renderMain(); } }
   if(e.target.id==='waMate'){ WA.mate=e.target.value; waSave(); } });
 document.addEventListener('toggle',e=>{ if(e.target.id==='waDown') WA.downOpen=e.target.open; },true);
 document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a; if(!a.startsWith('ax')) return; e.preventDefault();
@@ -1823,7 +1838,12 @@ async function loadSheets(){ const offOk=await loadOfferSheets(); if(!SHEETS.doc
     syncDoctors(); reindex(); renderMain(); tickBranches();
     const s=document.getElementById('docsrc'); if(s) s.textContent='المواعيد دي بتتحدث تلقائي من شيت المواعيد.';
   }catch(e){ console.warn('sheet load failed',e); } }
-renderMain(); renderRail(); setHH(); tickBranches(); setInterval(tickBranches,60000); loadSheets();
+// "الفريق" tab: English name | Arabic name | email | role (write Quality for QA). Header must mention email, because gviz returns the first tab when a tab is missing.
+async function loadTeamSheet(){ try{ const tm=await sheetGet(SHEETS.team); if(!tm||!tm.length||!/mail|إيميل|ايميل/i.test(tm[0].join(' '))) return;
+  const list=tm.slice(1).map(r=>r.map(c=>String(c||'').trim())).filter(r=>r[0]&&/@/.test(r[2])).map(r=>{ const old=TEAM.find(x=>x.email&&x.email.toLowerCase()===r[2].toLowerCase());
+    return {id:old?old.id:'s-'+teamSlug(r[0]),en:r[0],ar:r[1]||r[0],email:r[2],qa:/quality|qa|كوال|جود/i.test(r[3]||'')}; });
+  if(list.length){ TEAM.length=0; TEAM.push(...list); mergeTeam(); renderMain(); } }catch(e){ console.warn('team sheet failed',e); } }
+renderMain(); renderRail(); setHH(); tickBranches(); setInterval(tickBranches,60000); loadSheets(); loadTeamSheet();
 (function(){ const h=(location.hash||'').slice(1); if(h&&h!==VIEW&&document.getElementById(h)) setTimeout(()=>go(h),50); })();
 { const f=$('noorfab'); if(f) f.innerHTML=noorAv('happy')+'<span>اسأل نور</span>'; const b=$('noortb'); if(b) b.innerHTML=noorAv('happy')+'<span class="t">اسأل نور</span>'; }
 /* ===== Noor buddy: floats on every page, greets the agent and reacts to what they do ===== */
