@@ -25,6 +25,7 @@
 .wa-warn[hidden]{display:none}
 .wa-kind{align-self:flex-start}.wa-row2{grid-template-columns:1fr 1fr}
 .wa-form input[type=date],.wa-form input[type=time]{min-height:42px}
+.wa-need{border-color:#c0392b!important;box-shadow:0 0 0 3px rgba(192,57,43,.18)}
 .team-q{font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:7px 11px;width:100%;margin:4px 0}
 .wa-sel{font:inherit;font-size:15px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
 </style></head><body>
@@ -868,6 +869,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['26 October 2026','"📲 Send to customer" won\'t open WhatsApp until you choose your name, and your name is no longer kept after you close the page, so nobody sends under someone else\'s name on a shared PC. Choose your name when you open the page.'],
  ['26 October 2026','The name lists in "📲 Send to customer" and "⏸ AUX email" now have a search box: type part of the name, then press Enter or pick from the list.'],
  ['26 October 2026','In "📲 Send to customer" and "⏸ AUX email": if your name or a colleague\'s name is missing, pick "➕ My name isn\'t here" or "➕ Colleague not in the list" and type the name and email. It stays saved on your device.'],
  ['25 October 2026','The last free consultation slot is now 7:30 PM. It\'s added to the rules, and "Booking confirmation" in "📲 Send to customer" warns you if you pick a time after 7:30.'],
@@ -1077,8 +1079,10 @@ const TEAM=[
 const LEADS={mostafa:'Mostafa.Kamel@techsource-gds.com',eslam:'Eslam.Shehata@techsource-gds.com',hussein:'Hussein.Elmasry@techsource-gds.com',zeinab:'Zeinab.Saber@techsource-gds.com',ahmed:'Ahmed.Osman@techsource-gds.com'};
 const WA_CC=[LEADS.hussein,LEADS.mostafa,LEADS.eslam,LEADS.zeinab]; // WhatsApp-down request: to the colleague, cc leads + quality
 const AUX_TO=[LEADS.mostafa,LEADS.eslam], AUX_CC=[LEADS.hussein,LEADS.ahmed]; // AUX on Avaya: to team leads, cc Hussein + RTM
-const meGet=()=>{try{return localStorage.getItem('tj-me')||''}catch(e){return ''}};
-const meSet=v=>{try{localStorage.setItem('tj-me',v)}catch(e){}};
+// The agent's name is kept for this tab only, so a shared PC never sends under yesterday's name.
+try{localStorage.removeItem('tj-me')}catch(e){}
+const meGet=()=>{try{return sessionStorage.getItem('tj-me')||''}catch(e){return ''}};
+const meSet=v=>{try{sessionStorage.setItem('tj-me',v)}catch(e){}};
 const teamBy=id=>TEAM.find(t=>t.id===id);
 const mailto=(to,cc,subj,body)=>'mailto:'+to.join(',')+'?'+(cc.length?'cc='+cc.join(',')+'&':'')+'subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
 // Names not in TEAM: an agent can type one (saved in this browser only); the "الفريق" sheet tab replaces TEAM for everyone.
@@ -1133,7 +1137,7 @@ const WA_UI={
   offers:'العروض اللي العميل سأل عليها',branch:'الفرع',none:'من غير لوكيشن',preview:'الرسالة (تقدر تعدّل فيها)',reset:'رجّع الرسالة الأصلية',
   web:'افتح واتساب ويب',app:'افتح تطبيق الواتساب',copy:'انسخ الرسالة',down:'الواتساب عندي واقف؟',downHint:'اختار زميلة تبعت مكانك. هيفتحلك إيميل جاهز ليها فيه الرقم والرسالة ولينك الشات، وفي الـ CC حسين ومصطفى وإسلام.',
   mate:'الزميلة اللي هتبعت مكانك',matePick:'اختار الزميلة',needMate:'اختار الزميلة الأول.',mail:'ابعت لها إيميل',mailCopy:'انسخ الطلب (لو الإيميل مفتحش)',odoo:'سجّل في أودوو',odooBtn:'انسخ ملاحظة أودوو',
-  badPhone:'الرقم ده مش شكل موبايل إماراتي (9715 وبعده 8 أرقام). اتأكد منه.',needPhone:'اكتب رقم العميل الأول.',needAny:'اختار عرض أو فرع على الأقل.',
+  badPhone:'الرقم ده مش شكل موبايل إماراتي (9715 وبعده 8 أرقام). اتأكد منه.',needPhone:'اكتب رقم العميل الأول.',needAgent:'اختار اسمك الأول، علشان الرسالة متتبعتش باسم حد تاني.',needAny:'اختار عرض أو فرع على الأقل.',
   noPrice:'السعر مش مؤكد، فهيتبعت من غير سعر',copied:'الرسالة اتنسخت',reqCopied:'الطلب اتنسخ، ابعته للزميلة',noteCopied:'الملاحظة اتنسخت، حطها في أودوو',
   mailSubj:'ابعتي للعميل على الواتساب مكاني',mailIntro:'ممكن تبعتي الرسالة دي للعميل على الواتساب؟ الواتساب عندي واقف.',mailOpen:'افتحي الشات من هنا',mailMsg:'الرسالة:',thanks:'شكراً',
   noteTxt:(o,b,t)=>'اتبعت للعميل على الواتساب'+(o?': '+o:'')+(b?(o?' + ':': ')+'لوكيشن '+b:'')+' ('+t+')',mateNote:' (بعتتها زميلة لأن الواتساب عندي واقف)'},
@@ -1143,7 +1147,7 @@ const WA_UI={
   offers:'Offers the customer asked about',branch:'Branch',none:'No location',preview:'Message (you can edit it)',reset:'Restore the original message',
   web:'Open WhatsApp Web',app:'Open WhatsApp app',copy:'Copy message',down:'Your WhatsApp is down?',downHint:'Choose a colleague to send it for you. A ready email to her opens with the number, the message and the chat link, with Hussein, Mostafa, Eslam and Zeinab (Quality) in CC.',
   mate:'Colleague who sends for you',matePick:'Choose a colleague',needMate:'Choose a colleague first.',mail:'Email her',mailCopy:'Copy the request (if email didn\'t open)',odoo:'Log it in Odoo',odooBtn:'Copy Odoo note',
-  badPhone:'This doesn\'t look like a UAE mobile (9715 then 8 digits). Check it.',needPhone:'Type the customer\'s number first.',needAny:'Pick at least one offer or a branch.',
+  badPhone:'This doesn\'t look like a UAE mobile (9715 then 8 digits). Check it.',needPhone:'Type the customer\'s number first.',needAgent:'Choose your name first, so the message doesn\'t go out under someone else\'s name.',needAny:'Pick at least one offer or a branch.',
   noPrice:'price not confirmed, sent without a price',copied:'Message copied',reqCopied:'Request copied, send it to your colleague',noteCopied:'Note copied, paste it in Odoo',
   mailSubj:'Please WhatsApp this customer for me',mailIntro:'Could you send this message to the customer on WhatsApp? My WhatsApp is down.',mailOpen:'Open the chat here',mailMsg:'Message:',thanks:'Thanks',
   noteTxt:(o,b,t)=>'Sent on WhatsApp'+(o?': '+o:'')+(b?(o?' + ':': ')+b+' location':'')+' ('+t+')',mateNote:' (sent by a colleague, my WhatsApp is down)'}
@@ -1153,9 +1157,9 @@ function waLine(o,ar){ const l=WA_LINES[o.id];
   if(o.st!=='ok') return l?l[ar?0:1]:(ar?(o.ar+': السعر هنأكده مع حضرتك'):((o.en||o.ar)+': we will confirm the price with you'));
   if(l&&l[2]===o.price) return l[ar?0:1];
   return ar?(o.ar+': '+o.price+' درهم'):((o.en||o.ar)+': '+String(o.price).replace('من','from')+' AED'); }
-let WA=Object.assign({kind:'offers',phone:'',name:'',gender:'f',lang:'ar',offers:[],branch:'ad',agent:'',mate:'',msg:'',edited:false,date:'',time:'',doc:'',extra:''},(()=>{try{return JSON.parse(localStorage.getItem('tj-wa')||'{}')}catch(e){return {}}})());
+let WA=Object.assign({kind:'offers',phone:'',name:'',gender:'f',lang:'ar',offers:[],branch:'ad',agent:'',mate:'',msg:'',edited:false,date:'',time:'',doc:'',extra:''},(()=>{try{return JSON.parse(localStorage.getItem('tj-wa')||'{}')}catch(e){return {}}})(),{agent:(()=>{try{return sessionStorage.getItem('tj-wa-agent')||''}catch(e){return ''}})()});
 WA.phone='';WA.name='';WA.offers=[];WA.msg='';WA.edited=false;WA.kind='offers';WA.date='';WA.time='';WA.doc='';WA.extra=''; // a fresh customer every time the page opens
-const waSave=()=>{try{localStorage.setItem('tj-wa',JSON.stringify({gender:WA.gender,lang:WA.lang,branch:WA.branch,agent:WA.agent,mate:WA.mate}))}catch(e){}};
+const waSave=()=>{try{localStorage.setItem('tj-wa',JSON.stringify({gender:WA.gender,lang:WA.lang,branch:WA.branch,mate:WA.mate})); sessionStorage.setItem('tj-wa-agent',WA.agent)}catch(e){}};
 // UAE numbers to 9715XXXXXXXX; anything else keeps its digits (international numbers must include the country code).
 function waNum(p){ let d=String(p||'').replace(/[^\d+]/g,''); if(d.startsWith('+')) d=d.slice(1); if(d.startsWith('00')) d=d.slice(2);
   if(/^05\d{8}$/.test(d)) d='971'+d.slice(1); else if(/^5\d{8}$/.test(d)) d='971'+d; else if(/^9710\d{9}$/.test(d)) d='971'+d.slice(4); return d; }
@@ -1267,6 +1271,7 @@ function waHtml(){
 }
 function waCheck(){
   const n=waNum(WA.phone);
+  if(!meGet()||!WA.agent.trim()){ toast(WAU.needAgent); const i=$(meGet()?'waAgent':'waMe'); if(i){ i.focus(); i.classList.add('wa-need'); } return null; }
   if(!WA.phone.trim()){ toast(WAU.needPhone); const i=$('waPhone'); if(i) i.focus(); return null; }
   if(WA.kind!=='book'&&!WA.offers.length&&!WA.branch){ toast(WAU.needAny); return null; }
   if(WA.kind==='book'&&(!WA.date||!WA.time)){ toast(WAU.needWhen); const i=$(!WA.date?'waDate':'waTime'); if(i) i.focus(); return null; }
