@@ -1859,7 +1859,7 @@ async function loadSheets(){ const offOk=await loadOfferSheets(); if(!SHEETS.doc
 // Name search: hides non-matching options and opens the list; Enter picks the first match.
 const qNorm=s=>String(s).toLowerCase().replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/\s+/g,' ').trim();
 document.addEventListener('input',e=>{ if(!e.target.classList||!e.target.classList.contains('team-q')) return; const sel=$(e.target.dataset.for); if(!sel) return;
-  const q=qNorm(e.target.value); let n=0; [...sel.options].forEach(o=>{ const keep=!o.value||o.value===TEAM_ADD; const hit=!q||keep||qNorm(o.textContent).includes(q); o.hidden=!hit; if(hit&&!keep) n++; });
+  const q=qNorm(e.target.value); let n=0; [...sel.options].forEach(o=>{ const keep=!o.value||o.value===TEAM_ADD; const tm=TEAM.find(t=>t.id===o.value||t.email===o.value); const hit=!q||keep||qNorm(o.textContent+' '+(tm?tm.ar+' '+tm.en:'')).includes(q); o.hidden=!hit; if(hit&&!keep) n++; });
   sel.size=q?Math.min(n+2,8):0; });
 document.addEventListener('keydown',e=>{ if(e.key!=='Enter'||!e.target.classList||!e.target.classList.contains('team-q')) return; e.preventDefault(); const sel=$(e.target.dataset.for); if(!sel) return;
   const o=[...sel.options].find(o=>!o.hidden&&o.value&&o.value!==TEAM_ADD); if(o){ sel.value=o.value; sel.dispatchEvent(new Event('change',{bubbles:true})); } });
