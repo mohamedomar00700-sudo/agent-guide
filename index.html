@@ -1248,7 +1248,7 @@ function waHtml(){
     <div class="wa-acts"><button class="wa-go" data-a="waweb">🟢 ${WAU.web}</button><button class="wa-go2" data-a="waapp">${WAU.app}</button><button class="ib" data-a="wacopy">${WAU.copy}</button></div>
     <div class="wa-box"><b>${WAU.odoo}</b><div class="wa-note" id="waNote">${esc(waNote())}</div><button class="ib" data-a="wanote">${WAU.odooBtn}</button></div>
     <details class="wa-box" id="waDown" ${WA.downOpen?'open':''}><summary><b>${WAU.down}</b></summary><p class="small">${WAU.downHint}</p>
-     <label>${WAU.mate}<select id="waMate" class="wa-sel"><option value="">${WAU.matePick}</option>${TEAM.filter(t=>t.id!==meGet()&&!t.qa).map(t=>`<option value="${t.email}" ${WA.mate===t.email?'selected':''}>${esc(LANG==='en'||t.ar===t.en?t.en:t.en+' · '+t.ar)}</option>`).join('')}<option value="${TEAM_ADD}">${LANG==='en'?'➕ Colleague not in the list':'➕ زميلة مش في القايمة'}</option></select></label>
+     <label>${WAU.mate}<select id="waMate" class="wa-sel"><option value="">${WAU.matePick}</option>${TEAM.filter(t=>t.id!==meGet()&&!t.qa&&t.email).map(t=>`<option value="${t.email}" ${WA.mate===t.email?'selected':''}>${esc(LANG==='en'||t.ar===t.en?t.en:t.en+' · '+t.ar)}</option>`).join('')}<option value="${TEAM_ADD}">${LANG==='en'?'➕ Colleague not in the list':'➕ زميلة مش في القايمة'}</option></select></label>
      <div class="small" dir="ltr">CC: ${WA_CC.join(', ')}</div>
      <div class="wa-acts"><button class="wa-go2" data-a="wamail">✉ ${WAU.mail}</button><button class="ib" data-a="wamailcopy">${WAU.mailCopy}</button></div></details>
    </div>
@@ -1843,11 +1843,17 @@ async function loadSheets(){ const offOk=await loadOfferSheets(); if(!SHEETS.doc
     syncDoctors(); reindex(); renderMain(); tickBranches();
     const s=document.getElementById('docsrc'); if(s) s.textContent='المواعيد دي بتتحدث تلقائي من شيت المواعيد.';
   }catch(e){ console.warn('sheet load failed',e); } }
-// "الفريق" tab: English name | Arabic name | email | role (write Quality for QA). Header must mention email, because gviz returns the first tab when a tab is missing.
+// "الفريق" tab: English name | Arabic name | email | role (Quality for QA, Left to remove). Header must mention email, because gviz returns the first tab when a tab is missing.
 async function loadTeamSheet(){ try{ const tm=await sheetGet(SHEETS.team); if(!tm||!tm.length||!/mail|إيميل|ايميل/i.test(tm[0].join(' '))) return;
-  const list=tm.slice(1).map(r=>r.map(c=>String(c||'').trim())).filter(r=>r[0]&&/@/.test(r[2])).map(r=>{ const old=TEAM.find(x=>x.email&&x.email.toLowerCase()===r[2].toLowerCase());
-    return {id:old?old.id:'s-'+teamSlug(r[0]),en:r[0],ar:r[1]||r[0],email:r[2],qa:/quality|qa|كوال|جود/i.test(r[3]||'')}; });
-  if(list.length){ TEAM.length=0; TEAM.push(...list); mergeTeam(); renderMain(); } }catch(e){ console.warn('team sheet failed',e); } }
+  // Rows add to (or correct) the built-in list. A row needs a name; with no email one is guessed from the English name. Role "Left" removes the person.
+  let n=0; tm.slice(1).map(r=>r.map(c=>String(c||'').trim())).filter(r=>r[0]||r[1]).forEach(r=>{
+    const enName=r[0]||r[1], parts=r[0].split(/\s+/), guess=parts.length>1&&/^[A-Za-z]/.test(r[0])?parts[0]+'.'+parts[parts.length-1]+'@techsource-gds.com':'';
+    const email=/@/.test(r[2])?r[2]:guess, role=r[3]||'', key=x=>teamSlug(x);
+    const old=TEAM.find(x=>(email&&x.email&&x.email.toLowerCase()===email.toLowerCase())||key(x.en)===key(enName)||(r[1]&&x.ar===r[1]));
+    if(/left|inactive|resign|ساب|سابت|مش موجود|استقال/i.test(role)){ if(old){ TEAM.splice(TEAM.indexOf(old),1); n++; } return; }
+    const t={id:old?old.id:'s-'+key(enName),en:enName,ar:r[1]||enName,email:email||(old&&old.email)||'',qa:/quality|qa|كوال|جود/i.test(role)};
+    if(old) Object.assign(old,t); else TEAM.push(t); n++; });
+  if(n){ mergeTeam(); renderMain(); } }catch(e){ console.warn('team sheet failed',e); } }
 renderMain(); renderRail(); setHH(); tickBranches(); setInterval(tickBranches,60000); loadSheets(); loadTeamSheet();
 (function(){ const h=(location.hash||'').slice(1); if(h&&h!==VIEW&&document.getElementById(h)) setTimeout(()=>go(h),50); })();
 { const f=$('noorfab'); if(f) f.innerHTML=noorAv('happy')+'<span>اسأل نور</span>'; const b=$('noortb'); if(b) b.innerHTML=noorAv('happy')+'<span class="t">اسأل نور</span>'; }
