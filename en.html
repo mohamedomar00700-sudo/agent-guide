@@ -1419,7 +1419,7 @@ function cmpHtml(){
    <div class="wa-chips">${Object.keys(CMU.t).map(k=>`<button data-a="cmt" data-v="${k}" class="${CMP.type===k?'on':''}">${CMU.t[k]}</button>`).join('')}</div>
    ${inp('name')}${inp('phone','05xxxxxxxx')}
    <label>${CMU.branch}<select id="cmp_branch" data-k="branch" class="wa-sel"><option value="">–</option>${BRANCHES.map(b=>`<option value="${esc(b.city)}" ${CMP.branch===b.city?'selected':''}>${esc(b.city)}</option>`).join('')}</select></label>
-   ${inp('svc')}${inp('when','','date')}
+   ${cmpSvc()}${inp('when','','date')}
    ${area('what',CMU.whatPh)}
    <div class="wa-lbl">${CMU.wants}</div>
    <div class="wa-chips">${Object.keys(CMU.w).map(k=>`<button data-a="cmw" data-v="${k}" class="${CMP.wants.includes(k)?'on':''}">${CMU.w[k]}</button>`).join('')}</div>
@@ -1430,6 +1430,12 @@ function cmpHtml(){
   </div><div class="wa-out"><div class="wa-box"><b>${CMU.to}</b><span dir="ltr" class="small">${CMP_TO.join(', ')}</span><b>${CMU.cc}</b><span dir="ltr" class="small">${CMP_CC.join(', ')}</span></div>
    <div class="wa-box"><b>${CMU.tipsH}</b><ul style="margin:6px 0 0;padding-inline-start:18px;line-height:1.8">${CMU.tips.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div></section>`;
 }
+// Service or doctor: a searchable list (type to filter) that still accepts free text.
+function cmpSvc(){ const en=LANG==='en', seen=new Set(), opts=[];
+  const add=v=>{ if(v&&!seen.has(v)){ seen.add(v); opts.push(v); } };
+  DOC_NAMES.forEach(d=>add(en?d[1]+' ('+d[3]+')':d[0]+' ('+d[2]+')'));
+  SVC.forEach(x=>add(en?x.en:x.ar+' · '+x.en));
+  return `<label>${CMU.svc}<input id="cmp_svc" data-k="svc" list="cmpSvcList" autocomplete="off" placeholder="🔍 Search a service or doctor, or type" value="${esc(CMP.svc)}"><datalist id="cmpSvcList">${opts.map(o=>`<option value="${esc(o)}">`).join('')}</datalist></label>`; }
 function cmpMail(){ const me=teamBy(meGet()); if(!me){ toast(CMU.needMe); const s=$('cmpMe'); if(s) s.focus(); return null; }
   if(!CMP.what.trim()){ toast(CMU.needWhat); const s=$('cmp_what'); if(s) s.focus(); return null; }
   const L=(k,v)=>v&&String(v).trim()?'\n'+k+': '+String(v).trim():'';
