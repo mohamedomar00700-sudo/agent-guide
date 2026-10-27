@@ -869,6 +869,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['27 October 2026','New: "📣 Complaint email". When any customer complains (called to complain, a past customer who won\'t deal with us again, or a complaint in the free-consultation follow-up), send it from here to Mostafa and Eslam, with Hussein and Zeinab in CC. It also has tips on handling the customer while they complain.'],
  ['26 October 2026','"⏸ AUX request" now has more reasons: lunch, prayer, restroom, break and IT issue.'],
  ['26 October 2026','"⏸ AUX email" is now "⏸ AUX request": the email asks Mostafa and Eslam for approval instead of just telling them, and has a field for the duration in minutes. Don\'t go on AUX on Avaya until one of them approves.'],
  ['26 October 2026','"📲 Send to customer" won\'t open WhatsApp until you choose your name, and your name is no longer kept after you close the page, so nobody sends under someone else\'s name on a shared PC. Choose your name when you open the page.'],
@@ -1319,6 +1320,7 @@ const VIEWS=[
  ['home','Home',['home','rules','updates']],
  ['wa','📲 Send to customer',['wa']],
  ['aux','⏸ AUX request',['aux']],
+ ['complaint','📣 Complaint email',['complaint']],
  ['offers','Offers & prices',['offers','prices']],
  ['services','Service guide',['products','prep']],
  ['branches','Branches & hours',['branches','center']],
@@ -1376,6 +1378,73 @@ document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(
   location.href=mailto(AUX_TO,AUX_CC,m.s,m.b);
   if(a==='axsend'){ AUX.since=hhmm(); } else { AUX.since=''; } auxSave(); setTimeout(renderMain,300); });
 SEC.wa=waHtml; SEC.aux=auxHtml;
+
+/* ===== Complaint email: the agent passes a customer's complaint to the team leads ===== */
+const CMP_TO=[LEADS.mostafa,LEADS.eslam], CMP_CC=[LEADS.hussein,LEADS.zeinab]; // complaints: to team leads, cc Hussein + quality
+const CMP_UI={
+ ar:{eyebrow:'لو العميل اشتكى',title:'إيميل شكوى',intro:'أي شكوى من عميل لازم تتبعت إيميل، سواء هو اللي اتصل يشتكي، أو اتصلنا بيه وطلع عميل قديم مش عايز يتعامل معانا تاني بسبب حاجة حصلت، أو اشتكى في مكالمة الفولو أب بعد الاستشارة المجانية. املا البيانات ودوس "ابعت الشكوى"، هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين وزينب (الكواليتي). ابعته في نفس اليوم، وماتوعدش العميل بحاجة مش في إيدك.',
+  me:'اسمك',type:'نوع الشكوى',name:'اسم العميل',phone:'رقم العميل',branch:'الفرع',svc:'الخدمة أو الدكتور (لو معروف)',when:'تاريخ الزيارة أو الموقف (تقريبي)',what:'العميل اشتكى من إيه بالظبط؟ (بكلامه على قد ما تقدر)',wants:'العميل عايز إيه؟',said:'إنت قولتله إيه أو عملت إيه؟',urgent:'العميل عايز حد يكلمه النهارده / الموضوع مستعجل',odoo:'رقم أودوو (لو موجود)',
+  whatPh:'مثلاً: الدكتورة اتأخرت ساعة / النتيجة ماعجبتهاش / حد كلمها بطريقة وحشة',saidPh:'مثلاً: اعتذرتله ووعدته إن المسؤول هيكلمه',
+  t:{inbound:'📞 اتصل مخصوص يشتكي',old:'🔁 عميل قديم مش عايز يتعامل تاني',followup:'🩺 اشتكى في فولو أب الاستشارة المجانية',other:'✏️ حاجة تانية'},
+  w:{call:'حد مسؤول يكلمه',redo:'يعيد الخدمة أو جلسة تعويض',refund:'يسترد فلوسه',nocontact:'مش عايز حد يكلمه تاني',vent:'كان عايز يشتكي بس'},
+  send:'ابعت الشكوى',copy:'انسخ الإيميل (لو الإيميل مفتحش)',to:'رايح لـ',cc:'وفي الـ CC',copied:'الإيميل اتنسخ',needMe:'اختار اسمك الأول.',needWhat:'اكتب العميل اشتكى من إيه.',
+  tipsH:'إزاي تتعامل مع العميل وهو بيشتكي',
+  tips:['اسمعه للآخر من غير ما تقاطعه، وخد ملاحظات بكلامه.','اعتذر عن اللي حصل: "أنا آسف جداً إن حضرتك مريت بكده، وحقك علينا."','ماتجادلش وماتلومش حد، ولا الدكتور ولا الفرع ولا العميل.','ماتوعدش بفلوس ولا بجلسة مجانية ولا بميعاد معين، قول: "هرفع الشكوى دي حالاً للإدارة، وهيتواصلوا مع حضرتك في أقرب وقت."','لو العميل قال مش عايز حد يكلمه تاني، احترم ده واكتبه في الإيميل.','ابعت الإيميل ده قبل ما تقفل اليوم، وسجّل المكالمة على أودوو زي العادي.']},
+ en:{eyebrow:'When a customer complains',title:'Complaint email',intro:'Every customer complaint must be sent by email: whether they called to complain, or we called and they turned out to be a past customer who doesn\'t want to deal with us again because of something that happened, or they complained in the follow-up call after the free consultation. Fill in the details and press "Send complaint". A ready email opens to Mostafa and Eslam, with Hussein and Zeinab (Quality) in CC. Send it the same day, and don\'t promise the customer anything you can\'t control.',
+  me:'Your name',type:'Complaint type',name:'Customer name',phone:'Customer number',branch:'Branch',svc:'Service or doctor (if known)',when:'Date of the visit or incident (roughly)',what:'What exactly did the customer complain about? (in their words as much as you can)',wants:'What does the customer want?',said:'What did you tell them or do?',urgent:'The customer wants a call today / it is urgent',odoo:'Odoo number (if any)',
+  whatPh:'e.g. the doctor was an hour late / not happy with the result / someone was rude to her',saidPh:'e.g. I apologized and said a manager will call back',
+  t:{inbound:'📞 Called to complain',old:'🔁 Past customer, won\'t deal with us again',followup:'🩺 Complained in the free-consultation follow-up',other:'✏️ Something else'},
+  w:{call:'A manager to call back',redo:'Redo the service / a make-up session',refund:'A refund',nocontact:'No more calls',vent:'Just wanted to complain'},
+  send:'Send complaint',copy:'Copy the email (if email didn\'t open)',to:'To',cc:'CC',copied:'Email copied',needMe:'Pick your name first.',needWhat:'Write what the customer complained about.',
+  tipsH:'How to handle the customer while they complain',
+  tips:['Listen to the end without interrupting, and note their own words.','Apologize for what happened: "I\'m really sorry you went through this."','Don\'t argue or blame anyone: not the doctor, the branch or the customer.','Don\'t promise money, a free session or a specific time. Say: "I\'ll pass this complaint to management right away, and they\'ll contact you as soon as possible."','If the customer says they don\'t want any more calls, respect it and write it in the email.','Send this email before the end of your day, and log the call on Odoo as usual.']}
+};
+const CMU=CMP_UI[LANG==='en'?'en':'ar'];
+const CMP_EN={inbound:'Called to complain',old:'Past customer, does not want to deal with us again',followup:'Complained in the free-consultation follow-up',other:'Other'};
+const CMP_WEN={call:'A manager to call back',redo:'Redo the service / a make-up session',refund:'A refund',nocontact:'No more calls',vent:'Just wanted to complain'};
+const CMP={type:'inbound',wants:[],urgent:false,name:'',phone:'',branch:'',svc:'',when:'',what:'',said:'',odoo:''};
+function cmpHtml(){
+  const inp=(k,ph,tp)=>`<label>${CMU[k]}<input id="cmp_${k}" data-k="${k}"${tp?` type="${tp}"`:''}${ph?` placeholder="${esc(ph)}"`:''} value="${esc(CMP[k])}"${k==='phone'||k==='odoo'?' dir="ltr" inputmode="tel"':''}></label>`;
+  const area=(k,ph)=>`<label>${CMU[k]}<textarea id="cmp_${k}" data-k="${k}" rows="3" placeholder="${esc(ph||'')}" style="font:inherit;font-size:15px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--paper);color:var(--ink)">${esc(CMP[k])}</textarea></label>`;
+  return `<section id="complaint"><div class="sh"><div class="eyebrow">${CMU.eyebrow}</div><h2>${CMU.title}</h2><p>${CMU.intro}</p></div>
+  <div class="wa-grid"><div class="wa-form">
+   <label>${CMU.me}${meSelect('cmpMe')}</label>
+   <div class="wa-lbl">${CMU.type}</div>
+   <div class="wa-chips">${Object.keys(CMU.t).map(k=>`<button data-a="cmt" data-v="${k}" class="${CMP.type===k?'on':''}">${CMU.t[k]}</button>`).join('')}</div>
+   ${inp('name')}${inp('phone','05xxxxxxxx')}
+   <label>${CMU.branch}<select id="cmp_branch" data-k="branch" class="wa-sel"><option value="">–</option>${BRANCHES.map(b=>`<option value="${esc(b.city)}" ${CMP.branch===b.city?'selected':''}>${esc(b.city)}</option>`).join('')}</select></label>
+   ${inp('svc')}${inp('when','','date')}
+   ${area('what',CMU.whatPh)}
+   <div class="wa-lbl">${CMU.wants}</div>
+   <div class="wa-chips">${Object.keys(CMU.w).map(k=>`<button data-a="cmw" data-v="${k}" class="${CMP.wants.includes(k)?'on':''}">${CMU.w[k]}</button>`).join('')}</div>
+   ${area('said',CMU.saidPh)}${inp('odoo')}
+   <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="cmpUrgent" style="width:auto" ${CMP.urgent?'checked':''}>${CMU.urgent}</label>
+   <div class="wa-acts"><button class="wa-go2" data-a="cmsend">✉ ${CMU.send}</button></div>
+   <button class="ib" data-a="cmcopy">${CMU.copy}</button>
+  </div><div class="wa-out"><div class="wa-box"><b>${CMU.to}</b><span dir="ltr" class="small">${CMP_TO.join(', ')}</span><b>${CMU.cc}</b><span dir="ltr" class="small">${CMP_CC.join(', ')}</span></div>
+   <div class="wa-box"><b>${CMU.tipsH}</b><ul style="margin:6px 0 0;padding-inline-start:18px;line-height:1.8">${CMU.tips.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div></section>`;
+}
+function cmpMail(){ const me=teamBy(meGet()); if(!me){ toast(CMU.needMe); const s=$('cmpMe'); if(s) s.focus(); return null; }
+  if(!CMP.what.trim()){ toast(CMU.needWhat); const s=$('cmp_what'); if(s) s.focus(); return null; }
+  const L=(k,v)=>v&&String(v).trim()?'\n'+k+': '+String(v).trim():'';
+  const s=(CMP.urgent?'URGENT ':'')+'Customer complaint: '+CMP_EN[CMP.type]+(CMP.name.trim()?' | '+CMP.name.trim():'')+(CMP.branch?' | '+CMP.branch:'');
+  const b='Hi Mostafa, Eslam,\n\nI received a customer complaint, details below.\n\nType: '+CMP_EN[CMP.type]+L('Customer',CMP.name)+L('Number',CMP.phone)+L('Branch',CMP.branch)+L('Service / doctor',CMP.svc)+L('Visit / incident date',CMP.when)+L('Odoo',CMP.odoo)
+   +'\n\nWhat the customer said:\n'+CMP.what.trim()
+   +(CMP.wants.length?'\n\nWhat the customer wants: '+CMP.wants.map(k=>CMP_WEN[k]).join(', '):'')
+   +(CMP.said.trim()?'\n\nWhat I told them / did:\n'+CMP.said.trim():'')
+   +(CMP.urgent?'\n\nUrgent: the customer is waiting for a call today.':'')
+   +'\n\nCall date: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en;
+  return {s,b}; }
+document.addEventListener('input',e=>{ const k=e.target.dataset&&e.target.dataset.k; if(k&&e.target.id==='cmp_'+k) CMP[k]=e.target.value; if(e.target.id==='cmpUrgent') CMP.urgent=e.target.checked; });
+document.addEventListener('change',e=>{ if(e.target.id==='cmp_branch') CMP.branch=e.target.value; if(e.target.id==='cmpUrgent') CMP.urgent=e.target.checked;
+  if(e.target.id==='cmpMe'){ if(e.target.value===TEAM_ADD){ const t=teamPrompt(false); meSet(t?t.id:meGet()); } else meSet(e.target.value); renderMain(); } });
+document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a; if(!a.startsWith('cm')) return; e.preventDefault();
+  if(a==='cmt'){ CMP.type=t.dataset.v; renderMain(); return; }
+  if(a==='cmw'){ const v=t.dataset.v; CMP.wants=CMP.wants.includes(v)?CMP.wants.filter(x=>x!==v):[...CMP.wants,v]; renderMain(); return; }
+  const m=cmpMail(); if(!m) return;
+  if(a==='cmcopy'){ copyText('To: '+CMP_TO.join('; ')+'\nCC: '+CMP_CC.join('; ')+'\nSubject: '+m.s+'\n\n'+m.b,CMU.copied); return; }
+  location.href=mailto(CMP_TO,CMP_CC,m.s,m.b); });
+SEC.complaint=cmpHtml;
 let VIEW='home';
 function viewOf(t){
   for(const [v,,secs] of VIEWS){ if(v===t||secs.includes(t)) return v; }
