@@ -1378,9 +1378,9 @@ document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(
 SEC.wa=waHtml; SEC.aux=auxHtml;
 
 /* ===== Complaint email: the agent passes a customer's complaint to the team leads ===== */
-const CMP_TO=[LEADS.mostafa,LEADS.eslam], CMP_CC=[LEADS.hussein,LEADS.zeinab,LEADS.mohamed]; // complaints: to team leads, cc Hussein + quality + Mohamed (training)
+const CMP_TO=[LEADS.mostafa,LEADS.eslam], CMP_CC=[LEADS.hussein,LEADS.mohamed,LEADS.zeinab]; // complaints: to team leads, cc Hussein, Mohamed (training), then quality
 const CMP_UI={
- ar:{eyebrow:'لو العميل اشتكى',title:'إيميل شكوى',intro:'أي شكوى من عميل لازم تتبعت إيميل، سواء هو اللي اتصل يشتكي، أو اتصلنا بيه وطلع عميل قديم مش عايز يتعامل معانا تاني بسبب حاجة حصلت، أو اشتكى في مكالمة الفولو أب بعد الاستشارة المجانية. املا البيانات ودوس "ابعت الشكوى"، هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين وزينب (الكواليتي) ومحمد عمر. ابعته في نفس اليوم، وماتوعدش العميل بحاجة مش في إيدك.',
+ ar:{eyebrow:'لو العميل اشتكى',title:'إيميل شكوى',intro:'أي شكوى من عميل لازم تتبعت إيميل، سواء هو اللي اتصل يشتكي، أو اتصلنا بيه وطلع عميل قديم مش عايز يتعامل معانا تاني بسبب حاجة حصلت، أو اشتكى في مكالمة الفولو أب بعد الاستشارة المجانية. املا البيانات ودوس "ابعت الشكوى"، هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين ومحمد عمر وزينب (الكواليتي). ابعته في نفس اليوم، وماتوعدش العميل بحاجة مش في إيدك.',
   me:'اسمك',type:'نوع الشكوى',name:'اسم العميل',phone:'رقم العميل',branch:'الفرع',svc:'الخدمة أو الدكتور (لو معروف)',when:'تاريخ الزيارة أو الموقف (تقريبي)',what:'العميل اشتكى من إيه بالظبط؟ (بكلامه على قد ما تقدر)',wants:'العميل عايز إيه؟',said:'إنت قولتله إيه أو عملت إيه؟',urgent:'العميل عايز حد يكلمه النهارده / الموضوع مستعجل',odoo:'رقم أودوو (لو موجود)',
   whatPh:'مثلاً: الدكتورة اتأخرت ساعة / النتيجة ماعجبتهاش / حد كلمها بطريقة وحشة',saidPh:'مثلاً: اعتذرتله ووعدته إن المسؤول هيكلمه',
   t:{inbound:'📞 اتصل مخصوص يشتكي',old:'🔁 عميل قديم مش عايز يتعامل تاني',followup:'🩺 اشتكى في فولو أب الاستشارة المجانية',other:'✏️ حاجة تانية'},
