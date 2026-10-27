@@ -1085,7 +1085,7 @@ const TEAM=[
  {id:'margret',en:'Margret Ebady',ar:'مارجريت',email:'Margret.Ebady@techsource-gds.com'},
  {id:'zeinab',en:'Zeinab Saber',ar:'زينب',email:'Zeinab.Saber@techsource-gds.com',qa:true}
 ];
-const LEADS={mostafa:'Mostafa.Kamel@techsource-gds.com',eslam:'Eslam.Shehata@techsource-gds.com',hussein:'Hussein.Elmasry@techsource-gds.com',zeinab:'Zeinab.Saber@techsource-gds.com',ahmed:'Ahmed.Osman@techsource-gds.com'};
+const LEADS={mostafa:'Mostafa.Kamel@techsource-gds.com',eslam:'Eslam.Shehata@techsource-gds.com',hussein:'Hussein.Elmasry@techsource-gds.com',zeinab:'Zeinab.Saber@techsource-gds.com',ahmed:'Ahmed.Osman@techsource-gds.com',mohamed:'Mohamed.Omar@techsource-gds.com'}; // mohamed: guessed from the First.Last pattern, confirm
 const WA_CC=[LEADS.hussein,LEADS.mostafa,LEADS.eslam,LEADS.zeinab]; // WhatsApp-down request: to the colleague, cc leads + quality
 const AUX_TO=[LEADS.mostafa,LEADS.eslam], AUX_CC=[LEADS.hussein,LEADS.ahmed]; // AUX on Avaya: to team leads, cc Hussein + RTM
 // The agent's name is kept for this tab only, so a shared PC never sends under yesterday's name.
@@ -1386,7 +1386,7 @@ document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(
 SEC.wa=waHtml; SEC.aux=auxHtml;
 
 /* ===== Complaint email: the agent passes a customer's complaint to the team leads ===== */
-const CMP_TO=[LEADS.mostafa,LEADS.eslam], CMP_CC=[LEADS.hussein,LEADS.zeinab]; // complaints: to team leads, cc Hussein + quality
+const CMP_TO=[LEADS.mostafa,LEADS.eslam], CMP_CC=[LEADS.hussein,LEADS.zeinab,LEADS.mohamed]; // complaints: to team leads, cc Hussein + quality + Mohamed (training)
 const CMP_UI={
  ar:{eyebrow:'لو العميل اشتكى',title:'إيميل شكوى',intro:'أي شكوى من عميل لازم تتبعت إيميل، سواء هو اللي اتصل يشتكي، أو اتصلنا بيه وطلع عميل قديم مش عايز يتعامل معانا تاني بسبب حاجة حصلت، أو اشتكى في مكالمة الفولو أب بعد الاستشارة المجانية. املا البيانات ودوس "ابعت الشكوى"، هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين وزينب (الكواليتي). ابعته في نفس اليوم، وماتوعدش العميل بحاجة مش في إيدك.',
   me:'اسمك',type:'نوع الشكوى',name:'اسم العميل',phone:'رقم العميل',branch:'الفرع',svc:'الخدمة أو الدكتور (لو معروف)',when:'تاريخ الزيارة أو الموقف (تقريبي)',what:'العميل اشتكى من إيه بالظبط؟ (بكلامه على قد ما تقدر)',wants:'العميل عايز إيه؟',said:'إنت قولتله إيه أو عملت إيه؟',urgent:'العميل عايز حد يكلمه النهارده / الموضوع مستعجل',odoo:'رقم أودوو (لو موجود)',
@@ -1396,7 +1396,7 @@ const CMP_UI={
   send:'ابعت الشكوى',copy:'انسخ الإيميل (لو الإيميل مفتحش)',to:'رايح لـ',cc:'وفي الـ CC',copied:'الإيميل اتنسخ',needMe:'اختار اسمك الأول.',needWhat:'اكتب العميل اشتكى من إيه.',
   tipsH:'إزاي تتعامل مع العميل وهو بيشتكي',
   tips:['اسمعه للآخر من غير ما تقاطعه، وخد ملاحظات بكلامه.','اعتذر عن اللي حصل: "أنا آسف جداً إن حضرتك مريت بكده، وحقك علينا."','ماتجادلش وماتلومش حد، ولا الدكتور ولا الفرع ولا العميل.','ماتوعدش بفلوس ولا بجلسة مجانية ولا بميعاد معين، قول: "هرفع الشكوى دي حالاً للإدارة، وهيتواصلوا مع حضرتك في أقرب وقت."','لو العميل قال مش عايز حد يكلمه تاني، احترم ده واكتبه في الإيميل.','ابعت الإيميل ده قبل ما تقفل اليوم، وسجّل المكالمة على أودوو زي العادي.']},
- en:{eyebrow:'When a customer complains',title:'Complaint email',intro:'Every customer complaint must be sent by email: whether they called to complain, or we called and they turned out to be a past customer who doesn\'t want to deal with us again because of something that happened, or they complained in the follow-up call after the free consultation. Fill in the details and press "Send complaint". A ready email opens to Mostafa and Eslam, with Hussein and Zeinab (Quality) in CC. Send it the same day, and don\'t promise the customer anything you can\'t control.',
+ en:{eyebrow:'When a customer complains',title:'Complaint email',intro:'Every customer complaint must be sent by email: whether they called to complain, or we called and they turned out to be a past customer who doesn\'t want to deal with us again because of something that happened, or they complained in the follow-up call after the free consultation. Fill in the details and press "Send complaint". A ready email opens to Mostafa and Eslam, with Hussein, Zeinab (Quality) and Mohamed Omar in CC. Send it the same day, and don\'t promise the customer anything you can\'t control.',
   me:'Your name',type:'Complaint type',name:'Customer name',phone:'Customer number',branch:'Branch',svc:'Service or doctor (if known)',when:'Date of the visit or incident (roughly)',what:'What exactly did the customer complain about? (in their words as much as you can)',wants:'What does the customer want?',said:'What did you tell them or do?',urgent:'The customer wants a call today / it is urgent',odoo:'Odoo number (if any)',
   whatPh:'e.g. the doctor was an hour late / not happy with the result / someone was rude to her',saidPh:'e.g. I apologized and said a manager will call back',
   t:{inbound:'📞 Called to complain',old:'🔁 Past customer, won\'t deal with us again',followup:'🩺 Complained in the free-consultation follow-up',other:'✏️ Something else'},
