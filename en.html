@@ -607,6 +607,7 @@ const RULES=[
  ['warn','Last free consultation slot is 7:30 PM','Don\'t book a free consultation after 7:30 PM, even if the branch is still open. If the customer wants an evening slot, offer a time before 7:30 or another day.'],
  ['yes','The first consultation and the follow-up are free','Offer the free follow-up with the doctor during follow-up calls, and if the customer says they saw no result.'],
  ['yes','Introduce yourself as H&P','"This is [your name] from H&P Medical Center." Don\'t say Tres Jolie on the call.'],
+ ['no','Don\'t say "a beauty and nutrition center"','The client heard calls saying this, and some people take "beauty" to mean a beauty salon. Just say "H&P Medical Center". If the customer wants to know more: "We are a medical center specialized in dermatology, aesthetics and cosmetic surgery, and everything related to weight loss, from diet to surgery."'],
  ['yes','Say the offer price exactly as written','You can say prices marked "Confirmed". For any service not in the offers, the price is set after the doctor\'s consultation.'],
  ['yes','Every offer comes with a gift chosen by the customer','Sculptra comes with two gifts. We haven\'t received the gift list yet, so don\'t promise a specific gift.'],
  ['no','Don\'t guarantee results or a number of kilos','"Results vary from person to person, and the doctor will explain what to expect."'],
@@ -644,7 +645,7 @@ const FLOWS=[
   ['Confirm and send a confirmation.','Let me confirm the new appointment with you…'],
   ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Previous customer (and we don\'t have their history)',steps:[
-  ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center. You visited us before, and we wanted to check on you and tell you about our new offers.'],
+  ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center. You visited us before, and we wanted to check on you and tell you about our new grand-opening offers.'],
   ['Let the customer tell you what they had done, and record it in the system.','What did you have done with us last time? And how was the experience?'],
   ['If they complain: stop selling immediately and log a complaint.',''],
   ['If there\'s no complaint: offer to continue, or a free consultation.','Would you like to continue with the same treatment, or try a free consultation with the doctor to see what your skin needs now?'],
@@ -663,6 +664,8 @@ const FLOWS=[
 ];
 
 const OBJ=[
+ ['Was a Tres Jolie customer','"Isn\'t this Tres Jolie?", "I came to you before and didn\'t like it"','"Yes, H&P Medical Center bought Tres Jolie, and it now has new management, new staff and new offers. We also have grand-opening offers right now. May I ask what you had done before, and how was the experience?"','"We\'re not responsible for the past", speaking badly about the old management, or promising "this will never happen again".','client',
+  ['If they complain about a past experience: apologize, stop selling, and send a complaint email from the "📣 Complaint email" tab.','If there\'s no complaint: offer the grand-opening offers and the free consultation.','If they say they don\'t want to deal with us again: respect it, send a complaint email with the reason, and log it in Odoo.']],
  ['No laser appointments','"Every time I call, you say there are no appointments", "Your schedule is always full"','"I\'m really sorry about what happened to you recently. Demand for laser has been very high, so the center has added more devices, and more appointments are now available. Would you like to try again and book this week? Morning or evening?"','"It\'s not our fault", "All centers are busy", "We doubled the devices", "We guarantee you priority" or "You\'ll find an appointment any time" (unconfirmed promises).','client',
   ['Apologize for the experience without arguing.','Explain that the reason was high demand, and that the center has added more devices.','Suggest a specific appointment right away, with two options. The best proof that the problem is solved is booking them now.','If they had a package and stopped halfway, offer to complete the remaining sessions.']],
  ['Had sessions and no results','"I did sessions and didn\'t see any results", "I wasted my money"','"I understand you\'re waiting to see results, and that\'s your right. May I ask how many sessions you\'ve had, and when your last session was?" After listening: "Results from these services appear gradually, and the difference usually shows more as you complete the sessions and follow the plan. Would you like me to book you a free follow-up with the doctor to review your progress and tell you how long the results will take?"','"I understand you\'re in a hurry", "Because you didn\'t stick to it" (blame), "The next session will definitely make a difference" (promise), or medical explanations like "The product builds collagen".','client',
@@ -802,7 +805,8 @@ const CENTER=[
  ['Landline','02 443 3221 (Abu Dhabi); this is the number on the offers sheet','ok'],
  ['VAT','Prices exclude VAT. The rate is still being confirmed.','warn'],
  ['Installments','Available with Tabby and Tamara. The admin fee rate is still being confirmed.','warn'],
- ['Specialties','Dermatology, aesthetics, cosmetic dentistry, body contouring and weight loss','ok'],
+ ['Specialties','In the client\'s words: a medical center specialized in dermatology, aesthetics and cosmetic surgery, and everything related to weight loss, from diet to surgery. (Also cosmetic dentistry and body contouring.) Don\'t say "a beauty and nutrition center".','ok'],
+ ['Tres Jolie','The client said H&P Medical Center bought Tres Jolie, which now has new management, new staff and new offers, and that we have grand-opening offers. Say it if the customer mentions Tres Jolie or is a past customer.','warn'],
  ['Dermatology (Derma) services','Botox Nabota (Korean), Botox Dysport, Full-Face Meso Botox, AILEENE Lip Filler (1 ml), Restylane Kysse Filler, AILEENE Face Filler (2 ml), Dermapen, RRS Long Lasting (Spanish), RRS Eyes (Spanish), Sculptra (American, Galderma), Endolaser, Silutrix double-chin injection, Cellulite removal course, Mounjaro course, Laser Hair Removal, HydraFacial, Lip Rejuvenation, Skin Peeling. The consultation is with a dermatologist.','ok'],
  ['Nutrition services','Wood therapy lymphatic massage, Fat-dissolving device course, Mounjaro course. The consultation is with a nutritionist. Mounjaro is listed under both departments, so ask whether the customer wants it for weight loss, and check with your team leader which doctor to book.','ok'],
  ['New services without details','HydraFacial, Lip Rejuvenation and Skin Peeling are on the client\'s service list, but we have no offer, price or description for them yet. If a customer asks: say the service is available and book a free consultation where the doctor explains everything. Don\'t give a price.','warn'],
@@ -813,6 +817,7 @@ const CENTER=[
 ];
 
 const TODO=[
+ 'The client said we can say H&P bought Tres Jolie and it has new management: we need this from the client in writing (email or message) before it becomes a fixed script.',
  'HydraFacial, Lip Rejuvenation and Skin Peeling: price, whether there is an offer, and what we tell the customer about them.',
  'Mounjaro course is listed under both Dermatology and Nutrition: which doctor do we book?',
  'Odoo activity rules (when to create an activity and which type), and how many attempts before a lead becomes Un-Reachable.',
@@ -869,6 +874,7 @@ function search(q){
 
 /* ================= NEW DATA ================= */
 const UPDATES=[
+ ['27 October 2026','At the client\'s request: don\'t say "a beauty and nutrition center", as some people take it to mean a beauty salon. Say "H&P Medical Center", and if asked: "a medical center specialized in dermatology, aesthetics and cosmetic surgery, and everything related to weight loss, from diet to surgery." If the customer mentions Tres Jolie: our center bought it, with new management, new staff and new offers, and we have grand-opening offers (see Objections).'],
  ['27 October 2026','New: "📣 Complaint email". When any customer complains (called to complain, a past customer who won\'t deal with us again, or a complaint in the free-consultation follow-up), send it from here to Mostafa and Eslam, with Hussein and Zeinab in CC. It also has tips on handling the customer while they complain.'],
  ['26 October 2026','"⏸ AUX request" now has more reasons: lunch, prayer, restroom, break and IT issue.'],
  ['26 October 2026','"⏸ AUX email" is now "⏸ AUX request": the email asks Mostafa and Eslam for approval instead of just telling them, and has a field for the duration in minutes. Don\'t go on AUX on Avaya until one of them approves.'],
