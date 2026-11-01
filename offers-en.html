@@ -175,10 +175,10 @@ const OFFERS=[
   what:'Under-eye injections: dark circles, puffiness, and fine lines.',who:'The customer complains of dark circles or a tired look under the eyes.',
   say:'RRS Eyes is 499 AED per syringe, and the box of three syringes is 1,799, and it comes with a gift.',
   qa:[['Will the dark circles go away completely?','Results vary from person to person. The doctor will assess the cause of the dark circles and tell you what to expect.']],caution:''},
- {id:'sculptra',cat:'skin',ar:'Sculptra (American, Galderma)',en:'Sculptra (USA, Galderma)',price:'1,499',pn:'with two gifts',st:'ok',slide:16,
+ {id:'sculptra',cat:'skin',ar:'Sculptra (American, Galderma)',en:'Sculptra (USA, Galderma)',price:'1,500',pn:'with a gift',st:'ok',slide:16,
   what:'A bio-stimulator for collagen (not a regular filler). It stimulates the skin to produce its own collagen gradually, restoring volume, firmness, and glow.',guide:'sculptra',who:'The customer complains of sagging skin or that their face has lost volume.',
-  say:'Sculptra by Galderma is 1,499 AED, and it\'s the only offer that comes with two gifts. It stimulates collagen to restore volume and reduce sagging.',
-  qa:[['Is it true the result lasts two years?','It can last up to two years, but this varies from person to person, and the doctor will explain what to expect in your case.'],['How many sessions do I need?','The doctor will decide what your skin needs during the free consultation, and the current offer is 1,499 per injection with two gifts.'],['Why don\'t I see the result right away?','Because Sculptra stimulates the skin to produce its own collagen, the result shows gradually from the first to the third month, and that\'s what makes it look natural.']],
+  say:'Original Sculptra by Galderma is 1,500 AED, with a gift of your choice. It stimulates collagen to restore volume and reduce sagging.',
+  qa:[['Is it true the result lasts two years?','It can last up to two years, but this varies from person to person, and the doctor will explain what to expect in your case.'],['How many sessions do I need?','The doctor will decide what your skin needs during the free consultation, and the current offer is 1,500 per injection with a gift.'],['Why don\'t I see the result right away?','Because Sculptra stimulates the skin to produce its own collagen, the result shows gradually from the first to the third month, and that\'s what makes it look natural.']],
   caution:'The sheet says results last more than two years. Don\'t say it as a promise. Say "It varies, and the doctor will explain."'},
  {id:'endolaser',cat:'body',guide:'endolaser',ar:'Endolaser',en:'Endolaser',price:'1,500',pn:'per area',st:'ok',slide:3,
   what:'A dual-wavelength laser to tighten the skin, without surgery. For the double chin, face, neck, abdomen, arms, and thighs.',who:'The customer asks about sagging skin or stubborn fat in a specific area.',
@@ -308,7 +308,7 @@ function render(){
   $('main').innerHTML=`
    <div class="notes">
     <div class="note"><b>All prices are in UAE dirhams (AED)</b><span>Big Gift Week offers. Prices do not include VAT.</span></div>
-    <div class="note"><b>Every offer comes with a gift the customer chooses</b><span>Sculptra comes with two gifts.</span></div>
+    <div class="note"><b>Every offer comes with a gift the customer chooses</b><span>A full-body laser session, HydraFacial, OxyGeneo, or 10% off the offer price.</span></div>
     <div class="note"><b>The first consultation and the follow-up are free</b><span>Any service not in the offers is priced after the consultation.</span></div>
    </div>
    <div class="legend"><span class="chip c-ok">Confirmed</span> you can tell the customer · <span class="chip c-warn">Needs confirmation</span> say "I'll confirm the price before booking" · <span class="chip c-no">Price not available</span> don't say any number</div>
