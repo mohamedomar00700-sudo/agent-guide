@@ -2088,6 +2088,8 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'When a customer books',title:'Book
   k:{consult:'🩺 Free consultation',session:'💉 Session / service',follow:'🔁 Follow-up with the doctor'},
   s:{inbound:'📞 Inbound call',outbound:'📲 Our call',wa:'💬 WhatsApp',followup:'🔁 Follow-up call',other:'✏️ Other'},
   g:{none:'No gift / not chosen yet',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off'},
+  fuH:'📞 Follow-up calls for this booking',fu:['Confirm','Reminder on the day','After the visit'],fuSkip:'not needed',fuPick:'Choose the appointment day to see the call days.',
+  fuSign:'Sign in once with your work email (🏆 Quiz tab) so these calls are saved and you get reminded.',saved:'Booking saved ✓ We\'ll remind you of the follow-up calls',savedDup:'This booking is already saved ✓',notSaved:'The email is ready, but the booking wasn\'t saved for the follow-up calls. Try again.',
   checkH:'Before you send',check:['Read the day, time, branch and service back to the customer.','Check the booking is saved on Odoo with the same details.','Send the WhatsApp confirmation with the location (📲 tab).']}
  :{tab:'📅 إيميل حجز',eyebrow:'لو العميل حجز',title:'إيميل حجز',
   intro:'أي حجز بيتبعتله إيميل في نفس اليوم، علشان التيم ليدرز يتابعوا والعيادة تبقى جاهزة. املا البيانات ودوس "ابعت الحجز"، هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين.',
@@ -2098,11 +2100,25 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'When a customer books',title:'Book
   k:{consult:'🩺 استشارة مجانية',session:'💉 جلسة / خدمة',follow:'🔁 متابعة مع الدكتور'},
   s:{inbound:'📞 العميل اتصل',outbound:'📲 إحنا اتصلنا',wa:'💬 واتساب',followup:'🔁 مكالمة فولو أب',other:'✏️ حاجة تانية'},
   g:{none:'من غير هدية / لسه مختارش',laser:'جلسة ليزر فل بادي',hydra:'هيدرافيشيال',oxy:'أوكسجيو',ten:'خصم 10%'},
+  fuH:'📞 مكالمات المتابعة للحجز ده',fu:['تأكيد الميعاد','تذكير يوم الميعاد','بعد الزيارة'],fuSkip:'مش محتاجة',fuPick:'اختار يوم الميعاد علشان تظهر أيام المكالمات.',
+  fuSign:'ادخل مرة واحدة بإيميل الشغل (من تبويب 🏆 الكويز) علشان المكالمات دي تتسجل ونفكرك بيها.',saved:'الحجز اتسجل ✓ هنفكرك بمكالمات المتابعة',savedDup:'الحجز ده متسجل قبل كده ✓',notSaved:'الإيميل جاهز، بس الحجز متسجلش لمكالمات المتابعة. جرّب تاني.',
   checkH:'قبل ما تبعت',check:['اقرا للعميل اليوم والساعة والفرع والخدمة.','اتأكد إن الحجز متسجل على أودوو بنفس البيانات.','ابعت تأكيد الواتساب باللوكيشن (من تبويب 📲).']};
 const K_EN={consult:'Free consultation',session:'Session / service',follow:'Follow-up with the doctor'};
 const S_EN={inbound:'Inbound call',outbound:'Our call',wa:'WhatsApp',followup:'Follow-up call',other:'Other'};
 const G_EN={none:'None / not chosen yet',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off'};
 const BK={kind:'consult',src:'inbound',gift:'none',wa:false,name:'',phone:'',branch:'',svc:'',doc:'',date:'',time:'',odoo:'',notes:''};
+const bkYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function bkShift(ymd,step){ const d=new Date(ymd+'T12:00:00'); do{ d.setDate(d.getDate()+step); }while(d.getDay()===5); return bkYmd(d); } // Friday is off
+function bkDues(appt){ const t=bkYmd(new Date()), c1=bkShift(appt,-1); return [c1<=t?'':c1, appt<=t||new Date(appt+'T12:00:00').getDay()===5?'':appt, bkShift(appt,1)]; }
+function bkDay(ymd){ try{ return new Date(ymd+'T12:00:00').toLocaleDateString(EN?'en-GB':'ar-EG',{weekday:'long',day:'numeric',month:'short'}); }catch(e){ return ymd; } }
+function bkFuBox(){ const signed=window.kbSignedIn&&window.kbSignedIn();
+  const list=BK.date?'<ol style="margin:6px 0 0;padding-inline-start:18px;line-height:1.8">'+bkDues(BK.date).map((d,i)=>'<li><b>'+B.fu[i]+':</b> '+(d?esc(bkDay(d)):B.fuSkip)+'</li>').join('')+'</ol>':'<div class="small" style="margin-top:6px">'+B.fuPick+'</div>';
+  return '<div class="wa-box" id="bkFu"><b>'+B.fuH+'</b>'+list+(signed?'':'<div class="small" style="margin-top:6px;color:var(--rose)">🔒 '+B.fuSign+'</div>')+'</div>'; }
+function bkId(){ const k=[BK.name,BK.phone,BK.date,BK.time,BK.svc].map(x=>String(x||'').trim().toLowerCase()).join('|'); let h=5381; for(let i=0;i<k.length;i++) h=(h*33^k.charCodeAt(i))>>>0; return 'bk'+h.toString(36)+k.length.toString(36); }
+async function bkSave(){ if(!window.kbBookSave) return; if(!window.kbSignedIn()){ toast(B.fuSign); return; }
+  const kindTxt=(EN?K_EN:{consult:'استشارة مجانية',session:'جلسة / خدمة',follow:'متابعة مع الدكتور'})[BK.kind];
+  const j=await window.kbBookSave({id:bkId(),name:BK.name,phone:BK.phone,branch:BK.branch,svc:BK.svc,doc:BK.doc,kind:kindTxt,date:BK.date,time:BK.time,odoo:BK.odoo,notes:BK.notes});
+  setTimeout(()=>toast(j&&j.ok?(j.duplicate?B.savedDup:B.saved):B.notSaved),600); }
 function bkHtml(){
   const inp=(k,ph,tp,ltr)=>`<label>${B[k]}<input id="bk_${k}" data-bk="${k}"${tp?` type="${tp}"`:''}${ph?` placeholder="${esc(ph)}"`:''} value="${esc(BK[k])}"${ltr?' dir="ltr"':''}></label>`;
   const chips=(key,map)=>`<div class="wa-chips">${Object.keys(map).map(k=>`<button data-a="bkc" data-f="${key}" data-v="${k}" class="${BK[key]===k?'on':''}">${map[k]}</button>`).join('')}</div>`;
@@ -2126,7 +2142,7 @@ function bkHtml(){
    <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="bkWa" style="width:auto" ${BK.wa?'checked':''}>${B.wa}</label>
    <div class="wa-acts"><button class="wa-go2" data-a="bksend">✉ ${B.send}</button></div>
    <button class="ib" data-a="bkcopy">${B.copy}</button>
-  </div><div class="wa-out"><div class="wa-box"><b>${B.to}</b><span dir="ltr" class="small">${BK_TO.join(', ')}</span><b>${B.cc}</b><span dir="ltr" class="small">${BK_CC.join(', ')}</span></div>
+  </div><div class="wa-out">${bkFuBox()}<div class="wa-box"><b>${B.to}</b><span dir="ltr" class="small">${BK_TO.join(', ')}</span><b>${B.cc}</b><span dir="ltr" class="small">${BK_CC.join(', ')}</span></div>
    <div class="wa-box"><b>${B.checkH}</b><ul style="margin:6px 0 0;padding-inline-start:18px;line-height:1.8">${B.check.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div></section>`;
 }
 function bkMail(){ const me=teamBy(meGet()); const need=(m,id)=>{ toast(m); const s=$(id); if(s) s.focus(); return null; };
@@ -2146,10 +2162,12 @@ function bkMail(){ const me=teamBy(meGet()); const need=(m,id)=>{ toast(m); cons
   return {s,b}; }
 document.addEventListener('input',e=>{ const k=e.target.dataset&&e.target.dataset.bk; if(k&&e.target.id==='bk_'+k) BK[k]=e.target.value; });
 document.addEventListener('change',e=>{ const k=e.target.dataset&&e.target.dataset.bk; if(k&&e.target.id==='bk_'+k) BK[k]=e.target.value; if(e.target.id==='bkWa') BK.wa=e.target.checked;
+  if(e.target.id==='bk_date'){ const f=$('bkFu'); if(f) f.outerHTML=bkFuBox(); }
   if(e.target.id==='bkMe'){ if(e.target.value===TEAM_ADD){ const t=teamPrompt(false); meSet(t?t.id:meGet()); } else meSet(e.target.value); renderMain(); } });
 document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a; if(!a.startsWith('bk')) return; e.preventDefault();
   if(a==='bkc'){ BK[t.dataset.f]=t.dataset.v; renderMain(); return; }
   const m=bkMail(); if(!m) return;
+  bkSave();
   if(a==='bkcopy'){ copyText('To: '+BK_TO.join('; ')+'\nCC: '+BK_CC.join('; ')+'\nSubject: '+m.s+'\n\n'+m.b,B.copied); return; }
   location.href=mailto(BK_TO,BK_CC,m.s,m.b); });
 SEC.booking=bkHtml;
@@ -2638,6 +2656,118 @@ function syncDashTab(){ const has=VIEWS.some(v=>v[0]==='dash');
   else if(!canDash()&&has){ VIEWS.splice(VIEWS.findIndex(v=>v[0]==='dash'),1); renderTabs(); if(VIEW==='dash') setView('quiz'); } }
 document.addEventListener('change',e=>{ if(e.target.id==='dashM'){ DASH_M=e.target.value; DASH=null; renderMain(); loadDash(); } });
 //@@DASHEND@@
+//@@FOLLOW@@
+
+// ---------- booking follow-up calls: confirm the day before, remind on the day, ask after the visit ----------
+const F=EN?{tab:'📞 Follow-up calls',eyebrow:'Every booking gets 3 calls',title:'Follow-up calls',
+  intro:'Every booking sent from the 📅 Booking email tab shows up here with its 3 calls: confirm the day before, remind on the day, and check in after the visit. After each call, press what happened so the reminder stops.',
+  signFirst:'Sign in with your work email first (once on this device), so we know which calls are yours.',signGo:'Sign in',
+  todayT:'To call today',soonT:'Coming up',noneToday:'No calls for today 👌',noneSoon:'Nothing coming up.',mineT:'My calls',allT:'Whole team',
+  c:['','Confirm the appointment','Reminder on the day','After the visit'],cs:['','the day before','on the day','did they go? how was it?'],
+  late:'late',tries:n=>'no answer ×'+n,appt:'Appointment',phone:'Number',copyN:'Copy number',copied:'Number copied',
+  hint:['',
+   'Hello, this is [your name] from H&P Medical Center. I\'m calling to confirm your appointment tomorrow at [time] at our [branch] branch. Does that still work for you?',
+   'Good morning, a quick reminder of your appointment today at [time] at our [branch] branch. Shall I send you the location on WhatsApp?',
+   'Hello, we wanted to check on you after your visit. How was your experience with us?'],
+  r:{confirmed:'✅ Confirmed',noanswer:'📵 No answer',rescheduled:'🔁 New date',cancelled:'❌ Cancelled',went:'✅ Went',noshow:'🚫 Didn\'t go'},
+  note:'Note (optional)',notePh:'e.g. asked for a female doctor, will come 15 minutes late',fbPh:'What did they say about the visit?',rate:'How happy?',newDate:'New day',newTime:'Time',
+  save:'Save',cancel:'Back',saved:'Saved ✓',agent:'With',off:'off today',offDay:'off that day',give:'Give to…',given:'Given ✓',offline:'The list will show once the scorecard script is updated.',
+  bar:n=>'📞 You have '+n+' follow-up call'+(n>1?'s':'')+' today',barGo:'Open',errs:{not_yours:'This call isn\'t yours.',bad_date:'Choose a day from today on.',forbidden:'Team leads only.'}}
+ :{tab:'📞 مكالمات المتابعة',eyebrow:'كل حجز ليه 3 مكالمات',title:'مكالمات المتابعة',
+  intro:'أي حجز بيتبعت من تبويب 📅 إيميل حجز بيظهر هنا بمكالماته التلاتة: تأكيد قبلها بيوم، وتذكير يوم الميعاد، ومكالمة بعد الزيارة نطمن فيها. بعد كل مكالمة دوس على اللي حصل علشان التذكير يقف.',
+  signFirst:'ادخل بإيميل الشغل الأول (مرة واحدة على الجهاز ده)، علشان نعرف أنهي مكالمات بتاعتك.',signGo:'دخول',
+  todayT:'مكالمات النهارده',soonT:'الجاية',noneToday:'مفيش مكالمات النهارده 👌',noneSoon:'مفيش حاجة جاية.',mineT:'مكالماتي',allT:'كل التيم',
+  c:['','تأكيد الميعاد','تذكير يوم الميعاد','بعد الزيارة'],cs:['','قبلها بيوم','يوم الميعاد','راح؟ ورأيه إيه؟'],
+  late:'متأخرة',tries:n=>'مردش ×'+n,appt:'الميعاد',phone:'الرقم',copyN:'انسخ الرقم',copied:'الرقم اتنسخ',
+  hint:['',
+   'أهلاً يا فندم، معاك [اسمك] من مركز H&P الطبي. بكلم حضرتك علشان أأكد ميعادك بكرة الساعة [الساعة] في فرع [الفرع]. الميعاد لسه مناسب لحضرتك؟',
+   'صباح الخير يا فندم، بفكّر حضرتك بميعادك النهارده الساعة [الساعة] في فرع [الفرع]. تحب أبعتلك اللوكيشن على الواتساب؟',
+   'أهلاً يا فندم، حبينا نطمن على حضرتك بعد الزيارة. التجربة كانت عاملة إزاي معانا؟'],
+  r:{confirmed:'✅ أكّد',noanswer:'📵 مردش',rescheduled:'🔁 ميعاد جديد',cancelled:'❌ لغى',went:'✅ راح',noshow:'🚫 مراحش'},
+  note:'ملاحظة (اختياري)',notePh:'مثلاً: طالبة دكتورة ست، هتتأخر ربع ساعة',fbPh:'قال إيه عن الزيارة؟',rate:'مبسوط قد إيه؟',newDate:'اليوم الجديد',newTime:'الساعة',
+  save:'سجّل',cancel:'رجوع',saved:'اتسجل ✓',agent:'مع',off:'أجازة النهارده',offDay:'أجازة يومها',give:'اديها لـ…',given:'اتحولت ✓',offline:'القايمة هتظهر أول ما سكريبت السكور كارد يتحدث.',
+  bar:n=>'📞 عندك '+n+' مكالمة متابعة النهارده',barGo:'افتح',errs:{not_yours:'المكالمة دي مش بتاعتك.',bad_date:'اختار يوم من النهارده ورايح.',forbidden:'للتيم ليدرز بس.'}};
+const fcss=`.fu{display:grid;gap:12px}.fitem{border:2px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px;background:var(--paper)}
+.fitem.late{border-color:var(--amber)}.fitem .h{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--muted)}
+.fitem .t{font-weight:800;font-size:16px}.fpill{font-size:12px;font-weight:800;border-radius:99px;padding:3px 10px;background:var(--blue-soft);color:var(--blue)}
+.fpill.c2{background:var(--rose-soft);color:var(--rose)}.fpill.c3{background:var(--sage-soft);color:var(--sage)}.fpill.late{background:var(--amber-soft);color:var(--amber)}.fpill.off{background:var(--red-soft);color:var(--red)}
+.fitem .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:4px 12px;font-size:14px}.fitem .meta b{color:var(--muted);font-weight:600;font-size:12.5px;display:block}
+.fhint{background:var(--soft);border-radius:10px;padding:8px 10px;font-size:14px;line-height:1.7}.fbtns{display:flex;gap:6px;flex-wrap:wrap}
+.fbtns button{font:inherit;font-size:14px;font-weight:700;border:2px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--paper);color:var(--ink);cursor:pointer}
+.fbtns button.on{border-color:var(--sage);background:var(--sage-soft)}.fform{display:grid;gap:8px;border-top:1px dashed var(--line);padding-top:8px}
+.fstars button{font-size:24px;background:none;border:0;cursor:pointer;opacity:.35;padding:0 2px}.fstars button.on{opacity:1}
+.fbar{position:fixed;inset-inline:12px;bottom:12px;z-index:60;display:flex;gap:8px;align-items:center;justify-content:space-between;background:#1d2731;color:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.25);font-weight:700;max-width:560px;margin-inline:auto}
+.fbar button{font:inherit;font-weight:800;border:0;border-radius:10px;padding:8px 14px;cursor:pointer}.fbar .go{background:#FFB15C;color:#1d2731}.fbar .x{background:transparent;color:#fff;font-size:18px;padding:4px 8px}
+.ftel{direction:ltr;unicode-bidi:embed;font-weight:800;color:var(--ink)}`;
+document.head.insertAdjacentHTML('beforeend','<style>'+fcss+'</style>');
+let CALLS=null, CALLS_ERR=false, FU={open:'',res:'',note:'',rate:0,date:'',time:'',all:false,bar:true};
+const fuKey=x=>x.id+'-'+x.call;
+async function loadCalls(){ if(!SES){ CALLS=null; fuSync(); return; }
+  try{ const j=await (await fetch(QZ_API+'?action=kbCalls&session='+encodeURIComponent(SES.session))).json();
+    if(j&&j.ok){ CALLS=j; CALLS_ERR=false; } else { CALLS_ERR=true; if(j&&j.error==='signed_out') signOut(); } }catch(e){ CALLS_ERR=true; }
+  fuSync(); if(VIEW==='follow'&&!RUN) renderMain(); }
+const myToday=()=>CALLS?CALLS.items.filter(x=>x.mine&&(x.state==='due'||x.state==='late')).length:0;
+function fuSync(){ const v=VIEWS.find(x=>x[0]==='follow'); if(v){ const n=myToday(); v[1]=F.tab+(n?' ('+n+')':''); renderTabs(); } fuBar(); }
+function fuBar(){ const old=$('fuBar'), n=myToday(); if(!n||!FU.bar||VIEW==='follow'||RUN){ if(old) old.remove(); return; }
+  const h=`<span>${esc(F.bar(n))}</span><span style="display:flex;gap:4px"><button class="go" data-a="fugo">${F.barGo}</button><button class="x" data-a="fux" aria-label="close">×</button></span>`;
+  if(old) old.innerHTML=h; else document.body.insertAdjacentHTML('beforeend',`<div class="fbar" id="fuBar" dir="${EN?'ltr':'rtl'}">${h}</div>`); }
+function dayLbl(d){ try{ return new Date(d+'T12:00:00').toLocaleDateString(EN?'en-GB':'ar-EG',{weekday:'long',day:'numeric',month:'short'}); }catch(e){ return d; } }
+function t12(t){ if(!t) return ''; const [h,m]=t.split(':').map(Number); return ((h%12)||12)+':'+String(m).padStart(2,'0')+(EN?(h<12?' AM':' PM'):(h<12?' ص':' م')); }
+function fuItem(x){ const k=fuKey(x), open=FU.open===k, res3=x.call===3?['went','noshow','noanswer']:['confirmed','noanswer','rescheduled','cancelled'];
+  const hint=F.hint[x.call].replace(/\[(الساعة|time)\]/g,t12(x.time)||'…').replace(/\[(الفرع|branch)\]/g,x.branch||'…');
+  const lead=CALLS&&CALLS.lead;
+  return `<div class="fitem ${x.state==='late'?'late':''}" id="fu-${k}"><div class="h"><span class="fpill c${x.call}">${x.call}. ${F.c[x.call]}</span><span>${F.cs[x.call]}</span>${x.state==='late'?`<span class="fpill late">${F.late}</span>`:''}${x.state==='soon'?`<span>· ${esc(dayLbl(x.due))}</span>`:''}${x.tries?`<span>· ${esc(F.tries(x.tries))}</span>`:''}${lead?`<span>· ${F.agent} <b>${esc(x.to)}</b></span>${x.off?`<span class="fpill off">${x.state==='soon'?F.offDay:F.off}</span>`:''}`:''}</div>
+   <div class="t">${esc(x.cust)}</div>
+   <div class="meta"><span><b>${F.appt}</b>${esc(dayLbl(x.date))} ${esc(t12(x.time))}</span>${x.branch?`<span><b>${EN?'Branch':'الفرع'}</b>${esc(x.branch)}</span>`:''}${x.svc?`<span><b>${EN?'Service':'الخدمة'}</b>${esc(x.svc)}</span>`:''}${x.doc?`<span><b>${EN?'Doctor':'الدكتور'}</b>${esc(x.doc)}</span>`:''}
+    ${x.phone?`<span><b>${F.phone}</b><a class="ftel" href="tel:${esc(x.phone.replace(/[^\d+]/g,''))}">${esc(x.phone)}</a> <button class="qghost" style="padding:3px 8px;font-size:12px" data-a="fucopy" data-v="${esc(x.phone)}">${F.copyN}</button></span>`:''}${x.odoo?`<span><b>Odoo</b>${esc(x.odoo)}</span>`:''}</div>
+   ${x.notes?`<div class="muted" style="white-space:pre-line;font-size:13px">📝 ${esc(x.notes)}</div>`:''}
+   ${x.state!=='soon'||lead?`<div class="fhint">💬 ${esc(hint)}</div><div class="fbtns">${res3.map(r=>`<button data-a="fures" data-k="${k}" data-v="${r}" class="${open&&FU.res===r?'on':''}">${F.r[r]}</button>`).join('')}</div>`:''}
+   ${open?`<div class="fform">${FU.res==='rescheduled'?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label class="lbl">${F.newDate}<input class="qin" type="date" id="fuDate" value="${esc(FU.date)}"></label><label class="lbl">${F.newTime}<input class="qin" type="time" id="fuTime" value="${esc(FU.time)}"></label></div>`:''}
+     ${FU.res==='went'?`<div class="lbl">${F.rate}</div><div class="fstars">${[1,2,3,4,5].map(n=>`<button data-a="furate" data-v="${n}" class="${FU.rate>=n?'on':''}">⭐</button>`).join('')}</div>`:''}
+     <label class="lbl" for="fuNote">${F.note}</label><input class="qin" id="fuNote" placeholder="${esc(FU.res==='went'||FU.res==='noshow'?F.fbPh:F.notePh)}" value="${esc(FU.note)}">
+     ${FU.err?`<div class="qerr">${esc(FU.err)}</div>`:''}
+     <div class="row"><button class="qbtn" data-a="fusave" data-k="${k}" ${FU.busy?'disabled':''}>${F.save}</button><button class="qghost" data-a="fuback">${F.cancel}</button></div></div>`:''}
+   ${lead?`<div class="row"><select class="qin" style="max-width:240px;padding:7px 10px;font-size:14px" data-a="fugive" data-id="${x.id}"><option value="">${F.give}</option>${(CALLS.agents||[]).filter(a=>a!==x.to).map(a=>`<option>${esc(a)}</option>`).join('')}</select></div>`:''}
+  </div>`; }
+function followHtml(){ const head=`<div class="sh"><div class="eyebrow">${F.eyebrow}</div><h2>${F.title}</h2><p>${F.intro}</p></div>`;
+  if(!SES) return `<section id="follow" class="qz fu">${head}<div class="panel" style="display:grid;gap:10px"><div class="muted">${F.signFirst}</div><button class="qbtn" data-a="fusign">${F.signGo}</button></div></section>`;
+  if(!CALLS) return `<section id="follow" class="qz fu">${head}<div class="panel"><div class="muted">${CALLS_ERR?F.offline:'…'}</div></div></section>`;
+  const L=CALLS.items.filter(x=>x.state!=='missed'&&(FU.all||x.mine||!CALLS.lead)), now=L.filter(x=>x.state==='due'||x.state==='late').sort((a,b)=>(b.state==='late')-(a.state==='late')||a.call-b.call||(a.time||'').localeCompare(b.time||''));
+  const soon=L.filter(x=>x.state==='soon').sort((a,b)=>a.due.localeCompare(b.due)||(a.time||'').localeCompare(b.time||'')).slice(0,40);
+  return `<section id="follow" class="qz fu">${head}
+   ${CALLS.lead?`<div class="ask"><div class="seg"><button data-a="fuall" data-v="0" class="${FU.all?'':'on'}">${F.mineT}</button><button data-a="fuall" data-v="1" class="${FU.all?'on':''}">${F.allT}</button></div></div>`:''}
+   <div class="panel" style="display:grid;gap:10px"><b>${F.todayT} (${now.length})</b>${now.length?now.map(fuItem).join(''):`<div class="muted">${F.noneToday}</div>`}</div>
+   <div class="panel" style="display:grid;gap:10px"><b>${F.soonT} (${soon.length})</b>${soon.length?soon.map(fuItem).join(''):`<div class="muted">${F.noneSoon}</div>`}</div></section>`; }
+SEC.follow=followHtml;
+{ const i=VIEWS.findIndex(v=>v[0]==='booking'); VIEWS.splice(i<0?3:i+1,0,['follow',F.tab,['follow']]); }
+async function fuSave(k){ const x=CALLS.items.find(y=>fuKey(y)===k); if(!x) return; FU.note=(($('fuNote')||{}).value||'').trim();
+  if(FU.res==='rescheduled'){ FU.date=($('fuDate')||{}).value||''; FU.time=($('fuTime')||{}).value||''; if(!FU.date||FU.date<today()){ FU.err=F.errs.bad_date; renderMain(); return; } }
+  FU.busy=true; FU.err=''; renderMain(); let j=null;
+  try{ j=await api({action:'kbCall',session:SES.session,id:x.id,call:x.call,result:FU.res,note:FU.note,rating:FU.res==='went'?FU.rate:0,date:FU.date,time:FU.time}); }catch(e){}
+  FU.busy=false;
+  if(!j||!j.ok){ FU.err=(j&&F.errs[j.error])||(j&&j.error==='signed_out'?U.signedOut:U.errs.net); if(j&&j.error==='signed_out') signOut(); renderMain(); return; }
+  FU.open=''; FU.res=''; FU.note=''; FU.rate=0; toast(F.saved); await loadCalls(); }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b||!b.dataset.a.startsWith('fu')) return; const a=b.dataset.a; if(b.tagName==='SELECT') return; e.preventDefault();
+  if(a==='fugo'){ FU.bar=false; fuBar(); setView('follow'); }
+  else if(a==='fux'){ FU.bar=false; fuBar(); }
+  else if(a==='fusign') setView('quiz');
+  else if(a==='fuall'){ FU.all=b.dataset.v==='1'; renderMain(); }
+  else if(a==='fucopy') copyText(b.dataset.v,F.copied);
+  else if(a==='fures'){ const k=b.dataset.k; if(FU.open!==k){ FU.note=''; FU.rate=0; FU.date=''; FU.time=''; } FU.open=k; FU.res=b.dataset.v; FU.err=''; renderMain(); const el=$('fu-'+k); if(el) el.scrollIntoView({block:'nearest'}); }
+  else if(a==='furate'){ FU.note=(($('fuNote')||{}).value||''); FU.rate=+b.dataset.v; renderMain(); }
+  else if(a==='fuback'){ FU.open=''; FU.res=''; renderMain(); }
+  else if(a==='fusave') fuSave(b.dataset.k); });
+document.addEventListener('input',e=>{ if(e.target.id==='fuNote') FU.note=e.target.value; else if(e.target.id==='fuDate') FU.date=e.target.value; else if(e.target.id==='fuTime') FU.time=e.target.value; });
+document.addEventListener('change',async e=>{ if(e.target.dataset&&e.target.dataset.a==='fugive'&&e.target.value&&SES){ const to=e.target.value;
+  const j=await api({action:'kbAssign',session:SES.session,id:+e.target.dataset.id,to}).catch(()=>null); toast(j&&j.ok?F.given:((j&&F.errs[j.error])||U.errs.net)); loadCalls(); } });
+// the booking tab saves each booking here (it lives outside this script)
+window.kbSignedIn=()=>!!SES;
+window.kbBookSave=async function(bk){ if(!SES) return {ok:false,error:'signed_out'}; try{ const j=await api({action:'kbBook',session:SES.session,booking:bk}); if(j&&j.ok) setTimeout(loadCalls,300); return j||{ok:false}; }catch(e){ return {ok:false,error:'net'}; } };
+{ const _sync=syncDashTab; syncDashTab=function(){ _sync(); if(SES&&!CALLS) loadCalls(); else if(!SES&&CALLS){ CALLS=null; fuSync(); } }; }
+{ const _set=setView; setView=function(v,n){ _set(v,n); fuBar(); if(v==='follow') loadCalls(); }; }
+setInterval(()=>{ if(SES&&document.visibilityState==='visible') loadCalls(); },10*60*1000);
+loadCalls();
+{ const hv=(location.hash||'').slice(1); if(hv==='follow') setTimeout(()=>setView('follow',true),0); }
 linkTeam();
 renderTabs();
 { const hv=(location.hash||'').slice(1); if(hv==='quiz'||hv==='ask') setView(hv,true); }
