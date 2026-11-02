@@ -877,7 +877,7 @@ function search(q){
 const UPDATES=[
  ['27 October 2026','At the client\'s request: don\'t say "a beauty and nutrition center", as some people take it to mean a beauty salon. Say "H&P Medical Center", and if asked: "a medical center specialized in dermatology, aesthetics and cosmetic surgery, and everything related to weight loss, from diet to surgery." If the customer mentions Tres Jolie: our center bought it, with new management, new staff and new offers, and we have grand-opening offers (see Objections).'],
  ['27 October 2026','New: "📣 Complaint email". When any customer complains (called to complain, a past customer who won\'t deal with us again, or a complaint in the free-consultation follow-up), send it from here to Mostafa and Eslam, with Hussein and Zeinab in CC. It also has tips on handling the customer while they complain.'],
- ['26 October 2026','"⏸ AUX request" now has more reasons: lunch, prayer, restroom, break and IT issue.'],
+ ['26 October 2026','"⏸ AUX request" now has more reasons: lunch, prayer, personal break, break and IT issue.'],
  ['26 October 2026','"⏸ AUX email" is now "⏸ AUX request": the email asks Mostafa and Eslam for approval instead of just telling them, and has a field for the duration in minutes. Don\'t go on AUX on Avaya until one of them approves.'],
  ['26 October 2026','"📲 Send to customer" won\'t open WhatsApp until you choose your name, and your name is no longer kept after you close the page, so nobody sends under someone else\'s name on a shared PC. Choose your name when you open the page.'],
  ['26 October 2026','The name lists in "📲 Send to customer" and "⏸ AUX email" now have a search box: type part of the name, then press Enter or pick from the list.'],
@@ -1344,21 +1344,21 @@ const VIEWS=[
 
 /* ===== AUX on Avaya: email the team leads ===== */
 const AUX_UI={
- ar:{eyebrow:'قبل ما تحط AUX على الأفايا',title:'طلب AUX',intro:'ده طلب مش إبلاغ: اختار اسمك والسبب (غدا، صلاة، حمام، بريك، أو مشكلة IT) ودوس "ابعت الطلب". هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين وأحمد (RTM). متحطش AUX على الأفايا غير لما حد فيهم يوافق. ولما ترجع، دوس "رجعت" عشان يعرفوا إنك متاح تاني.',wait:'⏳ مستني الموافقة. متحطش AUX غير لما مصطفى أو إسلام يردوا بالموافقة.',mins:'المدة بالدقايق (اختياري)',
+ ar:{eyebrow:'قبل ما تحط AUX على الأفايا',title:'طلب AUX',intro:'ده طلب مش إبلاغ: اختار اسمك والسبب (غدا، صلاة، بريك شخصي، بريك، أو مشكلة IT) ودوس "ابعت الطلب". هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين وأحمد (RTM). متحطش AUX على الأفايا غير لما حد فيهم يوافق. ولما ترجع، دوس "رجعت" عشان يعرفوا إنك متاح تاني.',wait:'⏳ مستني الموافقة. متحطش AUX غير لما مصطفى أو إسلام يردوا بالموافقة.',mins:'المدة بالدقايق (اختياري)',
   me:'اسمك',reason:'السبب',note:'تفاصيل (اختياري، ومهمة لو مشكلة IT)',notePh:'مثلاً: الأفايا فاصلة / الهيدسيت مش شغال / النت واقع',send:'ابعت طلب AUX',back:'رجعت، ابعت إيميل الرجوع',copy:'انسخ الإيميل (لو الإيميل مفتحش)',
   needMe:'اختار اسمك الأول.',copied:'الإيميل اتنسخ',to:'رايح لـ',cc:'وفي الـ CC',since:'طلبت الساعة',
-  r:{lunch:'🍽 غدا (Lunch)',prayer:'🕌 صلاة',restroom:'🚻 حمام',break:'☕ بريك',it:'💻 مشكلة IT'},
+  r:{lunch:'🍽 غدا (Lunch)',prayer:'🕌 صلاة',restroom:'🙋 بريك شخصي',break:'☕ بريك',it:'💻 مشكلة IT'},
   subj:(r,n,t)=>'AUX request: '+r+' | '+n+' | '+t, subjBack:(n,t)=>'Back from AUX | '+n+' | '+t,
   body:(r,n,t,x,m)=>'Hi Mostafa, Eslam,\n\nMay I go on AUX, please?\nReason: '+r+'\nRequested at: '+t+(m?'\nFor about: '+m+' minutes':'')+(x?'\nDetails: '+x:'')+'\n\nI will stay available until you approve.\n\nThanks,\n'+n,
   bodyBack:(r,n,t,s)=>'Hi Mostafa, Eslam,\n\nI am back from AUX and available now.\nReason was: '+r+(s?'\nFrom '+s+' to '+t:'\nBack at: '+t)+'\n\nThanks,\n'+n},
- en:{eyebrow:'Before you go on AUX on Avaya',title:'AUX request',intro:'This is a request, not a notice: pick your name and the reason (lunch, prayer, restroom, break or IT issue), then press "Send request". A ready email opens to Mostafa and Eslam, with Hussein and Ahmed (RTM) in CC. Don\'t go on AUX on Avaya until one of them approves. When you are back, press "I\'m back" so they know you are available again.',wait:'⏳ Waiting for approval. Don\'t go on AUX until Mostafa or Eslam replies to approve.',mins:'Duration in minutes (optional)',
+ en:{eyebrow:'Before you go on AUX on Avaya',title:'AUX request',intro:'This is a request, not a notice: pick your name and the reason (lunch, prayer, personal break, break or IT issue), then press "Send request". A ready email opens to Mostafa and Eslam, with Hussein and Ahmed (RTM) in CC. Don\'t go on AUX on Avaya until one of them approves. When you are back, press "I\'m back" so they know you are available again.',wait:'⏳ Waiting for approval. Don\'t go on AUX until Mostafa or Eslam replies to approve.',mins:'Duration in minutes (optional)',
   me:'Your name',reason:'Reason',note:'Details (optional, important for an IT issue)',notePh:'e.g. Avaya disconnected / headset not working / internet down',send:'Send AUX request',back:'I\'m back, send the back email',copy:'Copy the email (if email didn\'t open)',
   needMe:'Pick your name first.',copied:'Email copied',to:'To',cc:'CC',since:'requested at',
-  r:{lunch:'🍽 Lunch',prayer:'🕌 Prayer',restroom:'🚻 Restroom',break:'☕ Break',it:'💻 IT issue'}}
+  r:{lunch:'🍽 Lunch',prayer:'🕌 Prayer',restroom:'🙋 Personal break',break:'☕ Break',it:'💻 IT issue'}}
 };
 AUX_UI.en.subj=AUX_UI.ar.subj; AUX_UI.en.subjBack=AUX_UI.ar.subjBack; AUX_UI.en.body=AUX_UI.ar.body; AUX_UI.en.bodyBack=AUX_UI.ar.bodyBack;
 const AXU=AUX_UI[LANG==='en'?'en':'ar'];
-const AUX_EN={lunch:'Lunch',prayer:'Prayer',restroom:'Restroom',break:'Break',it:'IT issue'};
+const AUX_EN={lunch:'Lunch',prayer:'Prayer',restroom:'Personal break',break:'Break',it:'IT issue'};
 let AUX=(()=>{try{return JSON.parse(localStorage.getItem('tj-aux')||'{}')}catch(e){return {}}})(); AUX.reason=AUX.reason||'break'; AUX.note='';
 const auxSave=()=>{try{localStorage.setItem('tj-aux',JSON.stringify({reason:AUX.reason,since:AUX.since||''}))}catch(e){}};
 const hhmm=()=>new Date().toTimeString().slice(0,5);
@@ -2073,6 +2073,91 @@ $('q').addEventListener('input',()=>{ clearTimeout(BUD.qT); BUD.qT=setTimeout(()
   let seen=null; try{ seen=sessionStorage.getItem('noor_hi'); sessionStorage.setItem('noor_hi','1'); }catch(e){}
   if(!seen) setTimeout(buddyGreet,1100); buddyIdle(); } }
 </script>
+<!-- booking:start -->
+<script>
+/* ===== Booking email: when a customer books, the agent sends the booking details to the team leads ===== */
+(function(){
+const EN=LANG==='en';
+const BK_TO=[LEADS.mostafa,LEADS.eslam], BK_CC=[LEADS.hussein]; // bookings: to team leads, cc Hussein
+const B=EN?{tab:'📅 Booking email',eyebrow:'When a customer books',title:'Booking email',
+  intro:'Every booking gets an email the same day, so the team leads can follow up and the clinic is ready. Fill in the details and press "Send booking". A ready email opens to Mostafa and Eslam, with Hussein in CC.',
+  me:'Your name',kind:'Booking for',src:'How it came',name:'Customer name',phone:'Customer number',branch:'Branch',svc:'Offer or service',doc:'Doctor (if chosen)',date:'Appointment day',time:'Time',
+  gift:'Gift chosen',odoo:'Odoo number',notes:'Notes for the clinic (optional)',notesPh:'e.g. first visit, needs to shave at the center, asked for a female doctor',
+  wa:'I sent the WhatsApp confirmation with the location',send:'Send booking',copy:'Copy the email (if email didn\'t open)',to:'To',cc:'CC',copied:'Email copied',
+  needMe:'Pick your name first.',needName:'Write the customer\'s name.',needDate:'Choose the appointment day and time.',needSvc:'Write the offer or service.',
+  k:{consult:'🩺 Free consultation',session:'💉 Session / service',follow:'🔁 Follow-up with the doctor'},
+  s:{inbound:'📞 Inbound call',outbound:'📲 Our call',wa:'💬 WhatsApp',followup:'🔁 Follow-up call',other:'✏️ Other'},
+  g:{none:'No gift / not chosen yet',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off'},
+  checkH:'Before you send',check:['Read the day, time, branch and service back to the customer.','Check the booking is saved on Odoo with the same details.','Send the WhatsApp confirmation with the location (📲 tab).']}
+ :{tab:'📅 إيميل حجز',eyebrow:'لو العميل حجز',title:'إيميل حجز',
+  intro:'أي حجز بيتبعتله إيميل في نفس اليوم، علشان التيم ليدرز يتابعوا والعيادة تبقى جاهزة. املا البيانات ودوس "ابعت الحجز"، هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين.',
+  me:'اسمك',kind:'الحجز لـ',src:'الحجز جه منين',name:'اسم العميل',phone:'رقم العميل',branch:'الفرع',svc:'العرض أو الخدمة',doc:'الدكتور (لو اتحدد)',date:'يوم الميعاد',time:'الساعة',
+  gift:'الهدية اللي اختارها',odoo:'رقم أودوو',notes:'ملاحظات للعيادة (اختياري)',notesPh:'مثلاً: أول زيارة، هيحلق في المركز، طالبة دكتورة ست',
+  wa:'بعت تأكيد الواتساب باللوكيشن',send:'ابعت الحجز',copy:'انسخ الإيميل (لو الإيميل مفتحش)',to:'رايح لـ',cc:'وفي الـ CC',copied:'الإيميل اتنسخ',
+  needMe:'اختار اسمك الأول.',needName:'اكتب اسم العميل.',needDate:'اختار يوم وساعة الميعاد.',needSvc:'اكتب العرض أو الخدمة.',
+  k:{consult:'🩺 استشارة مجانية',session:'💉 جلسة / خدمة',follow:'🔁 متابعة مع الدكتور'},
+  s:{inbound:'📞 العميل اتصل',outbound:'📲 إحنا اتصلنا',wa:'💬 واتساب',followup:'🔁 مكالمة فولو أب',other:'✏️ حاجة تانية'},
+  g:{none:'من غير هدية / لسه مختارش',laser:'جلسة ليزر فل بادي',hydra:'هيدرافيشيال',oxy:'أوكسجيو',ten:'خصم 10%'},
+  checkH:'قبل ما تبعت',check:['اقرا للعميل اليوم والساعة والفرع والخدمة.','اتأكد إن الحجز متسجل على أودوو بنفس البيانات.','ابعت تأكيد الواتساب باللوكيشن (من تبويب 📲).']};
+const K_EN={consult:'Free consultation',session:'Session / service',follow:'Follow-up with the doctor'};
+const S_EN={inbound:'Inbound call',outbound:'Our call',wa:'WhatsApp',followup:'Follow-up call',other:'Other'};
+const G_EN={none:'None / not chosen yet',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off'};
+const BK={kind:'consult',src:'inbound',gift:'none',wa:false,name:'',phone:'',branch:'',svc:'',doc:'',date:'',time:'',odoo:'',notes:''};
+function bkHtml(){
+  const inp=(k,ph,tp,ltr)=>`<label>${B[k]}<input id="bk_${k}" data-bk="${k}"${tp?` type="${tp}"`:''}${ph?` placeholder="${esc(ph)}"`:''} value="${esc(BK[k])}"${ltr?' dir="ltr"':''}></label>`;
+  const chips=(key,map)=>`<div class="wa-chips">${Object.keys(map).map(k=>`<button data-a="bkc" data-f="${key}" data-v="${k}" class="${BK[key]===k?'on':''}">${map[k]}</button>`).join('')}</div>`;
+  const seen=new Set(), svc=[]; const add=v=>{ if(v&&!seen.has(v)){ seen.add(v); svc.push(v); } };
+  OFFERS.filter(o=>o.price&&o.price!=='—').forEach(o=>add((EN?o.en||o.ar:o.ar)+' · '+o.price));
+  SVC.forEach(x=>add(EN?x.en:x.ar));
+  const docs=DOC_NAMES.map(d=>EN?d[1]+' ('+d[3]+')':d[0]+' ('+d[2]+')');
+  return `<section id="booking"><div class="sh"><div class="eyebrow">${B.eyebrow}</div><h2>${B.title}</h2><p>${B.intro}</p></div>
+  <div class="wa-grid"><div class="wa-form">
+   <label>${B.me}${meSelect('bkMe')}</label>
+   <div class="wa-lbl">${B.kind}</div>${chips('kind',B.k)}
+   <div class="wa-lbl">${B.src}</div>${chips('src',B.s)}
+   ${inp('name')}${inp('phone','05xxxxxxxx','tel',1)}
+   <label>${B.branch}<select id="bk_branch" data-bk="branch" class="wa-sel"><option value="">–</option>${BRANCHES.map(b=>`<option value="${esc(b.city)}" ${BK.branch===b.city?'selected':''}>${esc(b.city)}</option>`).join('')}</select></label>
+   <label>${B.svc}<input id="bk_svc" data-bk="svc" list="bkSvcList" autocomplete="off" placeholder="🔍" value="${esc(BK.svc)}"><datalist id="bkSvcList">${svc.map(o=>`<option value="${esc(o)}">`).join('')}</datalist></label>
+   <label>${B.doc}<input id="bk_doc" data-bk="doc" list="bkDocList" autocomplete="off" placeholder="🔍" value="${esc(BK.doc)}"><datalist id="bkDocList">${docs.map(o=>`<option value="${esc(o)}">`).join('')}</datalist></label>
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${inp('date','','date')}${inp('time','','time')}</div>
+   <div class="wa-lbl">${B.gift}</div>${chips('gift',B.g)}
+   ${inp('odoo','','',1)}
+   <label>${B.notes}<textarea id="bk_notes" data-bk="notes" rows="3" placeholder="${esc(B.notesPh)}" style="font:inherit;font-size:15px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--paper);color:var(--ink)">${esc(BK.notes)}</textarea></label>
+   <label style="flex-direction:row;align-items:center;gap:8px"><input type="checkbox" id="bkWa" style="width:auto" ${BK.wa?'checked':''}>${B.wa}</label>
+   <div class="wa-acts"><button class="wa-go2" data-a="bksend">✉ ${B.send}</button></div>
+   <button class="ib" data-a="bkcopy">${B.copy}</button>
+  </div><div class="wa-out"><div class="wa-box"><b>${B.to}</b><span dir="ltr" class="small">${BK_TO.join(', ')}</span><b>${B.cc}</b><span dir="ltr" class="small">${BK_CC.join(', ')}</span></div>
+   <div class="wa-box"><b>${B.checkH}</b><ul style="margin:6px 0 0;padding-inline-start:18px;line-height:1.8">${B.check.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div></div></section>`;
+}
+function bkMail(){ const me=teamBy(meGet()); const need=(m,id)=>{ toast(m); const s=$(id); if(s) s.focus(); return null; };
+  if(!me) return need(B.needMe,'bkMe');
+  if(!BK.name.trim()) return need(B.needName,'bk_name');
+  if(!BK.svc.trim()) return need(B.needSvc,'bk_svc');
+  if(!BK.date||!BK.time) return need(B.needDate,BK.date?'bk_time':'bk_date');
+  const L=(k,v)=>v&&String(v).trim()?'\n'+k+': '+String(v).trim():'';
+  const d=new Date(BK.date+'T12:00:00'), day=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',year:'numeric'});
+  const [hh,mm]=BK.time.split(':').map(Number), t12=((hh%12)||12)+':'+String(mm).padStart(2,'0')+(hh<12?' AM':' PM');
+  const s='New booking: '+K_EN[BK.kind]+' | '+BK.name.trim()+' | '+day+' '+t12+(BK.branch?' | '+BK.branch:'');
+  const b='Hi Mostafa, Eslam,\n\nA new booking, details below.\n\nBooking for: '+K_EN[BK.kind]+L('Customer',BK.name)+L('Number',BK.phone)+L('Branch',BK.branch)+L('Offer / service',BK.svc)+L('Doctor',BK.doc)
+   +'\nAppointment: '+day+', '+t12+'\nGift: '+G_EN[BK.gift]+'\nCame from: '+S_EN[BK.src]+L('Odoo',BK.odoo)
+   +(BK.notes.trim()?'\n\nNotes:\n'+BK.notes.trim():'')
+   +'\n\nWhatsApp confirmation sent: '+(BK.wa?'Yes':'Not yet')
+   +'\n\nBooked on: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en;
+  return {s,b}; }
+document.addEventListener('input',e=>{ const k=e.target.dataset&&e.target.dataset.bk; if(k&&e.target.id==='bk_'+k) BK[k]=e.target.value; });
+document.addEventListener('change',e=>{ const k=e.target.dataset&&e.target.dataset.bk; if(k&&e.target.id==='bk_'+k) BK[k]=e.target.value; if(e.target.id==='bkWa') BK.wa=e.target.checked;
+  if(e.target.id==='bkMe'){ if(e.target.value===TEAM_ADD){ const t=teamPrompt(false); meSet(t?t.id:meGet()); } else meSet(e.target.value); renderMain(); } });
+document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a; if(!a.startsWith('bk')) return; e.preventDefault();
+  if(a==='bkc'){ BK[t.dataset.f]=t.dataset.v; renderMain(); return; }
+  const m=bkMail(); if(!m) return;
+  if(a==='bkcopy'){ copyText('To: '+BK_TO.join('; ')+'\nCC: '+BK_CC.join('; ')+'\nSubject: '+m.s+'\n\n'+m.b,B.copied); return; }
+  location.href=mailto(BK_TO,BK_CC,m.s,m.b); });
+SEC.booking=bkHtml;
+{ const i=VIEWS.findIndex(v=>v[0]==='complaint'); VIEWS.splice(i<0?VIEWS.length:i,0,['booking',B.tab,['booking']]); }
+{ const hv=(location.hash||'').slice(1); if(hv==='booking') setTimeout(()=>setView('booking',true),0); }
+})();
+</script>
+<!-- booking:end -->
 <!-- quiz:start -->
 <script>
 /* ===== Daily quiz, monthly quiz, streaks, XP, badges, league and the team's most missed items =====
@@ -2095,8 +2180,8 @@ const U=EN?{tab:'🏆 Quiz',eyebrow:'Every day',title:'Daily quiz',intro:'5 quic
   weekT:'This week',badgesT:'Badges',badgeLocked:'Not yet',
   notesT:'This week\'s team notes',notesSub:(n,d)=>'The items missed most in the team\'s scored calls (last '+d+' days, '+n+' evaluations). No names.',missed:(m,o)=>m+' of '+o+' calls',tip:'Coaching tip',crit:'Critical',
   boardT:'League',boardSub:m=>'This month ('+m+'): 1 point per correct answer. Tiers: Bronze, Silver from 20, Gold from 50, Diamond from 90.',acc:'Accuracy',noBoard:'No scores yet this month. Be the first!',offline:'The leaderboard will show once the scorecard script is updated.',you:'you',
-  popT:'Good morning 👋',popSub:'Before your first call: today\'s quiz (5 questions, about 2 minutes) and the team notes.',popGo:'Start the quiz',popLater:'Later',popStreak:n=>'🔥 '+n+'-day streak. Keep it going!',
-  priceQ:n=>'What is the offer price for "'+n+'"?',customer:'Customer',practice:'Practice',dailyT:'Today\'s quiz',close:'Close',board:'See the league',
+  popT:'Good morning 👋',popSub:'Before your first call: today\'s quiz (5 questions, about 2 minutes) and the team notes.',popGo:'Start the quiz',popLater:'Later (I\'ll remind you in 45 min)',popStreak:n=>'🔥 '+n+'-day streak. Keep it going!',
+  priceQ:n=>'What is the offer price for "'+n+'"?',customer:'Customer',practice:'Practice',dailyT:'Today\'s quiz',close:'Close',board:'See the league',shiftT:k=>k==='monthly'?'The Monthly Shift':'Today\'s Shift',shiftSub:n=>n+' customers are waiting. Win every one of them.',shiftGo:'Start the shift',mins:n=>'~'+n+' min',custs:n=>n+' customers',reportT:'Shift report',happy:n=>n+' happy customers',
   resT:s=>s===5?'Flawless! 🎉':s>=4?'Great work!':s>=3?'Good effort!':'Keep practising!',xpGain:n=>"+"+n,newBadge:'New badge!',levelUp:n=>'Level up: '+n+'!',
   tiers:['Bronze','Silver','Gold','Diamond'],levels:['Rookie','Learner','Skilled','Pro','Expert','Star','Legend']}
  :{tab:'🏆 الكويز',eyebrow:'كل يوم',title:'كويز النهارده',intro:'5 أسئلة سريعة كل يوم، نفس الأسئلة لكل التيم. أول محاولة بس هي اللي بتتحسب، وبعدها اتدرب براحتك.',
@@ -2111,8 +2196,8 @@ const U=EN?{tab:'🏆 Quiz',eyebrow:'Every day',title:'Daily quiz',intro:'5 quic
   weekT:'الأسبوع ده',badgesT:'البادجات',badgeLocked:'لسه',
   notesT:'ملاحظات الأسبوع للتيم',notesSub:(n,d)=>'أكتر حاجات اتنست في مكالمات التيم المتقيّمة (آخر '+d+' يوم، '+n+' تقييم). من غير أسماء.',missed:(m,o)=>m+' من '+o+' مكالمة',tip:'الكوتشينج',crit:'حرج',
   boardT:'الدوري',boardSub:m=>'الشهر ده ('+m+'): نقطة لكل إجابة صح. المستويات: برونز، فضة من 20، دهب من 50، ماس من 90.',acc:'الدقة',noBoard:'لسه مفيش درجات الشهر ده. خليك أول واحد!',offline:'الليدر بورد هيظهر أول ما سكريبت السكور كارد يتحدث.',you:'إنت',
-  popT:'صباح الخير 👋',popSub:'قبل أول مكالمة: كويز النهارده (5 أسئلة، حوالي دقيقتين) وملاحظات التيم.',popGo:'ابدأ الكويز',popLater:'بعدين',popStreak:n=>'🔥 '+n+' يوم ورا بعض، كمّل!',
-  priceQ:n=>'سعر عرض "'+n+'" كام؟',customer:'العميل',practice:'تدريب',dailyT:'كويز النهارده',close:'قفل',board:'شوف الدوري',
+  popT:'صباح الخير 👋',popSub:'قبل أول مكالمة: كويز النهارده (5 أسئلة، حوالي دقيقتين) وملاحظات التيم.',popGo:'ابدأ الكويز',popLater:'بعدين (هفكرك كمان 45 دقيقة)',popStreak:n=>'🔥 '+n+' يوم ورا بعض، كمّل!',
+  priceQ:n=>'سعر عرض "'+n+'" كام؟',customer:'العميل',practice:'تدريب',dailyT:'كويز النهارده',close:'قفل',board:'شوف الدوري',shiftT:k=>k==='monthly'?'الوردية الشهرية':'وردية النهارده',shiftSub:n=>n+' عملاء مستنيينك. اكسب رضاهم كلهم.',shiftGo:'ابدأ الوردية',mins:n=>'حوالي '+n+' دقايق',custs:n=>n+' عملاء',reportT:'تقرير الوردية',happy:n=>n+' عملاء مبسوطين',
   resT:s=>s===5?'ولا غلطة! 🎉':s>=4?'شغل عالي!':s>=3?'كويس، كمّل!':'كمّل تدريب وهتبقى أحسن!',xpGain:n=>"+"+n,newBadge:'بادج جديد!',levelUp:n=>'طلعت مستوى: '+n+'!',
   tiers:['برونز','فضة','دهب','ماس'],levels:['مبتدئ','متعلّم','متمكّن','محترف','خبير','نجم','أسطورة']};
 
@@ -2191,6 +2276,24 @@ const css=`.qz{display:grid;gap:12px}.qz .row{display:flex;gap:8px;flex-wrap:wra
 .qzpop{position:fixed;inset:0;z-index:80;background:rgba(10,15,20,.55);display:grid;place-items:center;padding:16px}
 .qzpop>div{background:var(--paper);color:var(--ink);border-radius:18px;max-width:520px;width:100%;max-height:88vh;overflow:auto;padding:18px;display:grid;gap:12px;box-shadow:var(--shadow)}
 .qzpop .nr{width:90px;height:90px;margin:0 auto}
+/* game look: a night shift at the clinic */
+.qstage{--paper:#15233A;--ink:#F3F5F8;--line:#2B3D5C;--muted:#9FB0C6;--blue:#7DB3E6;--blue-soft:#1C3350;background:radial-gradient(120% 80% at 50% 0%,#24375A 0%,#0E1828 60%,#0A111D 100%);color:var(--ink)}
+.qstage::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(1.5px 1.5px at 12% 18%,#fff8,transparent),radial-gradient(1px 1px at 72% 12%,#fff6,transparent),radial-gradient(1.5px 1.5px at 40% 8%,#fff5,transparent),radial-gradient(1px 1px at 88% 30%,#fff7,transparent),radial-gradient(1px 1px at 25% 40%,#fff4,transparent)}
+.qstage .qtop,.qstage .qbody,.qstage .qfoot{position:relative}
+.qstage .qq .bub{background:rgba(255,255,255,.06);border-color:#33496B;backdrop-filter:blur(4px)}
+.qstage .qopt{background:rgba(255,255,255,.05);border-color:#33496B}.qstage .qopt .k{border-color:#41587C}
+.qstage .qopt.ok{color:#D7FFB8;background:rgba(88,167,0,.22);border-color:#58A700}.qstage .qopt.bad{color:#FFD0D2;background:rgba(234,43,43,.2);border-color:#EA2B2B}
+.qstage .qfoot{background:#0E1828;border-color:#22324D}.qstage .qfoot.ok{background:#1E3A12;border-color:#1E3A12;color:#D7FFB8}.qstage .qfoot.bad{background:#3D1517;border-color:#3D1517;color:#FFD0D2}
+.qstage .qghost{background:transparent;border-color:#33496B;color:var(--ink)}.qstage .qkind{color:#FFB15C}
+.qglow{font-size:42px;font-weight:900;margin:0;background:linear-gradient(180deg,#FFD27A,#F7931E);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(247,147,30,.45))}
+.qorange{background:linear-gradient(180deg,#FF9A3C,#F26B1D)!important;box-shadow:0 6px 24px rgba(242,107,29,.45),0 4px 0 #A8440C!important;border-radius:99px!important;padding:15px 34px!important}
+.qintro{display:grid;gap:16px;justify-items:center;text-align:center;padding-top:6vh}.qintro .nr{width:140px;height:140px}
+.qpills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.qpill{border:1px solid #33496B;border-radius:99px;padding:6px 12px;font-size:13px;color:#C9D5E4;background:rgba(255,255,255,.04)}
+.qcust{display:flex;gap:4px}.qcust i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;background:#22324D;border:2px solid #33496B}
+.qcust i.ok{background:#2E6B12;border-color:#58A700}.qcust i.bad{background:#6B1A1C;border-color:#EA2B2B}.qcust i.now{border-color:#FFB15C;box-shadow:0 0 0 3px rgba(255,177,92,.25)}
+.qcface{width:72px;height:72px}.qcface svg{width:100%;height:100%}
+.qfaces{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.qfaces .qcface{width:46px;height:46px}
+.qstage .qres h2{color:#FFD27A}
 @media (prefers-reduced-motion:reduce){.qstage *,.qz *{animation:none!important;transition:none!important}}`;
 document.head.insertAdjacentHTML('beforeend','<style>'+css+'</style>');
 
@@ -2281,22 +2384,38 @@ async function doVerify(){ const code=(($('qzCode')||{}).value||'').replace(/\D/
   SES={session:j.session,name:j.name,email:j.email}; ls.set(SES_KEY,SES); linkTeam(); SIGN={step:'email',email:'',err:''};
   confetti(60); sndOk(); renderMain(); flush(); loadPulse(); loadAsks(); }
 
+// A customer for the scenario questions: neutral while you think, happy or upset after you answer.
+const CUST_C=[['#F2C6A0','#5B3A29'],['#E8B48F','#2E2320'],['#D9A27E','#8A4B2C'],['#F5D0B5','#3B2A4A'],['#C98E6B','#1F1A17']];
+function custSvg(i,mood){ const [skin,hair]=CUST_C[i%CUST_C.length], scarf=i%2===0;
+  const mouth=mood==='happy'?'<path d="M38 66 Q50 78 62 66" stroke="#7A2E2E" stroke-width="4" fill="none" stroke-linecap="round"/>':mood==='upset'?'<path d="M38 72 Q50 62 62 72" stroke="#7A2E2E" stroke-width="4" fill="none" stroke-linecap="round"/>':'<path d="M40 68 H60" stroke="#7A2E2E" stroke-width="4" stroke-linecap="round"/>';
+  const brows=mood==='upset'?'<path d="M32 40 L44 44 M68 40 L56 44" stroke="#3A2A20" stroke-width="3" stroke-linecap="round"/>':'';
+  return `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="${mood==='happy'?'#1E4D2B':mood==='upset'?'#4D1E22':'#22324D'}"/>
+   ${scarf?`<path d="M14 92 Q12 22 50 16 Q88 22 86 92 Z" fill="${['#A63D63','#2C6395','#2F7565','#7A5A00'][i%4]}"/>`:`<path d="M20 60 Q16 18 50 16 Q84 18 80 60 Q76 30 50 28 Q24 30 20 60Z" fill="${hair}"/>`}
+   <ellipse cx="50" cy="54" rx="${scarf?24:27}" ry="${scarf?27:30}" fill="${skin}"/>${brows}<circle cx="40" cy="50" r="4" fill="#2A1E18"/><circle cx="60" cy="50" r="4" fill="#2A1E18"/>${mouth}
+   ${mood==='happy'?'<circle cx="33" cy="62" r="4" fill="#F49A9A" opacity=".6"/><circle cx="67" cy="62" r="4" fill="#F49A9A" opacity=".6"/>':''}</svg>`; }
+function introHtml(){ const R=RUN, n=R.qs.length, st=ME()?ME().streak:0;
+  return `<div class="qtop"><button class="qx" data-a="qzquit" aria-label="${U.close}">✕</button></div>
+   <div class="qbody"><div class="qintro"><div class="nr">${noorSvg('happy')}</div><h1 class="qglow">${esc(R.practice?U.practice:U.shiftT(R.kind))}</h1>
+    <div style="font-size:16px;color:#C9D5E4">${esc(U.shiftSub(n))}</div>
+    <div class="qfaces">${R.qs.map((q,i)=>`<span class="qcface">${custSvg(i,'')}</span>`).join('')}</div>
+    <div class="qpills"><span class="qpill">👥 ${esc(U.custs(n))}</span><span class="qpill">⏱ ${esc(U.mins(Math.max(2,Math.round(n*.4))))}</span>${st?`<span class="qpill">🔥 ${st}</span>`:''}</div>
+    <button class="qbtn qorange" data-a="qzgo2" data-focus>▶ ${U.shiftGo}</button></div></div>`; }
 // ---------- the lesson (full screen, one question at a time) ----------
 let RUN=null; // {kind,per,qs,i,ans:[],sel,checked,combo,best,practice,result,before}
 function startRun(kind,practice){ if(!SES&&!practice){ setView('quiz'); return; }
   const per=kind==='monthly'?month():today();
-  RUN={kind,per,practice:!!practice,qs:build(kind,kind+'-'+per,practice),i:0,ans:[],sel:null,checked:false,combo:0,best:0,before:ME()?Object.assign({},ME()):null};
+  RUN={kind,per,practice:!!practice,qs:build(kind,kind+'-'+per,practice),i:0,ans:[],sel:null,checked:false,combo:0,best:0,before:ME()?Object.assign({},ME()):null,intro:true};
   stage(); }
 function closeStage(){ RUN=null; const s=$('qzStage'); if(s) s.remove(); document.documentElement.style.overflow=''; renderMain(); }
 function stage(){ let s=$('qzStage'); if(!s){ s=document.createElement('div'); s.id='qzStage'; s.className='qstage'; s.setAttribute('role','dialog'); s.setAttribute('aria-modal','true'); s.dir=EN?'ltr':'rtl'; document.body.appendChild(s); document.documentElement.style.overflow='hidden'; }
-  s.innerHTML=RUN.result?resultHtml():lessonHtml(); const f=s.querySelector('[data-focus]'); if(f) f.focus({preventScroll:true}); }
+  s.innerHTML=RUN.result?resultHtml():RUN.intro?introHtml():lessonHtml(); const f=s.querySelector('[data-focus]'); if(f) f.focus({preventScroll:true}); }
 function lessonHtml(){ const R=RUN, q=R.qs[R.i], done=R.i+(R.checked?1:0), ok=R.checked&&R.sel===q.a;
   const kind=R.kind==='monthly'?U.monthT:(R.practice?U.practice:U.dailyT);
   const head=q.s?`<div class="bub"><small>💬 ${U.customer}</small>${esc(q.q)}</div>`:`<div class="bub">${esc(q.q)}</div>`;
-  return `<div class="qtop"><button class="qx" data-a="qzquit" aria-label="${U.close}">✕</button><div class="qbar" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${R.qs.length}"><i style="width:${Math.max(4,Math.round(100*done/R.qs.length))}%"></i></div>
+  return `<div class="qtop"><button class="qx" data-a="qzquit" aria-label="${U.close}">✕</button><div class="qbar" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${R.qs.length}"><i style="width:${Math.max(4,Math.round(100*done/R.qs.length))}%"></i></div>${R.qs.length<=6?`<span class="qcust">${R.qs.map((x,i)=>`<i class="${R.ans[i]===true?'ok':R.ans[i]===false?'bad':i===R.i?'now':''}">${R.ans[i]===true?'😊':R.ans[i]===false?'😞':''}</i>`).join('')}</span>`:''}
    <span class="qcombo ${R.combo>=2&&R.checked&&ok?'bump':''}">${R.combo>=2?'🔥 '+esc(U.combo(R.combo)):''}</span></div>
    <div class="qbody"><div class="qkind">${kind} · ${U.q} ${R.i+1} ${U.of} ${R.qs.length}</div>
-    <div class="qq"><div class="nr">${noorSvg(!R.checked?'think':ok?'happy':'care')}</div>${head}</div>
+    <div class="qq">${q.s?`<div class="qcface">${custSvg(R.i,!R.checked?'':ok?'happy':'upset')}</div>`:`<div class="nr">${noorSvg(!R.checked?'think':ok?'happy':'care')}</div>`}${head}</div>
     <div class="qopts">${q.o.map((o,i)=>`<button class="qopt ${R.checked?(i===q.a?'ok':i===R.sel?'bad':''):(i===R.sel?'sel':'')}" data-a="qzsel" data-v="${i}" ${R.checked?'disabled':''}><span class="k">${i+1}</span><span>${esc(o)}</span></button>`).join('')}</div></div>
    <div class="qfoot ${R.checked?(ok?'ok':'bad'):''}"><div>${R.checked?`<h3>${ok?'✓ '+esc(U.great[(R.i+R.combo)%U.great.length]):'✕ '+U.oops}</h3>${ok?'':`<p><b>${esc(q.o[q.a])}</b></p>`}${q.w?`<p>${esc(q.w)}</p>`:''}
      <button class="qbtn wide" data-a="qznext" data-focus>${R.i+1<R.qs.length?U.cont:U.finish}</button>`
@@ -2304,7 +2423,7 @@ function lessonHtml(){ const R=RUN, q=R.qs[R.i], done=R.i+(R.checked?1:0), ok=R.
 function resultHtml(){ const R=RUN, {score,total,msg}=R.result, pct=Math.round(100*score/total), m=ME(), b=R.before;
   const newB=m&&b&&!R.practice?BADGES.filter(x=>x.t(m)&&!x.t(b)):[], lvUp=m&&b&&!R.practice&&levelOf(m.points*10).i>levelOf(b.points*10).i;
   const t5=Math.round(5*score/total);
-  return `<div class="qbody"><div class="qres"><div class="nr">${noorSvg(pct>=60?'happy':'care')}</div><h2>${esc(U.resT(t5))}</h2>
+  return `<div class="qbody"><div class="qres"><div class="nr">${noorSvg(pct>=60?'happy':'care')}</div><div class="qkind">${U.reportT}</div><h2>${esc(U.resT(t5))}</h2><div class="qfaces">${R.qs.map((q,i)=>`<span class="qcface">${custSvg(i,R.ans[i]?'happy':'upset')}</span>`).join('')}</div><div class="muted">${esc(U.happy(score))}</div>
     <div class="qring" style="background:conic-gradient(#58CC02 ${pct}%,var(--line) 0)"><b>${score}/${total}</b></div>
     <div class="qchips"><div class="qchip gold"><small>${U.xp}</small><b>${R.practice?'–':esc(U.xpGain(score*10))}</b></div>
      <div class="qchip"><small>${U.comboT}</small><b>🔥 ${R.best}</b></div>
@@ -2317,7 +2436,7 @@ async function finishRun(){ const R=RUN, score=R.ans.filter(Boolean).length, tot
   R.result={score,total,msg:''}; sndWin(); if(score>=Math.ceil(total*.6)) confetti(score===total?180:90);
   stage();
   if(!R.practice&&SES){ ls.set(doneKey(R.kind,R.per),{score,total});
-    const rec={kind:R.kind,score,total,wrong:R.qs.filter((q,i)=>!R.ans[i]).map(q=>q.id)};
+    const rec={kind:R.kind,score,total,wrong:R.qs.filter((q,i)=>!R.ans[i]).map(q=>q.id+' — '+String(q.q).slice(0,110))};
     const j=await post(rec), queue=()=>{ const p=ls.get(PEND,[]); p.push(rec); ls.set(PEND,p); };
     if(!j){ queue(); R.result.msg=U.notSaved; }
     else if(!j.ok){ if(j.error==='signed_out'){ queue(); R.result.msg=U.signedOut; signOut(); } else R.result.msg=U.notSaved; }
@@ -2331,6 +2450,7 @@ function next(){ const R=RUN; if(R.i+1<R.qs.length){ R.i++; R.sel=null; R.checke
 document.addEventListener('keydown',e=>{ if(!RUN||!$('qzStage')) return;
   if(e.key==='Escape'){ closeStage(); return; }
   if(RUN.result) return;
+  if(RUN.intro){ if(e.key==='Enter'){ e.preventDefault(); RUN.intro=false; stage(); } return; }
   const n=+e.key; if(n>=1&&n<=4&&!RUN.checked){ RUN.sel=n-1; stage(); return; }
   if(e.key==='Enter'){ e.preventDefault(); if(RUN.checked) next(); else if(RUN.sel!=null) check(); } });
 
@@ -2378,16 +2498,16 @@ document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(
   else if(a==='qzsel'&&RUN&&!RUN.checked){ RUN.sel=+b.dataset.v; tone([[440,0,.05]]); stage(); }
   else if(a==='qzcheck'&&RUN&&RUN.sel!=null) check();
   else if(a==='qznext'&&RUN) next();
-  else if(a==='qzquit') closeStage();
+  else if(a==='qzquit') closeStage(); else if(a==='qzgo2'&&RUN){ RUN.intro=false; tone([[523,0,.1],[784,.08,.18]]); stage(); }
   else if(a==='qzdone'){ closeStage(); setView('quiz'); setTimeout(()=>{const el=$('qzBoard'); if(el) el.scrollIntoView({behavior:'smooth'});},60); }
   else if(a==='qzgo'){ closePop(); if(SES) startRun('daily'); else setView('quiz'); }
-  else if(a==='qzlater'){ closePop(); }
+  else if(a==='qzlater'){ ls.set('tj-quiz-snooze',Date.now()+45*60*1000); closePop(); }
 });
 document.addEventListener('keydown',e=>{ if(e.key!=='Enter') return; if(e.target.id==='qzEmail'){ e.preventDefault(); doSend(); } else if(e.target.id==='qzCode'){ e.preventDefault(); doVerify(); } });
 
 // ---------- once a day, when the guide opens ----------
 function closePop(){ const p=$('qzPop'); if(p) p.remove(); }
-function popup(){ const key='tj-quiz-pop-'+today(); try{ if(sessionStorage.getItem(key)) return; sessionStorage.setItem(key,'1'); }catch(e){}
+function popup(){ if(Date.now()<ls.get('tj-quiz-snooze',0)) return; try{ if(sessionStorage.getItem('tj-quiz-pop-'+today())) return; }catch(e){}
   if(SES&&(ls.get(doneKey('daily',today()),null)||(ME()&&ME().doneToday))) return;
   const st=ME()?ME().streak:0;
   document.body.insertAdjacentHTML('beforeend',`<div class="qzpop qz" id="qzPop" role="dialog" aria-modal="true" aria-labelledby="qzPopT" dir="${EN?'ltr':'rtl'}"><div>
