@@ -2282,6 +2282,7 @@ const css=`.qz{display:grid;gap:12px}.qz .row{display:flex;gap:8px;flex-wrap:wra
 .qstage .qtop,.qstage .qbody,.qstage .qfoot{position:relative}
 .qstage .qq .bub{background:rgba(255,255,255,.06);border-color:#33496B;backdrop-filter:blur(4px)}
 .qstage .qopt{background:rgba(255,255,255,.05);border-color:#33496B}.qstage .qopt .k{border-color:#41587C}
+.qstage .qopt.sel{background:rgba(255,177,92,.16);border-color:#FFB15C;box-shadow:0 0 0 3px rgba(255,177,92,.28);transform:translateY(-2px)}.qstage .qopt.sel .k{background:#FFB15C;border-color:#FFB15C;color:#1A1205}
 .qstage .qopt.ok{color:#D7FFB8;background:rgba(88,167,0,.22);border-color:#58A700}.qstage .qopt.bad{color:#FFD0D2;background:rgba(234,43,43,.2);border-color:#EA2B2B}
 .qstage .qfoot{background:#0E1828;border-color:#22324D}.qstage .qfoot.ok{background:#1E3A12;border-color:#1E3A12;color:#D7FFB8}.qstage .qfoot.bad{background:#3D1517;border-color:#3D1517;color:#FFD0D2}
 .qstage .qghost{background:transparent;border-color:#33496B;color:var(--ink)}.qstage .qkind{color:#FFB15C}
@@ -2313,12 +2314,19 @@ function priceQs(r){ // from the live offers: confirmed prices only
     const opts=shuffle([o.price,...others],r);return{id:'p-'+o.id,q:U.priceQ(o.ar),o:opts.map(x=>x+cur),a:opts.indexOf(o.price),w:o.pn||''}}).filter(q=>q.o.length===4);
 }
 function build(kind,seed,practice){
+  // Same quiz for everyone each day: offer prices, a customer scenario and general questions, plus "review" questions
+  // the team got wrong most in the last 14 days (from the server, fixed for the day). Practice also brings back your own misses.
   const r=rng(seed+(practice?'-'+Date.now():''));
-  const nP=kind==='monthly'?5:2, nS=kind==='monthly'?4:1;
+  const N=kind==='monthly'?15:5, nP=kind==='monthly'?5:2, nS=kind==='monthly'?4:1, nH=kind==='monthly'?5:1;
   const conv=b=>{const idx=shuffle([0,1,2,3],r);return{id:b.id,s:!!b.s,q:L(b.q),o:idx.map(i=>L(b.o[i])),a:idx.indexOf(b.a),w:L(b.w)}};
-  const pq=priceQs(r).slice(0,nP), nB=(kind==='monthly'?15:5)-pq.length-nS; // fewer price questions → more from the bank
-  const sc=shuffle(QZ_BANK.filter(b=>b.s),r).slice(0,nS), bank=shuffle(QZ_BANK.filter(b=>!b.s),r).slice(0,nB);
-  return shuffle([...pq,...sc.map(conv),...bank.map(conv)],r);
+  const prices=priceQs(r), byId=id=>{ const b=QZ_BANK.find(x=>x.id===id); if(b) return conv(b); return prices.find(q=>q.id===id)||null; };
+  const out=[], has=id=>out.some(q=>q.id===id), push=q=>{ if(q&&!has(q.id)&&out.length<N) out.push(q); };
+  const review=[...(practice?ls.get('tj-quiz-mywrong',[]).slice().reverse():[]),...((PULSE&&PULSE.hard)||[])];
+  review.slice(0,practice?nH+2:nH).forEach(id=>push(byId(id)));
+  prices.filter(q=>!has(q.id)).slice(0,nP).forEach(push);
+  shuffle(QZ_BANK.filter(b=>b.s&&!has(b.id)),r).slice(0,nS).forEach(b=>push(conv(b)));
+  shuffle(QZ_BANK.filter(b=>!b.s&&!has(b.id)),r).forEach(b=>push(conv(b)));
+  return shuffle(out,r);
 }
 
 // ---------- storage ----------
@@ -2329,13 +2337,14 @@ const doneKey=(kind,per)=>'tj-quiz-'+kind+'-'+per+'-'+(SES?SES.email:'');
 const nk=s=>String(s||'').toLowerCase().replace(/[^a-z0-9؀-ۿ]/g,'');
 function linkTeam(){ // the rest of the guide (WhatsApp/AUX emails) uses the same person
   if(!SES) return; const t=TEAM.find(x=>x.email&&x.email.toLowerCase()===SES.email); if(t&&meGet()!==t.id) meSet(t.id); }
-function signOut(){ SES=null; ls.del(SES_KEY); SIGN={step:'email',email:'',err:''}; if(PULSE) delete PULSE.me; if(!RUN) renderMain(); }
+function signOut(){ SES=null; ls.del(SES_KEY); DASH=null; setTimeout(syncDashTab,0); SIGN={step:'email',email:'',err:''}; if(PULSE) delete PULSE.me; if(!RUN) renderMain(); }
 
 // ---------- server ----------
 let PULSE=null, PULSE_ERR=false;
 async function api(body){ const r=await fetch(QZ_API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}); return await r.json(); }
 async function loadPulse(){ try{ const j=await (await fetch(QZ_API+'?action=pulse&month='+month()+(SES?'&session='+encodeURIComponent(SES.session):''))).json();
     if(j&&j.ok){ PULSE=j; PULSE_ERR=false; if(j.signedOut) signOut(); } else PULSE_ERR=true; }catch(e){PULSE_ERR=true}
+  syncDashTab(); if((location.hash||'').slice(1)==='dash'&&canDash()&&VIEW!=='dash') setView('dash',true);
   if(VIEW==='quiz'&&!RUN) renderMain(); }
 async function post(rec){ if(!SES) return {ok:false,error:'signed_out'}; try{ return await api(Object.assign({action:'quiz',session:SES.session},rec)); }catch(e){ return null; } }
 async function flush(){ const p=ls.get(PEND,[]); if(!p.length||!SES) return; const keep=[]; for(const rec of p){ const j=await post(rec); if(!j||j.error==='signed_out') keep.push(rec); } ls.set(PEND,keep); if(keep.length<p.length) loadPulse(); }
@@ -2433,10 +2442,11 @@ function resultHtml(){ const R=RUN, {score,total,msg}=R.result, pct=Math.round(1
     ${msg?`<div class="muted">${esc(msg)}</div>`:''}</div></div>
    <div class="qfoot"><div><button class="qbtn wide" data-a="qzdone" data-focus>${U.board}</button><button class="qghost" data-a="qzquit">${U.close}</button></div></div>`; }
 async function finishRun(){ const R=RUN, score=R.ans.filter(Boolean).length, total=R.qs.length;
+  { const mw=ls.get('tj-quiz-mywrong',[]).filter(id=>!R.qs.some((q,i)=>q.id===id&&R.ans[i])); R.qs.forEach((q,i)=>{ if(!R.ans[i]&&!mw.includes(q.id)) mw.push(q.id); }); ls.set('tj-quiz-mywrong',mw.slice(-20)); }
   R.result={score,total,msg:''}; sndWin(); if(score>=Math.ceil(total*.6)) confetti(score===total?180:90);
   stage();
   if(!R.practice&&SES){ ls.set(doneKey(R.kind,R.per),{score,total});
-    const rec={kind:R.kind,score,total,wrong:R.qs.filter((q,i)=>!R.ans[i]).map(q=>q.id+' — '+String(q.q).slice(0,110))};
+    const rec={kind:R.kind,score,total,wrong:R.qs.filter((q,i)=>!R.ans[i]).map(q=>q.id+' — '+String(q.q).slice(0,110)),asked:R.qs.map(q=>q.id+' — '+String(q.q).slice(0,110))};
     const j=await post(rec), queue=()=>{ const p=ls.get(PEND,[]); p.push(rec); ls.set(PEND,p); };
     if(!j){ queue(); R.result.msg=U.notSaved; }
     else if(!j.ok){ if(j.error==='signed_out'){ queue(); R.result.msg=U.signedOut; signOut(); } else R.result.msg=U.notSaved; }
@@ -2582,6 +2592,52 @@ document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(
   else if(a==='askvote'&&SES){ const id=+b.dataset.v; const x=(ASKS||[]).find(y=>y.id===id); if(x){ x.voted=true; x.votes++; renderMain(); } api({action:'kbAskVote',session:SES.session,id}).catch(()=>{}); } });
 loadAsks();
 //@@ASKEND@@
+//@@DASH@@
+
+// ---------- quiz dashboard (owner, team leads, quality, Hussein; the server checks the role) ----------
+const D=EN?{tab:'📊 Quiz dashboard',eyebrow:'Leads, Quality & Training only',title:'Quiz dashboard',intro:'How the floor is doing in the daily quiz: who takes it, accuracy, and which questions people get wrong, day by day. Visible only to the owner, team leads, Quality and Hussein.',
+  month:'Month',today:'Done today',acc:'Avg accuracy',part:'Avg participation',qdays:'Quiz days',people:'Per person',name:'Name',days:'Days',rate:'Participation',perfect:'5/5',streak:'Streak',monthly:'Monthly',last:'Last quiz',
+  top:'Most missed questions this month',wrong:(w,a)=>w+' wrong of '+a,daysT:'Day by day',dayLine:(n,p)=>n+' took it · avg '+p+'%',staffNote:'Evaluators\' own results (marked 🛡) are visible only to you and Hussein.',staffTag:'evaluator',
+  hardT:'Coming back in the next quizzes',hardSub:'The questions the team got wrong most in the last 14 days. The quiz brings them back until they\'re right.',none:'No data yet.',forbidden:'This page is for the owner, team leads, Quality and Hussein.',load:'Loading…'}
+ :{tab:'📊 داشبورد الكويز',eyebrow:'للتيم ليدرز والكواليتي والترينينج بس',title:'داشبورد الكويز',intro:'الفلور ماشي إزاي في الكويز اليومي: مين بيحل، والدقة، وأنهي أسئلة الناس بتغلط فيها يوم بيوم. الصفحة دي بتظهر بس للأونر والتيم ليدرز والكواليتي وحسين.',
+  month:'الشهر',today:'حلّوا النهارده',acc:'متوسط الدقة',part:'متوسط الالتزام',qdays:'أيام الكويز',people:'كل شخص',name:'الاسم',days:'أيام',rate:'الالتزام',perfect:'5/5',streak:'ستريك',monthly:'الشهري',last:'آخر كويز',
+  top:'أكتر أسئلة اتغلط فيها الشهر ده',wrong:(w,a)=>w+' غلط من '+a,daysT:'يوم بيوم',dayLine:(n,p)=>n+' حلّوا · متوسط '+p+'%',staffNote:'نتايج المقيّمين نفسهم (عليها 🛡) بتظهر ليك ولحسين بس.',staffTag:'مقيّم',
+  hardT:'هترجع في الكويزات الجاية',hardSub:'أكتر أسئلة التيم غلط فيها آخر 14 يوم. الكويز بيرجّعها لحد ما تتظبط.',none:'لسه مفيش بيانات.',forbidden:'الصفحة دي للأونر والتيم ليدرز والكواليتي وحسين بس.',load:'بيحمّل…'};
+const dcss=`.qdash{display:grid;gap:12px}.qkpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.qkpi{border:2px solid var(--line);border-radius:14px;padding:10px 12px;display:grid;gap:2px}.qkpi b{font-size:24px}.qkpi span{font-size:12.5px;color:var(--muted)}
+.qdash table{width:100%;border-collapse:collapse;font-size:13.5px}.qdash th,.qdash td{padding:7px 8px;border-top:1px solid var(--line);text-align:start;white-space:nowrap}.qdash th{color:var(--muted);font-weight:700}
+.qdash tr.st td{color:var(--muted)}.qmeter{height:8px;border-radius:99px;background:var(--line);overflow:hidden;min-width:60px}.qmeter i{display:block;height:100%;background:var(--red)}
+.qqrow{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--line);font-size:14px}.qqrow small{color:var(--muted);display:block}
+.qdash details{border:2px solid var(--line);border-radius:12px;padding:8px 12px}.qdash summary{cursor:pointer;font-weight:700}`;
+document.head.insertAdjacentHTML('beforeend','<style>'+dcss+'</style>');
+let DASH=null, DASH_ERR='', DASH_M='';
+const canDash=()=>!!(SES&&ME()&&ME().dash);
+async function loadDash(){ if(!SES) return; DASH_ERR=''; try{ const j=await (await fetch(QZ_API+'?action=kbDash&session='+encodeURIComponent(SES.session)+(DASH_M?'&month='+DASH_M:''))).json();
+    if(j&&j.ok) DASH=j; else DASH_ERR=j&&j.error==='forbidden'?D.forbidden:(j&&j.error==='signed_out'?U.signedOut:U.errs.net); }catch(e){ DASH_ERR=U.errs.net; } if(VIEW==='dash') renderMain(); }
+function qText(id){ // a question id back to its text, for the "coming back" list
+  const b=QZ_BANK.find(x=>x.id===id); if(b) return L(b.q);
+  if(id.startsWith('p-')){ const o=OFFERS.find(x=>'p-'+x.id===id); if(o) return U.priceQ(EN?o.en||o.ar:o.ar); } return id; }
+function dashHtml(){ const head=`<div class="sh"><div class="eyebrow">${D.eyebrow}</div><h2>${D.title}</h2><p>${D.intro}</p></div>`;
+  if(!canDash()) return `<section id="dash" class="qz qdash">${head}<div class="panel"><div class="muted">${D.forbidden}</div></div></section>`;
+  if(!DASH) return `<section id="dash" class="qz qdash">${head}<div class="panel"><div class="muted">${esc(DASH_ERR||D.load)}</div></div></section>`;
+  const X=DASH, ag=X.people.filter(p=>!p.staff), withPct=ag.filter(p=>p.pct!=null);
+  const avg=withPct.length?Math.round(withPct.reduce((s,p)=>s+p.pct,0)/withPct.length):0, part=ag.length?Math.round(ag.reduce((s,p)=>s+p.rate,0)/ag.length):0;
+  const pct=(w,a)=>a?Math.round(100*w/a):0;
+  return `<section id="dash" class="qz qdash">${head}
+   <div class="panel row"><label class="lbl" for="dashM">${D.month}</label><input class="qin" style="max-width:200px" type="month" id="dashM" value="${esc(X.month)}"></div>
+   <div class="qkpis"><div class="qkpi"><b>${X.doneToday}/${X.agents}</b><span>${D.today}</span></div><div class="qkpi"><b>${avg}%</b><span>${D.acc}</span></div><div class="qkpi"><b>${part}%</b><span>${D.part}</span></div><div class="qkpi"><b>${X.days.length}</b><span>${D.qdays}</span></div></div>
+   <div class="panel" style="display:grid;gap:8px"><b>${D.people}</b>${X.seeStaff?`<div class="muted">${D.staffNote}</div>`:''}<div style="overflow-x:auto"><table><thead><tr><th>${D.name}</th><th>${D.days}</th><th>${D.rate}</th><th>${D.acc}</th><th>${D.perfect}</th><th>${D.streak}</th><th>${D.monthly}</th><th>${D.last}</th></tr></thead><tbody>
+    ${X.people.map(p=>`<tr class="${p.staff?'st':''}"><td>${p.staff?'🛡 ':''}${esc(p.name)}</td><td>${p.days}</td><td>${p.rate}%</td><td>${p.pct==null?'–':p.pct+'%'}</td><td>${p.perfect}</td><td>${p.streak?'🔥 '+p.streak:'–'}</td><td>${p.monthly==null?'–':p.monthly+'%'}</td><td>${esc(p.last||'–')}</td></tr>`).join('')}</tbody></table></div></div>
+   <div class="panel"><b>${D.top}</b>${X.top.length?X.top.map(q=>`<div class="qqrow"><span>${esc(q.text)}<small>${esc(D.wrong(q.wrong,q.asked))}</small></span><span class="qmeter"><i style="width:${pct(q.wrong,q.asked)}%"></i></span></div>`).join(''):`<div class="muted">${D.none}</div>`}</div>
+   <div class="panel"><b>${D.hardT}</b><div class="muted">${D.hardSub}</div>${(X.hard||[]).length?`<ol style="margin:6px 0 0;padding-inline-start:20px;line-height:1.8">${X.hard.map(id=>`<li>${esc(qText(id))}</li>`).join('')}</ol>`:`<div class="muted">${D.none}</div>`}</div>
+   <div class="panel" style="display:grid;gap:8px"><b>${D.daysT}</b>${X.days.length?X.days.map((d,i)=>`<details ${i===0?'open':''}><summary>${esc(d.date)} · ${esc(D.dayLine(d.done,d.pct))}</summary>${d.qs.map(q=>`<div class="qqrow"><span>${esc(q.text)}<small>${esc(D.wrong(q.wrong,q.asked))}</small></span><span class="qmeter"><i style="width:${pct(q.wrong,q.asked)}%"></i></span></div>`).join('')}</details>`).join(''):`<div class="muted">${D.none}</div>`}</div>
+  </section>`; }
+SEC.dash=dashHtml;
+function syncDashTab(){ const has=VIEWS.some(v=>v[0]==='dash');
+  if(canDash()&&!has){ VIEWS.splice(3,0,['dash',D.tab,['dash']]); renderTabs(); loadDash(); }
+  else if(!canDash()&&has){ VIEWS.splice(VIEWS.findIndex(v=>v[0]==='dash'),1); renderTabs(); if(VIEW==='dash') setView('quiz'); } }
+document.addEventListener('change',e=>{ if(e.target.id==='dashM'){ DASH_M=e.target.value; DASH=null; renderMain(); loadDash(); } });
+//@@DASHEND@@
 linkTeam();
 renderTabs();
 { const hv=(location.hash||'').slice(1); if(hv==='quiz'||hv==='ask') setView(hv,true); }
