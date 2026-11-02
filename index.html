@@ -2076,7 +2076,7 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'A booking, a new day or a cancella
   me:'Your name',kind:'Booking for',src:'How it came',name:'Customer name',phone:'Customer number',branch:'Branch',svc:'Offer or service',doc:'Doctor (if chosen)',date:'Appointment day',time:'Time',
   gift:'Gift chosen',odoo:'Odoo number',notes:'Notes for the clinic (optional)',notesPh:'e.g. first visit, needs to shave at the center, asked for a female doctor',
   wa:'I sent the WhatsApp confirmation with the location',send:'Send booking',copy:'Copy the email (if email didn\'t open)',to:'To',cc:'CC',copied:'Email copied',
-  needMe:'Pick your name first.',needName:'Write the customer\'s name.',needDate:'Choose the appointment day and time.',needSvc:'Write the offer or service.',
+  needMe:'Pick your name first.',needName:'Write the customer\'s name.',needDate:'Choose the appointment day and time.',needSvc:'Add the offer or service.',kindMulti:'Pick all that apply',svcAdd:'Add',svcMore:'Booked more than one service? Add each one. If each service is on a different day, send each day as its own booking.',
   k:{consult:'🩺 Free consultation',session:'💉 Session / service',follow:'🔁 Follow-up with the doctor'},
   s:{inbound:'📞 Inbound call',outbound:'📲 Our call',wa:'💬 WhatsApp',followup:'🔁 Follow-up call',other:'✏️ Other'},
   g:{none:'No gift / not chosen yet',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off'},
@@ -2093,7 +2093,7 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'A booking, a new day or a cancella
   me:'اسمك',kind:'الحجز لـ',src:'الحجز جه منين',name:'اسم العميل',phone:'رقم العميل',branch:'الفرع',svc:'العرض أو الخدمة',doc:'الدكتور (لو اتحدد)',date:'يوم الميعاد',time:'الساعة',
   gift:'الهدية اللي اختارها',odoo:'رقم أودوو',notes:'ملاحظات للعيادة (اختياري)',notesPh:'مثلاً: أول زيارة، هيحلق في المركز، طالبة دكتورة ست',
   wa:'بعت تأكيد الواتساب باللوكيشن',send:'ابعت الحجز',copy:'انسخ الإيميل (لو الإيميل مفتحش)',to:'رايح لـ',cc:'وفي الـ CC',copied:'الإيميل اتنسخ',
-  needMe:'اختار اسمك الأول.',needName:'اكتب اسم العميل.',needDate:'اختار يوم وساعة الميعاد.',needSvc:'اكتب العرض أو الخدمة.',
+  needMe:'اختار اسمك الأول.',needName:'اكتب اسم العميل.',needDate:'اختار يوم وساعة الميعاد.',needSvc:'ضيف العرض أو الخدمة.',kindMulti:'اختار كل اللي ينطبق',svcAdd:'ضيف',svcMore:'حجز أكتر من خدمة؟ ضيف كل واحدة. ولو كل خدمة في يوم مختلف، ابعت كل يوم في حجز لوحده.',
   k:{consult:'🩺 استشارة مجانية',session:'💉 جلسة / خدمة',follow:'🔁 متابعة مع الدكتور'},
   s:{inbound:'📞 العميل اتصل',outbound:'📲 إحنا اتصلنا',wa:'💬 واتساب',followup:'🔁 مكالمة فولو أب',other:'✏️ حاجة تانية'},
   g:{none:'من غير هدية / لسه مختارش',laser:'جلسة ليزر فل بادي',hydra:'هيدرافيشيال',oxy:'أوكسجيو',ten:'خصم 10%'},
@@ -2108,7 +2108,7 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'A booking, a new day or a cancella
 const K_EN={consult:'Free consultation',session:'Session / service',follow:'Follow-up with the doctor'};
 const S_EN={inbound:'Inbound call',outbound:'Our call',wa:'WhatsApp',followup:'Follow-up call',other:'Other'};
 const G_EN={none:'None / not chosen yet',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off'};
-const BK={mode:'new',oldDate:'',oldTime:'',kind:'consult',src:'inbound',gift:'none',wa:false,name:'',phone:'',branch:'',svc:'',doc:'',date:'',time:'',odoo:'',notes:''};
+const BK={mode:'new',kinds:['consult'],svcs:[],oldDate:'',oldTime:'',kind:'consult',src:'inbound',gift:'none',wa:false,name:'',phone:'',branch:'',svc:'',doc:'',date:'',time:'',odoo:'',notes:''};
 const bkYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 function bkShift(ymd,step){ const d=new Date(ymd+'T12:00:00'); do{ d.setDate(d.getDate()+step); }while(d.getDay()===5); return bkYmd(d); } // Friday is off
 function bkDues(appt){ const t=bkYmd(new Date()), c1=bkShift(appt,-1); return [c1<=t?'':c1, appt<=t||new Date(appt+'T12:00:00').getDay()===5?'':appt, bkShift(appt,1)]; }
@@ -2116,9 +2116,12 @@ function bkDay(ymd){ try{ return new Date(ymd+'T12:00:00').toLocaleDateString(EN
 function bkFuBox(){ const signed=window.kbSignedIn&&window.kbSignedIn(); if(BK.mode==='cancel') return '<div id="bkFu"></div>';
   const list=BK.date?'<ol style="margin:6px 0 0;padding-inline-start:18px;line-height:1.8">'+bkDues(BK.date).map((d,i)=>'<li><b>'+B.fu[i]+':</b> '+(d?esc(bkDay(d)):B.fuSkip)+'</li>').join('')+'</ol>':'<div class="small" style="margin-top:6px">'+B.fuPick+'</div>';
   return '<div class="wa-box" id="bkFu"><b>'+B.fuH+'</b>'+list+(signed?'':'<div class="small" style="margin-top:6px;color:var(--rose)">🔒 '+B.fuSign+'</div>')+'</div>'; }
+const KIND_AR={consult:'استشارة مجانية',session:'جلسة / خدمة',follow:'متابعة مع الدكتور'};
+const kindsOf=map=>(BK.kinds.length?BK.kinds:['consult']).map(k=>map[k]).join(' + ');
+function svcSync(){ const t=(($('bk_svcIn')||{}).value||'').trim(); if(t&&!BK.svcs.includes(t)){ BK.svcs.push(t); const i=$('bk_svcIn'); if(i) i.value=''; } BK.svc=BK.svcs.join(' + '); }
 function bkId(){ const k=[BK.mode,BK.name,BK.phone,BK.date,BK.time,BK.svc].map(x=>String(x||'').trim().toLowerCase()).join('|'); let h=5381; for(let i=0;i<k.length;i++) h=(h*33^k.charCodeAt(i))>>>0; return 'bk'+h.toString(36)+k.length.toString(36); }
 async function bkSave(){ if(!window.kbBookSave) return; if(!window.kbSignedIn()){ toast(B.fuSign); return; }
-  const kindTxt=(EN?K_EN:{consult:'استشارة مجانية',session:'جلسة / خدمة',follow:'متابعة مع الدكتور'})[BK.kind];
+  const kindTxt=kindsOf(EN?K_EN:KIND_AR);
   const j=await window.kbBookSave({id:bkId(),mode:BK.mode,oldDate:BK.oldDate,oldTime:BK.oldTime,name:BK.name,phone:BK.phone,branch:BK.branch,svc:BK.svc,doc:BK.doc,kind:kindTxt,date:BK.date,time:BK.time,odoo:BK.odoo,notes:BK.notes});
   setTimeout(()=>toast(!(j&&j.ok)?B.notSaved:j.duplicate?B.savedDup:j.none?B.noneOk:j.updated==='cancel'?B.cancelOk:j.updated==='move'?B.movedOk:BK.mode==='move'?B.movedNew:B.saved),600); }
 function bkHtml(){
@@ -2134,10 +2137,12 @@ function bkHtml(){
    <label>${B.me}${meSelect('bkMe')}</label>
    <div class="wa-lbl">${B.mode}</div>${chips('mode',B.m)}
    ${M!=='new'?`<div class="small" style="background:var(--soft);border-radius:10px;padding:8px 10px">${B.mIntro[M]}</div>`:''}
-   ${M==='new'?`<div class="wa-lbl">${B.kind}</div>${chips('kind',B.k)}<div class="wa-lbl">${B.src}</div>${chips('src',B.s)}`:''}
+   ${M==='new'?`<div class="wa-lbl">${B.kind} <span class="small" style="font-weight:400">(${B.kindMulti})</span></div><div class="wa-chips">${Object.keys(B.k).map(k=>`<button data-a="bkk" data-v="${k}" class="${BK.kinds.includes(k)?'on':''}">${B.k[k]}</button>`).join('')}</div><div class="wa-lbl">${B.src}</div>${chips('src',B.s)}`:''}
    ${inp('name')}${inp('phone','05xxxxxxxx','tel',1)}
    <label>${B.branch}<select id="bk_branch" data-bk="branch" class="wa-sel"><option value="">–</option>${BRANCHES.map(b=>`<option value="${esc(b.city)}" ${BK.branch===b.city?'selected':''}>${esc(b.city)}</option>`).join('')}</select></label>
-   <label>${B.svc}<input id="bk_svc" data-bk="svc" list="bkSvcList" autocomplete="off" placeholder="🔍" value="${esc(BK.svc)}"><datalist id="bkSvcList">${svc.map(o=>`<option value="${esc(o)}">`).join('')}</datalist></label>
+   <label>${B.svc}<span style="display:flex;gap:6px"><input id="bk_svcIn" list="bkSvcList" autocomplete="off" placeholder="🔍" style="flex:1"><button class="ib" data-a="bkadd" style="white-space:nowrap">➕ ${B.svcAdd}</button></span><datalist id="bkSvcList">${svc.map(o=>`<option value="${esc(o)}">`).join('')}</datalist></label>
+   ${BK.svcs.length?`<div class="wa-chips">${BK.svcs.map((x,i)=>`<button data-a="bkdel" data-v="${i}" class="on" title="×">${esc(x)} ✕</button>`).join('')}</div>`:''}
+   ${M==='new'?`<div class="small">${B.svcMore}</div>`:''}
    <label>${B.doc}<input id="bk_doc" data-bk="doc" list="bkDocList" autocomplete="off" placeholder="🔍" value="${esc(BK.doc)}"><datalist id="bkDocList">${docs.map(o=>`<option value="${esc(o)}">`).join('')}</datalist></label>
    ${M==='move'?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${inpL('oldDate',B.oldDate,'date')}${inpL('oldTime',B.oldTime,'time')}</div>`:''}
    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${M==='move'?inpL('date',B.newDate,'date')+inpL('time',B.newTime,'time'):M==='cancel'?inpL('date',B.cDate,'date')+inp('time','','time'):inp('date','','date')+inp('time','','time')}</div>
@@ -2155,7 +2160,8 @@ function bkMail(){ const me=teamBy(meGet()); const need=(m,id)=>{ toast(m); cons
   if(!BK.name.trim()) return need(B.needName,'bk_name');
   const M=BK.mode;
   if(M!=='new'&&!BK.phone.trim()) return need(B.needPhone,'bk_phone');
-  if(M==='new'&&!BK.svc.trim()) return need(B.needSvc,'bk_svc');
+  svcSync();
+  if(M==='new'&&!BK.svc.trim()) return need(B.needSvc,'bk_svcIn');
   if(M!=='cancel'&&(!BK.date||!BK.time)) return need(B.needDate,BK.date?'bk_time':'bk_date');
   const L=(k,v)=>v&&String(v).trim()?'\n'+k+': '+String(v).trim():'';
   const dayOf=v=>v?new Date(v+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',year:'numeric'}):'';
@@ -2168,8 +2174,8 @@ function bkMail(){ const me=teamBy(meGet()); const need=(m,id)=>{ toast(m); cons
   if(M==='cancel') return {s:'Booking cancelled: '+BK.name.trim()+(when?' | '+when:'')+(BK.branch?' | '+BK.branch:''),
       b:'Hi Mostafa, Eslam,\n\nThe customer cancelled their booking.\n'+L('Customer',BK.name)+L('Number',BK.phone)+(when?'\nAppointment was: '+when:'')+L('Branch',BK.branch)+L('Offer / service',BK.svc)+L('Odoo',BK.odoo)
        +(BK.notes.trim()?'\n\nReason:\n'+BK.notes.trim():'')+'\n\nCancelled on: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en};
-  const s='New booking: '+K_EN[BK.kind]+' | '+BK.name.trim()+' | '+day+' '+t12+(BK.branch?' | '+BK.branch:'');
-  const b='Hi Mostafa, Eslam,\n\nA new booking, details below.\n\nBooking for: '+K_EN[BK.kind]+L('Customer',BK.name)+L('Number',BK.phone)+L('Branch',BK.branch)+L('Offer / service',BK.svc)+L('Doctor',BK.doc)
+  const s='New booking: '+kindsOf(K_EN)+' | '+BK.name.trim()+' | '+day+' '+t12+(BK.branch?' | '+BK.branch:'');
+  const b='Hi Mostafa, Eslam,\n\nA new booking, details below.\n\nBooking for: '+kindsOf(K_EN)+L('Customer',BK.name)+L('Number',BK.phone)+L('Branch',BK.branch)+(BK.svcs.length>1?'\nServices:\n'+BK.svcs.map(x=>'  - '+x).join('\n'):L('Offer / service',BK.svc))+L('Doctor',BK.doc)
    +'\nAppointment: '+day+', '+t12+'\nGift: '+G_EN[BK.gift]+'\nCame from: '+S_EN[BK.src]+L('Odoo',BK.odoo)
    +(BK.notes.trim()?'\n\nNotes:\n'+BK.notes.trim():'')
    +'\n\nWhatsApp confirmation sent: '+(BK.wa?'Yes':'Not yet')
@@ -2177,10 +2183,14 @@ function bkMail(){ const me=teamBy(meGet()); const need=(m,id)=>{ toast(m); cons
   return {s,b}; }
 document.addEventListener('input',e=>{ const k=e.target.dataset&&e.target.dataset.bk; if(k&&e.target.id==='bk_'+k) BK[k]=e.target.value; });
 document.addEventListener('change',e=>{ const k=e.target.dataset&&e.target.dataset.bk; if(k&&e.target.id==='bk_'+k) BK[k]=e.target.value; if(e.target.id==='bkWa') BK.wa=e.target.checked;
+  if(e.target.id==='bk_svcIn'&&e.target.value.trim()){ const opts=[...document.querySelectorAll('#bkSvcList option')].map(o=>o.value); if(opts.includes(e.target.value.trim())){ svcSync(); renderMain(); const el=$('bk_svcIn'); if(el) el.focus(); } }
   if(e.target.id==='bk_date'){ const f=$('bkFu'); if(f) f.outerHTML=bkFuBox(); }
   if(e.target.id==='bkMe'){ if(e.target.value===TEAM_ADD){ const t=teamPrompt(false); meSet(t?t.id:meGet()); } else meSet(e.target.value); renderMain(); } });
 document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a; if(!a.startsWith('bk')) return; e.preventDefault();
   if(a==='bkc'){ BK[t.dataset.f]=t.dataset.v; renderMain(); return; }
+  if(a==='bkk'){ const k=t.dataset.v, i=BK.kinds.indexOf(k); if(i>=0){ if(BK.kinds.length>1) BK.kinds.splice(i,1); } else BK.kinds.push(k); renderMain(); return; }
+  if(a==='bkadd'){ svcSync(); renderMain(); const el=$('bk_svcIn'); if(el) el.focus(); return; }
+  if(a==='bkdel'){ BK.svcs.splice(+t.dataset.v,1); BK.svc=BK.svcs.join(' + '); renderMain(); return; }
   if(a!=='bksend'&&a!=='bkcopy') return;
   const m=bkMail(); if(!m) return;
   bkSave();
@@ -2189,7 +2199,9 @@ document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(
 SEC.booking=bkHtml;
 { const i=VIEWS.findIndex(v=>v[0]==='complaint'); VIEWS.splice(i<0?VIEWS.length:i,0,['booking',B.tab,['booking']]); }
 { const hv=(location.hash||'').slice(1); if(hv==='booking') setTimeout(()=>setView('booking',true),0); }
+document.addEventListener('keydown',e=>{ if(e.target&&e.target.id==='bk_svcIn'&&e.key==='Enter'){ e.preventDefault(); svcSync(); renderMain(); const el=$('bk_svcIn'); if(el) el.focus(); } });
 })();
+
 </script>
 <!-- booking:end -->
 <!-- quiz:start -->
