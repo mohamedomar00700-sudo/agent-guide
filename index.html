@@ -2269,7 +2269,7 @@ async function doVerify(){ const code=(($('qzCode')||{}).value||'').replace(/\D/
   if(!j){ SIGN.err=U.errs.net; renderMain(); return; }
   if(!j.ok){ SIGN.err=U.errs[j.error]||j.error; if(j.error==='code_expired'||j.error==='too_many_tries') SIGN.step='email'; renderMain(); return; }
   SES={session:j.session,name:j.name,email:j.email}; ls.set(SES_KEY,SES); linkTeam(); SIGN={step:'email',email:'',err:''};
-  confetti(60); sndOk(); renderMain(); flush(); loadPulse(); }
+  confetti(60); sndOk(); renderMain(); flush(); loadPulse(); loadAsks(); }
 
 // ---------- the lesson (full screen, one question at a time) ----------
 let RUN=null; // {kind,per,qs,i,ans:[],sel,checked,combo,best,practice,result,before}
@@ -2386,9 +2386,75 @@ function popup(){ const key='tj-quiz-pop-'+today(); try{ if(sessionStorage.getIt
   $('qzPop').addEventListener('click',e=>{ if(e.target.id==='qzPop') closePop(); });
 }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePop(); });
+//@@ASK@@
+
+// ---------- questions and suggestions for the client ----------
+const A=EN?{tab:'❓ Ask the client',eyebrow:'Not in the guide?',title:'Questions & suggestions for the client',
+  intro:'A customer asked something the guide doesn\'t answer, or you have an idea? Send it here. We collect them and ask the client, and the answers show below for everyone.',
+  signFirst:'Sign in with your work email first (once on this device).',signGo:'Sign in',
+  type:'Type',q:'Question',s:'Suggestion',topic:'Topic',topics:['Prices & offers','Services & sessions','Doctors & branches','Booking & payment','Medical / safety','Odoo & systems','Other'],
+  text:'Your question or suggestion',textPh:'e.g. A customer asked if the laser offer covers the bikini line. Does it?',ctx:'What the customer said (optional)',ctxPh:'Her words, without her name or number',
+  noData:'Don\'t write the customer\'s name or number.',send:'Send',sent:'Sent ✓ We\'ll ask the client and the answer will show here.',short:'Write a bit more.',
+  listT:'Questions so far',answeredT:'Answered',waitT:'Waiting for the client',none:'Nothing yet.',same:'Same question',sameDone:'You asked this too ✓',yours:'yours',
+  st:{new:'New',asked:'Asked the client',answered:'Answered'},search:'Search the questions…',offline:'The list will show once the scorecard script is updated.'}
+ :{tab:'❓ اسأل الكلاينت',eyebrow:'مش لاقي الإجابة في الدليل؟',title:'استفسارات واقتراحات للكلاينت',
+  intro:'عميل سأل حاجة مش موجودة في الدليل، أو عندك اقتراح؟ ابعته هنا. بنجمعهم ونسأل الكلاينت، والإجابة بتظهر تحت لكل التيم.',
+  signFirst:'ادخل بإيميل الشغل الأول (مرة واحدة على الجهاز ده).',signGo:'دخول',
+  type:'النوع',q:'استفسار',s:'اقتراح',topic:'الموضوع',topics:['الأسعار والعروض','الخدمات والجلسات','الدكاترة والفروع','الحجز والدفع','طبي / أمان','أودوو والسيستم','حاجة تانية'],
+  text:'الاستفسار أو الاقتراح',textPh:'مثلاً: عميلة سألت هل عرض الليزر بيشمل منطقة البكيني؟',ctx:'العميل قال إيه بالظبط؟ (اختياري)',ctxPh:'كلامه هو، من غير اسمه أو رقمه',
+  noData:'متكتبش اسم العميل أو رقمه.',send:'ابعت',sent:'اتبعت ✓ هنسأل الكلاينت والإجابة هتظهر هنا.',short:'اكتب تفاصيل أكتر شوية.',
+  listT:'الاستفسارات لحد دلوقتي',answeredT:'اتجاوب عليها',waitT:'مستنية رد الكلاينت',none:'لسه مفيش.',same:'نفس سؤالي',sameDone:'إنت سألته كمان ✓',yours:'بتاعك',
+  st:{new:'جديد',asked:'اتسأل للكلاينت',answered:'اتجاوب'},search:'دوّر في الاستفسارات…',offline:'القايمة هتظهر أول ما سكريبت السكور كارد يتحدث.'};
+const acss=`.ask{display:grid;gap:12px}.ask .seg{display:flex;gap:6px;flex-wrap:wrap}.ask .seg button{font:inherit;font-size:14px;font-weight:700;border:2px solid var(--line);border-radius:99px;padding:7px 14px;background:var(--paper);color:var(--ink);cursor:pointer}
+.ask .seg button.on{border-color:var(--rose);background:var(--rose-soft);color:var(--rose)}.ask textarea.qin{min-height:96px;resize:vertical;font-size:15px}
+.aitem{border:2px solid var(--line);border-radius:14px;padding:10px 12px;display:grid;gap:6px}.aitem.ans{border-color:var(--sage)}
+.aitem .h{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted)}.aitem .t{font-weight:700;font-size:15px}
+.aitem .a{background:var(--sage-soft);border-radius:10px;padding:8px 10px;font-size:14.5px}.apill{font-size:11px;font-weight:800;border-radius:99px;padding:2px 8px;background:var(--line);color:var(--ink)}
+.apill.answered{background:var(--sage);color:#fff}.apill.asked{background:var(--amber-soft);color:var(--amber)}.apill.sug{background:var(--blue-soft);color:var(--blue)}`;
+document.head.insertAdjacentHTML('beforeend','<style>'+acss+'</style>');
+let ASKS=null, ASK_ERR=false, AF={type:'question',topic:0,text:'',ctx:'',msg:'',err:'',busy:false,find:''};
+async function loadAsks(){ try{ const j=await (await fetch(QZ_API+'?action=kbAsks'+(SES?'&session='+encodeURIComponent(SES.session):''))).json(); if(j&&j.ok){ASKS=j.items;ASK_ERR=false}else ASK_ERR=true; }catch(e){ASK_ERR=true} if(VIEW==='ask') renderMain(); }
+function askItem(x){ return `<div class="aitem ${x.status==='answered'?'ans':''}"><div class="h"><span class="apill ${x.type==='suggestion'?'sug':''}">${x.type==='suggestion'?A.s:A.q}</span>${x.topic?`<span>${esc(x.topic)}</span>`:''}<span>· ${esc(x.date)}</span><span class="apill ${x.status}">${A.st[x.status]||''}</span>${x.mine?`<span>· ${A.yours}</span>`:''}</div>
+  <div class="t">${esc(x.text)}</div>${x.answer?`<div class="a">✅ ${esc(x.answer)}</div>`:''}
+  ${x.status!=='answered'&&!x.mine&&SES?(x.voted?`<span class="muted">${A.sameDone} · 👥 ${x.votes}</span>`:`<div class="row"><button class="qghost" data-a="askvote" data-v="${x.id}">🙋 ${A.same}</button><span class="muted">👥 ${x.votes}</span></div>`):x.votes>1?`<span class="muted">👥 ${x.votes}</span>`:''}</div>`; }
+function askHtml(){ const head=`<div class="sh"><div class="eyebrow">${A.eyebrow}</div><h2>${A.title}</h2><p>${A.intro}</p></div>`;
+  const form=!SES?`<div class="panel" style="display:grid;gap:10px"><div class="muted">${A.signFirst}</div><button class="qbtn" data-a="askgo">${A.signGo}</button></div>`
+   :`<div class="panel" style="display:grid;gap:10px">
+     <div class="lbl">${A.type}</div><div class="seg"><button data-a="asktype" data-v="question" class="${AF.type==='question'?'on':''}">❓ ${A.q}</button><button data-a="asktype" data-v="suggestion" class="${AF.type==='suggestion'?'on':''}">💡 ${A.s}</button></div>
+     <div class="lbl">${A.topic}</div><div class="seg">${A.topics.map((t,i)=>`<button data-a="asktopic" data-v="${i}" class="${AF.topic===i?'on':''}">${esc(t)}</button>`).join('')}</div>
+     <label class="lbl" for="askText">${A.text}</label><textarea class="qin" id="askText" placeholder="${esc(A.textPh)}">${esc(AF.text)}</textarea>
+     <label class="lbl" for="askCtx">${A.ctx}</label><input class="qin" id="askCtx" placeholder="${esc(A.ctxPh)}" value="${esc(AF.ctx)}">
+     <div class="muted">🔒 ${A.noData}</div>
+     ${AF.err?`<div class="qerr">${esc(AF.err)}</div>`:''}${AF.msg?`<div class="chip c-ok">${esc(AF.msg)}</div>`:''}
+     <button class="qbtn wide" data-a="asksend" ${AF.busy?'disabled':''}>${A.send}</button></div>`;
+  const f=AF.find.trim().toLowerCase(), L=(ASKS||[]).filter(x=>!f||(x.text+' '+x.answer+' '+x.topic).toLowerCase().includes(f));
+  const ans=L.filter(x=>x.status==='answered'), wait=L.filter(x=>x.status!=='answered');
+  const list=!ASKS?`<div class="panel"><b>${A.listT}</b><div class="muted">${ASK_ERR?A.offline:'…'}</div></div>`
+   :`<div class="panel" style="display:grid;gap:10px"><b>${A.listT}</b><input class="qin" id="askFind" placeholder="${esc(A.search)}" value="${esc(AF.find)}">
+     <div class="lbl">✅ ${A.answeredT} (${ans.length})</div>${ans.length?ans.map(askItem).join(''):`<div class="muted">${A.none}</div>`}
+     <div class="lbl">⏳ ${A.waitT} (${wait.length})</div>${wait.length?wait.map(askItem).join(''):`<div class="muted">${A.none}</div>`}</div>`;
+  return `<section id="ask" class="qz ask">${head}${form}${list}</section>`; }
+SEC.ask=askHtml;
+VIEWS.splice(2,0,['ask',A.tab,['ask']]);
+async function askSend(){ AF.text=(($('askText')||{}).value||'').trim(); AF.ctx=(($('askCtx')||{}).value||'').trim(); AF.msg='';
+  if(AF.text.length<5){ AF.err=A.short; renderMain(); return; }
+  AF.busy=true; AF.err=''; renderMain(); let j=null;
+  try{ j=await api({action:'kbAsk',session:SES.session,type:AF.type,topic:A.topics[AF.topic],text:AF.text,context:AF.ctx}); }catch(e){}
+  AF.busy=false;
+  if(!j) AF.err=U.errs.net; else if(!j.ok){ if(j.error==='signed_out'){ signOut(); } AF.err=j.error==='too_short'?A.short:j.error==='signed_out'?U.signedOut:U.errs.net; }
+  else { AF.text=''; AF.ctx=''; AF.msg=A.sent; loadAsks(); }
+  renderMain(); }
+document.addEventListener('input',e=>{ if(e.target.id==='askText') AF.text=e.target.value; else if(e.target.id==='askCtx') AF.ctx=e.target.value;
+  else if(e.target.id==='askFind'){ AF.find=e.target.value; const pos=e.target.selectionStart; renderMain(); const el=$('askFind'); if(el){ el.focus(); try{el.setSelectionRange(pos,pos)}catch(_){} } } });
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b||!b.dataset.a.startsWith('ask')) return; e.preventDefault(); const a=b.dataset.a;
+  if(a==='asktype'){ AF.type=b.dataset.v; renderMain(); } else if(a==='asktopic'){ AF.topic=+b.dataset.v; renderMain(); }
+  else if(a==='asksend') askSend(); else if(a==='askgo') setView('quiz');
+  else if(a==='askvote'&&SES){ const id=+b.dataset.v; const x=(ASKS||[]).find(y=>y.id===id); if(x){ x.voted=true; x.votes++; renderMain(); } api({action:'kbAskVote',session:SES.session,id}).catch(()=>{}); } });
+loadAsks();
+//@@ASKEND@@
 linkTeam();
 renderTabs();
-if((location.hash||'').slice(1)==='quiz') setView('quiz',true);
+{ const hv=(location.hash||'').slice(1); if(hv==='quiz'||hv==='ask') setView(hv,true); }
 loadPulse().then(()=>{ const n=$('qzPopNotes'); if(n) n.innerHTML=notesHtml(3); }).finally(()=>setTimeout(popup,300));
 flush();
 })();
