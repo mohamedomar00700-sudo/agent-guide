@@ -1183,6 +1183,7 @@ function waBookWarn(){ const W=[]; if(!WA.date) return W; const d=new Date(WA.da
     else if(h!=null&&(h<doc.from||h>=doc.to)) W.push(en?'This time is outside the doctor\'s hours.':'الساعة دي برّه مواعيد الدكتور.');
     if(doc.br!==WA.branch&&WA.branch) W.push(en?'This doctor is in the other branch.':'الدكتور ده في الفرع التاني.'); }
   return W; }
+const SPIN_URL='https://andy260787.github.io/H-P_lucky_wheel/'; // Spin & Win campaign, added to every WhatsApp message
 function waBookText(){
   const ar=WA.lang!=='en', f=WA.gender!=='m', nm=WA.name.trim(), ag=WA.agent.trim();
   const off=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).map(o=>'• '+waLine(o,ar));
@@ -1195,6 +1196,7 @@ function waBookText(){
     if(off.length){ L.push(''); L.push(off.length>1?'العروض اللي '+(f?'حجزتيها':'حجزتها')+':':'العرض اللي '+(f?'حجزتيه':'حجزته')+':'); L.push(...off); L.push('🎁 ومع العرض هدية من اختيار حضرتك. الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar.split('\n').filter(l=>!l.startsWith('المواعيد')).join('\n')); L.push('اللوكيشن: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
+    L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL);
     L.push(''); L.push('لو حضرتك '+(f?'حابة تغيري':'حابب تغير')+' الميعاد أو عندك أي سؤال، '+(f?'ابعتيلنا':'ابعتلنا')+' هنا وإحنا معاك'+(f?'ي':'')+' 🙏'); L.push('في انتظار حضرتك 🌸');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
@@ -1203,6 +1205,7 @@ function waBookText(){
     if(off.length){ L.push(''); L.push(off.length>1?'The offers you booked:':'The offer you booked:'); L.push(...off); L.push('🎁 It comes with a gift of your choice. Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en.split('\n').filter(l=>!l.startsWith('Open')).join('\n')); L.push('Location: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
+    L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL);
     L.push(''); L.push('If you need to change the appointment or have any question, just message us here 🙏'); L.push('We look forward to seeing you 🌸');
   }
   return L.join('\n');
@@ -1217,11 +1220,13 @@ function waText(){
     L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
     if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off); L.push(''); L.push('🎁 ومع كل عرض هدية من اختيار حضرتك، والاستشارة الأولى مع الدكتور مجانية.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar); L.push('اللوكيشن: '+br.map); }
+    L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL);
     L.push(''); L.push('لو حضرتك '+(f?'حابة':'حابب')+' نحجزلك ميعاد، '+(f?'ابعتيلنا':'ابعتلنا')+' اليوم والوقت اللي يناسبك هنا 🙏');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
     if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off); L.push(''); L.push('🎁 Every offer comes with a gift of your choice, and the first consultation with the doctor is free.'); L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en); L.push('Location: '+br.map); }
+    L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL);
     L.push(''); L.push('If you would like to book, just reply here with the day and time that suit you 🙏');
   }
   return L.join('\n');
