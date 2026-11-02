@@ -2237,7 +2237,7 @@ const U=EN?{tab:'🏆 Quiz',eyebrow:'Every day',title:'Daily quiz',intro:'5 quic
   notesT:'This week\'s team notes',notesSub:(n,d)=>'The items missed most in the team\'s scored calls (last '+d+' days, '+n+' evaluations). No names.',missed:(m,o)=>m+' of '+o+' calls',tip:'Coaching tip',crit:'Critical',
   boardT:'League',boardSub:m=>'This month ('+m+'): 1 point per correct answer. Tiers: Bronze, Silver from 20, Gold from 50, Diamond from 90.',acc:'Accuracy',noBoard:'No scores yet this month. Be the first!',offline:'The leaderboard will show once the scorecard script is updated.',you:'you',
   popT:'Good morning 👋',popSub:'Before your first call: today\'s quiz (5 questions, about 2 minutes) and the team notes.',popGo:'Start the quiz',popLater:'Later (I\'ll remind you in 45 min)',popStreak:n=>'🔥 '+n+'-day streak. Keep it going!',
-  priceQ:n=>'What is the offer price for "'+n+'"?',customer:'Customer',practice:'Practice',dailyT:'Today\'s quiz',close:'Close',board:'See the league',shiftT:k=>k==='monthly'?'The Monthly Shift':'Today\'s Shift',shiftSub:n=>n+' customers are waiting. Win every one of them.',shiftGo:'Start the shift',mins:n=>'~'+n+' min',custs:n=>n+' customers',reportT:'Shift report',happy:n=>n+' happy customers',
+  priceQ:n=>'What is the offer price for "'+n+'"?',customer:'Customer',practice:'Practice',dailyT:'Today\'s quiz',close:'Close',avT:'🎭 Pick your character',avSub:'It shows on your quiz, your shift report and the league. You can change it any time.',avChange:'Change your character',board:'See the league',shiftT:k=>k==='monthly'?'The Monthly Shift':'Today\'s Shift',shiftSub:n=>n+' customers are waiting. Win every one of them.',shiftGo:'Start the shift',mins:n=>'~'+n+' min',custs:n=>n+' customers',reportT:'Shift report',happy:n=>n+' happy customers',
   resT:s=>s===5?'Flawless! 🎉':s>=4?'Great work!':s>=3?'Good effort!':'Keep practising!',xpGain:n=>"+"+n,newBadge:'New badge!',levelUp:n=>'Level up: '+n+'!',
   tiers:['Bronze','Silver','Gold','Diamond'],levels:['Rookie','Learner','Skilled','Pro','Expert','Star','Legend']}
  :{tab:'🏆 الكويز',eyebrow:'كل يوم',title:'كويز النهارده',intro:'5 أسئلة سريعة كل يوم، نفس الأسئلة لكل التيم. أول محاولة بس هي اللي بتتحسب، وبعدها اتدرب براحتك.',
@@ -2253,7 +2253,7 @@ const U=EN?{tab:'🏆 Quiz',eyebrow:'Every day',title:'Daily quiz',intro:'5 quic
   notesT:'ملاحظات الأسبوع للتيم',notesSub:(n,d)=>'أكتر حاجات اتنست في مكالمات التيم المتقيّمة (آخر '+d+' يوم، '+n+' تقييم). من غير أسماء.',missed:(m,o)=>m+' من '+o+' مكالمة',tip:'الكوتشينج',crit:'حرج',
   boardT:'الدوري',boardSub:m=>'الشهر ده ('+m+'): نقطة لكل إجابة صح. المستويات: برونز، فضة من 20، دهب من 50، ماس من 90.',acc:'الدقة',noBoard:'لسه مفيش درجات الشهر ده. خليك أول واحد!',offline:'الليدر بورد هيظهر أول ما سكريبت السكور كارد يتحدث.',you:'إنت',
   popT:'صباح الخير 👋',popSub:'قبل أول مكالمة: كويز النهارده (5 أسئلة، حوالي دقيقتين) وملاحظات التيم.',popGo:'ابدأ الكويز',popLater:'بعدين (هفكرك كمان 45 دقيقة)',popStreak:n=>'🔥 '+n+' يوم ورا بعض، كمّل!',
-  priceQ:n=>'سعر عرض "'+n+'" كام؟',customer:'العميل',practice:'تدريب',dailyT:'كويز النهارده',close:'قفل',board:'شوف الدوري',shiftT:k=>k==='monthly'?'الوردية الشهرية':'وردية النهارده',shiftSub:n=>n+' عملاء مستنيينك. اكسب رضاهم كلهم.',shiftGo:'ابدأ الوردية',mins:n=>'حوالي '+n+' دقايق',custs:n=>n+' عملاء',reportT:'تقرير الوردية',happy:n=>n+' عملاء مبسوطين',
+  priceQ:n=>'سعر عرض "'+n+'" كام؟',customer:'العميل',practice:'تدريب',dailyT:'كويز النهارده',close:'قفل',avT:'🎭 اختار شخصيتك',avSub:'هتظهر في الكويز وتقرير الوردية والدوري، وتقدر تغيّرها في أي وقت.',avChange:'غيّر شخصيتك',board:'شوف الدوري',shiftT:k=>k==='monthly'?'الوردية الشهرية':'وردية النهارده',shiftSub:n=>n+' عملاء مستنيينك. اكسب رضاهم كلهم.',shiftGo:'ابدأ الوردية',mins:n=>'حوالي '+n+' دقايق',custs:n=>n+' عملاء',reportT:'تقرير الوردية',happy:n=>n+' عملاء مبسوطين',
   resT:s=>s===5?'ولا غلطة! 🎉':s>=4?'شغل عالي!':s>=3?'كويس، كمّل!':'كمّل تدريب وهتبقى أحسن!',xpGain:n=>"+"+n,newBadge:'بادج جديد!',levelUp:n=>'طلعت مستوى: '+n+'!',
   tiers:['برونز','فضة','دهب','ماس'],levels:['مبتدئ','متعلّم','متمكّن','محترف','خبير','نجم','أسطورة']};
 
@@ -2349,6 +2349,17 @@ const css=`.qz{display:grid;gap:12px}.qz .row{display:flex;gap:8px;flex-wrap:wra
 .qcust{display:flex;gap:4px}.qcust i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;background:#22324D;border:2px solid #33496B}
 .qcust i.ok{background:#2E6B12;border-color:#58A700}.qcust i.bad{background:#6B1A1C;border-color:#EA2B2B}.qcust i.now{border-color:#FFB15C;box-shadow:0 0 0 3px rgba(255,177,92,.25)}
 .qcface{width:72px;height:72px}.qcface svg{width:100%;height:100%}
+.qq.scene{grid-template-columns:118px 1fr;align-items:end}.qchar{display:block;width:118px;height:190px;object-fit:contain;object-position:bottom;filter:drop-shadow(0 8px 14px rgba(0,0,0,.35));transform-origin:50% 100%}
+.qchar.in{animation:qcin .45s ease-out}.qchar.happy{animation:qchop .6s ease-out}.qchar.upset{animation:qcshake .5s ease-in-out}
+@keyframes qcin{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes qchop{0%{transform:none}30%{transform:translateY(-16px) scale(1.04)}55%{transform:none}75%{transform:translateY(-6px)}100%{transform:none}}
+@keyframes qcshake{0%,100%{transform:none}20%{transform:translateX(-7px) rotate(-2deg)}40%{transform:translateX(7px) rotate(2deg)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.qfc{position:relative;display:inline-block;width:46px;height:46px}.qfc img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid #33496B;background:#E8EEF6}.qfc i{position:absolute;bottom:-4px;inset-inline-end:-4px;font-style:normal;font-size:16px}
+.qav{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#E8EEF6;border:3px solid var(--sage,#58CC02);box-sizing:border-box}
+.qavbtn{background:none;border:0;padding:0;cursor:pointer;position:relative;width:88px;height:88px}.qavbtn .ed{position:absolute;bottom:0;inset-inline-end:0;background:var(--sage,#58CC02);color:#fff;border-radius:99px;font-size:11px;font-weight:800;padding:2px 7px}
+.qavs{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:10px}.qavs button{background:none;border:3px solid transparent;border-radius:50%;padding:0;cursor:pointer;aspect-ratio:1;overflow:hidden}.qavs button.on{border-color:#58CC02;box-shadow:0 0 0 3px rgba(88,204,2,.25)}.qavs img{width:100%;height:100%;object-fit:cover;display:block;background:#E8EEF6}
+.qlr.qlav{grid-template-columns:30px 34px 1fr auto auto}.qlr .ava{width:34px;height:34px;border-radius:50%;object-fit:cover;background:#E8EEF6}.qlr .ava.none{display:grid;place-items:center;font-weight:800;color:var(--muted);border:2px solid var(--line);box-sizing:border-box;font-size:14px}
+.qtop .qme{width:34px;height:34px;border-radius:50%;object-fit:cover;background:#E8EEF6;border:2px solid #58CC02;flex:none}
 .qfaces{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.qfaces .qcface{width:46px;height:46px}
 .qstage .qres h2{color:#FFD27A}
 @media (prefers-reduced-motion:reduce){.qstage *,.qz *{animation:none!important;transition:none!important}}`;
@@ -2458,11 +2469,28 @@ function custSvg(i,mood){ const [skin,hair]=CUST_C[i%CUST_C.length], scarf=i%2==
    ${scarf?`<path d="M14 92 Q12 22 50 16 Q88 22 86 92 Z" fill="${['#A63D63','#2C6395','#2F7565','#7A5A00'][i%4]}"/>`:`<path d="M20 60 Q16 18 50 16 Q84 18 80 60 Q76 30 50 28 Q24 30 20 60Z" fill="${hair}"/>`}
    <ellipse cx="50" cy="54" rx="${scarf?24:27}" ry="${scarf?27:30}" fill="${skin}"/>${brows}<circle cx="40" cy="50" r="4" fill="#2A1E18"/><circle cx="60" cy="50" r="4" fill="#2A1E18"/>${mouth}
    ${mood==='happy'?'<circle cx="33" cy="62" r="4" fill="#F49A9A" opacity=".6"/><circle cx="67" cy="62" r="4" fill="#F49A9A" opacity=".6"/>':''}</svg>`; }
+// Real characters (same 3D style as the Trust Shift game): each scenario has a customer who reacts to your answer.
+const QIMG='img/q/', CHARS=['f1','c1','f2','c3','c2'];
+const charOf=i=>CHARS[i%CHARS.length];
+function custImg(i,mood){ const c=charOf(i); return `<img class="qchar ${mood||'in'}" src="${QIMG}${c}${mood?'_'+mood:''}.webp" alt="">`; }
+function custFace(i,mood){ return `<span class="qfc"><img src="${QIMG}av_${charOf(i)}.webp" alt="">${mood?`<i>${mood==='happy'?'😊':'😞'}</i>`:''}</span>`; }
+function preloadChar(i){ ['_happy','_upset'].forEach(m=>{ const im=new Image(); im.src=QIMG+charOf(i)+m+'.webp'; }); }
+// The agent's own character (picked once, shown on the quiz, the league and the results).
+const AVS=['a1','a2','a4','a3','a5','f1','f2','f3','c3','m'], AV_KEY='tj-quiz-avatar';
+let AVPICK=false;
+function myAv(){ const m=ME(); const v=(m&&m.av)||ls.get(AV_KEY,''); return AVS.includes(v)?v:''; }
+function avImg(id,cls){ return `<img class="${cls||'qav'}" src="${QIMG}av_${id}.webp" alt="">`; }
+function avPickHtml(){ const cur=myAv();
+  return `<div class="panel" id="qzAv" style="display:grid;gap:10px"><b>${U.avT}</b><div class="muted">${U.avSub}</div>
+   <div class="qavs">${AVS.map(a=>`<button class="${a===cur?'on':''}" data-a="qzav" data-v="${a}" aria-label="${a}">${avImg(a,'')}</button>`).join('')}</div>
+   ${cur?`<button class="qghost" data-a="qzavclose">${U.close}</button>`:''}</div>`; }
+function setAv(a){ if(!AVS.includes(a)) return; ls.set(AV_KEY,a); const m=ME(); if(m) m.av=a; AVPICK=false; renderMain();
+  if(SES) api({action:'kbAvatar',session:SES.session,avatar:a}).catch(()=>{}); }
 function introHtml(){ const R=RUN, n=R.qs.length, st=ME()?ME().streak:0;
   return `<div class="qtop"><button class="qx" data-a="qzquit" aria-label="${U.close}">✕</button></div>
    <div class="qbody"><div class="qintro"><div class="nr">${noorSvg('happy')}</div><h1 class="qglow">${esc(R.practice?U.practice:U.shiftT(R.kind))}</h1>
     <div style="font-size:16px;color:#C9D5E4">${esc(U.shiftSub(n))}</div>
-    <div class="qfaces">${R.qs.map((q,i)=>`<span class="qcface">${custSvg(i,'')}</span>`).join('')}</div>
+    <div class="qfaces">${R.qs.map((q,i)=>custFace(i,'')).join('')}</div>
     <div class="qpills"><span class="qpill">👥 ${esc(U.custs(n))}</span><span class="qpill">⏱ ${esc(U.mins(Math.max(2,Math.round(n*.4))))}</span>${st?`<span class="qpill">🔥 ${st}</span>`:''}</div>
     <button class="qbtn qorange" data-a="qzgo2" data-focus>▶ ${U.shiftGo}</button></div></div>`; }
 // ---------- the lesson (full screen, one question at a time) ----------
@@ -2474,13 +2502,13 @@ function startRun(kind,practice){ if(!SES&&!practice){ setView('quiz'); return; 
 function closeStage(){ RUN=null; const s=$('qzStage'); if(s) s.remove(); document.documentElement.style.overflow=''; renderMain(); }
 function stage(){ let s=$('qzStage'); if(!s){ s=document.createElement('div'); s.id='qzStage'; s.className='qstage'; s.setAttribute('role','dialog'); s.setAttribute('aria-modal','true'); s.dir=EN?'ltr':'rtl'; document.body.appendChild(s); document.documentElement.style.overflow='hidden'; }
   s.innerHTML=RUN.result?resultHtml():RUN.intro?introHtml():lessonHtml(); const f=s.querySelector('[data-focus]'); if(f) f.focus({preventScroll:true}); }
-function lessonHtml(){ const R=RUN, q=R.qs[R.i], done=R.i+(R.checked?1:0), ok=R.checked&&R.sel===q.a;
+function lessonHtml(){ const R=RUN, q=R.qs[R.i], done=R.i+(R.checked?1:0), ok=R.checked&&R.sel===q.a; if(q.s&&!R.checked) preloadChar(R.i);
   const kind=R.kind==='monthly'?U.monthT:(R.practice?U.practice:U.dailyT);
   const head=q.s?`<div class="bub"><small>💬 ${U.customer}</small>${esc(q.q)}</div>`:`<div class="bub">${esc(q.q)}</div>`;
-  return `<div class="qtop"><button class="qx" data-a="qzquit" aria-label="${U.close}">✕</button><div class="qbar" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${R.qs.length}"><i style="width:${Math.max(4,Math.round(100*done/R.qs.length))}%"></i></div>${R.qs.length<=6?`<span class="qcust">${R.qs.map((x,i)=>`<i class="${R.ans[i]===true?'ok':R.ans[i]===false?'bad':i===R.i?'now':''}">${R.ans[i]===true?'😊':R.ans[i]===false?'😞':''}</i>`).join('')}</span>`:''}
+  return `<div class="qtop"><button class="qx" data-a="qzquit" aria-label="${U.close}">✕</button>${myAv()?avImg(myAv(),'qme'):''}<div class="qbar" role="progressbar" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="${R.qs.length}"><i style="width:${Math.max(4,Math.round(100*done/R.qs.length))}%"></i></div>${R.qs.length<=6?`<span class="qcust">${R.qs.map((x,i)=>`<i class="${R.ans[i]===true?'ok':R.ans[i]===false?'bad':i===R.i?'now':''}">${R.ans[i]===true?'😊':R.ans[i]===false?'😞':''}</i>`).join('')}</span>`:''}
    <span class="qcombo ${R.combo>=2&&R.checked&&ok?'bump':''}">${R.combo>=2?'🔥 '+esc(U.combo(R.combo)):''}</span></div>
    <div class="qbody"><div class="qkind">${kind} · ${U.q} ${R.i+1} ${U.of} ${R.qs.length}</div>
-    <div class="qq">${q.s?`<div class="qcface">${custSvg(R.i,!R.checked?'':ok?'happy':'upset')}</div>`:`<div class="nr">${noorSvg(!R.checked?'think':ok?'happy':'care')}</div>`}${head}</div>
+    <div class="qq ${q.s?'scene':''}">${q.s?custImg(R.i,!R.checked?'':ok?'happy':'upset'):`<div class="nr">${noorSvg(!R.checked?'think':ok?'happy':'care')}</div>`}${head}</div>
     <div class="qopts">${q.o.map((o,i)=>`<button class="qopt ${R.checked?(i===q.a?'ok':i===R.sel?'bad':''):(i===R.sel?'sel':'')}" data-a="qzsel" data-v="${i}" ${R.checked?'disabled':''}><span class="k">${i+1}</span><span>${esc(o)}</span></button>`).join('')}</div></div>
    <div class="qfoot ${R.checked?(ok?'ok':'bad'):''}"><div>${R.checked?`<h3>${ok?'✓ '+esc(U.great[(R.i+R.combo)%U.great.length]):'✕ '+U.oops}</h3>${ok?'':`<p><b>${esc(q.o[q.a])}</b></p>`}${q.w?`<p>${esc(q.w)}</p>`:''}
      <button class="qbtn wide" data-a="qznext" data-focus>${R.i+1<R.qs.length?U.cont:U.finish}</button>`
@@ -2488,7 +2516,7 @@ function lessonHtml(){ const R=RUN, q=R.qs[R.i], done=R.i+(R.checked?1:0), ok=R.
 function resultHtml(){ const R=RUN, {score,total,msg}=R.result, pct=Math.round(100*score/total), m=ME(), b=R.before;
   const newB=m&&b&&!R.practice?BADGES.filter(x=>x.t(m)&&!x.t(b)):[], lvUp=m&&b&&!R.practice&&levelOf(m.points*10).i>levelOf(b.points*10).i;
   const t5=Math.round(5*score/total);
-  return `<div class="qbody"><div class="qres"><div class="nr">${noorSvg(pct>=60?'happy':'care')}</div><div class="qkind">${U.reportT}</div><h2>${esc(U.resT(t5))}</h2><div class="qfaces">${R.qs.map((q,i)=>`<span class="qcface">${custSvg(i,R.ans[i]?'happy':'upset')}</span>`).join('')}</div><div class="muted">${esc(U.happy(score))}</div>
+  return `<div class="qbody"><div class="qres"><div class="nr">${myAv()?avImg(myAv()):noorSvg(pct>=60?'happy':'care')}</div><div class="qkind">${U.reportT}</div><h2>${esc(U.resT(t5))}</h2><div class="qfaces">${R.qs.map((q,i)=>custFace(i,R.ans[i]?'happy':'upset')).join('')}</div><div class="muted">${esc(U.happy(score))}</div>
     <div class="qring" style="background:conic-gradient(#58CC02 ${pct}%,var(--line) 0)"><b>${score}/${total}</b></div>
     <div class="qchips"><div class="qchip gold"><small>${U.xp}</small><b>${R.practice?'–':esc(U.xpGain(score*10))}</b></div>
      <div class="qchip"><small>${U.comboT}</small><b>🔥 ${R.best}</b></div>
@@ -2529,7 +2557,7 @@ function notesHtml(n){ const T=PULSE&&PULSE.top; if(!T||!T.items||!T.items.lengt
 function boardHtml(){ if(!PULSE) return `<div class="panel" id="qzBoard"><b>🏅 ${U.boardT}</b><div class="muted">${PULSE_ERR?U.offline:'…'}</div></div>`;
   const me=nk(ME()?ME().name:SES?SES.name:''), B=PULSE.board||[], medal=i=>['🥇','🥈','🥉'][i]||(i+1);
   return `<div class="panel" id="qzBoard" style="display:grid;gap:8px"><b>🏅 ${U.boardT}</b><div class="muted">${esc(U.boardSub(PULSE.month))}</div>${B.length?`<div class="qlg">
-   ${B.map((b,i)=>{const t=tierOf(b.points), mine=me&&nk(b.name)===me;return `<div class="qlr ${mine?'me':''}"><span class="rk">${medal(i)}</span><span class="nm">${esc(b.name)}${mine?` · ${U.you}`:''}<small>${b.streak?'🔥 '+b.streak+' · ':''}${U.acc} ${b.pct}%${b.monthly==null?'':' · '+U.monthT+' '+b.monthly+'%'}</small></span><span class="qtier t${t}">${U.tiers[t]}</span><span class="pt">${b.points}</span></div>`}).join('')}</div>`:`<div class="muted">${U.noBoard}</div>`}</div>`; }
+   ${B.map((b,i)=>{const t=tierOf(b.points), mine=me&&nk(b.name)===me;const av=AVS.includes(b.av)?b.av:(mine?myAv():'');return `<div class="qlr qlav ${mine?'me':''}"><span class="rk">${medal(i)}</span>${av?avImg(av,'ava'):`<span class="ava none">${esc(String(b.name).trim().charAt(0))}</span>`}<span class="nm">${esc(b.name)}${mine?` · ${U.you}`:''}<small>${b.streak?'🔥 '+b.streak+' · ':''}${U.acc} ${b.pct}%${b.monthly==null?'':' · '+U.monthT+' '+b.monthly+'%'}</small></span><span class="qtier t${t}">${U.tiers[t]}</span><span class="pt">${b.points}</span></div>`}).join('')}</div>`:`<div class="muted">${U.noBoard}</div>`}</div>`; }
 
 // ---------- the tab ----------
 function weekHtml(m){ const set=new Set((m&&m.week)||[]), out=[];
@@ -2544,7 +2572,7 @@ function quizHtml(){
   const xp=(m?m.points:0)*10, lv=levelOf(xp), st=m?m.streak:0, open=monthOpen(), ld=lastDay()-2, got=earned(m);
   const first=String(SES.name).split(' ')[0];
   return `<section id="quiz" class="qz">${sh}
-   <div class="panel" style="display:grid;gap:12px"><div class="qhero"><div class="nr">${noorSvg(dd?'happy':'think')}</div><div><b style="font-size:18px">${esc(U.hi(first))}</b>
+   ${AVPICK||!myAv()?avPickHtml():''}<div class="panel" style="display:grid;gap:12px"><div class="qhero">${myAv()?`<button class="qavbtn" data-a="qzavopen" title="${U.avChange}">${avImg(myAv())}<span class="ed">✎</span></button>`:`<div class="nr">${noorSvg(dd?'happy':'think')}</div>`}<div><b style="font-size:18px">${esc(U.hi(first))}</b>
      <div class="muted">${esc(st?(dd?U.popStreak(st):U.streakKeep):U.streakNone)}</div><div class="muted" style="font-size:12px">${esc(SES.email)} · <a href="#" data-a="qzout">${U.notYou} ${U.out}</a></div></div></div>
     <div class="qstats"><div class="qstat fire ${st?'':'off'}"><b><span class="qflame">🔥</span> ${st}</b><span>${U.streak}</span></div>
      <div class="qstat xp"><b>⭐ ${xp}</b><span>${U.xp}</span></div><div class="qstat"><b>${LV_ICON[lv.i]}</b><span>${esc(lv.name)}</span></div></div>
@@ -2560,6 +2588,7 @@ VIEWS.splice(1,0,['quiz',U.tab,['quiz']]);
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b) return; const a=b.dataset.a; if(!a.startsWith('qz')) return; e.preventDefault();
   if(a==='qzstart') startRun('daily'); else if(a==='qzmonth') startRun('monthly'); else if(a==='qzpractice') startRun('daily',true);
   else if(a==='qzsend') doSend(); else if(a==='qzlead') doSend(true); else if(a==='qzverify') doVerify(); else if(a==='qzother'){ SIGN={step:'email',email:'',err:''}; renderMain(); }
+  else if(a==='qzav') setAv(b.dataset.v); else if(a==='qzavopen'){ AVPICK=true; renderMain(); const p=$('qzAv'); if(p) p.scrollIntoView({behavior:'smooth',block:'center'}); } else if(a==='qzavclose'){ AVPICK=false; renderMain(); }
   else if(a==='qzout') signOut();
   else if(a==='qzsel'&&RUN&&!RUN.checked){ RUN.sel=+b.dataset.v; tone([[440,0,.05]]); stage(); }
   else if(a==='qzcheck'&&RUN&&RUN.sel!=null) check();
