@@ -557,7 +557,7 @@ const LANG='en';
 /* ===== Editable from Google Sheets =====
    Leaders / QA / Training edit one Google Sheet; the guide and the offers page read it on every load.
    Each tab is published (File → Share → Publish to web → CSV) and its link goes here. Empty = built-in data. */
-const SHEET_ID='1kKXesKcnse3ofMTc0_FbuUWOz6I6fPf7';
+const SHEET_ID='11iBUzUHrWENOZsSaiF-MUDwf1HfjdXkydhdeeJr2WUc';
 const gviz=name=>'https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(name);
 const SHEETS={doctors:gviz('الدكاترة'),exceptions:gviz('الاستثناءات'),updates:gviz('التحديثات'),offers:gviz('العروض'),regular:gviz('أسعار عادية'),team:gviz('الفريق')};
 function parseCSV(t){ const rows=[]; let r=[],f='',q=false; for(let i=0;i<t.length;i++){ const c=t[i];
