@@ -132,7 +132,7 @@ tr.grp td{background:var(--soft);font-family:var(--d);font-weight:700;font-size:
 </div>
 
 <script>
-const UPDATED='11 Oct 2026';
+const UPDATED='3 Nov 2026';
 const CLINIC_AR='Handsome & Pretty Medical Center';
 const SRC='Sheet "Services and Offers by Category" · Discounts & Big Gift Week offers';
 const CATS={botox:'Botox',filler:'Filler',skin:'Glow & collagen',body:'Body contouring & fat dissolving',weight:'Weight loss',laser:'Laser hair removal'};
@@ -180,24 +180,24 @@ const OFFERS=[
   say:'Original Sculptra by Galderma is 1,500 AED, with a gift of your choice. It stimulates collagen to restore volume and reduce sagging.',
   qa:[['Is it true the result lasts two years?','It can last up to two years, but this varies from person to person, and the doctor will explain what to expect in your case.'],['How many sessions do I need?','The doctor will decide what your skin needs during the free consultation, and the current offer is 1,500 per injection with a gift.'],['Why don\'t I see the result right away?','Because Sculptra stimulates the skin to produce its own collagen, the result shows gradually from the first to the third month, and that\'s what makes it look natural.']],
   caution:'The sheet says results last more than two years. Don\'t say it as a promise. Say "It varies, and the doctor will explain."'},
- {id:'endolaser',cat:'body',guide:'endolaser',ar:'Endolaser',en:'Endolaser',price:'1,500',pn:'per area',st:'ok',slide:3,
-  what:'A dual-wavelength laser to tighten the skin, without surgery. For the double chin, face, neck, abdomen, arms, and thighs.',who:'The customer asks about sagging skin or stubborn fat in a specific area.',
-  say:'Endolaser is 1,500 AED per area. It tightens the skin without surgery and can be done on the double chin, face, neck, abdomen, arms, and thighs, and it comes with a gift.',
+ {id:'endolaser',cat:'body',guide:'endolaser',ar:'Endolaser',en:'Endolaser',price:'2,500 / 3,000',pn:'Face & neck 2,500 · Abdomen 3,000',st:'ok',slide:3,
+  what:'An advanced dual-wavelength laser technology to tighten the skin and improve the look of sagging, without surgery. For the face and neck, abdomen, and other areas based on the doctor\'s assessment.',who:'The customer asks about skin sagging or stubborn fat in the face & neck or abdomen.',
+  say:'We have an offer on Endolaser to tighten the skin and improve sagging without surgery: face and neck for 2,500 AED, and the abdomen area for 3,000 AED, and it comes with a gift of your choice.',
   qa:[['Can it replace surgery for me?','The doctor will assess your case and tell you whether Endolaser is suitable for you.']],
   caution:'The sheet says "an alternative to surgery". Don\'t say this to the customer; it\'s a medical claim. Say "without surgery".'},
- {id:'silutrix',cat:'body',ar:'Silutrix double-chin injection',en:'Silutrix needle (double chin)',price:'700',pn:'with a radiofrequency session',st:'ok',slide:'4, 5',
-  what:'An injection to dissolve double-chin fat, with a radiofrequency session.',who:'The customer complains of a double chin, meaning the fat under the chin. Gulf customers will usually call it "دبل تشن" (double chin).',
-  say:'The Silutrix double-chin injection is 700 AED, with a radiofrequency session, plus a gift of your choice.',
-  qa:[['How many injections do I need?','The doctor will decide the number after seeing the area.']],caution:''},
+ {id:'silutrix',cat:'body',ar:'Cellutrix double-chin injection',en:'Cellutrix (double chin)',price:'700',pn:'per session · fat dissolving & skin tightening',st:'ok',slide:'4, 5',
+  what:'An injection to dissolve fat and tighten the skin in the double-chin area (RRS HA Cellutrix).',who:'The customer complains of a double chin, meaning the fat under the chin. Gulf customers will usually call it "دبل تشن" (double chin).',
+  say:'The Cellutrix double-chin injection to dissolve fat and tighten the skin is 700 AED per session, plus a gift of your choice.',
+  qa:[['How many sessions or injections do I need?','The doctor will decide the suitable number after seeing the area during the free consultation.']],caution:''},
  {id:'fatcourse',cat:'body',ar:'Fat-dissolving device course',en:'Fat-dissolving devices course',price:'1,500',pn:'16 sessions · with a gift',st:'ok',slide:8,
   what:'16 device sessions, with diet follow-up and a weekly check-up for two months.',who:'The customer wants to lose weight and contour their body with devices.',
   say:'The fat-dissolving course is 1,500 AED and comes with a gift of your choice: 16 device sessions plus weekly diet follow-up for two months. The best first step is a free consultation so the doctor can set the right plan for you.',
   qa:[['How many kilos will I lose?','Results vary from person to person and depend on following the diet, and the doctor will set a suitable goal for you.']],
   caution:'The poster says "10 to 15 kilos". Never say that as a promise. Say "results vary from person to person".'},
- {id:'cellulite',cat:'body',ar:'Cellulite removal course',en:'Cellulite removal course',price:'1,500',pn:'10 sessions',st:'ok',slide:9,
-  what:'10 sessions. Each session is a triple treatment at the same time: the Ultrascalpt device breaks down fat and activates the muscles, radiofrequency dissolves fat deposits, stimulates collagen, and tightens the skin, and lymphatic massage helps drain fat and fluids and boosts circulation.',who:'The customer complains of cellulite.',
-  say:'The cellulite course is 10 sessions for 1,500 AED, and it comes with a gift of your choice. Each session is a triple treatment: the Ultrascalpt device to break down fat and activate the muscles, radiofrequency to dissolve fat deposits and tighten the skin, and lymphatic massage to drain fluids and boost circulation.',
-  qa:[['Will the cellulite go away completely?','These devices improve the look of cellulite, and the doctor will tell you the expected result in your case.'],['What happens in the session?','Each session combines 3 things: the Ultrascalpt device, radiofrequency, and lymphatic massage. The course is 10 sessions.']],
+ {id:'cellulite',cat:'body',ar:'Cellulite treatment course',en:'Cellulite Treatment',price:'1,500',pn:'10 triple sessions (30 sessions)',st:'ok',slide:9,
+  what:'10 triple sessions (30 sessions in total). Each session is a triple treatment at the same time: the Ultrascalpt device breaks down fat and activates the muscles, radiofrequency dissolves fat deposits, stimulates collagen, and tightens the skin, and lymphatic massage helps drain fat and fluids and boosts circulation.',who:'The customer complains of cellulite and wants smoother skin.',
+  say:'The cellulite treatment course is 10 triple sessions (30 sessions) for 1,500 AED, and it comes with a gift of your choice. Each session is a triple treatment: the Ultrascalpt device to break down fat and activate the muscles, radiofrequency to dissolve fat deposits and tighten the skin, and lymphatic massage to drain fluids and boost circulation.',
+  qa:[['Will the cellulite go away completely?','These devices improve the look of cellulite and make the skin smoother, and the doctor will tell you the expected result in your case.'],['What happens in the session?','Each session combines 3 treatments at once (a triple session): the Ultrascalpt device, radiofrequency, and lymphatic massage. The course is 10 triple sessions (30 sessions in total).']],
   caution:'The client describes the session as "the first of its kind in the Middle East" and "incredibly effective". Don\'t say either of these to the customer: the first is a claim that needs proof, and the second is a promise of results. Say "a triple session", and that results vary from person to person.'},
  {id:'lymph',cat:'body',ar:'Wood therapy lymphatic massage',en:'Wooden lymphatic massage',price:'1,000',pn:'10 sessions',st:'ok',slide:6,
   what:'Massage with wooden tools to boost circulation and reduce cellulite and fluid retention.',who:'The customer complains of fluid retention, swelling, or cellulite.',
