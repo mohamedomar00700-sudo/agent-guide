@@ -1135,6 +1135,16 @@ const meGet=()=>{try{return sessionStorage.getItem('tj-me')||''}catch(e){return 
 const meSet=v=>{try{sessionStorage.setItem('tj-me',v)}catch(e){}};
 const teamBy=id=>TEAM.find(t=>t.id===id);
 const mailto=(to,cc,subj,body)=>'mailto:'+to.join(',')+'?'+(cc.length?'cc='+cc.join(',')+'&':'')+'subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+// Emails are English-only (Hussein's request): picked values are turned to English; free Arabic text stays only as the agent's/customer's own words, in a quoted block.
+const AR_RE=/[\u0600-\u06FF]/;
+function enOf(v){ v=String(v||'').trim(); if(!v||!AR_RE.test(v)) return v;
+  if(v.includes(' + ')) return v.split(' + ').map(enOf).join(' + ');
+  const b=BRANCHES.find(x=>x.city===v||x.nameAr===v); if(b) return b.id==='ad'?'Abu Dhabi':b.id==='fuj'?'Fujairah':(b.name||v);
+  const d=DOC_NAMES.find(x=>v===x[0]+' ('+x[2]+')'||v===x[0]); if(d) return d[1]+' ('+d[3]+')';
+  const s=SVC.find(x=>v===x.ar||v===x.ar+' · '+x.en); if(s) return s.en;
+  const o=OFFERS.find(x=>x.ar&&x.en&&(v===x.ar||v===x.ar+' · '+x.price)); if(o) return o.en+(v===o.ar?'':' · '+o.price);
+  return v; }
+function quoteAr(label,txt){ txt=String(txt||'').trim(); if(!txt) return ''; return AR_RE.test(txt)?label+' (own words, in Arabic):\n'+txt.split('\n').map(l=>'> '+l).join('\n'):label+':\n'+txt; }
 // Names not in TEAM: an agent can type one (saved in this browser only); the "الفريق" sheet tab replaces TEAM for everyone.
 const TEAM_KEY='tj-team-extra', TEAM_ADD='__add';
 const teamSlug=s=>String(s).trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'-');
@@ -1335,8 +1345,8 @@ function waCheck(){
   return n;
 }
 const waMsgNow=()=>{ const t=$('waMsg'); return t?t.value:(WA.edited?WA.msg:waText()); };
-function waRequest(n){
-  return [WAU.mailIntro,'',WAU.phone+': +'+n+(WA.name.trim()?' ('+WA.name.trim()+')':''),WAU.mailOpen+': https://wa.me/'+n,'',WAU.mailMsg,waMsgNow(),'',WAU.thanks+(WA.agent.trim()?'\n'+WA.agent.trim():'')].join('\n');
+function waRequest(n){ const E=WA_UI.en, me=teamBy(meGet()), nm=me?me.en:WA.agent.trim(), msg=waMsgNow();
+  return [E.mailIntro,'',E.phone+': +'+n+(WA.name.trim()?' ('+WA.name.trim()+')':''),E.mailOpen+': https://wa.me/'+n,'',AR_RE.test(msg)?'Message to send (copy it as is, it is in Arabic for the customer):':E.mailMsg,msg.split('\n').map(l=>'> '+l).join('\n'),'',E.thanks+(nm?'\n'+nm:'')].join('\n');
 }
 function waRefresh(){ // update the preview and note without re-rendering the inputs being typed in
   const m=$('waMsg'); if(m&&!WA.edited){ m.value=waText(); m.dir=WA.lang==='en'?'ltr':'rtl'; }
@@ -1365,8 +1375,8 @@ document.addEventListener('click',e=>{
   const n=waCheck(); if(!n) return;
   if(a==='waweb') window.open('https://web.whatsapp.com/send?phone='+n+'&text='+encodeURIComponent(waMsgNow()),'tj-whatsapp');
   if(a==='waapp') window.open('https://wa.me/'+n+'?text='+encodeURIComponent(waMsgNow()),'_blank');
-  if(a==='wamail'){ if(!WA.mate){ toast(WAU.needMate); const m=$('waMate'); if(m) m.focus(); return; } location.href=mailto([WA.mate],WA_CC,WAU.mailSubj+' +'+n,waRequest(n)); }
-  if(a==='wamailcopy'){ copyText('To: '+(WA.mate||'')+'\nCC: '+WA_CC.join('; ')+'\nSubject: '+WAU.mailSubj+' +'+n+'\n\n'+waRequest(n),WAU.reqCopied); }
+  if(a==='wamail'){ if(!WA.mate){ toast(WAU.needMate); const m=$('waMate'); if(m) m.focus(); return; } location.href=mailto([WA.mate],WA_CC,WA_UI.en.mailSubj+' +'+n,waRequest(n)); }
+  if(a==='wamailcopy'){ copyText('To: '+(WA.mate||'')+'\nCC: '+WA_CC.join('; ')+'\nSubject: '+WA_UI.en.mailSubj+' +'+n+'\n\n'+waRequest(n),WAU.reqCopied); }
   if(a==='wamail'||a==='wamailcopy'){ const nt=$('waNote'); if(nt) nt.textContent=waNote()+WAU.mateNote; }
 });
 
@@ -1391,7 +1401,7 @@ const AUX_UI={
   needMe:'اختار اسمك الأول.',copied:'الإيميل اتنسخ',to:'رايح لـ',cc:'وفي الـ CC',since:'طلبت الساعة',
   r:{lunch:'🍽 غدا (Lunch)',prayer:'🕌 صلاة',restroom:'🙋 بريك شخصي',break:'☕ بريك',it:'💻 مشكلة IT'},
   subj:(r,n,t)=>'AUX request: '+r+' | '+n+' | '+t, subjBack:(n,t)=>'Back from AUX | '+n+' | '+t,
-  body:(r,n,t,x,m)=>'Hi Mostafa, Eslam,\n\nMay I go on AUX, please?\nReason: '+r+'\nRequested at: '+t+(m?'\nFor about: '+m+' minutes':'')+(x?'\nDetails: '+x:'')+'\n\nI will stay available until you approve.\n\nThanks,\n'+n,
+  body:(r,n,t,x,m)=>'Hi Mostafa, Eslam,\n\nMay I go on AUX, please?\nReason: '+r+'\nRequested at: '+t+(m?'\nFor about: '+m+' minutes':'')+(x?(AR_RE.test(x)?'\n'+quoteAr('Details',x):'\nDetails: '+x):'')+'\n\nI will stay available until you approve.\n\nThanks,\n'+n,
   bodyBack:(r,n,t,s)=>'Hi Mostafa, Eslam,\n\nI am back from AUX and available now.\nReason was: '+r+(s?'\nFrom '+s+' to '+t:'\nBack at: '+t)+'\n\nThanks,\n'+n},
  en:{eyebrow:'Before you go on AUX on Avaya',title:'AUX request',intro:'This is a request, not a notice: pick your name and the reason (lunch, prayer, personal break, break or IT issue), then press "Send request". A ready email opens to Mostafa and Eslam, with Hussein and Zeinab in CC. Don\'t go on AUX on Avaya until one of them approves. When you are back, press "I\'m back" so they know you are available again.',wait:'⏳ Waiting for approval. Don\'t go on AUX until Mostafa or Eslam replies to approve.',mins:'Duration in minutes (optional)',
   me:'Your name',reason:'Reason',note:'Details (optional, important for an IT issue)',notePh:'e.g. Avaya disconnected / headset not working / internet down',send:'Send AUX request',back:'I\'m back, send the back email',copy:'Copy the email (if email didn\'t open)',
@@ -1487,11 +1497,11 @@ function cmpSvc(){ const en=LANG==='en', seen=new Set(), opts=[];
 function cmpMail(){ const me=teamBy(meGet()); if(!me){ toast(CMU.needMe); const s=$('cmpMe'); if(s) s.focus(); return null; }
   if(!CMP.what.trim()){ toast(CMU.needWhat); const s=$('cmp_what'); if(s) s.focus(); return null; }
   const L=(k,v)=>v&&String(v).trim()?'\n'+k+': '+String(v).trim():'';
-  const s=(CMP.urgent?'URGENT ':'')+'Customer complaint: '+CMP_EN[CMP.type]+(CMP.name.trim()?' | '+CMP.name.trim():'')+(CMP.branch?' | '+CMP.branch:'');
-  const b='Hi Mostafa, Eslam,\n\nI received a customer complaint, details below.\n\nType: '+CMP_EN[CMP.type]+L('Customer',CMP.name)+L('Number',CMP.phone)+L('Branch',CMP.branch)+L('Service / doctor',CMP.svc)+L('Visit / incident date',CMP.when)+L('Odoo',CMP.odoo)
-   +'\n\nWhat the customer said:\n'+CMP.what.trim()
+  const s=(CMP.urgent?'URGENT ':'')+'Customer complaint: '+CMP_EN[CMP.type]+(CMP.name.trim()?' | '+CMP.name.trim():'')+(CMP.branch?' | '+enOf(CMP.branch):'');
+  const b='Hi Mostafa, Eslam,\n\nI received a customer complaint, details below.\n\nType: '+CMP_EN[CMP.type]+L('Customer',CMP.name)+L('Number',CMP.phone)+L('Branch',enOf(CMP.branch))+L('Service / doctor',enOf(CMP.svc))+L('Visit / incident date',CMP.when)+L('Odoo',CMP.odoo)
+   +'\n\n'+quoteAr('What the customer said',CMP.what)
    +(CMP.wants.length?'\n\nWhat the customer wants: '+CMP.wants.map(k=>CMP_WEN[k]).join(', '):'')
-   +(CMP.said.trim()?'\n\nWhat I told them / did:\n'+CMP.said.trim():'')
+   +(CMP.said.trim()?'\n\n'+quoteAr('What I told them / did',CMP.said):'')
    +(CMP.urgent?'\n\nUrgent: the customer is waiting for a call today.':'')
    +'\n\nCall date: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en;
   return {s,b}; }
@@ -2217,17 +2227,18 @@ function bkMail(){ const me=teamBy(meGet()); const need=(m,id)=>{ toast(m); cons
   const dayOf=v=>v?new Date(v+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',year:'numeric'}):'';
   const tOf=v=>{ if(!v) return ''; const [hh,mm]=v.split(':').map(Number); return ((hh%12)||12)+':'+String(mm).padStart(2,'0')+(hh<12?' AM':' PM'); };
   const day=dayOf(BK.date), t12=tOf(BK.time), when=(day+(t12?' '+t12:'')).trim();
+  const BR=enOf(BK.branch), SV=enOf(BK.svc), DR=enOf(BK.doc), NT=x=>BK.notes.trim()?'\n\n'+quoteAr(x,BK.notes):'';
   if(M==='move'){ const old=(dayOf(BK.oldDate)+' '+tOf(BK.oldTime)).trim();
-    return {s:'Booking moved: '+BK.name.trim()+' | new: '+when+(BK.branch?' | '+BK.branch:''),
-      b:'Hi Mostafa, Eslam,\n\nThe customer changed the day of their booking.\n'+L('Customer',BK.name)+L('Number',BK.phone)+(old?'\nOld appointment: '+old:'')+'\nNew appointment: '+when+L('Branch',BK.branch)+L('Offer / service',BK.svc)+L('Doctor',BK.doc)+L('Odoo',BK.odoo)
-       +(BK.notes.trim()?'\n\nNotes:\n'+BK.notes.trim():'')+'\n\nWhatsApp confirmation sent: '+(BK.wa?'Yes':'Not yet')+'\n\nChanged on: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en}; }
-  if(M==='cancel') return {s:'Booking cancelled: '+BK.name.trim()+(when?' | '+when:'')+(BK.branch?' | '+BK.branch:''),
-      b:'Hi Mostafa, Eslam,\n\nThe customer cancelled their booking.\n'+L('Customer',BK.name)+L('Number',BK.phone)+(when?'\nAppointment was: '+when:'')+L('Branch',BK.branch)+L('Offer / service',BK.svc)+L('Odoo',BK.odoo)
-       +(BK.notes.trim()?'\n\nReason:\n'+BK.notes.trim():'')+'\n\nCancelled on: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en};
-  const s='New booking: '+kindsOf(K_EN)+' | '+BK.name.trim()+' | '+day+' '+t12+(BK.branch?' | '+BK.branch:'');
-  const b='Hi Mostafa, Eslam,\n\nA new booking, details below.\n\nBooking for: '+kindsOf(K_EN)+L('Customer',BK.name)+L('Number',BK.phone)+L('Branch',BK.branch)+(BK.svcs.length>1?'\nServices:\n'+BK.svcs.map(x=>'  - '+x).join('\n'):L('Offer / service',BK.svc))+L('Doctor',BK.doc)
+    return {s:'Booking moved: '+BK.name.trim()+' | new: '+when+(BR?' | '+BR:''),
+      b:'Hi Mostafa, Eslam,\n\nThe customer changed the day of their booking.\n'+L('Customer',BK.name)+L('Number',BK.phone)+(old?'\nOld appointment: '+old:'')+'\nNew appointment: '+when+L('Branch',BR)+L('Offer / service',SV)+L('Doctor',DR)+L('Odoo',BK.odoo)
+       +NT('Notes')+'\n\nWhatsApp confirmation sent: '+(BK.wa?'Yes':'Not yet')+'\n\nChanged on: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en}; }
+  if(M==='cancel') return {s:'Booking cancelled: '+BK.name.trim()+(when?' | '+when:'')+(BR?' | '+BR:''),
+      b:'Hi Mostafa, Eslam,\n\nThe customer cancelled their booking.\n'+L('Customer',BK.name)+L('Number',BK.phone)+(when?'\nAppointment was: '+when:'')+L('Branch',BR)+L('Offer / service',SV)+L('Odoo',BK.odoo)
+       +NT('Reason')+'\n\nCancelled on: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en};
+  const s='New booking: '+kindsOf(K_EN)+' | '+BK.name.trim()+' | '+day+' '+t12+(BR?' | '+BR:'');
+  const b='Hi Mostafa, Eslam,\n\nA new booking, details below.\n\nBooking for: '+kindsOf(K_EN)+L('Customer',BK.name)+L('Number',BK.phone)+L('Branch',BR)+(BK.svcs.length>1?'\nServices:\n'+BK.svcs.map(x=>'  - '+enOf(x)).join('\n'):L('Offer / service',SV))+L('Doctor',DR)
    +'\nAppointment: '+day+', '+t12+'\nGift: '+G_EN[BK.gift]+'\nCame from: '+S_EN[BK.src]+L('Odoo',BK.odoo)
-   +(BK.notes.trim()?'\n\nNotes:\n'+BK.notes.trim():'')
+   +NT('Notes')
    +'\n\nWhatsApp confirmation sent: '+(BK.wa?'Yes':'Not yet')
    +'\n\nBooked on: '+new Date().toLocaleDateString('en-GB')+' '+hhmm()+'\n\nThanks,\n'+me.en;
   return {s,b}; }
@@ -2857,9 +2868,9 @@ async function fuSave(k){ const x=CALLS.items.find(y=>fuKey(y)===k); if(!x) retu
   FU.open=''; FU.res=''; FU.note=''; FU.rate=0; toast(F.saved);
   if(res==='rescheduled'||res==='cancelled'){ // the team leads get the same email as from the booking tab
     const L=(k,v)=>v&&String(v).trim()?'\n'+k+': '+String(v).trim():'', w=(d,t)=>(d?new Date(d+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',year:'numeric'}):'')+(t?' '+t12(t).replace(' ص',' AM').replace(' م',' PM'):'');
-    const old=w(x.date,x.time), s=res==='cancelled'?'Booking cancelled: '+x.cust+' | '+old+(x.branch?' | '+x.branch:''):'Booking moved: '+x.cust+' | new: '+w(nd,nt)+(x.branch?' | '+x.branch:'');
-    const b='Hi Mostafa, Eslam,\n\n'+(res==='cancelled'?'The customer cancelled their booking.':'The customer changed the day of their booking.')+'\n'+L('Customer',x.cust)+L('Number',x.phone)+(res==='cancelled'?'\nAppointment was: '+old:'\nOld appointment: '+old+'\nNew appointment: '+w(nd,nt))+L('Branch',x.branch)+L('Offer / service',x.svc)+L('Doctor',x.doc)+L('Odoo',x.odoo)
-      +(note?'\n\n'+(res==='cancelled'?'Reason':'Notes')+':\n'+note:'')+'\n\n(From a follow-up call: '+F.c[x.call]+')\n\nThanks,\n'+SES.name;
+    const old=w(x.date,x.time), s=res==='cancelled'?'Booking cancelled: '+x.cust+' | '+old+(x.branch?' | '+enOf(x.branch):''):'Booking moved: '+x.cust+' | new: '+w(nd,nt)+(x.branch?' | '+enOf(x.branch):'');
+    const b='Hi Mostafa, Eslam,\n\n'+(res==='cancelled'?'The customer cancelled their booking.':'The customer changed the day of their booking.')+'\n'+L('Customer',x.cust)+L('Number',x.phone)+(res==='cancelled'?'\nAppointment was: '+old:'\nOld appointment: '+old+'\nNew appointment: '+w(nd,nt))+L('Branch',enOf(x.branch))+L('Offer / service',enOf(x.svc))+L('Doctor',enOf(x.doc))+L('Odoo',x.odoo)
+      +(note?'\n\n'+quoteAr(res==='cancelled'?'Reason':'Notes',note):'')+'\n\n(From a follow-up call: '+['','Confirm the appointment','Reminder on the day','After the visit'][x.call]+')\n\nThanks,\n'+SES.name;
     location.href=mailto([LEADS.mostafa,LEADS.eslam],[LEADS.hussein],s,b); }
   await loadCalls(); }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b||!b.dataset.a.startsWith('fu')) return; const a=b.dataset.a; if(b.tagName==='SELECT') return; e.preventDefault();
