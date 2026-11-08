@@ -558,7 +558,8 @@ if(typeof applyOfferRows==='function'){
 }
 
 /* =============== name =============== */
-{ const b=document.querySelector('.brand b'); if(b) b.textContent=T.brand; const s=document.querySelector('.brand span'); if(s&&!/H&P|H&amp;P/.test(s.textContent)) s.textContent='H&P · '+s.textContent; try{ document.title=T.brand+' · H&P'; }catch(e){} }
+{ const br=document.querySelector('.brand'); if(br&&!br.querySelector('.kp-logos')){ const lg=document.createElement('span'); lg.className='kp-logos'; lg.innerHTML='<img src="img/techsource.png" alt="Tech Source"><img src="img/tresjolie.png" alt="Tres Jolie" class="acct">'; const t=document.createElement('span'); t.className='kp-bt'; while(br.firstChild) t.appendChild(br.firstChild); br.appendChild(lg); br.appendChild(t); } }
+{ const b=document.querySelector('.brand b'); if(b) b.textContent=T.brand; const s=document.querySelector('.brand b + span'); if(s&&!/H&P|H&amp;P/.test(s.textContent)) s.textContent='H&P · '+s.textContent; try{ document.title=T.brand+' · H&P'; }catch(e){} }
 
 /* =============== SIDEBAR + BOTTOM NAV + PALETTE =============== */
 document.body.classList.add('kp');
