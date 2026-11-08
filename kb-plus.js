@@ -24,14 +24,18 @@ const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ---------------- text ---------------- */
 const T=EN?{
   groups:{call:'On the call',req:'Requests & emails',learn:'Learn',team:'Team',more:'More'},
-  views:{compare:'Compare services',fit:'What does the customer want?',sell:'Sell more',study:'Study'},
+  views:{compare:'Compare services',fit:'What does the customer want?',sell:'Service 360°',study:'Study'},
+  brand:'Bousla',tagline:'Your compass on every call',
+  hub:{eyebrow:'Pick a service, see everything',title:'Service 360°',intro:'Choose the service the customer asked about. You get the price, what to say, the upsell and the cross-sell together, plus questions and cautions.',find:'Find a service…',pickFirst:'Pick a service above.',copySay:'Copy what to say',copyWa:'Copy for WhatsApp',cmp:'Compare with similar',full:'Full offer card',br:'Branches & hours',upT:'Upsell',upS:'A bigger or better option of the same thing',xT:'Cross-sell',xS:'Only when the customer brings it up',valT:'Show the value inside',noUp:'No bigger option for this one. Focus on the gift and the free consultation.',noX:'No suggested pairing for this service. Keep the call on the main booking.',qaT:'Customer questions & objections',guide:'Open the service guide',rulesT:'How to sell more without pressure (4 steps, gift, when not to offer)'},
+  brq:{title:'Branches & hours now',all:'All branch details',docs:'Doctors today',none:'No doctor today',phone:'Phone'},
+  noor:{svc:'Upsell & cross-sell',cmp:'Compare',say:'Copy what to say',mic:'Speak',micNo:'Voice input is not supported in this browser',ask:q=>'Ask Noor: '+q,listening:'Listening…'},
   theme:'Theme',themes:{auto:'Auto',light:'Light',dark:'Dark'},kbd:'Quick search',
   palPh:'Search pages, offers, tools… (Ctrl K)',palViews:'Pages',palActs:'Actions',palHits:'In the guide',palNone:'Nothing found. Try another word.',
   acts:{noor:'Ask Noor',call:'Call assistant (checklist)',quote:'Price calculator',wiz:'Call outcome (Odoo)',theme:'Switch light / dark',en:'النسخة العربي',study:'Start a quick review',compare:'Compare two services'},
   bottom:{home:'Home',offers:'Offers',noor:'Noor',study:'Study',more:'More'},
   hello:h=>h<12?'Good morning':h<17?'Good afternoon':'Good evening',
   heroSub:'Everything for the call in one place. Search with Ctrl K or ask Noor.',
-  heroCards:[['compare','Compare services','Side by side, with what to say'],['fit','What does the customer want?','Pick the concern, get the right offer'],['sell','Sell more','Cross-sell and upsell, step by step'],['study','Study','Smart flashcards from the guide']],
+  heroCards:[['offers','Offers & prices','Every offer, price and gift'],['branches','Branches & hours','Open now? Which doctor is in?'],['sell','Service 360°','Price, upsell and cross-sell together'],['fit','What does the customer want?','Pick the concern, get the right offer'],['compare','Compare services','Side by side, with what to say'],['study','Study','Smart flashcards from the guide']],
   recent:'Recently opened',studyProg:'Your study progress',studyGo:'Continue studying',tipT:'Tip of the day',
   confirmed:'confirmed',
   cmp:{eyebrow:'Side by side',title:'Compare services',intro:'Pick up to 3 offers. Prices and details come live from the offers sheet.',presets:'Ready comparisons',pick:'Pick offers',max:'You can compare 3 at most. Remove one first.',
@@ -55,14 +59,18 @@ const T=EN?{
   install:'Install the guide on your phone',offline:'You are offline. The guide still works with the last saved copy.'
 }:{
   groups:{call:'على المكالمة',req:'طلبات وإيميلات',learn:'اتعلّم',team:'التيم',more:'كمان'},
-  views:{compare:'قارن الخدمات',fit:'العميل عايز إيه؟',sell:'بيع أكتر',study:'ذاكر'},
+  views:{compare:'قارن الخدمات',fit:'العميل عايز إيه؟',sell:'الخدمة 360°',study:'ذاكر'},
+  brand:'بوصلة',tagline:'بوصلتك في كل مكالمة',
+  hub:{eyebrow:'اختار الخدمة وشوف كل حاجة',title:'الخدمة 360°',intro:'اختار الخدمة اللي العميل بيسأل عليها. هيطلعلك السعر وتقول إيه، والأب سيل والكروس سيل بتوعها مع بعض، وأسئلة العميل والتحذيرات.',find:'دوّر على خدمة…',pickFirst:'اختار خدمة من فوق.',copySay:'انسخ الكلام',copyWa:'انسخ للواتساب',cmp:'قارنها بالشبهها',full:'كارت العرض كامل',br:'الفروع والمواعيد',upT:'أب سيل (Upsell)',upS:'اختيار أكبر أو أحسن من نفس الحاجة',xT:'كروس سيل (Cross-sell)',xS:'بس لما العميل يجيب سيرتها',valT:'وضّح القيمة اللي جوه العرض',noUp:'مفيش اختيار أكبر للخدمة دي. ركّز على الهدية والاستشارة المجانية.',noX:'مفيش كروس سيل مقترح للخدمة دي. خلّي المكالمة على الحجز الأساسي.',qaT:'أسئلة العميل والاعتراضات',guide:'افتح دليل الخدمة',rulesT:'إزاي تبيع أكتر من غير ضغط (الـ 4 خطوات، الهدية، وامتى متعرضش)'},
+  brq:{title:'الفروع والمواعيد دلوقتي',all:'كل تفاصيل الفروع',docs:'الدكاترة النهارده',none:'مفيش دكتور النهارده',phone:'التليفون'},
+  noor:{svc:'أب وكروس سيل',cmp:'قارن',say:'انسخ الكلام',mic:'اتكلم',micNo:'المتصفح ده مش بيدعم الكلام بالصوت',ask:q=>'اسأل نور: '+q,listening:'بسمعك…'},
   theme:'الشكل',themes:{auto:'تلقائي',light:'فاتح',dark:'غامق'},kbd:'بحث سريع',
   palPh:'دوّر على صفحة أو عرض أو أداة… (Ctrl K)',palViews:'الصفحات',palActs:'أوامر',palHits:'في الدليل',palNone:'مفيش نتايج. جرب كلمة تانية.',
   acts:{noor:'اسأل نور',call:'مساعد المكالمة (تشيك ليست)',quote:'حاسبة الأسعار',wiz:'نتيجة المكالمة (أودوو)',theme:'غيّر فاتح / غامق',en:'English version',study:'ابدأ مراجعة سريعة',compare:'قارن خدمتين'},
   bottom:{home:'الرئيسية',offers:'العروض',noor:'نور',study:'ذاكر',more:'المزيد'},
   hello:h=>h<12?'صباح الخير':'مساء الخير',
   heroSub:'كل اللي محتاجه في المكالمة في مكان واحد. دوّر بـ Ctrl K أو اسأل نور.',
-  heroCards:[['compare','قارن الخدمات','جنب بعض، ومعاها تقول إيه'],['fit','العميل عايز إيه؟','اختار مشكلته يطلعلك العرض المناسب'],['sell','بيع أكتر','Cross-sell و Upsell خطوة بخطوة'],['study','ذاكر','كروت مذاكرة ذكية من الدليل']],
+  heroCards:[['offers','العروض والأسعار','كل عرض بسعره وهديته'],['branches','الفروع والمواعيد','مفتوح دلوقتي؟ ومين من الدكاترة موجود؟'],['sell','الخدمة 360°','السعر والأب سيل والكروس سيل مع بعض'],['fit','العميل عايز إيه؟','اختار مشكلته يطلعلك العرض المناسب'],['compare','قارن الخدمات','جنب بعض، ومعاها تقول إيه'],['study','ذاكر','كروت مذاكرة ذكية من الدليل']],
   recent:'آخر حاجات فتحتها',studyProg:'تقدّمك في المذاكرة',studyGo:'كمّل مذاكرة',tipT:'معلومة النهارده',
   confirmed:'مؤكد',
   cmp:{eyebrow:'جنب بعض',title:'قارن الخدمات',intro:'اختار لحد 3 عروض. الأسعار والتفاصيل جاية من شيت العروض أول بأول.',presets:'مقارنات جاهزة',pick:'اختار العروض',max:'تقدر تقارن 3 بس. شيل واحد الأول.',
@@ -124,7 +132,7 @@ const ic=(k,s)=>`<svg class="kp-i" width="${s||18}" height="${s||18}" viewBox="0
 
 /* ---------------- groups ---------------- */
 const GROUPS=[
- ['call',['home','offers','services','compare','fit','sell','calls','branches','odoo']],
+ ['call',['home','offers','branches','sell','fit','compare','services','calls','odoo']],
  ['req',['wa','booking','follow','aux','complaint']],
  ['learn',['study','quiz','lang']],
  ['team',['ask','dash','todo']]
@@ -192,16 +200,18 @@ SEC.compare=compareHtml;
 /* =============== WHAT DOES THE CUSTOMER WANT =============== */
 const NEEDS=[
  {id:'wrinkles',e:'〰️',t:L('تجاعيد الجبهة أو حوالين العين','Forehead or eye wrinkles'),hint:L('"خطوط الضحك"، "بين الحواجب"','"crow\'s feet", "frown lines"'),o:['nabota','dysport'],ask:L('التجاعيد اللي مضايقة حضرتك في أنهي منطقة بالظبط؟','Which area bothers you most?')},
- {id:'glow',e:'✨',t:L('نضارة وترطيب وشد خفيف','Glow, hydration, light tightening'),hint:L('"وشي باهت"، "شكلي تعبان"','"my face looks dull/tired"'),o:['meso','rrs'],ask:L('حضرتك عايزة نضارة وترطيب، ولا فيه تجاعيد معينة مضايقاكي؟','Is it more about glow and hydration, or specific wrinkles?')},
- {id:'scars',e:'🔹',t:L('آثار حب شباب أو مسام أو بقع','Acne scars, pores or spots'),hint:L('"حفر"، "مسام واسعة"','"pits", "open pores"'),o:['dermapen'],ask:L('الموضوع آثار حب شباب ولا مسام ولا بقع؟','Is it acne scars, pores or spots?')},
- {id:'eyes',e:'👁️',t:L('هالات أو تعب تحت العين','Dark circles or tired under-eyes'),hint:L('"سواد تحت العين"','"dark under my eyes"'),o:['rrseye'],ask:L('الهالات دي من زمان ولا جديدة؟ الدكتور هيقيّمها في الاستشارة.','Have the circles been there long? The doctor will assess them.')},
- {id:'lips',e:'💋',t:L('شفايف أوضح أو أملى','Fuller or more defined lips'),hint:L('"شفايفي رفيعة"','"thin lips"'),o:['lipfill'],ask:L('حضرتك عايزة تحديد وشكل، ولا حجم أكتر؟','Do you want more shape, or more volume?')},
- {id:'contour',e:'💎',t:L('خدود وفك وملامح الوش','Cheeks, jawline, face contour'),hint:L('"الوش الملكي"، "الجو لاين"','"jawline", "royal face"'),o:['facefill','sculptra'],ask:L('عايزة تحديد ملامح، ولا الوش فقد امتلاءه مع الوقت؟','Do you want definition, or has the face lost fullness over time?')},
- {id:'sag',e:'⬆️',t:L('ترهل أو الوش فقد الامتلاء','Sagging or lost fullness'),hint:L('"وشي نزل"','"my face dropped"'),o:['sculptra','endolaser'],ask:L('الترهل في الوش ولا الرقبة ولا الاتنين؟','Is the sagging in the face, the neck, or both?')},
+ {id:'glow',e:'✨',t:L('نضارة وترطيب وشد خفيف','Glow, hydration, light tightening'),hint:L('"وشي باهت"، "شكلي تعبان"','"my face looks dull/tired"'),o:['hydra','oxy','rrs','meso'],ask:L('حضرتك عايزة نضارة وترطيب، ولا فيه تجاعيد معينة مضايقاكي؟','Is it more about glow and hydration, or specific wrinkles?')},
+ {id:'scars',e:'🔹',t:L('آثار حب شباب أو مسام أو بقع','Acne scars, pores or spots'),hint:L('"حفر"، "مسام واسعة"','"pits", "open pores"'),o:['dermapen','oxy'],ask:L('الموضوع آثار حب شباب ولا مسام ولا بقع؟','Is it acne scars, pores or spots?')},
+ {id:'eyes',e:'👁️',t:L('هالات أو تعب تحت العين','Dark circles or tired under-eyes'),hint:L('"سواد تحت العين"','"dark under my eyes"'),o:['rrseye','rrsbox'],ask:L('الهالات دي من زمان ولا جديدة؟ الدكتور هيقيّمها في الاستشارة.','Have the circles been there long? The doctor will assess them.')},
+ {id:'lips',e:'💋',t:L('شفايف أوضح أو أملى','Fuller or more defined lips'),hint:L('"شفايفي رفيعة"','"thin lips"'),o:['allawin','restylane','lipfill'],ask:L('حضرتك عايزة تحديد وشكل، ولا حجم أكتر؟','Do you want more shape, or more volume?')},
+ {id:'contour',e:'💎',t:L('خدود وفك وملامح الوش','Cheeks, jawline, face contour'),hint:L('"الوش الملكي"، "الجو لاين"','"jawline", "royal face"'),o:['facefill','facetem','restyface','sculptra'],ask:L('عايزة تحديد ملامح، ولا الوش فقد امتلاءه مع الوقت؟','Do you want definition, or has the face lost fullness over time?')},
+ {id:'sag',e:'⬆️',t:L('ترهل أو الوش فقد الامتلاء','Sagging or lost fullness'),hint:L('"وشي نزل"','"my face dropped"'),o:['hifu','sculptra','mono','endolaser'],ask:L('الترهل في الوش ولا الرقبة ولا الاتنين؟','Is the sagging in the face, the neck, or both?')},
  {id:'chin',e:'🙂',t:L('الغبغب (الذقن المزدوج)','Double chin'),hint:L('"دبل تشن"','"double chin"'),o:['silutrix','endolaser'],ask:L('المشكلة دهون تحت الدقن، ولا كمان ترهل في الرقبة؟','Is it fat under the chin, or also loose skin on the neck?')},
- {id:'fat',e:'📏',t:L('دهون موضعية أو نحت الجسم','Local fat or body sculpting'),hint:L('"الكرش"، "الجنب"','"belly", "love handles"'),o:['fatcourse','endolaser'],ask:L('حضرتك عايزة تنحتي منطقة معينة ولا تخسي بشكل عام؟','Do you want to shape one area, or lose weight overall?')},
+ {id:'fat',e:'📏',t:L('دهون موضعية أو نحت الجسم','Local fat or body sculpting'),hint:L('"الكرش"، "الجنب"','"belly", "love handles"'),o:['fatcourse','silutrixabd','aqualyx','ultrasculpt','endolaser'],ask:L('حضرتك عايزة تنحتي منطقة معينة ولا تخسي بشكل عام؟','Do you want to shape one area, or lose weight overall?')},
  {id:'cellulite',e:'🌊',t:L('سيلوليت أو احتباس سوايل','Cellulite or fluid retention'),hint:L('"قشر البرتقان"، "تورم"','"orange peel", "swelling"'),o:['cellulite','lymph'],ask:L('الموضوع سيلوليت ولا تورّم واحتباس سوايل؟','Is it cellulite, or swelling and fluid retention?')},
  {id:'weight',e:'⚖️',t:L('إنقاص الوزن','Weight loss'),hint:L('"إبر التخسيس"، "مونجارو"','"weight-loss shots", "Mounjaro"'),o:['mounjaro','fatcourse'],ask:L('حضرتك جربتي قبل كده دايت أو أجهزة؟ الدكتور هيحدد المناسب في الاستشارة.','Have you tried diets or devices before? The doctor will decide in the consultation.'),med:true},
+ {id:'hairloss',e:'🌿',t:L('تساقط الشعر أو خفّته','Hair loss or thinning'),hint:L('"شعري بيقع"، "فيه فراغات"','"my hair is falling", "thin patches"'),o:['gcell'],ask:L('التساقط ده من إمتى، وفي منطقة معينة ولا الشعر كله؟ الدكتور هيفحص فروة الراس في الاستشارة ويحدد المناسب.','Since when, and is it one area or all over? The doctor will check the scalp in the consultation and decide what suits you.')},
+ {id:'tone',e:'🍑',t:L('شد المؤخرة أو عضلات البطن','Buttock lift or toned abs'),hint:L('"عايزة أرفع المؤخرة"','"lift my buttocks"'),o:['ultrasculpt'],ask:L('حضرتك عايزة شد ورفع، ولا كمان فيه دهون عايزة تتخلصي منها؟','Is it about lifting and toning, or is there also fat to lose?')},
  {id:'hair',e:'🪒',t:L('إزالة الشعر بالليزر','Laser hair removal'),hint:L('"ليزر فل بادي"','"full body laser"'),o:['laser1','laser2'],ask:L('حضرتك عايزة الجسم كله، ولا محتاجة الظهر والبطن كمان؟','Full body without back & belly, or including them?')}
 ];
 let NEED=store.get('kp-need','wrinkles');
@@ -227,7 +237,89 @@ function offerMini(o){
 }
 SEC.fit=fitHtml;
 
-/* =============== SELL MORE =============== */
+/* =============== SERVICE 360: pick a service, see price, upsell and cross-sell together =============== */
+const CATE={botox:'💉',filler:'💋',skin:'✨',body:'🔥',weight:'⚖️',laser:'⚡',hair:'🌿'};
+const AED=L('درهم','AED');
+function priceSay(o){
+  if(!o||o.st!=='ok') return L('والسعر هأكده لحضرتك قبل الحجز','and I will confirm the price before booking');
+  const pn=String(o.pn||'');
+  if(/\d/.test(pn)) return L('(',' (')+pn+' '+AED+L(')',')');
+  return L('بـ ','at ')+o.price+' '+AED+(pn?' ('+pn+')':'');
+}
+function priceLine(o){ return o.st==='ok'?o.price+' '+AED+(o.pn?' · '+o.pn:''):L('السعر محتاج تأكيد','Price needs confirming'); }
+/* upsell inside the same offer: price tier i -> tier j */
+const tier=(id,i,j,fa,fe,ta,te,wa,we,sa,se)=>()=>{ const o=offer(id); if(!o||o.st!=='ok') return null; const n=nums(o.price), a=n[i], b=n[j]; if(!(a&&b&&b>a)) return null;
+  return {o,self:true,from:L(fa,fe)+' '+money(a),to:L(ta,te)+' '+money(b),d:b-a,when:L(wa,we),say:L(sa(a,b),se(a,b))}; };
+/* upsell to a bigger or premium offer */
+const upg=(id,to,wa,we,why,whyE)=>()=>{ const a=offer(id), b=offer(to); if(!a||!b) return null; const x=nums(a.price)[0], y=nums(b.price)[0];
+  const d=a.st==='ok'&&b.st==='ok'&&x&&y&&y>x?y-x:0;
+  return {o:b,from:a.ar+' · '+(a.st==='ok'?a.price:'?'),to:b.ar+' · '+(b.st==='ok'?b.price:'?'),d,when:L(wa,we),
+    say:L(`لو حضرتك حابة ${why}، فيه كمان ${b.ar} ${priceSay(b)}${d?`، يعني الفرق ${fmt(d)} درهم`:''}، ومعاه هدية. والدكتور هيقولك الأنسب ليكي في الاستشارة.`,
+          `If you'd like ${whyE}, there is also ${b.ar} ${priceSay(b)}${d?`, only ${fmt(d)} AED more`:''}, with a gift. The doctor will tell you what suits you best in the consultation.`)}; };
+const UP={
+ nabota:[tier('nabota',0,1,'منطقة واحدة','One area','الوش كله','Full face','ذكرت أكتر من منطقة (الجبهة وحوالين العين مثلاً).','Mentions more than one area (e.g. forehead and around the eyes).',
+   (a,b)=>`بما إن حضرتك ذكرتي أكتر من منطقة، عرض الوش كله بـ ${fmt(b)} بدل ${fmt(a)} للمنطقة الواحدة، يعني الفرق ${fmt(b-a)} درهم بس، والدكتور هيحدد المناطق المناسبة في الاستشارة.`,
+   (a,b)=>`Since you mentioned more than one area, the full-face offer is ${fmt(b)} instead of ${fmt(a)} for one area, only ${fmt(b-a)} AED more. The doctor will decide the right areas in the consultation.`)],
+ dysport:[tier('dysport',0,1,'منطقة واحدة','One area','الوش كله','Full face','طالب ديسبورت بالاسم وذكر أكتر من منطقة.','Asks for Dysport by name and mentions more than one area.',
+   (a,b)=>`عرض ديسبورت للوش كله بـ ${fmt(b)} بدل ${fmt(a)} للمنطقة الواحدة، يعني الفرق ${fmt(b-a)} درهم، والدكتور هيحدد المناطق المناسبة.`,
+   (a,b)=>`The full-face Dysport offer is ${fmt(b)} instead of ${fmt(a)} for one area, ${fmt(b-a)} AED more, and the doctor will decide the right areas.`)],
+ hydra:[tier('hydra',0,1,'جلسة واحدة','One session','5 جلسات','5 sessions','عايزة نضارة مستمرة، أو سألت تكررها كل قد إيه.','Wants a lasting glow, or asks how often to repeat it.',
+   (a,b)=>`لو حضرتك ناوية تكرريها، باكدج الـ 5 جلسات بـ ${fmt(b)} درهم، يعني الجلسة بـ ${fmt(Math.round(b/5))} بدل ${fmt(a)}.`,
+   (a,b)=>`If you plan to repeat it, the 5-session package is ${fmt(b)} AED, so each session is ${fmt(Math.round(b/5))} instead of ${fmt(a)}.`)],
+ oxy:[tier('oxy',0,1,'جلسة واحدة','One session','5 جلسات','5 sessions','عايزة نتيجة أوضح، أو سألت عن عدد الجلسات.','Wants a clearer result, or asks how many sessions.',
+   (a,b)=>`باكدج الـ 5 جلسات بـ ${fmt(b)} درهم، يعني الجلسة بـ ${fmt(Math.round(b/5))} بدل ${fmt(a)}، والدكتور هيحدد العدد المناسب.`,
+   (a,b)=>`The 5-session package is ${fmt(b)} AED, so each session is ${fmt(Math.round(b/5))} instead of ${fmt(a)}. The doctor will decide how many you need.`)],
+ laser1:[upg('laser1','laser2','عايزة "الجسم كله"، أو سألت على الظهر أو البطن.','Wants "full body", or asks about the back or belly.','الظهر والبطن كمان','the back and belly too')],
+ rrs:[upg('rrs','rrsbox','ذكرت الوش والخدود وتحت العين مع بعض.','Mentions the face, cheeks and under-eyes together.','تغطي الوش والخدود وتحت العين','to cover the face, cheeks and under-eyes')],
+ rrseye:[upg('rrseye','rrsbox','مهتمة بالوش كله مش تحت العين بس.','Cares about the whole face, not only under the eyes.','تغطي الوش والخدود كمان مش تحت العين بس','to cover the face and cheeks as well')],
+ allawin:[upg('allawin','restylane','سألت على ماركة أوروبية أو "أحسن نوع".','Asks for a European brand or "the best type".','ماركة أوروبية معروفة','a well-known European brand')],
+ lipfill:[upg('lipfill','restylane','سألت على ماركة أوروبية أو "أحسن نوع".','Asks for a European brand or "the best type".','ماركة أوروبية معروفة','a well-known European brand')],
+ facefill:[upg('facefill','facetem','عايزة تحديد واضح للفك أو الدقن أو الوجنات.','Wants clear definition of the jaw, chin or cheekbones.','تحديد أوضح للفك والدقن والوجنات','sharper definition of the jaw, chin and cheekbones')],
+ restyface:[upg('restyface','facetem','عايزة تحديد واضح للفك أو الدقن أو الوجنات.','Wants clear definition of the jaw, chin or cheekbones.','تحديد أوضح للفك والدقن والوجنات','sharper definition of the jaw, chin and cheekbones')],
+ silutrix:[upg('silutrix','endolaser','فيه كمان ترهل في الرقبة، مش دهون بس.','There is also loose neck skin, not only fat.','شد الرقبة كمان مش تذويب الدهون بس','to tighten the neck as well, not only dissolve fat')]
+};
+/* what to explain instead of adding something (value inside the package) */
+const VALUE={
+ mounjaro:L('الباكدج مش القلم بس: فيه متابعة غذائية وطبية لمدة 3 شهور، ومعاه هدية. والدكتور هو اللي بيحدد إذا كان مناسب لحضرتك.','The package is more than the pen: 3 months of nutrition and medical follow-up, and a gift. The doctor decides whether it suits you.'),
+ fatcourse:L('الكورس مش جلسات بس: 16 جلسة ومعاهم متابعة غذائية أسبوعية لمدة شهرين وهدية.','The course is more than sessions: 16 sessions plus weekly nutrition follow-up for two months and a gift.'),
+ gcell:L('وضّح إنها جلسة واحدة في يوم واحد ومن غير جراحة، وإن الدكتور بيفحص فروة الراس الأول ويحدد إذا كانت مناسبة.','Explain it is one session in one day, without surgery, and that the doctor checks the scalp first and decides if it suits them.')
+};
+/* cross-sell: [offer, when the customer says…, what they mentioned] */
+const C=(o,ta,te,ka,ke)=>({o,t:L(ta,te),k:L(ka,ke)});
+const cLips=C('allawin','قالت إن شفايفها رفيعة أو ناشفة','Says her lips are thin or dry','الشفايف','your lips');
+const cEyes=C('rrseye','اشتكت من الهالات أو التعب تحت العين','Mentions dark circles or tired under-eyes','تحت العين','your under-eyes');
+const cGlow=C('hydra','عايزة نضارة لمناسبة، أو بشرتها باهتة','Wants a glow for an occasion, or her skin looks dull','النضارة','a glow');
+const cBotox=C('nabota','مضايقة من خطوط الجبهة أو حوالين العين','Bothered by forehead or eye lines','الخطوط','the lines');
+const cContour=C('facefill','عايزة تحديد للخدود أو الفك','Wants more defined cheeks or jaw','ملامح الوش','your face contour');
+const cSag=C('hifu','اشتكت من ترهل في الوش أو الرقبة','Mentions sagging in the face or neck','الترهل','the sagging');
+const cVol=C('sculptra','حاسة إن وشها فقد امتلاءه','Feels her face has lost fullness','الامتلاء','lost fullness');
+const cLift=C('mono','عايزة شد ورفع خفيف','Wants a light lift','الشد','a lift');
+const cScars=C('dermapen','اشتكت من آثار حب الشباب أو المسام','Mentions acne scars or pores','آثار الحبوب والمسام','scars and pores');
+const cChin=C('silutrix','اشتكت من الغبغب (دهون تحت الدقن)','Mentions a double chin','الغبغب','your double chin');
+const cBody=C('fatcourse','عايزة تنحت الجسم أو تخس بشكل عام','Wants to shape the body or lose weight overall','نحت الجسم','body shaping');
+const cCell=C('cellulite','اشتكت من السيلوليت','Mentions cellulite','السيلوليت','cellulite');
+const cLymph=C('lymph','اشتكت من تورم أو احتباس سوايل','Mentions swelling or fluid retention','التورم','the swelling');
+const cTone=C('ultrasculpt','عايزة شد المؤخرة أو عضلات البطن','Wants a buttock lift or toned abs','الشد','toning');
+const cBelly=C('silutrixabd','اشتكت من دهون البطن','Mentions belly fat','دهون البطن','belly fat');
+const cRrs=C('rrsbox','عايزة نضارة للوش كله مع تحت العين','Wants a glow for the whole face and under-eyes','نضارة الوش كله','a whole-face glow');
+const XS={
+ nabota:[cLips,cEyes,cGlow], dysport:[cLips,cEyes,cGlow], meso:[cGlow,cLips],
+ allawin:[cBotox,cContour,cGlow], lipfill:[cBotox,cContour,cGlow], restylane:[cBotox,C('restyface','عايزة فيلر للوش من نفس الماركة','Wants face filler from the same brand','الوش','your face'),cGlow],
+ facefill:[cLips,cBotox,cVol], restyface:[cLips,cBotox,cVol], facetem:[cLips,cBotox,cGlow],
+ sculptra:[cSag,cBotox,cLift], hifu:[cVol,cLift,cBotox], mono:[cSag,cVol], threads:[cSag,cVol],
+ rrs:[cBotox,cGlow,cScars], rrseye:[cBotox,cGlow], rrsbox:[cBotox,cGlow],
+ dermapen:[cGlow,cRrs], hydra:[cScars,cBotox], oxy:[cScars,cBotox],
+ endolaser:[cChin,cBody,cCell], silutrix:[cBelly,cSag], silutrixabd:[cBody,cTone], aqualyx:[cBelly,cBody],
+ fatcourse:[cCell,cLymph,cTone], cellulite:[cLymph,cBody], lymph:[cCell,cBody], ultrasculpt:[cBody,cCell],
+ mounjaro:[cTone], laser1:[cGlow], laser2:[cGlow]
+};
+function crossFor(id){ return (XS[id]||[]).filter(c=>c.o!==id&&has(c.o)).map(c=>{ const o=offer(c.o);
+  return {...c,ref:o,say:L(`بما إن حضرتك ذكرتي ${c.k}، عندنا ${o.ar} ${priceSay(o)}، ومعاه هدية حضرتك تختاريها. الدكتور ممكن يبصلك عليها في نفس الاستشارة المجانية. تحبي أكتبها في الحجز؟`,
+    `Since you mentioned ${c.k}, we have ${o.ar} ${priceSay(o)}, with a gift of your choice. The doctor can check it in the same free consultation. Shall I note it on your booking?`)}; }); }
+function upFor(id){ return (UP[id]||[]).map(f=>{try{return f()}catch(e){return null}}).filter(Boolean); }
+const NOGIFT=new Set(['gcell']); // gift not confirmed yet
+function waFor(o){ return o.ar+'\n'+(o.st==='ok'?'• '+o.price+' '+AED+(o.pn?' ('+o.pn+')':''):'• '+T.cmp.waNoPrice)+'\n'+(NOGIFT.has(o.id)?'':L('• معاه هدية حضرتك تختاريها\n','• With a gift of your choice\n'))+L('• الاستشارة الأولى مجانية، والدكتور هيحدد الأنسب ليكي','• The first consultation is free, and the doctor will decide what suits you best'); }
+let SVCID=store.get('kp-svc','nabota'); let SVCCAT='all';
 const STEPS=EN?[
  ['Close the main need first','Price, gift and a booking time for what they called about. Don\'t add anything before that.'],
  ['Ask one discovery question','"Is there anything else you\'d like the doctor to look at in the same visit?"'],
@@ -239,75 +331,75 @@ const STEPS=EN?[
  ['اربط عرض واحد باللي قاله','اقتراح واحد بس، بسعره المؤكد والهدية. "والدكتور هو اللي بيحدد في الاستشارة."'],
  ['احترم الرد','لو قال لأ، ارجع على طول لتأكيد الحجز الأساسي. متلحّش مرتين.']
 ];
-function ladders(){
-  const out=[];
-  const nb=offer('nabota'); if(nb){ const [a,b]=nums(nb.price); if(a&&b&&b>a) out.push({o:nb,from:L('منطقة واحدة','One area')+' '+money(a),to:L('الوش كله','Full face')+' '+money(b),d:b-a,
-    when:L('العميل ذكر أكتر من منطقة (مثلاً الجبهة وحوالين العين).','The customer mentions more than one area (e.g. forehead and around the eyes).'),
-    say:L(`بما إن حضرتك ذكرتي أكتر من منطقة، عرض الوش كله بـ ${fmt(b)} بدل ${fmt(a)} للمنطقة الواحدة، يعني الفرق ${fmt(b-a)} درهم بس، والدكتور هيحدد المناطق المناسبة ليكي في الاستشارة.`,`Since you mentioned more than one area, the full-face offer is ${fmt(b)} instead of ${fmt(a)} for one area, only ${fmt(b-a)} AED more, and the doctor will decide which areas suit you in the consultation.`)}); }
-  const l1=offer('laser1'), l2=offer('laser2'); if(l1&&l2){ const [a1,a2]=nums(l1.price), [b1,b2]=nums(l2.price); if(a1&&b1&&b1>a1) out.push({o:l2,from:L('من غير الظهر والبطن','Without back & belly')+' '+money(a1),to:L('الجسم كله مع الظهر والبطن','Full body with back & belly')+' '+money(b1),d:b1-a1,
-    sub:a2&&b2?L(`للرجالة: ${fmt(a2)} ← ${fmt(b2)} (الفرق ${fmt(b2-a2)})`,`Men: ${fmt(a2)} → ${fmt(b2)} (difference ${fmt(b2-a2)})`):'',
-    when:L('العميل عايز "الجسم كله"، أو سأل على الظهر أو البطن.','The customer wants "full body", or asks about the back or belly.'),
-    say:L(`لو حضرتك عايزة الظهر والبطن كمان، باكدج الجسم كله بـ ${fmt(b1)} بدل ${fmt(a1)}، يعني بزيادة ${fmt(b1-a1)} درهم بس ويغطي كل الجسم.`,`If you'd like the back and belly too, the full-body package is ${fmt(b1)} instead of ${fmt(a1)}, only ${fmt(b1-a1)} AED more and it covers the whole body.`)}); }
-  const ds=offer('dysport'); if(ds){ const [a,b]=nums(ds.price); if(a&&b&&b>a) out.push({o:ds,from:L('منطقة','One area')+' '+money(a),to:L('الوش كله','Full face')+' '+money(b),d:b-a,
-    when:L('العميل طالب ديسبورت بالاسم وذكر أكتر من منطقة.','The customer asks for Dysport by name and mentions more than one area.'),
-    say:L('ديسبورت للوش كله فيه عرض، خليني أأكدلك السعر النهائي قبل الحجز، والدكتور هيحدد المناطق.','There is a full-face Dysport offer. Let me confirm the final price before booking, and the doctor will decide the areas.')}); }
-  return out;
-}
-const CROSS=[
- {t:L('حاجزة بوتوكس، وقالت إن شفايفها رفيعة','Booked Botox, and says her lips are thin'),from:['nabota','dysport'],o:'lipfill',
-  say:L('حضرتك ذكرتي الشفايف، الدكتور ممكن يبصلك عليها في نفس الاستشارة المجانية. وعندنا عرض فيلر الشفايف {p} درهم ومعاه هدية. تحبي أكتبها في الحجز عشان الدكتور يشوفها؟','You mentioned your lips. The doctor can check them in the same free consultation, and our lip filler offer starts {p} AED with a gift. Shall I note it on the booking so the doctor looks at it?'),
-  why:L('زيارة واحدة واستشارة واحدة مجانية بدل مشوارين.','One visit and one free consultation instead of two trips.')},
- {t:L('حاجزة بوتوكس، واشتكت من الهالات أو التعب تحت العين','Booked Botox, and mentions dark circles or tired under-eyes'),from:['nabota','dysport'],o:'rrseye',
-  say:L('بما إن حضرتك ذكرتي تحت العين، عندنا RRS للعين، الإبرة بـ {p1} درهم. الدكتور هيقيّم إذا كانت مناسبة ليكي في نفس الاستشارة.','Since you mentioned under your eyes, we have RRS Eye at {p1} AED per needle. The doctor will assess if it suits you in the same consultation.'),
-  why:L('بيعالج حاجة العميل قالها بنفسه، في نفس الميعاد.','It answers something the customer raised, in the same appointment.')},
- {t:L('بيسأل على فيلر، ومضايق من خطوط الجبهة','Asking about filler, and bothered by forehead lines'),from:['lipfill','facefill','sculptra'],o:'nabota',
-  say:L('خطوط الجبهة غالباً الدكتور بيشوف لها البوتوكس. عندنا نابوتا المنطقة بـ {p1} درهم، والدكتور هيحدد الأنسب في الاستشارة.','For forehead lines the doctor usually looks at Botox. We have Nabota at {p1} AED per area, and the doctor will decide in the consultation.'),
-  why:L('كل منطقة ليها الحل بتاعها، والعميل بيسمع الاختيارات من الأول.','Each area has its own option, and the customer hears the choices up front.')},
- {t:L('بيسأل على سيلوتريكس للغبغب، وذكر ترهل الرقبة','Asking about Cellutrix for the double chin, and mentions loose neck skin'),from:['silutrix'],o:'endolaser',
-  say:L('لو فيه كمان ترهل في الرقبة، عندنا إندوليزر للوجه والرقبة بـ {p1} درهم، من غير جراحة. الدكتور هيقولك الأنسب ليكي في الاستشارة.','If there is also loose skin on the neck, we have Endolaser for face and neck at {p1} AED, without surgery. The doctor will tell you what suits you best.'),
-  why:L('الدكتور بيقارن الاتنين على حالته في نفس الاستشارة.','The doctor compares both on their case in the same consultation.')},
- {t:L('حاجز كورس الدهون، وبيشتكي من السيلوليت','Booked the fat course, and complains about cellulite'),from:['fatcourse','endolaser'],o:'cellulite',
-  say:L('بما إن حضرتك ذكرتي السيلوليت، عندنا كورس مخصوص ليه: 10 جلسات ثلاثية بـ {p1} درهم ومعاه هدية. تحبي الدكتور يشوف المناسب ليكي في نفس الزيارة؟','Since you mentioned cellulite, we have a dedicated course: 10 triple sessions for {p1} AED with a gift. Would you like the doctor to check what suits you in the same visit?'),
-  why:L('بيغطي حاجة تانية العميل مضايق منها.','It covers a second thing the customer is unhappy about.')},
- {t:L('بيسأل على السيلوليت، وذكر تورم أو احتباس سوايل','Asking about cellulite, and mentions swelling or fluid retention'),from:['cellulite'],o:'lymph',
-  say:L('للتورم واحتباس السوايل عندنا مساج لمفاوي بالخشب، 10 جلسات بـ {p1} درهم. الدكتور هيقولك إذا كان مناسب معاه.','For swelling and fluid retention we have wooden lymphatic massage, 10 sessions for {p1} AED. The doctor will say if it suits you alongside it.'),
-  why:L('اختيار أخف وسعره أقل لو العميل متردد.','A lighter, lower-priced option if the customer hesitates.')},
- {t:L('بيسأل على مونجارو','Asking about Mounjaro'),from:['mounjaro'],o:'mounjaro',
-  say:L('الباكدج مش القلم بس: فيه متابعة غذائية وطبية كل أسبوع لمدة 3 شهور، و10 جلسات أجهزة لتفتيت الدهون، ومعاه هدية. والدكتور هو اللي بيحدد إذا كان مناسب لحضرتك.','The package is more than the pen: weekly nutrition and medical follow-up for 3 months, 10 fat-breaking device sessions, and a gift. The doctor decides whether it suits you.'),
-  why:L('هنا مش بتبيع حاجة زيادة، بتوضح القيمة اللي جوه الباكدج.','Here you are not adding anything, you are showing the value inside the package.')}
-];
 const DONT=EN?['The customer is upset or complaining. Solve that first.','A pregnant customer (Hold): no extra offers.','Any medical question: transfer it to the doctor.','The customer asked to remove their number.','The customer is in a hurry or said "just book".','After one "no". Never offer a second time.']
  :['العميل متضايق أو بيشتكي. حل المشكلة الأول.','العميلة الحامل (Hold): مفيش عروض زيادة.','أي سؤال طبي: حوّله للدكتور.','العميل طلب نشيل رقمه.','العميل مستعجل أو قال "احجزلي وخلاص".','بعد أول "لأ". متعرضش تاني.'];
 const PHR=EN?['"Since you mentioned…, the doctor can check it in the same free consultation."','"One visit, one free consultation, and each offer comes with a gift you choose."','"I\'ll note it on your booking so the doctor looks at it, no commitment."','"Would you like me to add it, or keep the booking as it is?"']
  :['"بما إن حضرتك ذكرتي…، الدكتور ممكن يشوفها في نفس الاستشارة المجانية."','"زيارة واحدة، واستشارة واحدة مجانية، وكل عرض معاه هدية حضرتك تختاريها."','"هكتبها في الحجز عشان الدكتور يبصلها، من غير أي التزام."','"تحبي أضيفها، ولا نخلي الحجز زي ما هو؟"'];
-function sellHtml(){
-  const lad=ladders();
-  const giftRule=(RULES.find(r=>/هدية|gift/i.test(r[1]))||[])[2]||'';
-  return `<section id="sell" class="kp-sec"><div class="sh"><div class="eyebrow">${T.sell.eyebrow}</div><h2>${T.sell.title}</h2><p>${T.sell.intro}</p></div>
-   <div class="kp-note warn">${T.sell.disc}</div>
-   <h3 class="kp-h3">${T.sell.stepsT}</h3>
-   <ol class="kp-steps">${STEPS.map(([a,b],i)=>`<li><span class="n">${i+1}</span><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join('')}</ol>
-   ${lad.length?`<h3 class="kp-h3">${T.sell.ladT}</h3><p class="kp-mut kp-p">${T.sell.ladSub}</p>
-   <div class="kp-grid2">${lad.map(x=>`<div class="kp-card kp-lad"><div class="kp-omh"><b>${esc(x.o.ar)}</b>${stChip(x.o.st)}</div>
-     <div class="kp-ladder"><div><small>${T.sell.from}</small><b>${esc(x.from)}</b></div><span class="kp-up">+${fmt(x.d)}</span><div><small>${T.sell.to}</small><b>${esc(x.to)}</b></div></div>
-     ${x.sub?`<div class="kp-mut">${esc(x.sub)}</div>`:''}
-     <div class="kp-when"><span class="kp-lbl">${T.sell.trig}</span> ${esc(x.when)}</div>
-     <div class="kp-say">${esc(x.say)}<button class="kp-mini" data-a="copy" data-t="${esc(x.say)}">${ic('copy',14)} ${T.sell.copy}</button></div>
-     ${x.o.caution?`<div class="kp-warn">${esc(x.o.caution)}</div>`:''}</div>`).join('')}</div>`:''}
-   <h3 class="kp-h3">${T.sell.crossT}</h3><p class="kp-mut kp-p">${T.sell.crossSub}</p>
-   <div class="kp-cross">${CROSS.filter(c=>has(c.o)).map(c=>{const o=offer(c.o);const p1=nums(o.price)[0];const say=c.say.replace('{p}',String(o.price).replace(/^(من|from)\s*/i,EN?'from ':'يبدأ من ')).replace('{p1}',p1?fmt(p1):o.price);return `<div class="kp-card kp-x1">
-     <div class="kp-trig"><span class="kp-lbl">${T.sell.trig}</span><b>${esc(c.t)}</b></div>
-     <div class="kp-xo"><span class="kp-lbl">${T.sell.offerL}</span><button class="kp-link strong" data-a="go" data-v="o-${o.id}">${esc(o.ar)}</button> <span class="kp-price sm">${esc(o.price)}</span> ${stChip(o.st)}</div>
-     <div class="kp-say">${esc(say)}<button class="kp-mini" data-a="copy" data-t="${esc(say)}">${ic('copy',14)} ${T.sell.copy}</button></div>
-     <div class="kp-why"><span class="kp-lbl">${T.sell.why}</span> ${esc(c.why)}</div></div>`}).join('')}</div>
-   <div class="kp-grid2">
-    <div class="kp-card"><h3 class="kp-h3 sm">🎁 ${T.sell.giftT}</h3><p>${esc(giftRule)}</p><p class="kp-mut">${L('اسأل: "تحبي هديتك تكون إيه؟" قبل ما تأكد الحجز. الاختيار بيخلّي العميل يحس إنه كسبان.','Ask: "Which gift would you like?" before confirming the booking. Choosing makes the customer feel they won.')}</p></div>
-    <div class="kp-card"><h3 class="kp-h3 sm">✋ ${T.sell.dontT}</h3><ul class="kp-ul">${DONT.map(d=>`<li>${esc(d)}</li>`).join('')}</ul></div>
+const sayBox=t=>`<div class="kp-say">${esc(t)}<button class="kp-mini" data-a="copy" data-t="${esc(t)}">${ic('copy',14)} ${T.sell.copy}</button></div>`;
+function hubHtml(o){
+  if(!o) return `<div class="kp-empty">${ic('sell',28)}<span>${T.hub.pickFirst}</span></div>`;
+  const ups=upFor(o.id), xs=crossFor(o.id), val=VALUE[o.id];
+  const needs=NEEDS.filter(n=>n.o.includes(o.id)), alts=[...new Set([].concat(...needs.map(n=>n.o)))].filter(x=>x!==o.id&&has(x)).slice(0,2);
+  const pr=PRODUCTS.find(p=>p.id===o.guide), objs=pr?(pr.objs||[]).slice(0,4):[];
+  return `<div class="kp-hub" data-cat="${o.cat}">
+   <div class="kp-hubh"><span class="kp-hube" aria-hidden="true">${CATE[o.cat]||'✨'}</span>
+    <div class="kp-hubt"><span class="kp-cat">${esc(CATS[o.cat]||'')}</span><h3>${esc(o.ar)}</h3>${o.en&&o.en!==o.ar?`<span class="ltr kp-mut">${esc(o.en)}</span>`:''}</div>
+    <div class="kp-hubp"><span class="kp-price xl">${o.price==='—'?'—':esc(o.price)}</span><small>${o.price==='—'?'':AED}</small>${stChip(o.st)}</div></div>
+   ${o.pn?`<div class="kp-hubpn">${esc(o.pn)}</div>`:''}
+   <div class="kp-actions">
+    <button class="kp-btn pri" data-a="copy" data-t="${esc(o.say||'')}">${ic('copy',16)} ${T.hub.copySay}</button>
+    <button class="kp-btn" data-a="copy" data-t="${esc(waFor(o))}">${ic('wa',16)} ${T.hub.copyWa}</button>
+    ${alts.length?`<button class="kp-btn" data-kp="cmp-set" data-v="${[o.id].concat(alts).join(',')}">${ic('compare',16)} ${T.hub.cmp}</button>`:''}
+    <button class="kp-btn" data-a="go" data-v="o-${o.id}">${ic('offers',16)} ${T.hub.full}</button>
+    <button class="kp-btn" data-kp="br">${ic('branches',16)} ${T.hub.br}</button>
    </div>
-   <div class="kp-card"><h3 class="kp-h3 sm">🔗 ${T.sell.phrT}</h3><div class="kp-phr">${PHR.map(p=>`<button class="kp-chip" data-a="copy" data-t="${esc(p.replace(/^"|"$/g,''))}">${esc(p)}</button>`).join('')}</div></div>
+   <div class="kp-grid2">
+    ${o.what?`<div class="kp-card"><div class="kp-lbl">${T.cmp.rows.what}</div><p class="kp-pp">${esc(o.what)}</p></div>`:''}
+    ${o.who?`<div class="kp-card"><div class="kp-lbl">${T.cmp.rows.who}</div><p class="kp-pp">${esc(o.who)}</p></div>`:''}
+   </div>
+   ${o.say?`<div><div class="kp-lbl">${T.sell.say}</div>${sayBox(o.say)}</div>`:''}
+   ${o.caution?`<div class="kp-warn"><b>${T.cmp.rows.caution}:</b> ${esc(o.caution)}</div>`:''}
+   <div class="kp-ux">
+    <div class="kp-uxc up"><div class="kp-uxh"><span class="kp-uxi">⬆</span><div><b>${T.hub.upT}</b><small>${T.hub.upS}</small></div></div>
+     ${ups.length?ups.map(x=>`<div class="kp-card kp-lad">${x.self?'':`<div class="kp-omh"><button class="kp-link strong" data-kp="svc" data-v="${x.o.id}">${esc(x.o.ar)}</button>${stChip(x.o.st)}</div>`}
+       <div class="kp-ladder"><div><small>${T.sell.from}</small><b>${esc(x.from)}</b></div><span class="kp-up">${x.d?'+'+fmt(x.d):ARR}</span><div><small>${T.sell.to}</small><b>${esc(x.to)}</b></div></div>
+       <div class="kp-when"><span class="kp-lbl">${T.sell.trig}</span> ${esc(x.when)}</div>${sayBox(x.say)}</div>`).join('')
+      :val?`<div class="kp-card"><div class="kp-lbl">${T.hub.valT}</div>${sayBox(val)}</div>`:`<div class="kp-note">${T.hub.noUp}</div>`}
+     ${ups.length&&val?`<div class="kp-card"><div class="kp-lbl">${T.hub.valT}</div>${sayBox(val)}</div>`:''}</div>
+    <div class="kp-uxc x"><div class="kp-uxh"><span class="kp-uxi">↔</span><div><b>${T.hub.xT}</b><small>${T.hub.xS}</small></div></div>
+     ${xs.length?xs.map(c=>`<div class="kp-card kp-x1" data-cat="${c.ref.cat}"><div class="kp-trig"><span class="kp-lbl">${T.sell.trig}</span><b>${esc(c.t)}</b></div>
+       <div class="kp-xo"><span class="kp-lbl">${T.sell.offerL}</span><button class="kp-link strong" data-kp="svc" data-v="${c.ref.id}">${CATE[c.ref.cat]||''} ${esc(c.ref.ar)}</button> <span class="kp-price sm">${esc(c.ref.price)}</span> ${stChip(c.ref.st)}</div>${sayBox(c.say)}</div>`).join('')
+      :`<div class="kp-note">${T.hub.noX}</div>`}</div>
+   </div>
+   ${(o.qa||[]).length||objs.length?`<details class="kp-card kp-det" open><summary>${T.hub.qaT} (${(o.qa||[]).length+objs.length})</summary><div class="kp-qa">${(o.qa||[]).concat(objs).map(([q,a])=>`<div><b>${esc(q)}</b><span>${esc(a)}</span></div>`).join('')}</div>${pr?`<button class="kp-link" data-a="go" data-v="p-${pr.id}">📘 ${T.hub.guide} ${ARR}</button>`:''}</details>`:''}
+   <div class="kp-note warn">${T.sell.disc}</div>
+  </div>`;
+}
+function sellHtml(){
+  const pool=OFFERS.filter(o=>SVCCAT==='all'||o.cat===SVCCAT);
+  const cur=offer(SVCID)||OFFERS[0];
+  const giftRule=(RULES.find(r=>/هدية|gift/i.test(r[1]))||[])[2]||'';
+  const cats=[['all',L('الكل','All')]].concat(Object.entries(CATS).filter(([k])=>OFFERS.some(o=>o.cat===k)));
+  return `<section id="sell" class="kp-sec"><div class="sh"><div class="eyebrow">${T.hub.eyebrow}</div><h2>${T.hub.title}</h2><p>${T.hub.intro}</p></div>
+   <div class="kp-card kp-pick">
+    <div class="kp-pickh"><div class="kp-chips kp-cats">${cats.map(([k,t])=>`<button class="kp-tab ${SVCCAT===k?'on':''}" data-kp="svc-cat" data-v="${k}">${k==='all'?'':(CATE[k]||'')+' '}${esc(t)}</button>`).join('')}</div>
+     <input class="kp-pf" id="kp-pf" type="search" placeholder="${T.hub.find}" aria-label="${T.hub.find}"></div>
+    <div class="kp-chips kp-svcs">${pool.map(o=>`<button class="kp-chip pick ${o.id===cur.id?'on':''}" data-cat="${o.cat}" data-kp="svc" data-v="${o.id}" data-k="${esc(norm(o.ar+' '+(o.en||'')+' '+(CATS[o.cat]||'')))}" aria-pressed="${o.id===cur.id}"><i>${CATE[o.cat]||''}</i>${esc(o.ar)}</button>`).join('')}</div>
+   </div>
+   ${hubHtml(cur)}
+   <details class="kp-card kp-det"><summary>${T.hub.rulesT}</summary>
+    <ol class="kp-steps">${STEPS.map(([a,b],i)=>`<li><span class="n">${i+1}</span><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join('')}</ol>
+    <div class="kp-grid2">
+     <div class="kp-card"><h3 class="kp-h3 sm">🎁 ${T.sell.giftT}</h3><p>${esc(giftRule)}</p><p class="kp-mut">${L('اسأل: "تحبي هديتك تكون إيه؟" قبل ما تأكد الحجز. الاختيار بيخلّي العميل يحس إنه كسبان.','Ask: "Which gift would you like?" before confirming the booking. Choosing makes the customer feel they won.')}</p></div>
+     <div class="kp-card"><h3 class="kp-h3 sm">✋ ${T.sell.dontT}</h3><ul class="kp-ul">${DONT.map(d=>`<li>${esc(d)}</li>`).join('')}</ul></div>
+    </div>
+    <div class="kp-card"><h3 class="kp-h3 sm">🔗 ${T.sell.phrT}</h3><div class="kp-phr">${PHR.map(p=>`<button class="kp-chip" data-a="copy" data-t="${esc(p.replace(/^"|"$/g,''))}">${esc(p)}</button>`).join('')}</div></div>
+   </details>
   </section>`;
 }
 SEC.sell=sellHtml;
+function openSvc(id){ if(!has(id)) return; SVCID=id; store.set('kp-svc',id); SVCCAT='all'; if(VIEW!=='sell') setView('sell'); else { renderMain(); } const h=document.querySelector('.kp-hub'); if(h) h.scrollIntoView({block:'start',behavior:reduce()?'auto':'smooth'}); }
+
 
 /* =============== STUDY =============== */
 function hash(s){let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return (h>>>0).toString(36)}
@@ -414,6 +506,60 @@ let MISS=null, MISS_ERR='';
 async function loadMisses(){ const s=ses(); if(!s) return; try{ const j=await (await fetch(API+'?action=kbMisses&session='+encodeURIComponent(s.session))).json(); if(j&&j.ok){ MISS=j; MISS_ERR=''; } else MISS_ERR=j&&j.error==='forbidden'?'':T.miss.err; }catch(e){ MISS_ERR=''; } if(VIEW==='dash') renderMain(); }
 if(SEC.dash){ const _d=SEC.dash; SEC.dash=()=>{ const h=_d(); if(!MISS&&!MISS_ERR) return h; const p=`<div class="panel kp-miss"><b>🔎 ${T.miss.title}</b><div class="muted">${T.miss.sub}</div>${MISS_ERR?`<div class="muted">${esc(MISS_ERR)}</div>`:MISS.items.length?`<ol>${MISS.items.map(x=>`<li><span>${esc(x.q)}</span><span class="kp-mut">${T.miss.times(x.n)}${x.noor?' · '+T.miss.noor+' '+x.noor:''} · ${esc(x.last)}</span></li>`).join('')}</ol>`:`<div class="muted">${T.miss.none}</div>`}</div>`; return h.replace(/<\/section>\s*$/,p+'</section>'); }; }
 
+/* =============== OFFERS + BRANCHES side by side =============== */
+function todayDocs(bid){ try{ const t=uaeParts(), dt=uaeDate(0); return DOCTORS.map((d,i)=>[d,i]).filter(([d])=>d.br===bid&&docDay(d,dt,t.wd).on); }catch(e){ return []; } }
+function brqHtml(){
+  if(typeof BRANCHES==='undefined'||typeof branchStatus!=='function') return '';
+  return `<div class="kp-brq"><div class="kp-brqh"><b>${ic('branches',16)} ${T.brq.title}</b><button class="kp-link" data-kp="br">${T.brq.all} ${ARR}</button></div>
+   <div class="kp-brqg">${BRANCHES.map(b=>{ const st=branchStatus(b), ds=todayDocs(b.id);
+    return `<div class="kp-brc ${st.open?'on':'off'}"><div class="kp-brt"><b>${esc(b.city)}</b><span class="bstat ${st.open?'on':'off'}" data-bstat="${b.id}">${esc(st.txt)}</span></div>
+     <div class="kp-brd"><span class="kp-lbl">${T.brq.docs}</span> ${ds.length?ds.map(([d,i])=>`<span class="kp-doc">${esc(d.name)} <small>${esc(d.spec)}</small> <span class="bstat" data-dstat="${i}">${esc(docStatus(d).txt)}</span></span>`).join(''):`<span class="kp-mut">${T.brq.none}</span>`}</div>
+     ${b.phone?`<button class="kp-mini" data-a="copy" data-t="${esc(b.phone)}">${ic('calls',13)} ${esc(b.phone)}</button>`:''}</div>`; }).join('')}</div></div>`;
+}
+if(SEC.offers){ const _of=SEC.offers; SEC.offers=()=>{ const h=_of(); const i=h.indexOf('<div class="filters">'); return i<0?h:h.slice(0,i)+brqHtml()+h.slice(i); }; }
+if(SEC.branches){ const _br=SEC.branches; SEC.branches=()=>`<div class="kp-jump"><button class="kp-chip" data-kp="view" data-v="offers">${ic('offers',15)} ${viewLabel('offers')} ${ARR}</button><button class="kp-chip" data-kp="view" data-v="sell">${ic('sell',15)} ${T.views.sell} ${ARR}</button></div>`+_br(); }
+const brm=document.createElement('div'); brm.className='kp-pal kp-brm'; brm.hidden=true; document.body.appendChild(brm);
+function openBr(){ if(!SEC.branches) return; brm.innerHTML=`<div class="kp-pal-bg" data-kp="br-x"></div><div class="kp-pal-in kp-brin" role="dialog" aria-modal="true" aria-label="${T.hub.br}"><button class="kp-x kp-brx" data-kp="br-x" aria-label="close">${ic('x',16)}</button>${SEC.branches()}</div>`; brm.hidden=false; const x=brm.querySelector('.kp-brx'); if(x) x.focus(); }
+function closeBr(){ brm.hidden=true; brm.innerHTML=''; }
+
+/* =============== offer cards: category colour + quick actions =============== */
+function decorate(){
+  document.querySelectorAll('#main article.offer').forEach(el=>{ const o=offer(el.id.slice(2)); if(!o) return; el.dataset.cat=o.cat;
+    if(!el.querySelector('.kp-oact')){ const d=document.createElement('div'); d.className='kp-oact';
+      d.innerHTML=`<button data-kp="svc" data-v="${o.id}">${ic('sell',14)} ${T.noor.svc}</button><button data-kp="cmp-add" data-v="${o.id}">${ic('compare',14)} ${T.noor.cmp}</button><button data-kp="br">${ic('branches',14)} ${T.hub.br}</button>`;
+      const h=el.querySelector('.ohead'); if(h) h.after(d); } });
+}
+{ const _rm=renderMain; renderMain=function(){ _rm(); try{ decorate(); }catch(e){} }; }
+
+/* =============== Noor: actions on answers, voice, ask from the palette =============== */
+if(typeof botAnswerHtml==='function'){ const _ba=botAnswerHtml; botAnswerHtml=function(r){ let h=_ba(r);
+  try{ const it=r&&r.kind==='hit'&&r.best; let o=null;
+    if(it&&(it.type==='offer'||it.type==='oqa')) o=it.ref; else if(it&&it.type==='product'&&it.ref&&(it.ref.offers||[]).length) o=offer(it.ref.offers[0]);
+    if(o&&has(o.id)) h+=`<div class="kp-nact"><button data-kp="svc" data-v="${o.id}">${ic('sell',14)} ${T.noor.svc}</button><button data-kp="cmp-add" data-v="${o.id}">${ic('compare',14)} ${T.noor.cmp}</button>${o.say?`<button data-a="copy" data-t="${esc(o.say)}">${ic('copy',14)} ${T.noor.say}</button>`:''}</div>`; }catch(e){}
+  return h; }; }
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(typeof drawerChat==='function'&&SR){ const _dc=drawerChat; drawerChat=function(){ return _dc().replace(/(<button class="btn pri" type="submit")/,`<button type="button" class="btn kp-mic" data-kp="mic" title="${T.noor.mic}" aria-label="${T.noor.mic}">🎙</button>$1`); }; }
+let REC=null;
+function mic(){
+  if(!SR){ toast(T.noor.micNo); return; } if(REC){ try{REC.stop()}catch(e){} return; }
+  const r=new SR(); REC=r; r.lang=EN?'en-US':'ar-EG'; r.interimResults=true; r.maxAlternatives=1;
+  const b=document.querySelector('.kp-mic'); if(b) b.classList.add('on'); const i=$('cq'); if(i) i.placeholder=T.noor.listening;
+  r.onresult=e=>{ let t=''; for(const x of e.results) t+=x[0].transcript; const n=$('cq'); if(n) n.value=t; };
+  r.onerror=()=>{}; r.onend=()=>{ REC=null; const b2=document.querySelector('.kp-mic'); if(b2) b2.classList.remove('on'); const v=(($('cq')||{}).value||'').trim(); if(v) botSend(v); };
+  try{ r.start(); }catch(e){ REC=null; }
+}
+function closeNarrowDrawer(){ if(matchMedia('(max-width:1080px)').matches&&DRAWER){ DRAWER=null; renderRail(); } }
+
+/* =============== offline copy of the live offers =============== */
+if(typeof applyOfferRows==='function'){
+  const _ao=applyOfferRows; applyOfferRows=function(rows){ const r=_ao(rows); try{ if(rows&&rows.length>1) store.set('kp-offers',{t:Date.now(),rows}); }catch(e){} return r; };
+  const snap=store.get('kp-offers',null);
+  if(snap&&Array.isArray(snap.rows)&&Date.now()-(snap.t||0)<30*864e5){ try{ _ao(snap.rows); if(typeof reindex==='function') reindex(); }catch(e){} }
+}
+
+/* =============== name =============== */
+{ const b=document.querySelector('.brand b'); if(b) b.textContent=T.brand; const s=document.querySelector('.brand span'); if(s&&!/H&P|H&amp;P/.test(s.textContent)) s.textContent='H&P · '+s.textContent; try{ document.title=T.brand+' · H&P'; }catch(e){} }
+
 /* =============== SIDEBAR + BOTTOM NAV + PALETTE =============== */
 document.body.classList.add('kp');
 const wrap=$('wrap'), side=document.createElement('nav');
@@ -453,6 +599,7 @@ function palItems(q){
   if(views.length) out.push([T.palViews,views.slice(0,nq?6:30)]);
   if(acts.length) out.push([T.palActs,acts.slice(0,nq?4:8)]);
   if(hits.length) out.push([T.palHits,hits]);
+  if(nq) out.push([L('نور','Noor'),[{k:'a',id:'ask:'+q,t:T.noor.ask(q),ic:'noor'}]]);
   return out;
 }
 function renderPal(){
@@ -469,12 +616,14 @@ function runPal(i){
   else action(x.id);
 }
 function action(id){
+  if(id.startsWith('ask:')){ DRAWER='chat'; renderRail(); botSend(id.slice(4)); return; }
   if(['noor','call','quote','wiz'].includes(id)){ DRAWER={noor:'chat',call:'call',quote:'quote',wiz:'wiz'}[id]; renderRail(); if(DRAWER==='chat'){ setTimeout(()=>{const i=$('cq'); if(i) i.focus();},50); } return; }
   if(id==='study'){ setView('study'); startDeck('mix'); return; }
   if(id==='compare'){ setView('compare'); return; }
   if(id==='theme'){ THEME=(document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches))?'light':'dark'; store.set('kp-theme',THEME); applyTheme(); renderSide(); return; }
   if(id==='lang'){ const b=$('langbtn'); if(b) location.href=b.getAttribute('href')+location.hash; }
 }
+document.addEventListener('input',e=>{ if(e.target.id!=='kp-pf') return; const q=norm(e.target.value); document.querySelectorAll('.kp-svcs .kp-chip').forEach(b=>b.hidden=!!q&&!(b.dataset.k||'').includes(q)); });
 pal.addEventListener('input',e=>{ if(e.target.id==='kp-pq'){ PALS=0; renderPal(); } });
 pal.addEventListener('keydown',e=>{
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); if(!PALI.length) return; PALS=(PALS+(e.key==='ArrowDown'?1:-1)+PALI.length)%PALI.length; renderPal(); }
@@ -511,6 +660,12 @@ document.addEventListener('click',e=>{
   else if(a==='cmp-clear'){ CMP=[]; saveCmp(); renderMain(); }
   else if(a==='cmp-set'){ CMP=v.split(',').filter(has).slice(0,3); saveCmp(); setView('compare'); }
   else if(a==='cmp-wa'){ copyText(cmpWa(),T.cmp.copied); }
+  else if(a==='svc'){ closeBr(); closeNarrowDrawer(); openSvc(v); }
+  else if(a==='svc-cat'){ SVCCAT=v; renderMain(); }
+  else if(a==='br'){ openBr(); }
+  else if(a==='br-x'){ closeBr(); }
+  else if(a==='mic'){ e.preventDefault(); mic(); }
+  else if(a==='cmp-add'){ closeNarrowDrawer(); if(!CMP.includes(v)){ CMP.push(v); if(CMP.length>3) CMP=CMP.slice(-3); saveCmp(); } setView('compare'); }
   else if(a==='need'){ NEED=v; store.set('kp-need',v); renderMain(); }
   else if(a==='st-start'){ if(VIEW!=='study'){ VIEW='study'; } startDeck(v); try{history.replaceState(null,'','#study')}catch(e){} }
   else if(a==='st-flip'){ if(RUN){ RUN.flip=!RUN.flip; renderMain(); } }
@@ -522,6 +677,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&(e.key==='k'||e.key==='K')){ e.preventDefault(); pal.hidden?openPal():closePal(); return; }
   if(e.key==='Escape'&&!sheet.hidden){ closeSheet(); return; }
+  if(e.key==='Escape'&&!brm.hidden){ closeBr(); return; }
   if(VIEW==='study'&&RUN&&RUN.i<RUN.cards.length&&!/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||'')&&pal.hidden){
     if(e.key===' '){ e.preventDefault(); RUN.flip=!RUN.flip; renderMain(); }
     else if(e.key==='1'&&RUN.flip) grade(false);
