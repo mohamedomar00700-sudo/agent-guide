@@ -625,13 +625,28 @@ const RULES=[
 ];
 
 const FLOWS=[
- {t:'New lead (even if the customer doesn\'t know exactly what they want)',steps:[
-  ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Good evening, this is [your name] from H&P Medical Center. Am I speaking with Ms. [name]?'],
-  ['State the reason for the call and lead with the free consultation. Don\'t ask "Do you have two minutes?", because the easiest answer is "no".','I\'m calling about your inquiry about [the service / our services], and I have good news for you: your first consultation with the doctor is completely free with no obligation, and it tells you exactly which treatment suits you.'],
-  ['Find out the need.','So I can help you properly, are you looking for a specific service like laser or filler, or would you like help choosing what suits you best? And what would you most like to improve?'],
-  ['Link the free consultation to what they told you, and mention the offer and the gift.','Great. Your first consultation with us is completely free with no obligation. Dr. Yasmine Darwish, our dermatologist, will assess your skin and tell you the most suitable treatment for you. We also have offers right now, and each offer comes with a gift of your choice.'],
-  ['Close with two options.','Would you like to book the consultation on [day/time] or [day/time]?'],
-  ['Confirm all the details and close politely.','Let me confirm with you: name, number, branch, day and time. You will receive a confirmation message.'],
+ {t:'New lead from a campaign (asked about a service in the ad)',steps:[
+  ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person. Don\'t ask "Is this a good time?" (the client\'s request).','Good morning / Good evening, am I speaking with Ms. [name]? Welcome, this is [your name] from H&P Medical Center in Abu Dhabi.'],
+  ['State the reason for the call: the service they asked about in the ad.','You asked us about [service from the ad], and I wanted to call you myself to explain the current offer on it.'],
+  ['Find out the need with one question.','May I ask if you are interested in it for a specific area, or is this your first time?'],
+  ['Present the offer on the service they are interested in only, with the price before VAT and the gift as listed in Offers.','We have an offer on [service] right now for [price] AED before VAT, and it comes with a gift from the center that you choose: a full-body laser session, a HydraFacial session, OxyGeneo, or 10% off the offer price.'],
+  ['Offer the free consultation and close with two options. Name the doctor by service: dermatology with Dr. Yasmine Darwish, dermatologist; nutrition and weight loss with Dr. Waleed Shamhot, clinical nutritionist.','And your first consultation with the specialist doctor is completely free; the doctor decides what suits you best. Shall I book you on [day] or [day]?'],
+  ['If they say no: show understanding and ask for the reason once, answer it from the objection replies, then come back to the free consultation.','No problem at all. May I just ask what is making you hesitate? The price, the timing, or would you like more details?'],
+  ['If they still say no: offer another time or ask for a referral, and do not repeat the offer again.','Of course, I completely understand. Would you like me to contact you at a better time? And if you would like to recommend someone you know who could benefit from the offers and the free consultation, we would be very happy.'],
+  ['If they book: confirm all the details.','Let me confirm with you: name, number, branch, day and time. You will receive a confirmation message.'],
+  ['Close politely.','Thank you very much for your time, it was a pleasure speaking with you from H&P Medical Center. Have a nice day.'],
+  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
+ {t:'Old data (not sure they asked recently)',steps:[
+  ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person. Don\'t ask "Is this a good time?" (the client\'s request).','Good morning / Good evening, am I speaking with Ms. [name]? Welcome, this is [your name] from H&P Medical Center in Abu Dhabi.'],
+  ['Introduce the center. Don\'t say "you asked about X", because the data is old and the customer may not remember.','We are a medical center specialised in dermatology and aesthetics, and everything related to weight loss and body contouring, and we have special offers right now that come with a gift from the center.'],
+  ['Find out the need with an easy choice question instead of reading a list of services.','May I ask what you would most like to take care of right now: your skin, laser, or weight and body shape?'],
+  ['If they say "I used to come to you before": ask about their experience. If they complain, stop selling and send a complaint email.','May I ask what you had done before, and how was the experience?'],
+  ['Present the offer on the service they are interested in only, with the price before VAT and the gift as listed in Offers.','We have an offer on [service] right now for [price] AED before VAT, and it comes with a gift from the center that you choose: a full-body laser session, a HydraFacial session, OxyGeneo, or 10% off the offer price.'],
+  ['Offer the free consultation and close with two options. Name the doctor by service: dermatology with Dr. Yasmine Darwish, dermatologist; nutrition and weight loss with Dr. Waleed Shamhot, clinical nutritionist.','And your first consultation with the specialist doctor is completely free; the doctor decides what suits you best. Shall I book you on [day] or [day]?'],
+  ['If they say no: show understanding and ask for the reason once, answer it from the objection replies, then come back to the free consultation.','No problem at all. May I just ask what is making you hesitate? The price, the timing, or would you like more details?'],
+  ['If they still say no: offer another time or ask for a referral, and do not repeat the offer again.','Of course, I completely understand. Would you like me to contact you at a better time? And if you would like to recommend someone you know who could benefit from the offers and the free consultation, we would be very happy.'],
+  ['If they book: confirm all the details.','Let me confirm with you: name, number, branch, day and time. You will receive a confirmation message.'],
+  ['Close politely.','Thank you very much for your time, it was a pleasure speaking with you from H&P Medical Center. Have a nice day.'],
   ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Follow-up: attended the consultation but didn\'t book',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center.'],
@@ -656,7 +671,7 @@ const FLOWS=[
  {t:'Inbound call / returning a missed call',steps:[
   ['Answer with your name.','H&P Medical Center, this is [your name]. How can I help you?'],
   ['Search for the number in the system before anything else.','So the call is logged on the same customer and you don\'t create a duplicate.'],
-  ['Continue with the same steps as a new lead.','']]},
+  ['Continue with the same steps as a campaign lead, from finding out the need.','']]},
  {t:'Complaint in any call',steps:[
   ['Stop selling.',''],
   ['Listen until the end and apologize for the experience without admitting any medical error.','I\'m very sorry that your experience was like this.'],
@@ -723,13 +738,13 @@ const BRANCHES=[
 const DOCTORS=[
  {name:'Dr. Yasmine Darwish',spec:'Dermatology',br:'ad',days:['Sat','Sun','Mon','Tue','Thu'],from:14,to:22},
  {name:'Dr. Rogina',spec:'Nutrition',br:'ad',days:['Sun','Mon','Tue','Wed','Thu'],from:11,to:19},
- {name:'Dr. Waleed',spec:'Nutrition',br:'ad',days:['Sat','Sun','Mon','Tue'],from:11,to:20,start:'2026-10-10',note:'Week of 10 Oct only: Saturday, Sunday and Monday. From 17 Oct: Saturday to Tuesday every week.'},
+ {name:'Dr. Waleed Shamhot',spec:'Nutrition',br:'ad',days:['Sat','Sun','Mon','Tue'],from:11,to:20,start:'2026-10-10',note:'Week of 10 Oct only: Saturday, Sunday and Monday. From 17 Oct: Saturday to Tuesday every week.'},
  {name:'Dr. Randa',spec:'Dermatology',br:'fuj',days:['Tue','Wed'],from:13,to:21},
  {name:'Dr. Noha',spec:'Weight loss',br:'fuj',days:['Sat','Sun','Mon','Tue','Wed','Thu'],from:13,to:21}
 ];
 /* One-off changes for a specific date (holiday, extra day, different hours) */
 const EXC=[
- {doc:'Dr. Waleed',date:'2026-10-13',on:false}
+ {doc:'Dr. Waleed Shamhot',date:'2026-10-13',on:false}
 ];
 const SHEET_UPDATES=[];
 const WEEK=[['Sat','Sat'],['Sun','Sun'],['Mon','Mon'],['Tue','Tue'],['Wed','Wed'],['Thu','Thu'],['Fri','Fri']];
@@ -935,7 +950,7 @@ const QUICK=[
  ['Remove my number','Act immediately','Apologize and log Do not call.','obj-7']
 ];
 const CALLCK={
- NEW:{t:'New lead',f:0},NOBOOK:{t:'Follow-up: attended but didn\'t book',f:1},NOSHOW:{t:'Follow-up: booked but didn\'t show up',f:2},REENG:{t:'Old customer: new offer',f:3},INB:{t:'Inbound',f:4},COMPLAINT:{t:'Complaint',f:5}
+ NEW:{t:'New lead from a campaign',f:0},OLDDATA:{t:'Old data',f:1},NOBOOK:{t:'Follow-up: attended but didn\'t book',f:2},NOSHOW:{t:'Follow-up: booked but didn\'t show up',f:3},REENG:{t:'Old customer: new offer',f:4},INB:{t:'Inbound',f:5},COMPLAINT:{t:'Complaint',f:6}
 };
 const COMPCK=[
  'Introduced yourself and the center name (H&P)',
@@ -1183,7 +1198,7 @@ function waNum(p){ let d=String(p||'').replace(/[^\d+]/g,''); if(d.startsWith('+
   if(/^05\d{8}$/.test(d)) d='971'+d.slice(1); else if(/^5\d{8}$/.test(d)) d='971'+d; else if(/^9710\d{9}$/.test(d)) d='971'+d.slice(4); return d; }
 const waOk=n=>/^9715\d{8}$/.test(n);
 // Doctor names in both languages (the doctors sheet can reorder or replace DOCTORS, so match by name).
-const DOC_NAMES=[['د. ياسمين درويش','Dr. Yasmine Darwish','جلدية','Dermatology'],['د. روجينا','Dr. Rogina','تغذية','Nutrition'],['د. وليد','Dr. Waleed','تغذية','Nutrition'],['د. راندا','Dr. Randa','جلدية','Dermatology'],['د. نهى','Dr. Noha','تخسيس','Weight loss']];
+const DOC_NAMES=[['د. ياسمين درويش','Dr. Yasmine Darwish','جلدية','Dermatology'],['د. روجينا','Dr. Rogina','تغذية','Nutrition'],['د. وليد شمحوط','Dr. Waleed Shamhot','تغذية','Nutrition'],['د. راندا','Dr. Randa','جلدية','Dermatology'],['د. نهى','Dr. Noha','تخسيس','Weight loss']];
 const waDoc=(i,ar)=>{ const d=DOCTORS[i]; if(!d) return ''; const k=DOC_NAMES.find(n=>n[0]===(d.key||d.name)||n[1]===d.name); return k?(ar?k[0]+' ('+k[2]+')':k[1]+' ('+k[3]+')'):d.name+(d.spec?' ('+d.spec+')':''); };
 function waWhen(ar){ if(!WA.date) return ['','']; const d=new Date(WA.date+'T12:00:00');
   const day=d.toLocaleDateString(ar?'ar-EG-u-nu-latn':'en-GB',{weekday:'long',day:'numeric',month:'long'});
