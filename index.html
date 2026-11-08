@@ -684,6 +684,11 @@ const FLOWS=[
   ['وضّح الخطوة الجاية بميعاد.','المسؤول هيتواصل مع حضرتك [الميعاد].']]}
 ];
 
+// Time-limited promo (UAE Flag Day): call step until callTo, WhatsApp line until waTo (a day earlier so the customer has time to book). Hidden automatically after.
+const PROMO={from:'2026-11-03',callTo:'2026-11-12',waTo:'2026-11-11'};
+function promoOn(k){ const d=new Date(), t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); return t>=PROMO.from&&t<=PROMO[k]; }
+if(promoOn('callTo')) FLOWS.slice(0,2).forEach(f=>{ const i=f.steps.findIndex(s=>s[0].startsWith('لو لسه رافضة')); if(i>=0) f.steps.splice(i,0,['🇦🇪 يوم العلم (لحد 12 نوفمبر): لو العميلة مواطنة إماراتية، أو رفضت العرض، اذكر الهدايا الـ 3. ولو مقيمة، اعرض إنها تهاديها لصاحباتها المواطنات.','وحبيت أبلغ حضرتك إن بمناسبة يوم العلم الإماراتي، المركز مقدّم 3 هدايا لمواطني الإمارات: جلسة ليزر فل بادي بجهاز كانديلا الأبيض، وجلسة أكسجينيو لنضارة الوش، واستشارة خاصة مع د. ياسمين درويش أخصائية الجلدية والتجميل. والحجز متاح لحد 12 نوفمبر. ولو حضرتك مقيمة، تقدري تهادي بيها صاحباتك المواطنات: يبعتولنا "أريد هدية" على الواتساب.']); });
+
 const OBJ=[
  ['كان عميل عند تريس جولي','"مش ده تريس جولي؟"، "أنا كنت عندكم قبل كده وماعجبنيش"','"أيوه يا فندم، مركز H&P الطبي اشترى تريس جولي، وبقى بإدارة جديدة وستاف جديد وعروض جديدة. وعندنا دلوقتي عروض بمناسبة الافتتاح. ممكن أعرف حضرتك كنتي عاملة إيه قبل كده، وكانت التجربة عاملة إيه؟"','"إحنا مش مسؤولين عن اللي فات"، أو تتكلم وحش عن الإدارة القديمة، أو توعد إن "المشكلة مش هتتكرر خالص".','client',
   ['لو اشتكى من تجربة قديمة: اعتذر، ووقّف البيع، وابعت إيميل شكوى من تبويب "📣 إيميل شكوى".','لو مفيش شكوى: اعرض عروض الافتتاح والاستشارة المجانية.','لو قال مش عايز يتعامل تاني: احترم ده، وابعت إيميل شكوى بالسبب، وسجّله على أودوو.']],
@@ -1256,12 +1261,14 @@ function waText(){
     if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off); L.push(''); L.push('🎁 ومع كل عرض هدية من اختيار حضرتك، والاستشارة الأولى مع الدكتور مجانية.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar); L.push('اللوكيشن: '+br.map); }
     L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL);
+    if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 وبمناسبة يوم العلم الإماراتي، المركز مقدّم 3 هدايا لمواطني الإمارات:'); L.push('• جلسة ليزر فل بادي بجهاز كانديلا الأبيض'); L.push('• جلسة أكسجينيو لنضارة وإشراقة الوش'); L.push('• استشارة خاصة مع د. ياسمين درويش، أخصائية الجلدية والتجميل'); L.push('الحجز متاح لحد 12 نوفمبر. ولو حضرتك '+(f?'مقيمة، تقدري تهادي بيها صاحباتك المواطنات':'مقيم، تقدر تهادي بيها أصحابك المواطنين')+': يبعتولنا "أريد هدية" على الرقم ده.'); }
     L.push(''); L.push('لو حضرتك '+(f?'حابة':'حابب')+' نحجزلك ميعاد، '+(f?'ابعتيلنا':'ابعتلنا')+' اليوم والوقت اللي يناسبك هنا 🙏');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
     if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off); L.push(''); L.push('🎁 Every offer comes with a gift of your choice, and the first consultation with the doctor is free.'); L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en); L.push('Location: '+br.map); }
     L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL);
+    if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 To celebrate UAE Flag Day, the center is offering 3 gifts to UAE citizens:'); L.push('• A full-body laser session with the white Candela device'); L.push('• An OxyGeneo session for a radiant, fresh face'); L.push('• A private consultation with Dr. Yasmine Darwish, dermatology and aesthetics specialist'); L.push('Booking is open until 12 November. If you are a resident, you can gift them to your Emirati friends: they just send "I want a gift" to this number.'); }
     L.push(''); L.push('If you would like to book, just reply here with the day and time that suit you 🙏');
   }
   return L.join('\n');
