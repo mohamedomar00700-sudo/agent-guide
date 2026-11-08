@@ -1144,6 +1144,16 @@ function enOf(v){ v=String(v||'').trim(); if(!v||!AR_RE.test(v)) return v;
   const s=SVC.find(x=>v===x.ar||v===x.ar+' · '+x.en); if(s) return s.en;
   const o=OFFERS.find(x=>x.ar&&x.en&&(v===x.ar||v===x.ar+' · '+x.price)); if(o) return o.en+(v===o.ar?'':' · '+o.price);
   return v; }
+// Arabic typed lines ("> " quotes) get an English machine translation above them, through the QA Apps Script. If it is slow or down, the email opens as is.
+const TR_API='https://script.google.com/macros/s/AKfycbxREN7jc2IfSI1q6RkZNMYG812eV4AY73EulaQA-XlM-1JFYQYGuZgzsWZAsf9Vf2yTqQ/exec';
+async function enBody(b){ const L=String(b||'').split('\n'), idx=L.map((l,i)=>/^> /.test(l)&&AR_RE.test(l)?i:-1).filter(i=>i>=0).slice(0,8);
+  if(!idx.length) return b; let en=[];
+  try{ const ctl=new AbortController(), tm=setTimeout(()=>ctl.abort(),3500); const r=await fetch(TR_API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'translate',texts:idx.map(i=>L[i].slice(2))}),signal:ctl.signal}); clearTimeout(tm); en=((await r.json())||{}).en||[]; }catch(e){ return b; }
+  if(!en.some(Boolean)) return b;
+  for(let k=idx.length-1;k>=0;){ let j=k; while(j>0&&idx[j-1]===idx[j]-1) j--; const tr=en.slice(j,k+1).filter(Boolean); if(tr.length) L.splice(idx[j],0,...tr); k=j-1; } // a quoted block: its translation above it
+  return L.join('\n').replace(/ \(own words, in Arabic\):\n/g,' (auto-translated, Arabic original quoted under it):\n'); }
+async function openMail(to,cc,s,b){ location.href=mailto(to,cc,s,await enBody(b)); }
+async function copyMailText(head,b,msg){ copyText(head+(await enBody(b)),msg); }
 function quoteAr(label,txt){ txt=String(txt||'').trim(); if(!txt) return ''; return AR_RE.test(txt)?label+' (own words, in Arabic):\n'+txt.split('\n').map(l=>'> '+l).join('\n'):label+':\n'+txt; }
 // Names not in TEAM: an agent can type one (saved in this browser only); the "الفريق" sheet tab replaces TEAM for everyone.
 const TEAM_KEY='tj-team-extra', TEAM_ADD='__add';
@@ -1438,8 +1448,8 @@ document.addEventListener('toggle',e=>{ if(e.target.id==='waDown') WA.downOpen=e
 document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(!t) return; const a=t.dataset.a; if(!a.startsWith('ax')) return; e.preventDefault();
   if(a==='axr'){ AUX.reason=t.dataset.v; auxSave(); renderMain(); return; }
   const m=auxMail(a==='axback'); if(!m) return;
-  if(a==='axcopy'){ copyText('To: '+AUX_TO.join('; ')+'\nCC: '+AUX_CC.join('; ')+'\nSubject: '+m.s+'\n\n'+m.b,AXU.copied); return; }
-  location.href=mailto(AUX_TO,AUX_CC,m.s,m.b);
+  if(a==='axcopy'){ copyMailText('To: '+AUX_TO.join('; ')+'\nCC: '+AUX_CC.join('; ')+'\nSubject: '+m.s+'\n\n',m.b,AXU.copied); return; }
+  openMail(AUX_TO,AUX_CC,m.s,m.b);
   if(a==='axsend'){ AUX.since=hhmm(); } else { AUX.since=''; } auxSave(); setTimeout(renderMain,300); });
 SEC.wa=waHtml; SEC.aux=auxHtml;
 
@@ -1512,8 +1522,8 @@ document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(
   if(a==='cmt'){ CMP.type=t.dataset.v; renderMain(); return; }
   if(a==='cmw'){ const v=t.dataset.v; CMP.wants=CMP.wants.includes(v)?CMP.wants.filter(x=>x!==v):[...CMP.wants,v]; renderMain(); return; }
   const m=cmpMail(); if(!m) return;
-  if(a==='cmcopy'){ copyText('To: '+CMP_TO.join('; ')+'\nCC: '+CMP_CC.join('; ')+'\nSubject: '+m.s+'\n\n'+m.b,CMU.copied); return; }
-  location.href=mailto(CMP_TO,CMP_CC,m.s,m.b); });
+  if(a==='cmcopy'){ copyMailText('To: '+CMP_TO.join('; ')+'\nCC: '+CMP_CC.join('; ')+'\nSubject: '+m.s+'\n\n',m.b,CMU.copied); return; }
+  openMail(CMP_TO,CMP_CC,m.s,m.b); });
 SEC.complaint=cmpHtml;
 let VIEW='home';
 function viewOf(t){
@@ -2255,8 +2265,8 @@ document.addEventListener('click',e=>{ const t=e.target.closest('[data-a]'); if(
   if(a!=='bksend'&&a!=='bkcopy') return;
   const m=bkMail(); if(!m) return;
   bkSave();
-  if(a==='bkcopy'){ copyText('To: '+BK_TO.join('; ')+'\nCC: '+BK_CC.join('; ')+'\nSubject: '+m.s+'\n\n'+m.b,B.copied); return; }
-  location.href=mailto(BK_TO,BK_CC,m.s,m.b); });
+  if(a==='bkcopy'){ copyMailText('To: '+BK_TO.join('; ')+'\nCC: '+BK_CC.join('; ')+'\nSubject: '+m.s+'\n\n',m.b,B.copied); return; }
+  openMail(BK_TO,BK_CC,m.s,m.b); });
 SEC.booking=bkHtml;
 { const i=VIEWS.findIndex(v=>v[0]==='complaint'); VIEWS.splice(i<0?VIEWS.length:i,0,['booking',B.tab,['booking']]); }
 { const hv=(location.hash||'').slice(1); if(hv==='booking') setTimeout(()=>setView('booking',true),0); }
@@ -2871,7 +2881,7 @@ async function fuSave(k){ const x=CALLS.items.find(y=>fuKey(y)===k); if(!x) retu
     const old=w(x.date,x.time), s=res==='cancelled'?'Booking cancelled: '+x.cust+' | '+old+(x.branch?' | '+enOf(x.branch):''):'Booking moved: '+x.cust+' | new: '+w(nd,nt)+(x.branch?' | '+enOf(x.branch):'');
     const b='Hi Mostafa, Eslam,\n\n'+(res==='cancelled'?'The customer cancelled their booking.':'The customer changed the day of their booking.')+'\n'+L('Customer',x.cust)+L('Number',x.phone)+(res==='cancelled'?'\nAppointment was: '+old:'\nOld appointment: '+old+'\nNew appointment: '+w(nd,nt))+L('Branch',enOf(x.branch))+L('Offer / service',enOf(x.svc))+L('Doctor',enOf(x.doc))+L('Odoo',x.odoo)
       +(note?'\n\n'+quoteAr(res==='cancelled'?'Reason':'Notes',note):'')+'\n\n(From a follow-up call: '+['','Confirm the appointment','Reminder on the day','After the visit'][x.call]+')\n\nThanks,\n'+SES.name;
-    location.href=mailto([LEADS.mostafa,LEADS.eslam],[LEADS.hussein],s,b); }
+    openMail([LEADS.mostafa,LEADS.eslam],[LEADS.hussein],s,b); }
   await loadCalls(); }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b||!b.dataset.a.startsWith('fu')) return; const a=b.dataset.a; if(b.tagName==='SELECT') return; e.preventDefault();
   if(a==='fugo'){ FU.bar=false; fuBar(); setView('follow'); }
