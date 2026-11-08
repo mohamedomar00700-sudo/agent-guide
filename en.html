@@ -692,6 +692,11 @@ const FLOWS=[
   ['Explain the next step with a time.','The person in charge will contact you [time].']]}
 ];
 
+// Time-limited promo (UAE Flag Day): call step until callTo, WhatsApp line until waTo (a day earlier so the customer has time to book). Hidden automatically after.
+const PROMO={from:'2026-11-03',callTo:'2026-11-12',waTo:'2026-11-11'};
+function promoOn(k){ const d=new Date(), t=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); return t>=PROMO.from&&t<=PROMO[k]; }
+if(promoOn('callTo')) FLOWS.slice(0,2).forEach(f=>{ const i=f.steps.findIndex(s=>s[0].startsWith('If they still say no')); if(i>=0) f.steps.splice(i,0,['🇦🇪 Flag Day (until 12 Nov): if the customer is an Emirati citizen, or refused the offer, mention the 3 gifts. If they are a resident, suggest gifting them to Emirati friends.','I would also like to let you know that to celebrate UAE Flag Day, the center is offering 3 gifts to UAE citizens: a full-body laser session with the white Candela device, an OxyGeneo session for facial glow, and a private consultation with Dr. Yasmine Darwish, dermatology and aesthetics specialist. Booking is open until 12 November. And if you are a resident, you can gift them to your Emirati friends: they just send us "I want a gift" on WhatsApp.']); });
+
 const OBJ=[
  ['Was a Tres Jolie customer','"Isn\'t this Tres Jolie?", "I came to you before and didn\'t like it"','"Yes, H&P Medical Center bought Tres Jolie, and it now has new management, new staff and new offers. We also have grand-opening offers right now. May I ask what you had done before, and how was the experience?"','"We\'re not responsible for the past", speaking badly about the old management, or promising "this will never happen again".','client',
   ['If they complain about a past experience: apologize, stop selling, and send a complaint email from the "📣 Complaint email" tab.','If there\'s no complaint: offer the grand-opening offers and the free consultation.','If they say they don\'t want to deal with us again: respect it, send a complaint email with the reason, and log it in Odoo.']],
@@ -1264,12 +1269,14 @@ function waText(){
     if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off); L.push(''); L.push('🎁 ومع كل عرض هدية من اختيار حضرتك، والاستشارة الأولى مع الدكتور مجانية.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar); L.push('اللوكيشن: '+br.map); }
     L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL);
+    if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 وبمناسبة يوم العلم الإماراتي، المركز مقدّم 3 هدايا لمواطني الإمارات:'); L.push('• جلسة ليزر فل بادي بجهاز كانديلا الأبيض'); L.push('• جلسة أكسجينيو لنضارة وإشراقة الوش'); L.push('• استشارة خاصة مع د. ياسمين درويش، أخصائية الجلدية والتجميل'); L.push('الحجز متاح لحد 12 نوفمبر. ولو حضرتك '+(f?'مقيمة، تقدري تهادي بيها صاحباتك المواطنات':'مقيم، تقدر تهادي بيها أصحابك المواطنين')+': يبعتولنا "أريد هدية" على الرقم ده.'); }
     L.push(''); L.push('لو حضرتك '+(f?'حابة':'حابب')+' نحجزلك ميعاد، '+(f?'ابعتيلنا':'ابعتلنا')+' اليوم والوقت اللي يناسبك هنا 🙏');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
     if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off); L.push(''); L.push('🎁 Every offer comes with a gift of your choice, and the first consultation with the doctor is free.'); L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en); L.push('Location: '+br.map); }
     L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL);
+    if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 To celebrate UAE Flag Day, the center is offering 3 gifts to UAE citizens:'); L.push('• A full-body laser session with the white Candela device'); L.push('• An OxyGeneo session for a radiant, fresh face'); L.push('• A private consultation with Dr. Yasmine Darwish, dermatology and aesthetics specialist'); L.push('Booking is open until 12 November. If you are a resident, you can gift them to your Emirati friends: they just send "I want a gift" to this number.'); }
     L.push(''); L.push('If you would like to book, just reply here with the day and time that suit you 🙏');
   }
   return L.join('\n');
