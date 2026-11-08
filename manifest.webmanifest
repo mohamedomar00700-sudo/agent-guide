@@ -1,14 +1,14 @@
 {
-  "name": "دليل الإيجنت · H&P",
-  "short_name": "دليل الإيجنت",
+  "name": "بوصلة · H&P",
+  "short_name": "بوصلة",
   "description": "Agent knowledge base for the H&P account (Tech Source)",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "dir": "rtl",
   "lang": "ar",
-  "background_color": "#F5F6F8",
-  "theme_color": "#1D2B3A",
+  "background_color": "#F7F5FA",
+  "theme_color": "#24183A",
   "icons": [
     {"src": "img/icon-192.png", "sizes": "192x192", "type": "image/png"},
     {"src": "img/icon-512.png", "sizes": "512x512", "type": "image/png"},
