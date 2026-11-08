@@ -254,11 +254,11 @@ body.kp .sh h2{font-size:24px;letter-spacing:-.01em}
    v3 "Bousla": new palette, category colours, Service 360, branches strip,
    Noor upgrades. Light + dark.
    ===================================================================== */
-html:root{--bg:#F7F5FA;--soft:#F0EDF5;--line:#E2DCEA;--head:#24183A;--head2:#3B2352;--kp-glow:rgba(176,56,106,.18)}
-@media (prefers-color-scheme: dark){html:root:not([data-theme="light"]){--bg:#0F0C15;--paper:#1A1622;--soft:#241E2E;--line:#342C42;--head:#120C1C;--head2:#22163A;--kp-glow:rgba(224,123,160,.22)}}
-html:root[data-theme="dark"]{--bg:#0F0C15;--paper:#1A1622;--soft:#241E2E;--line:#342C42;--head:#120C1C;--head2:#22163A;--kp-glow:rgba(224,123,160,.22)}
+html:root{--bg:#F4F7FA;--soft:#EAF0F5;--line:#D9E2EA;--head:#121D31;--head2:#163A55;--rose:#137AA3;--rose-soft:#E2F2F9;--kp-plum:#2E4A8A;--kp-plum-soft:#E6ECF7;--kp-glow:rgba(25,150,194,.16)}
+@media (prefers-color-scheme: dark){html:root:not([data-theme="light"]){--bg:#0B111B;--paper:#141C28;--soft:#1C2635;--line:#2A3747;--head:#0A101C;--head2:#0F2A40;--rose:#5CC3E6;--rose-soft:#12303D;--kp-plum:#9DB4EA;--kp-plum-soft:#1E2A42;--kp-glow:rgba(92,195,230,.16)}}
+html:root[data-theme="dark"]{--bg:#0B111B;--paper:#141C28;--soft:#1C2635;--line:#2A3747;--head:#0A101C;--head2:#0F2A40;--rose:#5CC3E6;--rose-soft:#12303D;--kp-plum:#9DB4EA;--kp-plum-soft:#1E2A42;--kp-glow:rgba(92,195,230,.16)}
 body.kp{background:radial-gradient(1200px 500px at 100% -10%,var(--kp-glow),transparent 60%),var(--bg);background-attachment:fixed}
-body.kp .top{background:linear-gradient(120deg,var(--head) 0%,var(--head2) 60%,#5A2448 130%)}
+body.kp .top{background:linear-gradient(120deg,var(--head) 0%,var(--head2) 70%,#1996C2 160%)}
 body.kp .brand b{font-family:var(--d);font-size:21px;letter-spacing:.01em;display:inline-flex;align-items:center;gap:6px}
 body.kp .brand b::before{content:"🧭";font-size:19px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
 
@@ -296,7 +296,7 @@ body.kp article.offer[data-cat] .chip.c-cat{background:var(--cc-soft);color:var(
 .t-offers,.t-branches{border-width:1.5px}
 .t-offers{border-color:color-mix(in srgb,var(--rose) 35%,var(--line))}
 .t-branches{border-color:color-mix(in srgb,var(--amber) 35%,var(--line))}
-.kp-hero-in{background:radial-gradient(120% 140% at 100% 0%,rgba(192,56,111,.6) 0%,rgba(192,56,111,0) 55%),radial-gradient(90% 120% at 0% 100%,rgba(116,70,184,.55),transparent 60%),linear-gradient(135deg,var(--head) 0%,#3B2352 100%)}
+.kp-hero-in{background:radial-gradient(120% 140% at 100% 0%,rgba(25,150,194,.65) 0%,rgba(25,150,194,0) 55%),radial-gradient(90% 120% at 0% 100%,rgba(46,74,138,.6),transparent 60%),linear-gradient(135deg,var(--head) 0%,#163A55 100%)}
 
 /* Service 360 */
 .kp-pick{gap:10px}
@@ -365,3 +365,15 @@ body.kp article.offer[data-cat] .chip.c-cat{background:var(--cc-soft);color:var(
 @media print{.kp-oact,.kp-brq,.kp-jump{display:none!important}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .kp-hub .kp-btn.pri,:root:not([data-theme="light"]) .kp-svcs .kp-chip.on{color:#140F1C}}
 :root[data-theme="dark"] .kp-hub .kp-btn.pri,:root[data-theme="dark"] .kp-svcs .kp-chip.on{color:#140F1C}
+
+/* logos (like the QA scorecard header) */
+.kp-logos{display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:10px;padding:3px 9px;margin-inline-end:10px;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.kp-logos img{height:26px;width:auto;display:block}
+.kp-logos img.acct{height:38px}
+body.kp .brand{display:flex;align-items:center}
+body.kp .brand .kp-bt{display:grid;line-height:1.25}
+@media (max-width:759px){.kp-logos{padding:2px 6px;gap:5px}.kp-logos img{height:20px}.kp-logos img.acct{height:30px}}
+@media (max-width:420px){.kp-logos img:not(.acct){display:none}}
+.kp-up{background:var(--sage)}
+body.kp .brand .kp-logos,body.kp .brand .kp-bt{opacity:1;font-size:inherit}
+body.kp .kp-logos img{max-width:none;border:0;border-radius:0}
