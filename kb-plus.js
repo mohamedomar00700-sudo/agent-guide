@@ -655,8 +655,12 @@ function stepParts(s,l){
   return {cond,note,say};
 }
 const ME_RE=/\[(اسمك|your name)\]/gi;
-const meFill=t=>{ const n=myName(); return n?String(t).replace(ME_RE,n):String(t); };
-const hiPh=t=>{ const n=myName(); let h=esc(t); if(n) h=h.replace(ME_RE,`<span class="ks-me">${esc(n)}</span>`); return h.replace(/\[([^\]]+)\]/g,'<span class="ks-ph">$1</span>'); };
+/* greeting by the customer's time (UAE, UTC+4): before 12 noon morning, after it evening */
+const uaeHour=()=>{ try{ return +new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',hour:'2-digit',hourCycle:'h23'}).format(new Date()); }catch(e){ return (new Date().getUTCHours()+4)%24; } };
+const greet=()=>{ const h=uaeHour(); return EN?(h<12?'Good morning':h<17?'Good afternoon':'Good evening'):(h<12?'صباح الخير':'مساء الخير'); };
+const GR_RE=/صباح الخير \/ مساء الخير|Good morning \/ Good evening/g;
+const meFill=t=>{ const n=myName(); t=String(t).replace(GR_RE,greet()); return n?t.replace(ME_RE,n):t; };
+const hiPh=t=>{ const n=myName(); let h=esc(String(t).replace(GR_RE,'\u0001')).replace(/\u0001/g,`<span class="ks-me" title="${EN?'By the time in the UAE':'حسب الساعة في الإمارات'}">${greet()}</span>`); if(n) h=h.replace(ME_RE,`<span class="ks-me">${esc(n)}</span>`); return h.replace(/\[([^\]]+)\]/g,'<span class="ks-ph">$1</span>'); };
 const FT={
   eyebrow:L('سكريبت المكالمة','Call script'), title:L('خطوات المكالمة حسب نوعها','Call steps by call type'),
   intro:L('اختار نوع المكالمة. الكلام اللي في الفقاعة الخضرا هو اللي تقوله للعميل، والكلام الرمادي جنبه ملاحظة ليك إنت ومتتقالش.','Pick the call type. The green bubble is what you say to the customer. The grey text beside it is a note for you, never read it out.'),
@@ -688,7 +692,7 @@ function flowsHtml(){
     <div class="ks-acts"><button class="ib" data-kp="fcopy" data-v="${FSEL}">${FT.copyAll}</button><button class="ib pri" data-a="useflow" data-v="${FSEL}">☎ ${FT.use}</button></div></div>
     <div class="ks-cols" aria-hidden="true"><span></span><span>🗣 ${FT.say}</span><span>📝 ${FT.note}</span></div>
     <ol class="ks-steps">${f.steps.map(stepHtml).join('')}</ol>
-    <p class="small ks-phhelp">${FT.me(myName())} ${FT.ph}</p></div>
+    <p class="small ks-phhelp">${FT.me(myName())} ${L('والتحية بتتغير لوحدها حسب الساعة في الإمارات: صباح الخير قبل 12 الضهر، ومساء الخير بعدها.','The greeting changes by the time in the UAE: Good morning before 12 noon, Good afternoon until 5 pm, then Good evening.')} ${FT.ph}</p></div>
    ${FLOWS.map((x,i)=>i===FSEL?'':`<span id="flow-${i}" hidden></span>`).join('')}</section>`;
 }
 SEC.flows=flowsHtml;
