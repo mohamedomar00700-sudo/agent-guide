@@ -640,6 +640,76 @@ pal.addEventListener('keydown',e=>{
 { const _sv=setView; setView=function(v,n){ if(v!=='study') RUN=null; _sv(v,n); track(v); if(v==='dash'&&!MISS) loadMisses(); closeSheet(); }; }
 { const _go=go; go=function(t){ if(/^(o|p)-/.test(t)) track(t); return _go(t); }; }
 
+/* ---------------- call script: what to SAY vs notes for the agent ----------------
+   Every step is split into: the line the agent says (green bubble, one column)
+   and the note for the agent only (grey, beside it on PC, under it on phones).
+   "Script only" hides the notes. Steps with nothing to say show as an action row. */
+let FMODE=store.get('kp-flowmode','both'); // both | say
+let FSEL=+store.get('ks-flow',0)||0;
+const COND_RE=EN?/^(If|After|For)\b/i:/^(لو|بعد|في)\s/;
+function stepParts(s,l){
+  s=String(s||''); let cond='', note=s; const say=String(l||'');
+  if(COND_RE.test(s)){ const k=s.indexOf(':');
+    if(k>0&&k<90){ cond=s.slice(0,k).trim(); note=s.slice(k+1).trim(); if(EN) note=note.charAt(0).toUpperCase()+note.slice(1); }
+    else if(say){ cond=s.replace(/[.:؟?]\s*$/,''); note=''; } }
+  return {cond,note,say};
+}
+const ME_RE=/\[(اسمك|your name)\]/gi;
+const meFill=t=>{ const n=myName(); return n?String(t).replace(ME_RE,n):String(t); };
+const hiPh=t=>{ const n=myName(); let h=esc(t); if(n) h=h.replace(ME_RE,`<span class="ks-me">${esc(n)}</span>`); return h.replace(/\[([^\]]+)\]/g,'<span class="ks-ph">$1</span>'); };
+const FT={
+  eyebrow:L('سكريبت المكالمة','Call script'), title:L('خطوات المكالمة حسب نوعها','Call steps by call type'),
+  intro:L('اختار نوع المكالمة. الكلام اللي في الفقاعة الخضرا هو اللي تقوله للعميل، والكلام الرمادي جنبه ملاحظة ليك إنت ومتتقالش.','Pick the call type. The green bubble is what you say to the customer. The grey text beside it is a note for you, never read it out.'),
+  pending:L('سكريبت مقترح، مستني موافقة الكلاينت النهائية','Suggested script, waiting for the client\'s final approval'),
+  say:L('قول للعميل','Say to the customer'), note:L('ملاحظة ليك (متتقالش)','Note for you (don\'t say it)'),
+  act:L('خطوة تعملها','Do this'), both:L('الاسكريبت + الملاحظات','Script + notes'), only:L('الاسكريبت بس','Script only'),
+  use:L('افتحها في مساعد المكالمة','Open in the Call assistant'), copy:L('نسخ','Copy'), copyAll:L('انسخ الاسكريبت كله','Copy the whole script'),
+  steps:n=>L(n+' خطوة',n+' steps'), copied:L('اتنسخ الاسكريبت','Script copied'),
+  me:n=>n?L(`السكريبت متظبط باسمك: <span class="ks-me">${esc(n)}</span>. الاسم بيتاخد من دخولك في بوصلة.`,`The script uses your name: <span class="ks-me">${esc(n)}</span>, taken from your Bousla sign-in.`):L('سجّل دخولك في الكويز مرة واحدة، واسمك هيظهر في السكريبت مكان [اسمك] تلقائي.','Sign in to the quiz once and your name will replace [your name] in the script automatically.'),
+  ph:L('الكلام اللي بين الأقواس الملوّنة زي <span class="ks-ph">الاسم</span> بتغيّره بالبيانات الحقيقية.','Coloured words like <span class="ks-ph">name</span> are placeholders: replace them with the real details.')
+};
+function stepHtml(st,i){
+  const p=stepParts(st[0],st[1]); const ifc=p.cond?`<span class="ks-if">${esc(p.cond)}</span>`:'';
+  if(!p.say) return `<li class="ks-st is-act${p.cond?' is-cond':''}"><span class="ks-n">${i+1}</span><div class="ks-act">${ifc}<span class="ks-al">${FT.act}</span><span>${esc(p.note)}</span></div></li>`;
+  return `<li class="ks-st${p.cond?' is-cond':''}"><span class="ks-n">${i+1}</span>
+   <div class="ks-say">${ifc}<p>${hiPh(p.say)}</p><button class="ks-cp" data-a="copy" data-t="${esc(meFill(p.say))}" aria-label="${FT.copy}">${FT.copy}</button></div>
+   ${p.note?`<div class="ks-note"><span class="ks-nl">${FT.note}</span>${esc(p.note)}</div>`:'<div class="ks-note ks-empty"></div>'}</li>`;
+}
+function flowScript(f){ return f.steps.map((st,i)=>{ const p=stepParts(st[0],st[1]); return p.say?(p.cond?'('+p.cond+') ':'')+meFill(p.say):''; }).filter(Boolean).join('\n\n'); }
+function flowsHtml(){
+  if(FSEL>=FLOWS.length) FSEL=0;
+  const tabs=FLOWS.map((f,i)=>`<button class="ks-tab${i===FSEL?' on':''}" data-kp="fsel" data-v="${i}" aria-pressed="${i===FSEL}"><b>${esc(f.t.replace(/\s*\(.*\)\s*$/,''))}</b>${/\(/.test(f.t)?`<small>${esc((f.t.match(/\((.*)\)/)||[])[1]||'')}</small>`:''}</button>`).join('');
+  const f=FLOWS[FSEL];
+  return `<section id="flows" class="ks-flows ${FMODE==='say'?'say-only':''}"><div class="sh"><div class="eyebrow">${FT.eyebrow}</div><h2>${FT.title}</h2><p>${FT.intro}</p><p><span class="chip c-warn">${FT.pending}</span></p></div>
+   <div class="ks-tabs" role="tablist">${tabs}</div>
+   <div class="ks-bar"><div class="ks-seg" role="group"><button data-kp="fmode" data-v="both" class="${FMODE!=='say'?'on':''}">${FT.both}</button><button data-kp="fmode" data-v="say" class="${FMODE==='say'?'on':''}">${FT.only}</button></div>
+    <span class="ks-legend"><i class="ks-dot say"></i>${FT.say}<i class="ks-dot note"></i>${FT.note}</span></div>
+   <div class="ks-flow flow" id="flow-${FSEL}"><div class="ks-head"><div><h3>${esc(f.t)}</h3><span class="muted">${FT.steps(f.steps.length)}</span></div>
+    <div class="ks-acts"><button class="ib" data-kp="fcopy" data-v="${FSEL}">${FT.copyAll}</button><button class="ib pri" data-a="useflow" data-v="${FSEL}">☎ ${FT.use}</button></div></div>
+    <div class="ks-cols" aria-hidden="true"><span></span><span>🗣 ${FT.say}</span><span>📝 ${FT.note}</span></div>
+    <ol class="ks-steps">${f.steps.map(stepHtml).join('')}</ol>
+    <p class="small ks-phhelp">${FT.me(myName())} ${FT.ph}</p></div>
+   ${FLOWS.map((x,i)=>i===FSEL?'':`<span id="flow-${i}" hidden></span>`).join('')}</section>`;
+}
+SEC.flows=flowsHtml;
+{ const _go2=go; go=function(t){ const m=/^flow-(\d+)$/.exec(t||''); if(m&&+m[1]!==FSEL){ FSEL=+m[1]; store.set('ks-flow',FSEL); if(VIEW===viewOf('flows')) renderMain(); } return _go2(t); }; }
+/* Call assistant drawer: same split, script line first */
+drawerCall=function(){
+  const k=ST.callType; const f=FLOWS[CALLCK[k].f]; const done=ST.call[k]||{};
+  const steps=f.steps.map((s,i)=>({id:'s'+i,p:stepParts(s[0],s[1])}));
+  const comp=COMPCK.map((t,i)=>({id:'c'+i,t}));
+  const total=steps.length+comp.length; const n=Object.keys(done).filter(x=>done[x]).length;
+  const cb=(id)=>`<input type="checkbox" data-a="ck" data-v="${id}" ${done[id]?'checked':''}>`;
+  return `<div class="dhead"><b>${L('مساعد المكالمة','Call assistant')}</b><span class="timer" id="tmr">${T0?mm((Date.now()-T0)/1000):'00:00'}</span></div>
+   <select class="sel" id="ctype" data-a="ctype" aria-label="${L('نوع المكالمة','Call type')}">${Object.entries(CALLCK).map(([k2,v])=>`<option value="${k2}" ${k2===k?'selected':''}>${v.t}</option>`).join('')}</select>
+   <div class="row" style="display:flex;gap:6px"><button class="btn pri" data-a="tstart">${T0?L('مكالمة جديدة','New call'):L('ابدأ المكالمة','Start the call')}</button><button class="btn" data-a="creset">${L('امسح العلامات','Clear checks')}</button></div>
+   <div class="prog" aria-hidden="true"><i style="width:${Math.round(100*n/total)}%"></i></div>
+   <div class="ks-seg ks-seg-sm" role="group"><button data-kp="fmode" data-v="both" class="${FMODE!=='say'?'on':''}">${FT.both}</button><button data-kp="fmode" data-v="say" class="${FMODE==='say'?'on':''}">${FT.only}</button></div>
+   <div class="ck ks-ck ${FMODE==='say'?'say-only':''}"><h4>${L('الخطوات','Steps')}</h4>${steps.map(({id,p})=>`<label class="${done[id]?'done':''}${p.say?'':' is-act'}">${cb(id)}<span>${p.cond?`<span class="ks-if">${esc(p.cond)}</span>`:''}${p.say?`<span class="ks-say-sm">${hiPh(p.say)}</span>${p.note?`<span class="ks-note-sm">📝 ${esc(p.note)}</span>`:''}`:`<span class="ks-act-sm">${esc(p.note)}</span>`}</span></label>`).join('')}
+    <h4>${L('الكومبلاينس','Compliance')}</h4>${comp.map(s=>`<label class="${done[s.id]?'done':''}">${cb(s.id)}<span>${esc(s.t)}</span></label>`).join('')}</div>
+   <button class="btn" data-a="drawer" data-v="wiz">${L('خلصت؟ اختار نتيجة المكالمة ←','Done? Choose the call outcome →')}</button>`;
+};
+
 /* ---------------- events ---------------- */
 side.addEventListener('click',e=>{ const a=e.target.closest('a[data-kpv]'); if(!a) return; e.preventDefault(); setView(a.dataset.kpv); });
 sheet.addEventListener('click',e=>{ const a=e.target.closest('a[data-kpv]'); if(!a) return; e.preventDefault(); closeSheet(); setView(a.dataset.kpv); });
@@ -673,6 +743,9 @@ document.addEventListener('click',e=>{
   else if(a==='st-ok') grade(true);
   else if(a==='st-no') grade(false);
   else if(a==='st-back'){ RUN=null; renderMain(); }
+  else if(a==='fmode'){ FMODE=v==='say'?'say':'both'; store.set('kp-flowmode',FMODE); renderMain(); if(typeof DRAWER!=='undefined'&&DRAWER==='call') renderRail(); }
+  else if(a==='fsel'){ FSEL=+v||0; store.set('ks-flow',FSEL); renderMain(); }
+  else if(a==='fcopy'){ copyText(flowScript(FLOWS[+v]),FT.copied); }
   else if(a==='st-reset'){ if(confirm(T.st.resetQ)){ SP={}; saveSP(); renderMain(); } }
 });
 document.addEventListener('keydown',e=>{
