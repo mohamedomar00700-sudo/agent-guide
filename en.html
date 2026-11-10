@@ -641,7 +641,7 @@ const FLOWS=[
   ['For laser and skincare: suggest they come together.','Most of our clients like to come with their friends or sisters, so if someone would like to come with you, we can arrange your appointments together.'],
   ['If they say "let me ask them first": agree that they send the numbers of those who agree on WhatsApp. Log each number as a new lead and write the referrer\'s name in the notes.','Of course. Once you tell them, just send me their names and numbers on the same WhatsApp chat, and I will arrange everything for them myself.'],
   ['Close politely.','Thank you very much for your time, it was a pleasure speaking with you from H&P Medical Center. Have a nice day.'],
-  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
+  ['Log the right stage and tag in Odoo. For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Old data (not sure they asked recently)',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person. Don\'t ask "Is this a good time?" (the client\'s request).','Good morning / Good evening, am I speaking with Ms. [name]? Welcome, this is [your name] from H&P Medical Center in Abu Dhabi.'],
   ['Introduce the center. Don\'t say "you asked about X", because the data is old and the customer may not remember.','We are a medical center specialised in dermatology and aesthetics, and everything related to weight loss and body contouring, and we have special offers right now that come with a gift from the center.'],
@@ -659,36 +659,36 @@ const FLOWS=[
   ['For laser and skincare: suggest they come together.','Most of our clients like to come with their friends or sisters, so if someone would like to come with you, we can arrange your appointments together.'],
   ['If they say "let me ask them first": agree that they send the numbers of those who agree on WhatsApp. Log each number as a new lead and write the referrer\'s name in the notes.','Of course. Once you tell them, just send me their names and numbers on the same WhatsApp chat, and I will arrange everything for them myself.'],
   ['Close politely.','Thank you very much for your time, it was a pleasure speaking with you from H&P Medical Center. Have a nice day.'],
-  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
+  ['Log the right stage and tag in Odoo. For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Follow-up: attended the consultation but didn\'t book',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center.'],
   ['Ask about their experience.','You visited us for the free consultation with the doctor on [..], and we wanted to check on your experience. How was it?'],
   ['Ask an open question first.','Was the treatment plan clear? Was there anything that made you hesitate to start?'],
   ['If they don\'t give a reason, offer options.','Was it the price? The appointment times? Or something else?'],
-  ['Offer a real solution, and record the exact reason in the system.','If it\'s the price: the current offer and the gift. If they\'re hesitant: a free follow-up with the doctor to answer your questions.'],
+  ['Offer a real solution for the reason, and record the exact reason in the system. If it\'s the price: offer the current offer and the gift. If they\'re hesitant: offer a free follow-up with the doctor to answer their questions.',''],
   ['Book, or set a Call back with a time.','Would you like to book on [day/time] or [day/time]?'],
-  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
+  ['Log the right stage and tag in Odoo. For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Follow-up: booked but didn\'t show up',steps:[
   ['Check on them without blaming.','We noticed you couldn\'t make it to your appointment yesterday. I hope everything is okay?'],
   ['Offer a new appointment.','The consultation is still free. Would you like me to book you another appointment?'],
   ['Confirm and send a confirmation.','Let me confirm the new appointment with you…'],
-  ['Log the right stage and tag in Odoo.','For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
+  ['Log the right stage and tag in Odoo. For example: booked = Booked; not interested = Lost + Not Interested; asked us to call later = In Progress + Call Later. The full table is in the Odoo tab, or tap ✓ Outcome at the top.']]},
  {t:'Previous customer (and we don\'t have their history)',steps:[
   ['Introduce yourself and the center\'s name, and make sure you\'re speaking to the right person.','Hello Ms. [name], this is [your name] from H&P Medical Center. You visited us before, and we wanted to check on you and tell you about our new grand-opening offers.'],
   ['Let the customer tell you what they had done, and record it in the system.','What did you have done with us last time? And how was the experience?'],
   ['If they complain: stop selling immediately and log a complaint.',''],
   ['If there\'s no complaint: offer to continue, or a free consultation.','Would you like to continue with the same treatment, or try a free consultation with the doctor to see what your skin needs now?'],
   ['If they ask "Don\'t you know what I had done?"','We like to hear from you first to make sure our information is up to date.'],
-  ['Don\'t say anything untrue to cover the fact that the data is missing.','Like "We\'re updating the medical files of our VIP clients".']]},
+  ['Don\'t say anything untrue to cover the fact that the data is missing, like "We\'re updating the medical files of our VIP clients".','']]},
  {t:'Inbound call / returning a missed call',steps:[
   ['Answer with your name.','H&P Medical Center, this is [your name]. How can I help you?'],
-  ['Search for the number in the system before anything else.','So the call is logged on the same customer and you don\'t create a duplicate.'],
+  ['Search for the number in the system before anything else, so the call is logged on the same customer and you don\'t create a duplicate.',''],
   ['Continue with the same steps as a campaign lead, from finding out the need.','']]},
  {t:'Complaint in any call',steps:[
   ['Stop selling.',''],
   ['Listen until the end and apologize for the experience without admitting any medical error.','I\'m very sorry that your experience was like this.'],
-  ['Don\'t give medical advice.','Don\'t say "Put some cream on it" or "That\'s normal".'],
-  ['Log the complaint with the category and severity.','If there is a side effect or a burn, it is High and must be escalated to the UAE team the same day.'],
+  ['Don\'t give medical advice. For example, don\'t say "Put some cream on it" or "That\'s normal".',''],
+  ['Log the complaint with the category and severity. If there is a side effect or a burn, it is High and must be escalated to the UAE team the same day.',''],
   ['Explain the next step with a time.','The person in charge will contact you [time].']]}
 ];
 
