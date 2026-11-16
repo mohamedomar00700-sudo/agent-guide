@@ -1273,12 +1273,10 @@ function waGiftLines(ar,f){ const os=WA.offers.map(id=>OFFERS.find(o=>o.id===id)
   const all=g.length===os.length;
   if(ar) return ['🎁 '+(all?(os.length>1?'مع كل عرض':'مع العرض'):'مع '+g.map(o=>o.ar).join(' و'))+' هدية واحدة، و'+(f?'تقدري تختاري':'تقدر تختار')+' طريقة من الاتنين:',
     '1️⃣ هدية '+(f?'هتعرفيها':'هتعرفها')+' لما '+(f?'تشرّفينا':'تشرّفنا')+' في المركز.',
-    '2️⃣ أو '+(f?'تجرّبي':'تجرّب')+' حظك في عجلة الحظ من دلوقتي، والجايزة اللي تطلعلك هي اللي '+(f?'هتاخديها':'هتاخدها')+' بدل الهدية: '+SPIN_URL,
-    'يعني يا الهدية يا عجلة الحظ، مش الاتنين مع بعض.'];
+    '2️⃣ أو '+(f?'تجرّبي':'تجرّب')+' حظك في عجلة الحظ من دلوقتي، والجايزة اللي تطلعلك هي اللي '+(f?'هتاخديها':'هتاخدها')+' بدل الهدية: '+SPIN_URL];
   return ['🎁 '+(all?(os.length>1?'Every offer comes':'It comes'):g.map(o=>o.en||o.ar).join(' and ')+' come'+(g.length>1?'':'s'))+' with one gift, and you can choose one of two ways:',
     '1️⃣ A gift from the center, which you will find out about when you visit.',
-    '2️⃣ Or try your luck on our Spin & Win wheel now, and the prize you win becomes your gift instead: '+SPIN_URL,
-    'So it is either the gift or the wheel, not both.']; }
+    '2️⃣ Or try your luck on our Spin & Win wheel now, and the prize you win becomes your gift instead: '+SPIN_URL]; }
 function waLine(o,ar){ const l=WA_LINES[o.id];
   if(o.st!=='ok') return l?l[ar?0:1]:(ar?(o.ar+': السعر هنأكده مع حضرتك'):((o.en||o.ar)+': we will confirm the price with you'));
   if(l&&l[2]===o.price) return l[ar?0:1];
