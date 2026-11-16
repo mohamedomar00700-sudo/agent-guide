@@ -605,7 +605,7 @@ const RULES=[
  ['yes','عرّف نفسك بـ H&P','"معاك [اسمك] من مركز H&P الطبي". متقولش Tres Jolie في المكالمة.'],
  ['no','متقولش "مركز تجميل وتغذية"','الكلاينت سمع مكالمات بالكلام ده، وفيه ناس بتفهم "تجميل" إننا بيوتي سنتر. قول "مركز H&P الطبي" بس. ولو العميل عايز يعرف إحنا إيه: "إحنا مركز طبي متخصص في الجلدية والتجميل وجراحات التجميل، وكل ما يخص إنقاص الوزن، من الدايت لحد العمليات الجراحية."'],
  ['yes','قول سعر العرض زي ما هو مكتوب','الأسعار اللي عليها علامة "مؤكد" تقدر تقولها. وأي خدمة مش في العروض، سعرها بيتحدد بعد استشارة الدكتور.'],
- ['yes','كل عرض معاه هدية يختارها العميل','الهدية يختارها العميل: جلسة ليزر فل بادي، أو هيدرافيشيال، أو أوكسجيو، أو خصم 10% على سعر العرض. متوعدش العميل بحاجة غير الأربع اختيارات دول.'],
+ ['yes','كل عرض معاه هدية واحدة: يختارها أو يجرّب عجلة الحظ','العميل بياخد حاجة واحدة بس: يا هدية يختارها في المركز (جلسة ليزر فل بادي، أو هيدرافيشيال، أو أوكسجيو، أو خصم 10% على سعر العرض)، يا يجرّب حظه في عجلة الحظ والجايزة اللي تطلعله تبقى بدل الهدية. الكلاينت قال مينفعش الاتنين مع بعض. متوعدش العميل بحاجة غير كده.'],
  ['no','متضمنش نتيجة ولا عدد كيلوهات','"النتيجة بتختلف من شخص للتاني والدكتور هيوضحلك المتوقع."'],
  ['no','متديش نصيحة طبية','أي سؤال عن أمراض أو أدوية أو رضاعة أو أعراض جانبية بيتحوّل للدكتور.'],
  ['warn','العميلة الحامل: Hold','الليزر والفيلر والبوتوكس وسكلبترا والميزو بنأجلهم في فترة الحمل، ونكلمها بعد الولادة. منحجزش استشارة إلا لو صممت تعمل الخدمة.'],
@@ -623,7 +623,7 @@ const FLOWS=[
   ['عرّف نفسك واسم المركز، واتأكد إنك بتكلم الشخص الصح. متسألش "الوقت مناسب؟" (طلب الكلاينت).','صباح الخير / مساء الخير، معايا أستاذة [الاسم]؟ أهلاً بحضرتك، معاكي [اسمك] من مركز H&P الطبي في أبوظبي.'],
   ['قول سبب المكالمة: الخدمة اللي سأل عليها في الإعلان.','حضرتك كنتي سألتي معانا عن [الخدمة من الإعلان]، وحبيت أكلم حضرتك بنفسي علشان أوضحلك العرض الحالي عليها.'],
   ['اكتشف الاحتياج بسؤال واحد.','ممكن أعرف حضرتك مهتمة بيها لمنطقة معينة، ولا دي أول مرة تعمليها؟'],
-  ['اعرض العرض على الخدمة اللي اهتمت بيها بس، بالسعر قبل الضريبة والهدية زي ما هي في العروض.','عندنا دلوقتي عرض على [الخدمة] بـ [السعر] درهم قبل الضريبة، ومع العرض هدية من المركز حضرتك بتختاريها: جلسة ليزر فل بادي، أو جلسة هيدرافيشال، أو أكسجينيو، أو خصم 10% على سعر العرض.'],
+  ['اعرض العرض على الخدمة اللي اهتمت بيها بس، بالسعر قبل الضريبة والهدية زي ما هي في العروض.','عندنا دلوقتي عرض على [الخدمة] بـ [السعر] درهم قبل الضريبة، ومع العرض هدية من المركز حضرتك بتختاريها لما تشرفينا: جلسة ليزر فل بادي، أو جلسة هيدرافيشال، أو أكسجينيو، أو خصم 10% على سعر العرض. ولو حابة، تقدري بدل الهدية تجربي حظك في عجلة الحظ.'],
   ['اعرض الاستشارة المجانية واقفل باختيارين. قول اسم الدكتور حسب الخدمة: الجلدية مع د. ياسمين درويش، أخصائية الجلدية والتجميل وخبرتها أكتر من 10 سنين، والتغذية وإنقاص الوزن مع د. وليد شمحوط، أخصائي التغذية العلاجية ومن أشهر دكاترة التغذية وإنقاص الوزن.','وأول استشارة مع الدكتور المختص مجانية بالكامل، والدكتور هو اللي بيحدد الأنسب لحضرتك. تحبي أحجزلك يوم [كذا] ولا [كذا]؟'],
   ['لو مترددة ("هفكر"، "أشوف مواعيدي"): جملة استعجال واحدة بس، واقفل باختيارين. متقولش إن العرض هيخلص أو إن السعر متثبت.','أكيد يا فندم، خدي وقتك. بس علشان متفوتكيش العروض الحالية، تحبي أحجزلك ميعاد دلوقتي؟ ولو حبيتي تغيريه بعد كده بنعدلهولك بسهولة. يناسبك الخميس ولا السبت؟'],
   ['لو مشغولة: خد ميعاد Callback، واعرض تبعتلها العروض على الواتساب لو وافقت.','أكيد يا فندم. أكلم حضرتك إمتى بالظبط؟ وتحبي أبعتلك العروض على الواتساب تشوفيها على راحتك؟'],
@@ -641,7 +641,7 @@ const FLOWS=[
   ['عرّف بالمركز. متقولش "حضرتك سألتي عن كذا"، لأن الداتا قديمة والعميل ممكن ميكونش فاكر.','إحنا مركز طبي متخصص في الجلدية والتجميل، وكل ما يخص إنقاص الوزن ونحت القوام، وعندنا دلوقتي عروض مميزة ومع العروض هدية من المركز.'],
   ['اكتشف الاحتياج بسؤال اختيارات سهل، بدل ما تقرا قايمة خدمات.','ممكن أعرف إيه أكتر حاجة حضرتك حابة تهتمي بيها دلوقتي، بشرتك ولا الليزر ولا الوزن والقوام؟'],
   ['لو قالت "أنا كنت بتعامل معاكم قبل كده": اسألها عن تجربتها. لو اشتكت، وقّف البيع وابعت إيميل شكوى.','ممكن أعرف حضرتك كنتي عاملة إيه، وكانت التجربة عاملة إيه؟'],
-  ['اعرض العرض على الخدمة اللي اهتمت بيها بس، بالسعر قبل الضريبة والهدية زي ما هي في العروض.','عندنا دلوقتي عرض على [الخدمة] بـ [السعر] درهم قبل الضريبة، ومع العرض هدية من المركز حضرتك بتختاريها: جلسة ليزر فل بادي، أو جلسة هيدرافيشال، أو أكسجينيو، أو خصم 10% على سعر العرض.'],
+  ['اعرض العرض على الخدمة اللي اهتمت بيها بس، بالسعر قبل الضريبة والهدية زي ما هي في العروض.','عندنا دلوقتي عرض على [الخدمة] بـ [السعر] درهم قبل الضريبة، ومع العرض هدية من المركز حضرتك بتختاريها لما تشرفينا: جلسة ليزر فل بادي، أو جلسة هيدرافيشال، أو أكسجينيو، أو خصم 10% على سعر العرض. ولو حابة، تقدري بدل الهدية تجربي حظك في عجلة الحظ.'],
   ['اعرض الاستشارة المجانية واقفل باختيارين. قول اسم الدكتور حسب الخدمة: الجلدية مع د. ياسمين درويش، أخصائية الجلدية والتجميل وخبرتها أكتر من 10 سنين، والتغذية وإنقاص الوزن مع د. وليد شمحوط، أخصائي التغذية العلاجية ومن أشهر دكاترة التغذية وإنقاص الوزن.','وأول استشارة مع الدكتور المختص مجانية بالكامل، والدكتور هو اللي بيحدد الأنسب لحضرتك. تحبي أحجزلك يوم [كذا] ولا [كذا]؟'],
   ['لو مترددة ("هفكر"، "أشوف مواعيدي"): جملة استعجال واحدة بس، واقفل باختيارين. متقولش إن العرض هيخلص أو إن السعر متثبت.','أكيد يا فندم، خدي وقتك. بس علشان متفوتكيش العروض الحالية، تحبي أحجزلك ميعاد دلوقتي؟ ولو حبيتي تغيريه بعد كده بنعدلهولك بسهولة. يناسبك الخميس ولا السبت؟'],
   ['لو مشغولة: خد ميعاد Callback، واعرض تبعتلها العروض على الواتساب لو وافقت.','أكيد يا فندم. أكلم حضرتك إمتى بالظبط؟ وتحبي أبعتلك العروض على الواتساب تشوفيها على راحتك؟'],
@@ -954,7 +954,7 @@ const QUICK=[
  ['العنوان والمواعيد','أبوظبي والفجيرة','السبت لحد الخميس، والجمعة مقفول.','branches'],
  ['قبل جلسة الليزر','احلق في البيت قبلها بيوم','وابعد عن الشمس والتقشير.','prep'],
  ['الاسم في المكالمة','H&P','"معاك [اسمك] من مركز H&P الطبي"','center'],
- ['الهدية','هدية مع كل عرض','ليزر فل بادي، أو هيدرافيشيال، أو أوكسجيو، أو خصم 10%.','rules'],
+ ['الهدية','هدية واحدة مع كل عرض','يختارها في المركز من الأربعة، أو يجرّب عجلة الحظ بدلها. مش الاتنين.','rules'],
  ['أكتر اعتراض','مفيش مواعيد ليزر','زودنا عدد الأجهزة، واحجزله ميعاد على طول.','obj-0'],
  ['تاني أكتر اعتراض','مفيش نتيجة','اسأل الأول، ومتلومش، واعرض متابعة مجانية مع الدكتورة.','obj-1'],
  ['سؤال طبي','حوّله للدكتور','متقولش "عادي" ولا "ممنوع".','rules'],
@@ -1258,6 +1258,18 @@ function waOffLines(ar){ const out=[]; WA.offers.map(id=>OFFERS.find(o=>o.id===i
 function waGift(ar){ const os=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean), g=os.filter(o=>!WA_NOGIFT.has(o.id)); if(!g.length) return '';
   if(g.length===os.length) return ar?(os.length>1?'ومع كل عرض':'ومع العرض')+' هدية من اختيار حضرتك':(os.length>1?'Every offer comes':'It comes')+' with a gift of your choice';
   return ar?'ومع '+g.map(o=>o.ar).join(' و')+' هدية من اختيار حضرتك':(g.map(o=>o.en||o.ar).join(' and ')+' come'+(g.length>1?'':'s')+' with a gift of your choice'); }
+/* Gift OR the Spin & Win wheel, never both (client, 16 Nov 2026): the wheel prize replaces the gift.
+   The customer picks the gift at the center, or spins the wheel instead. Empty when no offer in the message has a gift. */
+function waGiftLines(ar,f){ const os=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean), g=os.filter(o=>!WA_NOGIFT.has(o.id)); if(!g.length) return [];
+  const all=g.length===os.length;
+  if(ar) return ['🎁 '+(all?(os.length>1?'مع كل عرض':'مع العرض'):'مع '+g.map(o=>o.ar).join(' و'))+' هدية واحدة، و'+(f?'تقدري تختاري':'تقدر تختار')+' طريقة من الاتنين:',
+    '1️⃣ هدية '+(f?'تختاريها':'تختارها')+' بنفسك لما '+(f?'تشرّفينا':'تشرّفنا')+' في المركز: جلسة ليزر فل بادي، أو هيدرافيشيال، أو أوكسجيو، أو خصم 10% على سعر العرض.',
+    '2️⃣ أو '+(f?'تجرّبي':'تجرّب')+' حظك في عجلة الحظ، والجايزة اللي تطلعلك هي اللي '+(f?'هتاخديها':'هتاخدها')+' بدل الهدية: '+SPIN_URL,
+    'يعني يا الهدية يا عجلة الحظ، مش الاتنين مع بعض.'];
+  return ['🎁 '+(all?(os.length>1?'Every offer comes':'It comes'):g.map(o=>o.en||o.ar).join(' and ')+' come'+(g.length>1?'':'s'))+' with one gift, and you can choose one of two ways:',
+    '1️⃣ A gift you pick yourself when you visit the center: a full-body laser session, HydraFacial, OxyGeneo, or 10% off the offer price.',
+    '2️⃣ Or try your luck on our Spin & Win wheel, and the prize you win becomes your gift instead: '+SPIN_URL,
+    'So it is either the gift or the wheel, not both.']; }
 function waLine(o,ar){ const l=WA_LINES[o.id];
   if(o.st!=='ok') return l?l[ar?0:1]:(ar?(o.ar+': السعر هنأكده مع حضرتك'):((o.en||o.ar)+': we will confirm the price with you'));
   if(l&&l[2]===o.price) return l[ar?0:1];
@@ -1286,7 +1298,7 @@ function waBookWarn(){ const W=[]; if(!WA.date) return W; const d=new Date(WA.da
     else if(h!=null&&(h<doc.from||h>=doc.to)) W.push(en?'This time is outside the doctor\'s hours.':'الساعة دي برّه مواعيد الدكتور.');
     if(doc.br!==WA.branch&&WA.branch) W.push(en?'This doctor is in the other branch.':'الدكتور ده في الفرع التاني.'); }
   return W; }
-const SPIN_URL='https://andy260787.github.io/H-P_lucky_wheel/'; // Spin & Win campaign, added to every WhatsApp message
+const SPIN_URL='https://andy260787.github.io/H-P_lucky_wheel/'; // Spin & Win campaign. With an offer gift it is offered INSTEAD of the gift (waGiftLines), never both
 function waBookText(){
   const ar=WA.lang!=='en', f=WA.gender!=='m', nm=WA.name.trim(), ag=WA.agent.trim();
   const off=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).map(o=>'• '+waLine(o,ar));
@@ -1296,19 +1308,19 @@ function waBookText(){
     L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
     L.push(''); L.push('بنأكد حجز حضرتك ✅');
     if(day) L.push('🗓 اليوم: '+day); if(tm) L.push('⏰ الساعة: '+tm); if(doc) L.push('👩‍⚕️ مع: '+doc);
-    if(off.length){ L.push(''); L.push(off.length>1?'العروض اللي '+(f?'حجزتيها':'حجزتها')+':':'العرض اللي '+(f?'حجزتيه':'حجزته')+':'); L.push(...off); const gf=waGift(ar); L.push((gf?'🎁 '+gf+'. ':'')+'الأسعار غير شاملة ضريبة القيمة المضافة.'); }
+    if(off.length){ L.push(''); L.push(off.length>1?'العروض اللي '+(f?'حجزتيها':'حجزتها')+':':'العرض اللي '+(f?'حجزتيه':'حجزته')+':'); L.push(...off); const gl=waGiftLines(ar,f); if(gl.length){ L.push(''); L.push(...gl); L.push(''); } L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar.split('\n').filter(l=>!l.startsWith('المواعيد')).join('\n')); L.push('اللوكيشن: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
-    L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL);
+    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL); }
     L.push(''); L.push('لو حضرتك '+(f?'حابة تغيري':'حابب تغير')+' الميعاد أو عندك أي سؤال، '+(f?'ابعتيلنا':'ابعتلنا')+' هنا وإحنا معاك'+(f?'ي':'')+' 🙏'); L.push('في انتظار حضرتك 🌸');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
     L.push(''); L.push('We are confirming your booking ✅');
     if(day) L.push('🗓 Day: '+day); if(tm) L.push('⏰ Time: '+tm); if(doc) L.push('👩‍⚕️ With: '+doc);
-    if(off.length){ L.push(''); L.push(off.length>1?'The offers you booked:':'The offer you booked:'); L.push(...off); const gf=waGift(ar); L.push((gf?'🎁 '+gf+'. ':'')+'Prices exclude VAT.'); }
+    if(off.length){ L.push(''); L.push(off.length>1?'The offers you booked:':'The offer you booked:'); L.push(...off); const gl=waGiftLines(ar,f); if(gl.length){ L.push(''); L.push(...gl); L.push(''); } L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en.split('\n').filter(l=>!l.startsWith('Open')).join('\n')); L.push('Location: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
-    L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL);
+    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL); }
     L.push(''); L.push('If you need to change the appointment or have any question, just message us here 🙏'); L.push('We look forward to seeing you 🌸');
   }
   return L.join('\n');
@@ -1317,20 +1329,20 @@ function waText(){
   if(WA.kind==='book') return waBookText();
   const ar=WA.lang!=='en', f=WA.gender!=='m', nm=WA.name.trim(), ag=WA.agent.trim();
   const off=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).map(o=>'• '+waLine(o,ar));
-  const br=WA_BR[WA.branch], off2=waOffLines(ar), gift=waGift(ar);
+  const br=WA_BR[WA.branch], off2=waOffLines(ar), gl=waGiftLines(ar,f);
   const L=[];
   if(ar){
     L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
-    if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off2); L.push(''); L.push((gift?'🎁 '+gift+'، و':'👩‍⚕️ ')+'الاستشارة الأولى مع الدكتور مجانية، والدكتور هيحدد الأنسب لحضرتك.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
+    if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off2); L.push(''); if(gl.length){ L.push(...gl); L.push(''); } L.push('👩‍⚕️ الاستشارة الأولى مع الدكتور مجانية، والدكتور هيحدد الأنسب لحضرتك.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar); L.push('اللوكيشن: '+br.map); }
-    L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL);
+    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL); }
     if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 وبمناسبة يوم العلم الإماراتي، المركز مقدّم 3 هدايا لمواطني الإمارات:'); L.push('• جلسة ليزر فل بادي بجهاز كانديلا الأبيض'); L.push('• جلسة أكسجينيو لنضارة وإشراقة الوش'); L.push('• استشارة خاصة مع د. ياسمين درويش، أخصائية الجلدية والتجميل'); L.push('الحجز متاح لحد 12 نوفمبر. ولو حضرتك '+(f?'مقيمة، تقدري تهادي بيها صاحباتك المواطنات':'مقيم، تقدر تهادي بيها أصحابك المواطنين')+': يبعتولنا "أريد هدية" على الرقم ده.'); }
     L.push(''); if(off.length) L.push((f?'تحبي':'تحب')+' نحجزلك استشارة مجانية مع الدكتور؟ '+(f?'ابعتيلنا':'ابعتلنا')+' بس اليوم والوقت اللي '+(f?'يناسبك':'يناسبك')+' هنا، وإحنا نظبطلك الميعاد 🙏'); else L.push('لو حضرتك '+(f?'حابة':'حابب')+' نحجزلك ميعاد، '+(f?'ابعتيلنا':'ابعتلنا')+' اليوم والوقت اللي يناسبك هنا 🙏');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
-    if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off2); L.push(''); L.push(gift?'🎁 '+gift+', and the first consultation with the doctor is free; the doctor will advise what suits you best.':'👩‍⚕️ The first consultation with the doctor is free, and the doctor will advise what suits you best.'); L.push('Prices exclude VAT.'); }
+    if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off2); L.push(''); if(gl.length){ L.push(...gl); L.push(''); } L.push('👩‍⚕️ The first consultation with the doctor is free, and the doctor will advise what suits you best.'); L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en); L.push('Location: '+br.map); }
-    L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL);
+    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL); }
     if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 To celebrate UAE Flag Day, the center is offering 3 gifts to UAE citizens:'); L.push('• A full-body laser session with the white Candela device'); L.push('• An OxyGeneo session for a radiant, fresh face'); L.push('• A private consultation with Dr. Yasmine Darwish, dermatology and aesthetics specialist'); L.push('Booking is open until 12 November. If you are a resident, you can gift them to your Emirati friends: they just send "I want a gift" to this number.'); }
     L.push(''); L.push(off.length?'Would you like us to book your free consultation with the doctor? Just reply here with the day and time that suit you, and we will arrange it 🙏':'If you would like to book, just reply here with the day and time that suit you 🙏');
   }
@@ -2184,7 +2196,7 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'A booking, a new day or a cancella
   needMe:'Pick your name first.',needName:'Write the customer\'s name.',needDate:'Choose the appointment day and time.',needSvc:'Add the offer or service.',kindMulti:'Pick all that apply',svcAdd:'Add',svcMore:'Booked more than one service? Add each one. If each service is on a different day, send each day as its own booking.',
   k:{consult:'🩺 Free consultation',session:'💉 Session / service',follow:'🔁 Follow-up with the doctor'},
   s:{inbound:'📞 Inbound call',outbound:'📲 Our call',wa:'💬 WhatsApp',followup:'🔁 Follow-up call',other:'✏️ Other'},
-  g:{none:'No gift / not chosen yet',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off'},
+  g:{none:'No gift / not chosen yet',center:'Will choose at the center',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off',wheel:'Spin & Win wheel (instead of the gift)'},
   fuH:'📞 Follow-up calls for this booking',fu:['Confirm','Reminder on the day','After the visit'],fuSkip:'not needed',fuPick:'Choose the appointment day to see the call days.',
   fuSign:'Sign in once with your work email (🏆 Quiz tab) so these calls are saved and you get reminded.',saved:'Booking saved ✓ We\'ll remind you of the follow-up calls',savedDup:'This booking is already saved ✓',notSaved:'The email is ready, but the booking wasn\'t saved for the follow-up calls. Try again.',
   mode:'What happened?',m:{new:'🆕 New booking',move:'🔁 Changed the day',cancel:'❌ Cancelled'},
@@ -2201,7 +2213,7 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'A booking, a new day or a cancella
   needMe:'اختار اسمك الأول.',needName:'اكتب اسم العميل.',needDate:'اختار يوم وساعة الميعاد.',needSvc:'ضيف العرض أو الخدمة.',kindMulti:'اختار كل اللي ينطبق',svcAdd:'ضيف',svcMore:'حجز أكتر من خدمة؟ ضيف كل واحدة. ولو كل خدمة في يوم مختلف، ابعت كل يوم في حجز لوحده.',
   k:{consult:'🩺 استشارة مجانية',session:'💉 جلسة / خدمة',follow:'🔁 متابعة مع الدكتور'},
   s:{inbound:'📞 العميل اتصل',outbound:'📲 إحنا اتصلنا',wa:'💬 واتساب',followup:'🔁 مكالمة فولو أب',other:'✏️ حاجة تانية'},
-  g:{none:'من غير هدية / لسه مختارش',laser:'جلسة ليزر فل بادي',hydra:'هيدرافيشيال',oxy:'أوكسجيو',ten:'خصم 10%'},
+  g:{none:'من غير هدية / لسه مختارش',center:'هيختارها في المركز',laser:'جلسة ليزر فل بادي',hydra:'هيدرافيشيال',oxy:'أوكسجيو',ten:'خصم 10%',wheel:'عجلة الحظ (بدل الهدية)'},
   fuH:'📞 مكالمات المتابعة للحجز ده',fu:['تأكيد الميعاد','تذكير يوم الميعاد','بعد الزيارة'],fuSkip:'مش محتاجة',fuPick:'اختار يوم الميعاد علشان تظهر أيام المكالمات.',
   fuSign:'ادخل مرة واحدة بإيميل الشغل (من تبويب 🏆 الكويز) علشان المكالمات دي تتسجل ونفكرك بيها.',saved:'الحجز اتسجل ✓ هنفكرك بمكالمات المتابعة',savedDup:'الحجز ده متسجل قبل كده ✓',notSaved:'الإيميل جاهز، بس الحجز متسجلش لمكالمات المتابعة. جرّب تاني.',
   mode:'إيه اللي حصل؟',m:{new:'🆕 حجز جديد',move:'🔁 غيّر ميعاده',cancel:'❌ لغى الحجز'},
@@ -2212,7 +2224,7 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'A booking, a new day or a cancella
   checkH:'قبل ما تبعت',check:['اقرا للعميل اليوم والساعة والفرع والخدمة.','اتأكد إن الحجز متسجل على أودوو بنفس البيانات.','ابعت تأكيد الواتساب باللوكيشن (من تبويب 📲).']};
 const K_EN={consult:'Free consultation',session:'Session / service',follow:'Follow-up with the doctor'};
 const S_EN={inbound:'Inbound call',outbound:'Our call',wa:'WhatsApp',followup:'Follow-up call',other:'Other'};
-const G_EN={none:'None / not chosen yet',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off'};
+const G_EN={none:'None / not chosen yet',center:'Will choose at the center',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off',wheel:'Spin & Win wheel (instead of the gift)'};
 const BK={mode:'new',kinds:['consult'],svcs:[],oldDate:'',oldTime:'',kind:'consult',src:'inbound',gift:'none',wa:false,name:'',phone:'',branch:'',svc:'',doc:'',date:'',time:'',odoo:'',notes:''};
 const bkYmd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 function bkShift(ymd,step){ const d=new Date(ymd+'T12:00:00'); do{ d.setDate(d.getDate()+step); }while(d.getDay()===5); return bkYmd(d); } // Friday is off
