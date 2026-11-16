@@ -2392,6 +2392,10 @@ const css=`.qstage .q3d{display:none}.qstage .qui{position:relative;display:flex
 .qstage.race .qbody{margin-top:calc(var(--band) - 84px);padding-top:0;z-index:1}
 .qstage.race .qintro .nr,.qstage.race .qintro .qfaces,.qstage.race .qres>.nr{display:none}
 .qstage.race .qq .bub{background:rgba(14,24,40,.82)}
+.qstage.race.watch,.qstage.race.post{--band:100vh}.qstage.race.watch .q3d::after,.qstage.race.post .q3d::after{display:none}
+.qstage.race .qbody,.qstage.race .qfoot{transition:opacity .3s,transform .35s}.qstage.race.watch .qbody{opacity:0;pointer-events:none}.qstage.race.post .qbody{display:none}.qstage.race.watch .qfoot{transform:translateY(110%);pointer-events:none}.qstage.race.watch .qtop{opacity:.35}
+.qstage.race.watch .q3dhud,.qstage.race.post .q3dhud{bottom:auto;top:64px}
+.qstage.race.post .qfoot{position:fixed;inset-inline:0;bottom:0;z-index:3;border-radius:18px 18px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.35)}
 .q3dhud{position:absolute;inset-inline-start:12px;bottom:88px;z-index:2;pointer-events:none}
 .q3dpos{display:inline-block;font-weight:900;font-size:15px;padding:6px 12px;border-radius:999px;background:rgba(14,24,40,.78);color:#fff;border:2px solid rgba(255,255,255,.25);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 .q3dpos.p1{border-color:#FFD34D;color:#FFE38A}
@@ -2666,10 +2670,11 @@ function startRun(kind,practice,drill,stg){ if(!SES&&!practice){ setView('quiz')
   const per=kind==='monthly'?month():today();
   RUN={kind,per,practice:!!practice,drill:!!drill,qs:build(kind,kind+'-'+per,practice,drill),i:0,ans:[],sel:null,checked:false,combo:0,best:0,before:ME()?Object.assign({},ME()):null,intro:true,stage:stg!=null?stg:todayStage()};
   stage(); race3d(RUN); }
+document.addEventListener('click',e=>{ const R=RUN; if(R&&R.watch&&e.target.closest&&e.target.closest('#qzStage')&&!e.target.closest('.q3dmute')){ R.watch=false; clearTimeout(R.wt); stage(); } },true);
 function closeStage(){ RUN=null; if(window.QZ3D) QZ3D.unmount(); const s=$('qzStage'); if(s) s.remove(); document.documentElement.style.overflow=''; renderMain(); }
 function stage(){ let s=$('qzStage'); if(!s){ s=document.createElement('div'); s.id='qzStage'; s.className='qstage'; s.setAttribute('role','dialog'); s.setAttribute('aria-modal','true'); s.dir=EN?'ltr':'rtl'; document.body.appendChild(s); document.documentElement.style.overflow='hidden'; }
   if(!$('qzUi')) s.innerHTML='<div class="q3d" id="qz3d"></div><div class="qui" id="qzUi"></div>';
-  s.classList.toggle('race',!!(window.QZ3D&&QZ3D.ready())); s.classList.toggle('big',!!(RUN.result||RUN.intro));
+  s.classList.toggle('race',!!(window.QZ3D&&QZ3D.ready())); s.classList.toggle('big',!!(RUN.result||RUN.intro)); s.classList.toggle('watch',!!RUN.watch); s.classList.toggle('post',!!(RUN.post&&!RUN.watch&&!RUN.result));
   const ui=$('qzUi'); ui.innerHTML=RUN.result?resultHtml():RUN.intro?introHtml():lessonHtml(); const f=ui.querySelector('[data-focus]'); if(f) f.focus({preventScroll:true}); }
 // ---------- the race (quiz3d.js). Without WebGL the quiz runs as before. ----------
 function loadRace(){ if(window.QZ3D) return Promise.resolve(true); return new Promise(res=>{ const s=document.createElement('script'); s.src='quiz3d.js?v=5'; s.onload=()=>res(!!window.QZ3D); s.onerror=()=>res(false); document.head.appendChild(s); }); }
@@ -2737,9 +2742,10 @@ async function finishRun(){ const R=RUN, score=R.ans.filter(Boolean).length, tot
     await loadPulse(); if(RUN===R) stage(); }
 }
 function check(){ const R=RUN, q=R.qs[R.i]; R.checked=true; const ok=R.sel===q.a; R.ans[R.i]=ok; if(window.QZ3D){ QZ3D.unlock&&QZ3D.unlock(); QZ3D.answer(ok); }
+  if(window.QZ3D&&QZ3D.ready()){ R.watch=true; R.post=true; const i=R.i; clearTimeout(R.wt); R.wt=setTimeout(()=>{ if(RUN===R&&R.i===i&&R.watch){ R.watch=false; stage(); } },R.world==='race'?1900:3100); }
   if(ok){ R.combo++; R.best=Math.max(R.best,R.combo); sndOk(); buzz(30); if(R.combo>=3) confetti(40); } else { R.combo=0; sndBad(); buzz([60,40,60]); }
   stage(); }
-function next(){ const R=RUN; if(R.i+1<R.qs.length){ R.i++; R.sel=null; R.checked=false; if(window.QZ3D) QZ3D.question(R.i); stage(); } else finishRun(); }
+function next(){ const R=RUN; clearTimeout(R.wt); R.watch=false; R.post=false; if(R.i+1<R.qs.length){ R.i++; R.sel=null; R.checked=false; if(window.QZ3D) QZ3D.question(R.i); stage(); } else finishRun(); }
 document.addEventListener('keydown',e=>{ if(!RUN||!$('qzStage')) return;
   if(e.key==='Escape'){ closeStage(); return; }
   if(RUN.result) return;
