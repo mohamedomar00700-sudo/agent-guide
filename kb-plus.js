@@ -41,7 +41,7 @@ const T=EN?{
   cmp:{eyebrow:'Side by side',title:'Compare services',intro:'Pick up to 3 offers. Prices and details come live from the offers sheet.',presets:'Ready comparisons',pick:'Pick offers',max:'You can compare 3 at most. Remove one first.',
     rows:{cat:'Category',price:'Price (AED)',pn:'Details',st:'Status',what:'What it is',who:'Who it suits',qa:'Customer questions',caution:'Careful',say:'What to say'},
     copyWa:'Copy summary for WhatsApp',copied:'Copied, paste it in WhatsApp',open:'Open in offers',clear:'Clear',empty:'Pick at least 2 offers to compare.',
-    waHead:'Here is a quick comparison as you asked:',waTail:'Each offer comes with one gift: you pick it at the center, or try your luck on our Spin & Win wheel instead. The first consultation is free. The doctor decides what suits you best in the consultation.',waNoPrice:'price confirmed in the consultation',
+    waHead:'Here is a quick comparison as you asked:',waTail:'Each offer comes with one gift: you find out about it at the center, or try your luck on our Spin & Win wheel instead. The first consultation is free. The doctor decides what suits you best in the consultation.',waNoPrice:'price confirmed in the consultation',
     brands:'Brand comparisons from the service guide',free:'Free consultation'},
   fit:{eyebrow:'Need → offer',title:'What does the customer want?',intro:'Pick what the customer is worried about. You get the matching offers, a question to ask, and what to say.',ask:'Ask first',offers:'Matching offers',cmp:'Compare these',none:'No current offer for this. Book a free consultation and the doctor decides.',med:'Medical questions go to the doctor.'},
   sell:{eyebrow:'Cross-sell & upsell',title:'Sell more, the right way',intro:'More value for the customer, not pressure. One extra suggestion per call, after the main need is settled.',
@@ -76,7 +76,7 @@ const T=EN?{
   cmp:{eyebrow:'جنب بعض',title:'قارن الخدمات',intro:'اختار لحد 3 عروض. الأسعار والتفاصيل جاية من شيت العروض أول بأول.',presets:'مقارنات جاهزة',pick:'اختار العروض',max:'تقدر تقارن 3 بس. شيل واحد الأول.',
     rows:{cat:'القسم',price:'السعر (درهم)',pn:'التفاصيل',st:'الحالة',what:'هو إيه',who:'يناسب مين',qa:'أسئلة العميل',caution:'خلي بالك',say:'تقول إيه'},
     copyWa:'انسخ ملخص للواتساب',copied:'اتنسخ، الصقه في الواتساب',open:'افتح في العروض',clear:'امسح',empty:'اختار عرضين على الأقل عشان تقارن.',
-    waHead:'زي ما حضرتك طلبت، دي مقارنة سريعة:',waTail:'كل عرض معاه هدية واحدة: تختاريها في المركز، أو تجربي حظك في عجلة الحظ بدلها. والاستشارة الأولى مجانية، والدكتور هيحدد الأنسب ليكي في الاستشارة.',waNoPrice:'السعر هيتأكد في الاستشارة',
+    waHead:'زي ما حضرتك طلبت، دي مقارنة سريعة:',waTail:'كل عرض معاه هدية واحدة: هتعرفيها في المركز، أو تجربي حظك في عجلة الحظ بدلها. والاستشارة الأولى مجانية، والدكتور هيحدد الأنسب ليكي في الاستشارة.',waNoPrice:'السعر هيتأكد في الاستشارة',
     brands:'مقارنات الأنواع من دليل الخدمات',free:'الاستشارة مجانية'},
   fit:{eyebrow:'الاحتياج ← العرض',title:'العميل عايز إيه؟',intro:'اختار العميل قلقان من إيه. هيطلعلك العروض المناسبة، وسؤال تسأله، وتقول إيه.',ask:'اسأل الأول',offers:'العروض المناسبة',cmp:'قارن دول',none:'مفيش عرض حالياً للحاجة دي. احجز استشارة مجانية والدكتور يقرر.',med:'أي سؤال طبي بيتحوّل للدكتور.'},
   sell:{eyebrow:'Cross-sell و Upsell',title:'بيع أكتر بالطريقة الصح',intro:'قيمة أكتر للعميل، مش ضغط عليه. اقتراح زيادة واحد بس في المكالمة، وبعد ما احتياجه الأساسي يتقفل.',
@@ -391,7 +391,7 @@ function sellHtml(){
    <details class="kp-card kp-det"><summary>${T.hub.rulesT}</summary>
     <ol class="kp-steps">${STEPS.map(([a,b],i)=>`<li><span class="n">${i+1}</span><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join('')}</ol>
     <div class="kp-grid2">
-     <div class="kp-card"><h3 class="kp-h3 sm">🎁 ${T.sell.giftT}</h3><p>${esc(giftRule)}</p><p class="kp-mut">${L('اسأل: "تحبي هديتك تكون إيه؟" قبل ما تأكد الحجز. الاختيار بيخلّي العميل يحس إنه كسبان.','Ask: "Which gift would you like?" before confirming the booking. Choosing makes the customer feel they won.')}</p></div>
+     <div class="kp-card"><h3 class="kp-h3 sm">🎁 ${T.sell.giftT}</h3><p>${esc(giftRule)}</p><p class="kp-mut">${L('اسأل قبل ما تأكد الحجز: "تحبي تعرفي هديتك في المركز، ولا تجربي حظك في عجلة الحظ من دلوقتي؟" الاختيار بيخلّي العميل يحس إنه كسبان. متسمّيش هدية معينة.','Before confirming the booking, ask: "Would you like to find out your gift at the center, or try your luck on the wheel now?" Choosing makes the customer feel they won. Never name a specific gift.')}</p></div>
      <div class="kp-card"><h3 class="kp-h3 sm">✋ ${T.sell.dontT}</h3><ul class="kp-ul">${DONT.map(d=>`<li>${esc(d)}</li>`).join('')}</ul></div>
     </div>
     <div class="kp-card"><h3 class="kp-h3 sm">🔗 ${T.sell.phrT}</h3><div class="kp-phr">${PHR.map(p=>`<button class="kp-chip" data-a="copy" data-t="${esc(p.replace(/^"|"$/g,''))}">${esc(p)}</button>`).join('')}</div></div>
