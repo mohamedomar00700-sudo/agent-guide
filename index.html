@@ -6,6 +6,7 @@
 .wa-form input,.wa-out input,.wa-out textarea{font:inherit;font-size:15px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%;box-sizing:border-box}
 .wa-out textarea{line-height:1.6;resize:vertical;min-height:260px}
 .wa-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.wa-desc{display:flex!important;flex-direction:row!important;align-items:center;gap:8px;font-weight:600;margin:10px 0 4px;cursor:pointer}.wa-desc input{width:18px;height:18px;margin:0;flex:none}
 .wa-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .wa-seg button{border:0;background:transparent;padding:9px 12px;font:inherit;cursor:pointer;color:inherit}
 .wa-seg button.on{background:var(--rose);color:#fff}
@@ -573,14 +574,15 @@ function stOf(v){ v=String(v||'').trim(); if(!v) return ''; if(/مش متاح|غ
 function catOf(v){ v=String(v||'').trim(); if(!v) return ''; const k=Object.keys(CATS).find(k=>k===v.toLowerCase()||CATS[k]===v); if(k) return k;
   if(/بوتوكس|botox/i.test(v)) return 'botox'; if(/فيلر|filler/i.test(v)) return 'filler'; if(/نضار|كولاجين|skin|glow/i.test(v)) return 'skin'; if(/ليزر|laser/i.test(v)) return 'laser'; if(/شعر|hair/i.test(v)) return 'hair'; if(/وزن|تخسيس|weight/i.test(v)) return 'weight'; if(/نحت|دهون|body|fat/i.test(v)) return 'body'; return 'body'; }
 /* Offers tab columns: A id | B name AR | C name EN | D category | E price | F price details AR | G price details EN | H status |
-   I say AR | J say EN | K what AR | L what EN | M agent note AR | N agent note EN | O calculator AR "label=price; ..." | P calculator labels EN "label; ..." | Q hidden */
+   I say AR | J say EN | K what AR | L what EN | M agent note AR | N agent note EN | O calculator AR "label=price; ..." | P calculator labels EN "label; ..." | Q hidden
+   R WhatsApp description AR | S WhatsApp description EN (short line under the offer in the customer message; empty = built-in WA_DESC) */
 function applyOfferRows(rows){ const en=LANG==='en'; const pick=(a,b)=>(en&&b)?b:a;
   rows.slice(1).filter(r=>r[0]&&!/كود العرض|offer code/i.test(r[0])).forEach(r=>{ const id=r[0].trim(); let o=OFFERS.find(x=>x.id===id);
     if(/^(نعم|yes|y|✓|1|true|مخفي|hide)$/i.test((r[16]||'').trim())){ if(o) OFFERS.splice(OFFERS.indexOf(o),1); return; }
     if(!o){ o={id,cat:'body',ar:'',en:'',price:'—',pn:'',st:'warn',slide:'',what:'',who:'',say:'',qa:[],caution:''}; OFFERS.push(o); }
     const set=(k,v)=>{ if(v!=null&&String(v).trim()!=='') o[k]=String(v).trim(); };
     set('ar',pick(r[1],r[2])); set('en',r[2]); const c=catOf(r[3]); if(c) o.cat=c; set('price',r[4]); set('pn',pick(r[5],r[6])); const st=stOf(r[7]); if(st) o.st=st;
-    set('say',pick(r[8],r[9])); set('what',pick(r[10],r[11])); set('caution',pick(r[12],r[13]));
+    set('say',pick(r[8],r[9])); set('what',pick(r[10],r[11])); set('caution',pick(r[12],r[13])); set('waAr',r[17]); set('waEn',r[18]);
     if((r[14]||'').trim()&&typeof VARIANTS!=='undefined'){ const labs=(r[15]||'').split(/[;؛]/).map(x=>x.trim());
       const old=VARIANTS.filter(v=>v.o===id); const lab=v=>{ const i=v.t.indexOf(': '); return i>=0?v.t.slice(i+2):v.t; };
       const parts=r[14].split(/[;؛]/).map(x=>x.trim()).filter(Boolean).map(x=>{ const m=x.split('='); return {l:m[0].trim(),p:parseFloat(String(m[1]||'').replace(/[^\d.]/g,''))}; }).filter(x=>x.p>0);
@@ -1200,7 +1202,7 @@ const WA_UI={
   web:'افتح واتساب ويب',app:'افتح تطبيق الواتساب',copy:'انسخ الرسالة',down:'الواتساب عندي واقف؟',downHint:'اختار زميلة تبعت مكانك. هيفتحلك إيميل جاهز ليها فيه الرقم والرسالة ولينك الشات، وفي الـ CC حسين ومصطفى وإسلام وزينب (الكواليتي).',
   mate:'الزميلة اللي هتبعت مكانك',matePick:'اختار الزميلة',needMate:'اختار الزميلة الأول.',mail:'ابعت لها إيميل',mailCopy:'انسخ الطلب (لو الإيميل مفتحش)',odoo:'سجّل في أودوو',odooBtn:'انسخ ملاحظة أودوو',
   badPhone:'الرقم ده مش شكل موبايل إماراتي (9715 وبعده 8 أرقام). اتأكد منه.',needPhone:'اكتب رقم العميل الأول.',needAgent:'اختار اسمك الأول، علشان الرسالة متتبعتش باسم حد تاني.',needAny:'اختار عرض أو فرع على الأقل.',
-  noPrice:'السعر مش مؤكد، فهيتبعت من غير سعر',copied:'الرسالة اتنسخت',reqCopied:'الطلب اتنسخ، ابعته للزميلة',noteCopied:'الملاحظة اتنسخت، حطها في أودوو',
+  noPrice:'السعر مش مؤكد، فهيتبعت من غير سعر',desc:'✨ اكتب تعريف بسيط تحت كل خدمة (هي إيه وفايدتها)',copied:'الرسالة اتنسخت',reqCopied:'الطلب اتنسخ، ابعته للزميلة',noteCopied:'الملاحظة اتنسخت، حطها في أودوو',
   mailSubj:'ابعتي للعميل على الواتساب مكاني',mailIntro:'ممكن تبعتي الرسالة دي للعميل على الواتساب؟ الواتساب عندي واقف.',mailOpen:'افتحي الشات من هنا',mailMsg:'الرسالة:',thanks:'شكراً',
   noteTxt:(o,b,t)=>'اتبعت للعميل على الواتساب'+(o?': '+o:'')+(b?(o?' + ':': ')+'لوكيشن '+b:'')+' ('+t+')',mateNote:' (بعتتها زميلة لأن الواتساب عندي واقف)'},
  en:{tab:'📲 Send to customer',eyebrow:'Right after the call',title:'Send offers and location on WhatsApp',
@@ -1210,18 +1212,59 @@ const WA_UI={
   web:'Open WhatsApp Web',app:'Open WhatsApp app',copy:'Copy message',down:'Your WhatsApp is down?',downHint:'Choose a colleague to send it for you. A ready email to her opens with the number, the message and the chat link, with Hussein, Mostafa and Eslam in CC.',
   mate:'Colleague who sends for you',matePick:'Choose a colleague',needMate:'Choose a colleague first.',mail:'Email her',mailCopy:'Copy the request (if email didn\'t open)',odoo:'Log it in Odoo',odooBtn:'Copy Odoo note',
   badPhone:'This doesn\'t look like a UAE mobile (9715 then 8 digits). Check it.',needPhone:'Type the customer\'s number first.',needAgent:'Choose your name first, so the message doesn\'t go out under someone else\'s name.',needAny:'Pick at least one offer or a branch.',
-  noPrice:'price not confirmed, sent without a price',copied:'Message copied',reqCopied:'Request copied, send it to your colleague',noteCopied:'Note copied, paste it in Odoo',
+  noPrice:'price not confirmed, sent without a price',desc:'✨ Add a short line under each service (what it is and why it helps)',copied:'Message copied',reqCopied:'Request copied, send it to your colleague',noteCopied:'Note copied, paste it in Odoo',
   mailSubj:'Please WhatsApp this customer for me',mailIntro:'Could you send this message to the customer on WhatsApp? My WhatsApp is down.',mailOpen:'Open the chat here',mailMsg:'Message:',thanks:'Thanks',
   noteTxt:(o,b,t)=>'Sent on WhatsApp'+(o?': '+o:'')+(b?(o?' + ':': ')+b+' location':'')+' ('+t+')',mateNote:' (sent by a colleague, my WhatsApp is down)'}
 };
 const WAU=WA_UI[LANG==='en'?'en':'ar'];
+// Short customer-facing "what it is + why it's good" line under each offer in the WhatsApp message [ar, en].
+// Written only from the KB/offers sheet wording; no promised results. The offers sheet columns R/S override these.
+const WA_DESC={
+ nabota:['بيريّح العضلات اللي بتعمل التجاعيد التعبيرية، فالوش يبان أنعم وأنضر. نوع كوري ونتيجته بتظهر بسرعة.','Relaxes the muscles behind expression lines for a smoother, fresher look. A Korean brand with fast-showing results.'],
+ dysport:['بوتوكس بريطاني بينتشر على مساحة أوسع، فمناسب للمناطق الكبيرة زي الجبهة، ومعروف إنه بيدي شكل طبيعي.','A British Botox that spreads over a wider area, so it suits larger areas like the forehead, and is known for a natural look.'],
+ meso:['جرعات صغيرة في الطبقة السطحية للجلد، بتدي البشرة شد خفيف ونضارة وبتخفي علامات التعب.','Tiny doses in the surface layer of the skin for a light lift and glow, and to soften signs of tiredness.'],
+ lipfill:['فيلر هيالورونيك كوري بيحدد شكل الشفايف ويديها حجم وبيعالج جفافها.','A Korean hyaluronic filler that defines the lips, adds volume and treats dryness.'],
+ allawin:['فيلر هيالورونيك بيحدد رسمة الشفايف ويزود حجمها بشكل متناسق.','A hyaluronic filler that defines the lips and adds balanced volume.'],
+ restylane:['فيلر هيالورونيك سويدي معروف للشفايف، بيدي حجم وتحديد، وبإيد الدكتورة ياسمين درويش (جلدية).','A well-known Swedish hyaluronic lip filler for volume and definition, done by Dr. Yasmine Darwish (dermatologist).'],
+ facefill:['بينحت الخدود والفك ويحدد ملامح الوش.','Contours the cheeks and jawline and defines the face.'],
+ restyface:['بيرجّع الامتلاء والنضارة للمناطق اللي فقدت حجمها في الوش.','Restores volume and freshness where the face has lost it.'],
+ facetem:['مخصص لنحت الملامح: بيحدد الفك والدقن والوجنات لشكل أوضح ومتناسق.','Made for sculpting: defines the jawline, chin and cheekbones for a sharper, balanced look.'],
+ dermapen:['وخز بإبر دقيقة جداً مع سيرم مناسب، بيساعد في آثار الحبوب والمسام والتصبغات والخطوط الرفيعة.','Micro-needling with a suitable serum that helps with acne scars, pores, pigmentation and fine lines.'],
+ rrs:['حقن هيالورونيك ومضادات أكسدة بتدي البشرة شد ونضارة.','Hyaluronic and antioxidant injections that tighten the skin and give it a glow.'],
+ rrseye:['حقن لتحت العين، للهالات السودا والانتفاخ والخطوط الرفيعة.','Under-eye injections for dark circles, puffiness and fine lines.'],
+ rrsbox:['3 إبر RRS للعناية بالوش كله والخدود وتحت العين، والدكتور بيوزعها على حسب بشرة حضرتك.','3 RRS syringes to care for the whole face, cheeks and under-eye; the doctor decides how to use them for your skin.'],
+ sculptra:['مش فيلر عادي: بيحفّز البشرة تعمل كولاجين بنفسها، فبيرجّع الامتلاء ويقلل الترهل بالتدريج وبشكل طبيعي.','Not a regular filler: it helps the skin make its own collagen, restoring volume and reducing sagging gradually and naturally.'],
+ endolaser:['ليزر بطولين موجيين بيشد الجلد ويحسّن مظهر الترهلات، من غير جراحة.','A dual-wavelength laser that tightens the skin and improves the look of sagging, without surgery.'],
+ hifu:['موجات فوق صوتية مركزة بتشتغل تحت الجلد وتحفّز الكولاجين، فبتشد الترهل من غير جراحة.','Focused ultrasound that works under the skin and stimulates collagen to tighten sagging, without surgery.'],
+ silutrix:['إبرة بتذوّب دهون الغبغب (الذقن المزدوج) وبتشد الجلد في المنطقة دي.','An injection that dissolves double-chin fat and tightens the skin there.'],
+ silutrixabd:['إبرة لإذابة الدهون الموضعية في البطن، والدكتور بيحدد عدد الإبر المناسب.','An injection for localised belly fat; the doctor decides how many you need.'],
+ aqualyx:['إبرة لإذابة الدهون الموضعية، والدكتور بيحدد المنطقة وعدد الإبر المناسب.','An injection for localised fat; the doctor decides the area and how many you need.'],
+ fatcourse:['16 جلسة بجهاز ليزر سكالبت بتستهدف الدهون العنيدة والترهلات من غير جراحة، ومعاها متابعة غذائية أسبوعية لمدة شهرين.','16 Laser Sculpt sessions that target stubborn fat and sagging without surgery, with weekly nutrition follow-up for 2 months.'],
+ cellulite:['كل جلسة 3 علاجات مع بعض: ألتراسكالبت لتفتيت الدهون، وراديو فريكونسي لشد البشرة، ومساج لمفاوي لتصريف السوائل.','Each session is 3 treatments together: Ultrascalpt to break down fat, radiofrequency to tighten the skin, and lymphatic massage to drain fluids.'],
+ lymph:['مساج بأدوات خشب بينشّط الدورة الدموية ويقلل السيلوليت واحتباس السوائل.','A massage with wooden tools that boosts circulation and reduces cellulite and fluid retention.'],
+ ultrasculpt:['جهاز بيشغّل العضلات بانقباضات قوية وحضرتك مستريحة: للسيدات لشد ورفع المؤخرة، وللرجال لشد عضلات البطن.','A device that works the muscles with strong contractions while you relax: buttock lift for women, abs toning for men.'],
+ mounjaro:['كورس 3 شهور ومعاه متابعة غذائية طول المدة. الدكتور بيقيّم الحالة الأول في الاستشارة ويقرر إذا كان مناسب.','A 3-month course with nutrition follow-up throughout. The doctor assesses you first in the consultation and decides if it suits you.'],
+ laser1:['إزالة الشعر بجهاز كانديلا جنتل ماكس برو بلس، للجسم كله ماعدا الظهر والبطن.','Laser hair removal with the Candela GentleMax Pro Plus, for the whole body except the back and abdomen.'],
+ laser2:['إزالة الشعر بجهاز كانديلا جنتل ماكس برو بلس، للجسم كله شامل الظهر والبطن.','Laser hair removal with the Candela GentleMax Pro Plus, for the whole body including the back and abdomen.'],
+ hydra:['تنظيف عميق للبشرة وإزالة الشوائب مع ترطيب، فالبشرة تطلع أنضف وأنضر.','Deep cleansing that clears impurities and hydrates, for cleaner, brighter skin.'],
+ oxy:['بتقشّر البشرة بلطف وتدخّلها الأكسجين والمواد المغذية، فبتديها نضارة وترطيب.','Gently exfoliates and delivers oxygen and nutrients for glow and hydration.'],
+ mono:['خيوط رفيعة جداً تحت الجلد بتحسّن ملمس البشرة وتماسكها وتقلل التجاعيد البسيطة.','Very fine threads under the skin that improve texture and firmness and soften fine lines.'],
+ threads:['خيوط بتتحط تحت الجلد لشد الوش وتحفيز الكولاجين.','Threads placed under the skin to lift the face and stimulate collagen.'],
+ gcell:['تقنية بتحفّز وتقوّي بصيلات الشعر عشان تقلل التساقط وتحسّن الكثافة، من غير جراحة، والجلسة بتخلص في يوم واحد.','A technique that stimulates and strengthens hair follicles to reduce hair loss and improve density, without surgery, done in one day.']
+};
+const WA_NOGIFT=new Set(['gcell','hydra','oxy']); // no gift with these (G Cell gift unconfirmed; HydraFacial/OxyGeneo are gift options themselves)
+function waDesc(o,ar){ const s=ar?o.waAr:o.waEn; if(s) return s; const d=WA_DESC[o.id]; return d?d[ar?0:1]:''; }
+function waOffLines(ar){ const out=[]; WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).forEach(o=>{ out.push('• '+waLine(o,ar)); const d=WA.desc!==false?waDesc(o,ar):''; if(d) out.push('   ✨ '+d); }); return out; }
+function waGift(ar){ const os=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean), g=os.filter(o=>!WA_NOGIFT.has(o.id)); if(!g.length) return '';
+  if(g.length===os.length) return ar?(os.length>1?'ومع كل عرض':'ومع العرض')+' هدية من اختيار حضرتك':(os.length>1?'Every offer comes':'It comes')+' with a gift of your choice';
+  return ar?'ومع '+g.map(o=>o.ar).join(' و')+' هدية من اختيار حضرتك':(g.map(o=>o.en||o.ar).join(' and ')+' come'+(g.length>1?'':'s')+' with a gift of your choice'); }
 function waLine(o,ar){ const l=WA_LINES[o.id];
   if(o.st!=='ok') return l?l[ar?0:1]:(ar?(o.ar+': السعر هنأكده مع حضرتك'):((o.en||o.ar)+': we will confirm the price with you'));
   if(l&&l[2]===o.price) return l[ar?0:1];
   return ar?(o.ar+': '+o.price+' درهم'):((o.en||o.ar)+': '+String(o.price).replace('من','from')+' AED'); }
-let WA=Object.assign({kind:'offers',phone:'',name:'',gender:'f',lang:'ar',offers:[],branch:'ad',agent:'',mate:'',msg:'',edited:false,date:'',time:'',doc:'',extra:''},(()=>{try{return JSON.parse(localStorage.getItem('tj-wa')||'{}')}catch(e){return {}}})(),{agent:(()=>{try{return sessionStorage.getItem('tj-wa-agent')||''}catch(e){return ''}})()});
+let WA=Object.assign({desc:true,kind:'offers',phone:'',name:'',gender:'f',lang:'ar',offers:[],branch:'ad',agent:'',mate:'',msg:'',edited:false,date:'',time:'',doc:'',extra:''},(()=>{try{return JSON.parse(localStorage.getItem('tj-wa')||'{}')}catch(e){return {}}})(),{agent:(()=>{try{return sessionStorage.getItem('tj-wa-agent')||''}catch(e){return ''}})()});
 WA.phone='';WA.name='';WA.offers=[];WA.msg='';WA.edited=false;WA.kind='offers';WA.date='';WA.time='';WA.doc='';WA.extra=''; // a fresh customer every time the page opens
-const waSave=()=>{try{localStorage.setItem('tj-wa',JSON.stringify({gender:WA.gender,lang:WA.lang,branch:WA.branch,mate:WA.mate})); sessionStorage.setItem('tj-wa-agent',WA.agent)}catch(e){}};
+const waSave=()=>{try{localStorage.setItem('tj-wa',JSON.stringify({gender:WA.gender,lang:WA.lang,branch:WA.branch,mate:WA.mate,desc:WA.desc})); sessionStorage.setItem('tj-wa-agent',WA.agent)}catch(e){}};
 // UAE numbers to 9715XXXXXXXX; anything else keeps its digits (international numbers must include the country code).
 function waNum(p){ let d=String(p||'').replace(/[^\d+]/g,''); if(d.startsWith('+')) d=d.slice(1); if(d.startsWith('00')) d=d.slice(2);
   if(/^05\d{8}$/.test(d)) d='971'+d.slice(1); else if(/^5\d{8}$/.test(d)) d='971'+d; else if(/^9710\d{9}$/.test(d)) d='971'+d.slice(4); return d; }
@@ -1253,7 +1296,7 @@ function waBookText(){
     L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
     L.push(''); L.push('بنأكد حجز حضرتك ✅');
     if(day) L.push('🗓 اليوم: '+day); if(tm) L.push('⏰ الساعة: '+tm); if(doc) L.push('👩‍⚕️ مع: '+doc);
-    if(off.length){ L.push(''); L.push(off.length>1?'العروض اللي '+(f?'حجزتيها':'حجزتها')+':':'العرض اللي '+(f?'حجزتيه':'حجزته')+':'); L.push(...off); L.push('🎁 ومع العرض هدية من اختيار حضرتك. الأسعار غير شاملة ضريبة القيمة المضافة.'); }
+    if(off.length){ L.push(''); L.push(off.length>1?'العروض اللي '+(f?'حجزتيها':'حجزتها')+':':'العرض اللي '+(f?'حجزتيه':'حجزته')+':'); L.push(...off); const gf=waGift(ar); L.push((gf?'🎁 '+gf+'. ':'')+'الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar.split('\n').filter(l=>!l.startsWith('المواعيد')).join('\n')); L.push('اللوكيشن: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
     L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL);
@@ -1262,7 +1305,7 @@ function waBookText(){
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
     L.push(''); L.push('We are confirming your booking ✅');
     if(day) L.push('🗓 Day: '+day); if(tm) L.push('⏰ Time: '+tm); if(doc) L.push('👩‍⚕️ With: '+doc);
-    if(off.length){ L.push(''); L.push(off.length>1?'The offers you booked:':'The offer you booked:'); L.push(...off); L.push('🎁 It comes with a gift of your choice. Prices exclude VAT.'); }
+    if(off.length){ L.push(''); L.push(off.length>1?'The offers you booked:':'The offer you booked:'); L.push(...off); const gf=waGift(ar); L.push((gf?'🎁 '+gf+'. ':'')+'Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en.split('\n').filter(l=>!l.startsWith('Open')).join('\n')); L.push('Location: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
     L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL);
@@ -1274,22 +1317,22 @@ function waText(){
   if(WA.kind==='book') return waBookText();
   const ar=WA.lang!=='en', f=WA.gender!=='m', nm=WA.name.trim(), ag=WA.agent.trim();
   const off=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).map(o=>'• '+waLine(o,ar));
-  const br=WA_BR[WA.branch];
+  const br=WA_BR[WA.branch], off2=waOffLines(ar), gift=waGift(ar);
   const L=[];
   if(ar){
     L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
-    if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off); L.push(''); L.push('🎁 ومع كل عرض هدية من اختيار حضرتك، والاستشارة الأولى مع الدكتور مجانية.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
+    if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off2); L.push(''); L.push((gift?'🎁 '+gift+'، و':'👩‍⚕️ ')+'الاستشارة الأولى مع الدكتور مجانية، والدكتور هيحدد الأنسب لحضرتك.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar); L.push('اللوكيشن: '+br.map); }
     L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL);
     if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 وبمناسبة يوم العلم الإماراتي، المركز مقدّم 3 هدايا لمواطني الإمارات:'); L.push('• جلسة ليزر فل بادي بجهاز كانديلا الأبيض'); L.push('• جلسة أكسجينيو لنضارة وإشراقة الوش'); L.push('• استشارة خاصة مع د. ياسمين درويش، أخصائية الجلدية والتجميل'); L.push('الحجز متاح لحد 12 نوفمبر. ولو حضرتك '+(f?'مقيمة، تقدري تهادي بيها صاحباتك المواطنات':'مقيم، تقدر تهادي بيها أصحابك المواطنين')+': يبعتولنا "أريد هدية" على الرقم ده.'); }
-    L.push(''); L.push('لو حضرتك '+(f?'حابة':'حابب')+' نحجزلك ميعاد، '+(f?'ابعتيلنا':'ابعتلنا')+' اليوم والوقت اللي يناسبك هنا 🙏');
+    L.push(''); if(off.length) L.push((f?'تحبي':'تحب')+' نحجزلك استشارة مجانية مع الدكتور؟ '+(f?'ابعتيلنا':'ابعتلنا')+' بس اليوم والوقت اللي '+(f?'يناسبك':'يناسبك')+' هنا، وإحنا نظبطلك الميعاد 🙏'); else L.push('لو حضرتك '+(f?'حابة':'حابب')+' نحجزلك ميعاد، '+(f?'ابعتيلنا':'ابعتلنا')+' اليوم والوقت اللي يناسبك هنا 🙏');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
-    if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off); L.push(''); L.push('🎁 Every offer comes with a gift of your choice, and the first consultation with the doctor is free.'); L.push('Prices exclude VAT.'); }
+    if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off2); L.push(''); L.push(gift?'🎁 '+gift+', and the first consultation with the doctor is free; the doctor will advise what suits you best.':'👩‍⚕️ The first consultation with the doctor is free, and the doctor will advise what suits you best.'); L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en); L.push('Location: '+br.map); }
     L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL);
     if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 To celebrate UAE Flag Day, the center is offering 3 gifts to UAE citizens:'); L.push('• A full-body laser session with the white Candela device'); L.push('• An OxyGeneo session for a radiant, fresh face'); L.push('• A private consultation with Dr. Yasmine Darwish, dermatology and aesthetics specialist'); L.push('Booking is open until 12 November. If you are a resident, you can gift them to your Emirati friends: they just send "I want a gift" to this number.'); }
-    L.push(''); L.push('If you would like to book, just reply here with the day and time that suit you 🙏');
+    L.push(''); L.push(off.length?'Would you like us to book your free consultation with the doctor? Just reply here with the day and time that suit you, and we will arrange it 🙏':'If you would like to book, just reply here with the day and time that suit you 🙏');
   }
   return L.join('\n');
 }
@@ -1324,6 +1367,7 @@ function waHtml(){
     <label>${WAU.extra}<input id="waExtra" value="${esc(WA.extra)}" placeholder="${WAU.extraPh}"></label>`:''}
     <div class="wa-lbl">${WA.kind==='book'?WAU.offersBook:WAU.offers}</div>
     ${cats.map(c=>`<div class="wa-cat"><span>${esc(CATS[c]||c)}</span><div class="wa-chips">${ok.filter(o=>o.cat===c).map(o=>`<button data-a="wao" data-v="${o.id}" class="${WA.offers.includes(o.id)?'on':''}" title="${o.st!=='ok'?esc(WAU.noPrice):''}">${esc(LANG==='en'?o.en||o.ar:o.ar)}${o.st!=='ok'?' *':''}</button>`).join('')}</div></div>`).join('')}
+    ${WA.kind!=='book'?`<label class="wa-desc"><input type="checkbox" id="waDesc" ${WA.desc!==false?'checked':''}> ${WAU.desc}</label>`:''}
     ${WA.kind!=='book'?brHtml:''}
    </div>
    <div class="wa-out">
@@ -1433,6 +1477,7 @@ function auxMail(back){ const me=teamBy(meGet()); if(!me){ toast(AXU.needMe); co
   const r=AUX_EN[AUX.reason], t=hhmm();
   return back?{s:AXU.subjBack(me.en,t),b:AXU.bodyBack(r,me.en,t,AUX.since)}:{s:AXU.subj(r,me.en,t),b:AXU.body(r,me.en,t,AUX.note.trim(),String(AUX.mins||'').trim())}; }
 document.addEventListener('input',e=>{ if(e.target.id==='auxNote') AUX.note=e.target.value; if(e.target.id==='auxMins') AUX.mins=e.target.value; });
+document.addEventListener('change',e=>{ if(e.target.id==='waDesc'){ WA.desc=e.target.checked; waSave(); if(!WA.edited) waRefresh(); } });
 document.addEventListener('change',e=>{ if((e.target.id==='auxMe'||e.target.id==='waMe'||e.target.id==='waMate')&&e.target.value===TEAM_ADD){ const t=teamPrompt(e.target.id==='waMate'); if(e.target.id==='waMate'){ WA.mate=t?t.email:''; waSave(); } else { meSet(t?t.id:meGet()); if(t&&e.target.id==='waMe'){ WA.agent=t.en.split(' ')[0]; waSave(); } } renderMain(); return; }
   if(e.target.id==='auxMe'||e.target.id==='waMe'){ meSet(e.target.value); if(e.target.id==='waMe'){ const t=teamBy(e.target.value); if(t){ WA.agent=WA.lang==='en'?t.en.split(' ')[0]:t.ar; waSave(); } renderMain(); } }
   if(e.target.id==='waMate'){ WA.mate=e.target.value; waSave(); } });
