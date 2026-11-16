@@ -317,8 +317,8 @@ function crossFor(id){ return (XS[id]||[]).filter(c=>c.o!==id&&has(c.o)).map(c=>
   return {...c,ref:o,say:L(`بما إن حضرتك ذكرتي ${c.k}، عندنا ${o.ar} ${priceSay(o)}، ومعاه هدية حضرتك تختاريها. الدكتور ممكن يبصلك عليها في نفس الاستشارة المجانية. تحبي أكتبها في الحجز؟`,
     `Since you mentioned ${c.k}, we have ${o.ar} ${priceSay(o)}, with a gift of your choice. The doctor can check it in the same free consultation. Shall I note it on your booking?`)}; }); }
 function upFor(id){ return (UP[id]||[]).map(f=>{try{return f()}catch(e){return null}}).filter(Boolean); }
-const NOGIFT=new Set(['gcell']); // gift not confirmed yet
-function waFor(o){ return o.ar+'\n'+(o.st==='ok'?'• '+o.price+' '+AED+(o.pn?' ('+o.pn+')':''):'• '+T.cmp.waNoPrice)+'\n'+(NOGIFT.has(o.id)?'':L('• معاه هدية حضرتك تختاريها\n','• With a gift of your choice\n'))+L('• الاستشارة الأولى مجانية، والدكتور هيحدد الأنسب ليكي','• The first consultation is free, and the doctor will decide what suits you best'); }
+const NOGIFT=new Set(['gcell','hydra','oxy']); // no gift: G Cell gift unconfirmed; HydraFacial/OxyGeneo are gift options themselves
+function waFor(o){ const d=typeof waDesc==='function'?waDesc(o,LANG!=='en'):''; return o.ar+'\n'+(d?'✨ '+d+'\n':'')+(o.st==='ok'?'• '+o.price+' '+AED+(o.pn?' ('+o.pn+')':''):'• '+T.cmp.waNoPrice)+'\n'+(NOGIFT.has(o.id)?'':L('• معاه هدية حضرتك تختاريها\n','• With a gift of your choice\n'))+L('• الاستشارة الأولى مجانية، والدكتور هيحدد الأنسب ليكي','• The first consultation is free, and the doctor will decide what suits you best'); }
 let SVCID=store.get('kp-svc','nabota'); let SVCCAT='all';
 const STEPS=EN?[
  ['Close the main need first','Price, gift and a booking time for what they called about. Don\'t add anything before that.'],
