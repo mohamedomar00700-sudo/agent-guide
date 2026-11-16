@@ -1310,7 +1310,7 @@ function waBookText(){
     if(off.length){ L.push(''); L.push(off.length>1?'العروض اللي '+(f?'حجزتيها':'حجزتها')+':':'العرض اللي '+(f?'حجزتيه':'حجزته')+':'); L.push(...off); const gl=waGiftLines(ar,f); if(gl.length){ L.push(''); L.push(...gl); L.push(''); } L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar.split('\n').filter(l=>!l.startsWith('المواعيد')).join('\n')); L.push('اللوكيشن: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
-    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL); }
+    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 '+(f?'تقدري تجرّبي':'تقدر تجرّب')+' حظك في عجلة الحظ، ولو '+(f?'حجزتي':'حجزت')+' عرض، الجايزة اللي تطلعلك بتبقى هي هدية العرض: '+SPIN_URL); }
     L.push(''); L.push('لو حضرتك '+(f?'حابة تغيري':'حابب تغير')+' الميعاد أو عندك أي سؤال، '+(f?'ابعتيلنا':'ابعتلنا')+' هنا وإحنا معاك'+(f?'ي':'')+' 🙏'); L.push('في انتظار حضرتك 🌸');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
@@ -1319,7 +1319,7 @@ function waBookText(){
     if(off.length){ L.push(''); L.push(off.length>1?'The offers you booked:':'The offer you booked:'); L.push(...off); const gl=waGiftLines(ar,f); if(gl.length){ L.push(''); L.push(...gl); L.push(''); } L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en.split('\n').filter(l=>!l.startsWith('Open')).join('\n')); L.push('Location: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
-    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL); }
+    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 You can try your luck on our Spin & Win wheel. If you book an offer, the prize you win becomes your offer gift: '+SPIN_URL); }
     L.push(''); L.push('If you need to change the appointment or have any question, just message us here 🙏'); L.push('We look forward to seeing you 🌸');
   }
   return L.join('\n');
@@ -1334,14 +1334,14 @@ function waText(){
     L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
     if(off.length){ L.push(''); L.push('زي ما اتكلمنا في المكالمة، دي العروض اللي '+(f?'سألتي':'سألت')+' عليها:'); L.push(...off2); L.push(''); if(gl.length){ L.push(...gl); L.push(''); } L.push('👩‍⚕️ الاستشارة الأولى مع الدكتور مجانية، والدكتور هيحدد الأنسب لحضرتك.'); L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar); L.push('اللوكيشن: '+br.map); }
-    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 '+(f?'جرّبي':'جرّب')+' حظك في عجلة الحظ: '+SPIN_URL); }
+    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 '+(f?'تقدري تجرّبي':'تقدر تجرّب')+' حظك في عجلة الحظ، ولو '+(f?'حجزتي':'حجزت')+' عرض، الجايزة اللي تطلعلك بتبقى هي هدية العرض: '+SPIN_URL); }
     if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 وبمناسبة يوم العلم الإماراتي، المركز مقدّم 3 هدايا لمواطني الإمارات:'); L.push('• جلسة ليزر فل بادي بجهاز كانديلا الأبيض'); L.push('• جلسة أكسجينيو لنضارة وإشراقة الوش'); L.push('• استشارة خاصة مع د. ياسمين درويش، أخصائية الجلدية والتجميل'); L.push('الحجز متاح لحد 12 نوفمبر. ولو حضرتك '+(f?'مقيمة، تقدري تهادي بيها صاحباتك المواطنات':'مقيم، تقدر تهادي بيها أصحابك المواطنين')+': يبعتولنا "أريد هدية" على الرقم ده.'); }
     L.push(''); if(off.length) L.push((f?'تحبي':'تحب')+' نحجزلك استشارة مجانية مع الدكتور؟ '+(f?'ابعتيلنا':'ابعتلنا')+' بس اليوم والوقت اللي '+(f?'يناسبك':'يناسبك')+' هنا، وإحنا نظبطلك الميعاد 🙏'); else L.push('لو حضرتك '+(f?'حابة':'حابب')+' نحجزلك ميعاد، '+(f?'ابعتيلنا':'ابعتلنا')+' اليوم والوقت اللي يناسبك هنا 🙏');
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
     if(off.length){ L.push(''); L.push('As we discussed on the call, here are the offers you asked about:'); L.push(...off2); L.push(''); if(gl.length){ L.push(...gl); L.push(''); } L.push('👩‍⚕️ The first consultation with the doctor is free, and the doctor will advise what suits you best.'); L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en); L.push('Location: '+br.map); }
-    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 Try your luck on our Spin & Win wheel: '+SPIN_URL); }
+    if(!waGiftLines(ar,f).length){ L.push(''); L.push('🎡 You can try your luck on our Spin & Win wheel. If you book an offer, the prize you win becomes your offer gift: '+SPIN_URL); }
     if(promoOn('waTo')){ L.push(''); L.push('🇦🇪 To celebrate UAE Flag Day, the center is offering 3 gifts to UAE citizens:'); L.push('• A full-body laser session with the white Candela device'); L.push('• An OxyGeneo session for a radiant, fresh face'); L.push('• A private consultation with Dr. Yasmine Darwish, dermatology and aesthetics specialist'); L.push('Booking is open until 12 November. If you are a resident, you can gift them to your Emirati friends: they just send "I want a gift" to this number.'); }
     L.push(''); L.push(off.length?'Would you like us to book your free consultation with the doctor? Just reply here with the day and time that suit you, and we will arrange it 🙏':'If you would like to book, just reply here with the day and time that suit you 🙏');
   }
