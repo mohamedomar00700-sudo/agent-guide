@@ -2316,12 +2316,12 @@ const U2=EN?{mineTag:'🎯 From your evaluations',teamTag:'👥 From the floor\'
   slangQ:w=>'Customer in the UAE. The best replacement for «'+w+'» on the call?',dispQ:s=>'The customer: "'+s+'". How do you log it in Odoo?',offerQ:n=>'The customer asks about "'+n+'". What exactly does the offer include?',
   focusT:'🎯 What the floor got wrong, exactly',focusSub:n=>'From the evaluators\' written comments, not just the item (last 14 days, '+n+' evaluations). No names.',
   mineT:'🧭 Your improvement points',mineSub:'From the comments on your own evaluations (last 45 days). Only you see this.',mineNone:'No specific points from your evaluations in the last 45 days. Keep it up! 👏',
-  drill:'🎯 Practise my mistakes',times:n=>n+(n===1?' time':' times'),words:'Words heard on calls:',place:['1st place','2nd place','3rd place','4th place'],finishTxt:'FINISH',drillT:'Practice: my mistakes',yourPoint:'Your improvement point',raceSub:'Every right answer is a boost through the next gate. Beat the top of the league!'}
+  drill:'🎯 Practise my mistakes',times:n=>n+(n===1?' time':' times'),words:'Words heard on calls:',place:['1st place','2nd place','3rd place','4th place'],finishTxt:'FINISH',drillT:'Practice: my mistakes',yourPoint:'Your improvement point',raceSub:'Every right answer is a boost through the next gate. Beat the top of the league!',clinicSub:'Every right answer unpacks one piece of the reception. Get the clinic ready before the first customer!',worldT:'🎮 Game world',worlds:[['auto','🔀 Changes daily'],['race','🏎️ Shift Rally'],['clinic','🏥 Get the clinic ready']],clinicRes:(b,t)=>b===t?'🏥 The clinic is ready! '+b+'/'+t:'🏥 You set up '+b+' of '+t+' pieces'}
  :{mineTag:'🎯 من تقييماتك',teamTag:'👥 من أخطاء الفلور',tipT:'الصح إزاي',
   slangQ:w=>'العميل في الإمارات. أنسب بديل لكلمة «'+w+'» على المكالمة؟',dispQ:s=>'العميل: «'+s+'». تسجّله على أودوو إزاي؟',offerQ:n=>'العميلة سألت عن «'+n+'». العرض بيشمل إيه بالظبط؟',
   focusT:'🎯 الفلور غلط في إيه بالظبط',focusSub:n=>'من الكومنت اللي المقيّم كاتبه، مش البند بس (آخر 14 يوم، '+n+' تقييم). من غير أسماء.',
   mineT:'🧭 نقاط التحسين بتاعتك',mineSub:'من الكومنتات على تقييماتك إنت (آخر 45 يوم). محدش بيشوفها غيرك.',mineNone:'مفيش نقاط محددة من تقييماتك في آخر 45 يوم. كمّل كده! 👏',
-  drill:'🎯 اتدرب على أخطائي',times:n=>n+' مرة',words:'كلمات اتقالت في المكالمات:',place:['المركز الأول','المركز التاني','المركز التالت','المركز الرابع'],finishTxt:'خط النهاية',drillT:'تدريب: أخطائي',yourPoint:'نقطة التحسين بتاعتك',raceSub:'كل إجابة صح = تيربو تعدّي بيه البوابة الجاية. اسبق أوائل الدوري!'};
+  drill:'🎯 اتدرب على أخطائي',times:n=>n+' مرة',words:'كلمات اتقالت في المكالمات:',place:['المركز الأول','المركز التاني','المركز التالت','المركز الرابع'],finishTxt:'خط النهاية',drillT:'تدريب: أخطائي',yourPoint:'نقطة التحسين بتاعتك',raceSub:'كل إجابة صح = تيربو تعدّي بيه البوابة الجاية. اسبق أوائل الدوري!',clinicSub:'كل إجابة صح = حتة تتركب في الريسبشن. جهّز العيادة قبل أول عميل!',worldT:'🎮 عالم اللعبة',worlds:[['auto','🔀 يتغير كل يوم'],['race','🏎️ سباق الوردية'],['clinic','🏥 جهّز العيادة']],clinicRes:(b,t)=>b===t?'🏥 العيادة جاهزة! '+b+'/'+t:'🏥 جهّزت '+b+' من '+t+' حاجات'};
 const SVC_RE={laser:/ليزر|laser/i,beard:/لحي|beard/i,mounjaro:/مونجارو|mounjaro/i,nutrition:/تغذي|nutrition|وزن|weight/i,botox:/بوتوكس|botox/i,filler:/فيلر|filler/i,hifu:/هايفو|hifu/i,sculptra:/سكلبترا|sculptra/i,meso:/ميزو|meso/i,body:/فل بادي|full body|الجسم كله/i};
 const DISP_PICK=['ni','unreach','stop','later','busy','wa','area','potarea','willcall','travel','ask','exp','other','relative','wrong','noarb'];
 const LEVELS=[0,100,300,600,1000,1600,2500], LV_ICON=['🌱','📘','🎯','🚀','🧠','🌟','👑'];
@@ -2350,6 +2350,7 @@ const css=`.qstage .q3d{display:none}.qstage .qui{position:relative;display:flex
 .q3dhud{position:absolute;inset-inline-start:12px;bottom:88px;z-index:2;pointer-events:none}
 .q3dpos{display:inline-block;font-weight:900;font-size:15px;padding:6px 12px;border-radius:999px;background:rgba(14,24,40,.78);color:#fff;border:2px solid rgba(255,255,255,.25);box-shadow:0 4px 14px rgba(0,0,0,.3)}
 .q3dpos.p1{border-color:#FFD34D;color:#FFE38A}
+.qworld{gap:6px}.qwbtn{font:inherit;font-size:13px;font-weight:700;border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 11px;cursor:pointer}.qwbtn.on{border-color:#F26B1D;background:rgba(242,107,29,.12);color:#C2500F}
 .qtag{display:inline-block;margin-inline-start:6px;font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;background:rgba(242,107,29,.18);color:#FFB27A;border:1px solid rgba(242,107,29,.45)}
 .qtag.team{background:rgba(46,139,201,.18);color:#9DD0F5;border-color:rgba(46,139,201,.45)}
 .qfoot p.qtip{background:rgba(255,255,255,.55);border-radius:10px;padding:8px 10px;color:#1F2D3D}
@@ -2600,7 +2601,7 @@ function setAv(a){ if(!AVS.includes(a)) return; ls.set(AV_KEY,a); const m=ME(); 
 function introHtml(){ const R=RUN, n=R.qs.length, st=ME()?ME().streak:0;
   return `<div class="qtop"><button class="qx" data-a="qzquit" aria-label="${U.close}">✕</button></div>
    <div class="qbody"><div class="qintro"><div class="nr">${noorSvg('happy')}</div><h1 class="qglow">${esc(R.practice?U.practice:U.shiftT(R.kind))}</h1>
-    <div style="font-size:16px;color:#C9D5E4">${esc(window.QZ3D&&QZ3D.ready()?U2.raceSub:U.shiftSub(n))}</div>
+    <div style="font-size:16px;color:#C9D5E4">${esc(window.QZ3D&&QZ3D.ready()?(R.world==='clinic'?U2.clinicSub:U2.raceSub):U.shiftSub(n))}</div>
     <div class="qfaces">${R.qs.map((q,i)=>custFace(i,'')).join('')}</div>
     <div class="qpills"><span class="qpill">👥 ${esc(U.custs(n))}</span><span class="qpill">⏱ ${esc(U.mins(Math.max(2,Math.round(n*.4))))}</span>${st?`<span class="qpill">🔥 ${st}</span>`:''}</div>
     <button class="qbtn qorange" data-a="qzgo2" data-focus>▶ ${U.shiftGo}</button></div></div>`; }
@@ -2616,10 +2617,13 @@ function stage(){ let s=$('qzStage'); if(!s){ s=document.createElement('div'); s
   s.classList.toggle('race',!!(window.QZ3D&&QZ3D.ready())); s.classList.toggle('big',!!(RUN.result||RUN.intro));
   const ui=$('qzUi'); ui.innerHTML=RUN.result?resultHtml():RUN.intro?introHtml():lessonHtml(); const f=ui.querySelector('[data-focus]'); if(f) f.focus({preventScroll:true}); }
 // ---------- the race (quiz3d.js). Without WebGL the quiz runs as before. ----------
-function loadRace(){ if(window.QZ3D) return Promise.resolve(true); return new Promise(res=>{ const s=document.createElement('script'); s.src='quiz3d.js?v=1'; s.onload=()=>res(!!window.QZ3D); s.onerror=()=>res(false); document.head.appendChild(s); }); }
+function loadRace(){ if(window.QZ3D) return Promise.resolve(true); return new Promise(res=>{ const s=document.createElement('script'); s.src='quiz3d.js?v=2'; s.onload=()=>res(!!window.QZ3D); s.onerror=()=>res(false); document.head.appendChild(s); }); }
+const WORLD_KEY='tj-quiz-world';
+function worldOf(R){ const w=ls.get(WORLD_KEY,'auto'); if(w==='race'||w==='clinic') return w; if(R.kind==='monthly') return 'clinic'; return Math.floor(Date.now()/864e5)%2?'clinic':'race'; }
+function worldHtml(){ const w=ls.get(WORLD_KEY,'auto'); return `<div class="row qworld"><span class="lbl">${U2.worldT}:</span>${U2.worlds.map(x=>`<button class="qwbtn ${w===x[0]?'on':''}" data-a="qzworld" data-v="${x[0]}">${x[1]}</button>`).join('')}</div>`; }
 async function race3d(R){ if(!(await loadRace())||RUN!==R) return; const host=$('qz3d'); if(!host) return;
   const meK=nk(ME()?ME().name:SES?SES.name:''), riv=((PULSE&&PULSE.board)||[]).filter(b=>nk(b.name)!==meK).slice(0,3).map(b=>String(b.name).trim().split(/\s+/)[0]);
-  const first=SES?String(SES.name).trim().split(/\s+/)[0]:'', ok=await QZ3D.mount(host,{n:R.qs.length,night:R.kind==='monthly',rivals:riv,me:first||(EN?'You':'إنت'),av:myAv()?QIMG+'av_'+myAv()+'.webp':'',lang:EN?'en':'ar'});
+  const first=SES?String(SES.name).trim().split(/\s+/)[0]:'', ok=await QZ3D.mount(host,{world:(R.world=worldOf(R)),n:R.qs.length,night:R.kind==='monthly',rivals:riv,me:first||(EN?'You':'إنت'),av:myAv()?QIMG+'av_'+myAv()+'.webp':'',lang:EN?'en':'ar'});
   if(!ok||RUN!==R) return; if(!R.intro&&!R.result) QZ3D.question(R.i); stage(); }
 function lessonHtml(){ const R=RUN, q=R.qs[R.i], done=R.i+(R.checked?1:0), ok=R.checked&&R.sel===q.a; if(q.s&&!R.checked) preloadChar(R.i);
   const kind=R.drill?U2.drillT:R.kind==='monthly'?U.monthT:(R.practice?U.practice:U.dailyT);
@@ -2635,7 +2639,7 @@ function lessonHtml(){ const R=RUN, q=R.qs[R.i], done=R.i+(R.checked?1:0), ok=R.
 function resultHtml(){ const R=RUN, {score,total,msg}=R.result, pct=Math.round(100*score/total), m=ME(), b=R.before;
   const newB=m&&b&&!R.practice?BADGES.filter(x=>x.t(m)&&!x.t(b)):[], lvUp=m&&b&&!R.practice&&levelOf(m.points*10).i>levelOf(b.points*10).i;
   const t5=Math.round(5*score/total);
-  return `<div class="qbody"><div class="qres"><div class="nr">${myAv()?avImg(myAv()):noorSvg(pct>=60?'happy':'care')}</div><div class="qkind">${U.reportT}</div>${R.place?`<div class="qplace p${R.place}">${['🥇','🥈','🥉','🏁'][R.place-1]} ${esc(U2.place[R.place-1])}</div>`:''}<h2>${esc(U.resT(t5))}</h2><div class="qfaces">${R.qs.map((q,i)=>custFace(i,R.ans[i]?'happy':'upset')).join('')}</div><div class="muted">${esc(U.happy(score))}</div>
+  return `<div class="qbody"><div class="qres"><div class="nr">${myAv()?avImg(myAv()):noorSvg(pct>=60?'happy':'care')}</div><div class="qkind">${U.reportT}</div>${R.sum&&R.sum.world==='clinic'?`<div class="qplace ${R.sum.built===R.sum.total?'p1':''}">${esc(U2.clinicRes(R.sum.built,R.sum.total))}</div>`:''}${R.place?`<div class="qplace p${R.place}">${['🥇','🥈','🥉','🏁'][R.place-1]} ${esc(U2.place[R.place-1])}</div>`:''}<h2>${esc(U.resT(t5))}</h2><div class="qfaces">${R.qs.map((q,i)=>custFace(i,R.ans[i]?'happy':'upset')).join('')}</div><div class="muted">${esc(U.happy(score))}</div>
     <div class="qring" style="background:conic-gradient(#58CC02 ${pct}%,var(--line) 0)"><b>${score}/${total}</b></div>
     <div class="qchips"><div class="qchip gold"><small>${U.xp}</small><b>${R.practice?'–':esc(U.xpGain(score*10))}</b></div>
      <div class="qchip"><small>${U.comboT}</small><b>🔥 ${R.best}</b></div>
@@ -2646,7 +2650,7 @@ function resultHtml(){ const R=RUN, {score,total,msg}=R.result, pct=Math.round(1
    <div class="qfoot"><div><button class="qbtn wide" data-a="qzdone" data-focus>${U.board}</button><button class="qghost" data-a="qzquit">${U.close}</button></div></div>`; }
 async function finishRun(){ const R=RUN, score=R.ans.filter(Boolean).length, total=R.qs.length;
   { const mw=ls.get('tj-quiz-mywrong',[]).filter(id=>!R.qs.some((q,i)=>q.id===id&&R.ans[i])); R.qs.forEach((q,i)=>{ if(!R.ans[i]&&!mw.includes(q.id)) mw.push(q.id); }); ls.set('tj-quiz-mywrong',mw.slice(-20)); }
-  R.result={score,total,msg:''}; R.place=window.QZ3D&&QZ3D.ready()?QZ3D.finish(U2.finishTxt):0; sndWin(); if(score>=Math.ceil(total*.6)) confetti(score===total?180:90);
+  R.result={score,total,msg:''}; R.place=window.QZ3D&&QZ3D.ready()?QZ3D.finish(U2.finishTxt):0; R.sum=window.QZ3D&&QZ3D.summary?QZ3D.summary():null; sndWin(); if(score>=Math.ceil(total*.6)) confetti(score===total?180:90);
   stage();
   if(!R.practice&&SES){ ls.set(doneKey(R.kind,R.per),{score,total});
     const rec={kind:R.kind,score,total,wrong:R.qs.filter((q,i)=>!R.ans[i]).map(q=>q.id+' — '+String(q.q).slice(0,110)),asked:R.qs.map(q=>q.id+' — '+String(q.q).slice(0,110))};
@@ -2708,6 +2712,7 @@ function quizHtml(){
     <div class="qlvl"><div class="t"><span>${U.level}: ${esc(lv.name)}</span><span class="muted">${lv.to?esc(U.toNext(lv.to-xp)):U.maxLevel}</span></div><div class="qbar"><i style="width:${lv.to?Math.round(100*(xp-lv.from)/(lv.to-lv.from)):100}%"></i></div></div>
     ${weekHtml(m)}
     ${dd?`<div class="row"><span class="chip c-ok">✓ ${U.done}${dd.score!=null?' · '+dd.score+'/'+dd.total:''}</span><button class="qghost" data-a="qzpractice">${U.again}</button></div>`:`<button class="qbtn wide" data-a="qzstart">${U.start} ▶</button>`}
+    ${worldHtml()}
     <div class="row"><span class="lbl">🗓️ ${U.monthT}:</span>${md?`<span class="chip c-ok">✓ ${U.monthDone} · ${md.score}/${md.total}</span>`:open?`<span class="muted">${U.monthOpen}</span><button class="qbtn rose" data-a="qzmonth">${U.startM}</button>`:`<span class="muted">${esc(U.monthSoon(ld+'/'+(new Date().getMonth()+1)))}</span>`}</div></div>
    <div class="panel" style="display:grid;gap:8px"><b>${U.badgesT} <span class="muted">${got.length}/${BADGES.length}</span></b><div class="qbadges">${BADGES.map(b=>`<div class="qbadge ${got.includes(b.id)?'':'lock'}" title="${got.includes(b.id)?'':U.badgeLocked}"><span class="e">${b.e}</span>${esc(L(b.n))}</div>`).join('')}</div></div>
    ${mineHtml()}${notesHtml(5)}${boardHtml()}</section>`; }
@@ -2715,7 +2720,7 @@ SEC.quiz=quizHtml;
 VIEWS.splice(1,0,['quiz',U.tab,['quiz']]);
 
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b) return; const a=b.dataset.a; if(!a.startsWith('qz')) return; e.preventDefault();
-  if(a==='qzstart') startRun('daily'); else if(a==='qzmonth') startRun('monthly'); else if(a==='qzpractice') startRun('daily',true); else if(a==='qzdrill') startRun('daily',true,true);
+  if(a==='qzstart') startRun('daily'); else if(a==='qzmonth') startRun('monthly'); else if(a==='qzpractice') startRun('daily',true); else if(a==='qzdrill') startRun('daily',true,true); else if(a==='qzworld'){ ls.set(WORLD_KEY,b.dataset.v); renderMain(); }
   else if(a==='qzsend') doSend(); else if(a==='qzlead') doSend(true); else if(a==='qzverify') doVerify(); else if(a==='qzother'){ SIGN={step:'email',email:'',err:''}; renderMain(); }
   else if(a==='qzav') setAv(b.dataset.v); else if(a==='qzavopen'){ AVPICK=true; renderMain(); const p=$('qzAv'); if(p) p.scrollIntoView({behavior:'smooth',block:'center'}); } else if(a==='qzavclose'){ AVPICK=false; renderMain(); }
   else if(a==='qzout') signOut();
