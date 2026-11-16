@@ -115,6 +115,7 @@ const P={
  lang:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
  ask:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17v.5"/>',
  dash:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+ edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
  todo:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
  noor:'<path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 10h.5M12 10h.5M16 10h.5"/>',
@@ -135,7 +136,7 @@ const GROUPS=[
  ['call',['home','offers','branches','sell','fit','compare','services','calls','odoo']],
  ['req',['wa','booking','follow','aux','complaint']],
  ['learn',['study','quiz','lang']],
- ['team',['ask','dash','todo']]
+ ['team',['ask','dash','todo','edit']]
 ];
 const clean=t=>String(t||'').replace(/^[^\p{L}\p{N}]+/u,'').replace(/\d+$/,'').trim();
 const viewLabel=id=>{ const v=VIEWS.find(x=>x[0]===id); return v?clean(v[1]):''; };
