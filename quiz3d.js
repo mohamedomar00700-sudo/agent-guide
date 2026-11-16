@@ -592,11 +592,14 @@ function sfx(kind){ if(!AU.ctx||AU.muted) return; const t=AU.ctx.currentTime;
   else if(kind==='glass'){ [2093,2637,3136].forEach((f,i)=>osc('sine',f,t+i*.04,.5,.08)); }
   else if(kind==='yay'){ [523,659,784,1047].forEach((f,i)=>osc('triangle',f,t+i*.07,.3,.14)); }
   else if(kind==='aww'){ osc('triangle',392,t,.3,.12,null,330); osc('triangle',330,t+.22,.4,.1,null,262); }
+  else if(kind==='vac'){ noiz(t,1.25,.32,'bandpass',500,2600,1.2); noiz(t,1.25,.12,'highpass',4000,6000,.7); osc('sawtooth',90,t,1.2,.05,null,160); }
+  else if(kind==='laugh'){ [0,.13,.26,.39].forEach((d,i)=>osc('square',1250-i*90,t+d,.1,.06,null,1700-i*90)); }
   else if(kind==='finish'){ [523,659,784,1047,784,1047].forEach((f,i)=>osc('square',f,t+i*.12,.22,.07)); [262,330,392].forEach(f=>osc('triangle',f,t+.72,1.2,.08)); } }
 // music: a small loop per world. The "home" world starts sad (minor) and turns warm (major) as the room is fixed.
 const SONGS={
   race:{bpm:128,chords:[[57,60,64],[53,57,60],[48,52,55],[55,59,62]],arp:'square',bass:true,kick:true},
   clinic:{bpm:104,chords:[[60,64,67],[57,60,64],[53,57,60],[55,59,62]],arp:'triangle',bass:true,kick:false},
+  toon:{bpm:150,chords:[[60,64,67],[65,69,72],[62,65,69],[67,71,74]],arp:'triangle',bass:true,kick:false},
   home:{bpm:84,chords:[[57,60,64],[53,57,60],[60,64,67],[55,59,62]],arp:'sine',bass:false,kick:false}
 };
 const mtof=m=>440*Math.pow(2,(m-69)/12);
@@ -622,6 +625,283 @@ function muteBtn(host,lang){ const b=document.createElement('button'); b.classNa
   const draw=()=>{ b.textContent=AU.muted?'🔇':'🔊'; b.title=lang==='en'?(AU.muted?'Sound on':'Mute'):(AU.muted?'شغّل الصوت':'اكتم الصوت'); }; draw();
   b.addEventListener('click',e=>{ e.stopPropagation(); auInit(); auMute(!AU.muted); draw(); }); host.appendChild(b); return b; }
 
+// ================= Cartoon room (2D, hand-drawn SVG, no WebGL needed) =================
+// A messy, colourful kids' room. Misho the cat (original character) vacuums one mess per right answer;
+// Zizi the mouse (original) runs out of his hole and messes it up again on a wrong answer, Misho chases him.
+const TQ_NS='http://www.w3.org/2000/svg', TQ_O='#3B2A2A';
+const tqMir=s=>`<g transform="translate(1600,0) scale(-1,1)">${s}</g>`;
+const tqStar=(r)=>{ let d=''; for(let i=0;i<10;i++){ const a=-Math.PI/2+i*Math.PI/5, rr=i%2?r*.45:r; d+=(i?'L':'M')+(Math.cos(a)*rr).toFixed(1)+','+(Math.sin(a)*rr).toFixed(1); } return d+'Z'; };
+const TQ_DEFS=`<defs>
+<linearGradient id="tqWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7AD3EC"/><stop offset="1" stop-color="#46AED6"/></linearGradient>
+<pattern id="tqStripe" width="64" height="600" patternUnits="userSpaceOnUse"><rect width="30" height="600" fill="#fff" opacity=".10"/><circle cx="47" cy="40" r="3" fill="#fff" opacity=".18"/><circle cx="47" cy="140" r="3" fill="#fff" opacity=".18"/><circle cx="47" cy="240" r="3" fill="#fff" opacity=".18"/><circle cx="47" cy="340" r="3" fill="#fff" opacity=".18"/></pattern>
+<linearGradient id="tqFloor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E5636"/><stop offset="1" stop-color="#B9774B"/></linearGradient>
+<linearGradient id="tqSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD0FF"/><stop offset="1" stop-color="#DFF6FF"/></linearGradient>
+<radialGradient id="tqGlow"><stop offset="0" stop-color="#FFF4C2" stop-opacity=".75"/><stop offset=".5" stop-color="#FFE9A0" stop-opacity=".25"/><stop offset="1" stop-color="#FFE9A0" stop-opacity="0"/></radialGradient>
+<radialGradient id="tqShadow"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+<linearGradient id="tqJuice" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC23D"/><stop offset="1" stop-color="#FF8A1F"/></linearGradient>
+<clipPath id="tqWin"><rect x="626" y="116" width="348" height="308" rx="6"/></clipPath>
+</defs>`;
+const TQ_STYLE=`<style>
+.tq .ol{stroke:${TQ_O};stroke-width:4;stroke-linejoin:round;stroke-linecap:round}
+.tq .ol3{stroke:${TQ_O};stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.tq .fb{transform-box:fill-box}
+.tq .tq-cloud{animation:tqCloud 9s ease-in-out infinite alternate}.tq .tq-cloud.b{animation-duration:13s;animation-direction:alternate-reverse}
+@keyframes tqCloud{from{transform:translateX(-50px)}to{transform:translateX(50px)}}
+.tq .tq-hm{transform-box:view-box;transform-origin:1230px 170px;animation:tqSpin 8s linear infinite}.tq .tq-hh{transform-box:view-box;transform-origin:1230px 170px;animation:tqSpin 96s linear infinite}
+@keyframes tqSpin{to{transform:rotate(360deg)}}
+.tq .tq-leg{transform-box:fill-box;transform-origin:50% 0}
+.tq .walk .tq-leg.l1{animation:tqLeg .26s ease-in-out infinite alternate}.tq .walk .tq-leg.l2{animation:tqLeg .26s ease-in-out infinite alternate-reverse}
+@keyframes tqLeg{from{transform:rotate(-22deg)}to{transform:rotate(22deg)}}
+.tq .walk .tq-bob{animation:tqBob .26s ease-in-out infinite alternate}@keyframes tqBob{from{transform:translateY(0)}to{transform:translateY(-9px)}}
+.tq .tq-tail{transform-box:fill-box;transform-origin:100% 100%;animation:tqTail 1.4s ease-in-out infinite alternate}@keyframes tqTail{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
+.tq .tq-eyes{transform-box:fill-box;transform-origin:center;animation:tqBlink 4.2s infinite}@keyframes tqBlink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.tq .tq-head{transform-box:fill-box;transform-origin:50% 90%;animation:tqNod 2.6s ease-in-out infinite alternate}@keyframes tqNod{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.tq .on .tq-noz{transform-box:fill-box;transform-origin:center;animation:tqVib .07s linear infinite alternate}@keyframes tqVib{from{transform:translate(-2px,1px)}to{transform:translate(2px,-1px)}}
+.tq .tq-suck{opacity:0}.tq .on .tq-suck{opacity:1}.tq .on .tq-suck path{animation:tqSuck .35s linear infinite}.tq .on .tq-suck path:nth-child(2){animation-delay:.12s}.tq .on .tq-suck path:nth-child(3){animation-delay:.24s}
+@keyframes tqSuck{from{transform:translateX(40px);opacity:0}50%{opacity:1}to{transform:translateX(0);opacity:0}}
+.tq .on .tq-can{transform-box:fill-box;transform-origin:center bottom;animation:tqVib .09s linear infinite alternate}
+.tq .mo-a,.tq .mo-s,.tq .br-a,.tq .tq-dz,.tq .mo-o{display:none}
+.tq .m-angry .mo-h,.tq .m-sad .mo-h,.tq .m-dizzy .mo-h,.tq .m-wow .mo-h{display:none}
+.tq .m-angry .mo-a,.tq .m-angry .br-a,.tq .m-sad .mo-s,.tq .m-dizzy .mo-s,.tq .m-dizzy .tq-dz,.tq .m-wow .mo-o{display:inline}
+.tq .m-angry .tq-face{fill:#F07B2E}
+.tq .tq-dz{transform-box:fill-box;transform-origin:center;animation:tqSpin 1s linear infinite}
+.tq .jump .tq-anim{animation:tqJump .55s cubic-bezier(.3,.8,.4,1) 2}@keyframes tqJump{0%,100%{transform:translateY(0) scale(1,1)}15%{transform:translateY(0) scale(1.08,.9)}45%{transform:translateY(-70px) scale(.95,1.06)}80%{transform:translateY(0) scale(1.06,.94)}}
+.tq .dance .tq-anim{animation:tqDance .5s ease-in-out infinite alternate}@keyframes tqDance{from{transform:translateY(0) rotate(-8deg)}to{transform:translateY(-46px) rotate(8deg)}}
+.tq .tq-mark{animation:tqMark .7s ease-in-out infinite alternate}@keyframes tqMark{from{transform:translateY(0)}to{transform:translateY(-16px)}}
+.tq .tq-ring{transform-box:fill-box;transform-origin:center;animation:tqRing 1.2s ease-out infinite}@keyframes tqRing{from{transform:scale(.6);opacity:.9}to{transform:scale(1.5);opacity:0}}
+.tq .tq-peek{animation:tqPeek 5s ease-in-out infinite}@keyframes tqPeek{0%,55%,100%{opacity:0}62%,90%{opacity:1}}
+.tq .tq-spark{transform-box:fill-box;transform-origin:center;animation:tqTw 1.6s ease-in-out infinite alternate}@keyframes tqTw{from{transform:scale(.4) rotate(0);opacity:.2}to{transform:scale(1.1) rotate(40deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){.tq *{animation-duration:0s!important;animation-iteration-count:1!important}}
+</style>`;
+// ---------- the room (always there) ----------
+function tqRoom(){ let planks='', seams='';
+  [640,688,742,804,872].forEach((y,i)=>{ planks+=`<path d="M0,${y} L1600,${y}" stroke="#5E3520" stroke-opacity=".28" stroke-width="3"/>`; for(let x=(i%2)*140+60;x<1600;x+=280) seams+=`<path d="M${x},${y} L${x-(x-800)*.04},${[688,742,804,872,900][i]}" stroke="#5E3520" stroke-opacity=".22" stroke-width="3"/>`; });
+  let panels=''; for(let x=24;x<1600;x+=150) panels+=`<rect x="${x}" y="488" width="124" height="78" rx="8" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="3"/>`;
+  const curtainTop=`<path d="M566,92 L1034,92" stroke="${TQ_O}" stroke-width="12" stroke-linecap="round"/><path d="M566,92 L1034,92" stroke="#D88A35" stroke-width="6" stroke-linecap="round"/><circle cx="562" cy="92" r="11" fill="#D88A35" class="ol3"/><circle cx="1038" cy="92" r="11" fill="#D88A35" class="ol3"/>`;
+  return `
+<rect width="1600" height="600" fill="url(#tqWall)"/><rect width="1600" height="600" fill="url(#tqStripe)"/>
+<path d="M0,0 L70,52 L70,600 L0,640Z" fill="#2E8FBF" opacity=".55"/><path d="M1600,0 L1530,52 L1530,600 L1600,640Z" fill="#2E8FBF" opacity=".55"/>
+<rect width="1600" height="46" fill="#2B84B1"/><rect y="44" width="1600" height="12" fill="#FFF1D2"/>
+<rect y="470" width="1600" height="130" fill="#2C93C4"/>${panels}<rect y="462" width="1600" height="14" fill="#FFF1D2" class="ol3"/>
+<rect y="580" width="1600" height="22" fill="#FFF1D2" class="ol3"/>
+<rect y="600" width="1600" height="300" fill="url(#tqFloor)"/>${planks}${seams}
+<!-- mouse hole -->
+<path d="M973,600 L973,566 A32,32 0 0 1 1037,566 L1037,600Z" fill="#20130C" class="ol"/>
+<g class="tq-peek"><ellipse cx="997" cy="580" rx="6" ry="8" fill="#fff"/><ellipse cx="1015" cy="580" rx="6" ry="8" fill="#fff"/><circle cx="999" cy="582" r="3.5" fill="#111"/><circle cx="1017" cy="582" r="3.5" fill="#111"/></g>
+<!-- window -->
+<rect x="606" y="96" width="388" height="348" rx="16" fill="#FFF1D2" class="ol"/>
+<rect x="626" y="116" width="348" height="308" rx="6" fill="url(#tqSky)"/>
+<g clip-path="url(#tqWin)">
+  <circle cx="905" cy="172" r="56" fill="#FFF3A6" opacity=".55"/><circle cx="905" cy="172" r="34" fill="#FFE066" class="ol3"/>
+  <g class="tq-cloud"><ellipse cx="700" cy="170" rx="44" ry="20" fill="#fff"/><ellipse cx="728" cy="156" rx="30" ry="22" fill="#fff"/><ellipse cx="676" cy="162" rx="22" ry="16" fill="#fff"/></g>
+  <g class="tq-cloud b"><ellipse cx="830" cy="232" rx="36" ry="15" fill="#fff" opacity=".9"/><ellipse cx="850" cy="222" rx="22" ry="16" fill="#fff" opacity=".9"/></g>
+  <path d="M600,360 Q690,290 780,340 T980,320 L980,430 L600,430Z" fill="#8FD86E" class="ol3"/>
+  <path d="M600,392 Q720,346 840,384 T1000,380 L1000,430 L600,430Z" fill="#62BF55" class="ol3"/>
+  <rect x="706" y="300" width="10" height="44" fill="#8A5A3A"/><circle cx="711" cy="292" r="26" fill="#3FA34D" class="ol3"/><circle cx="696" cy="304" r="16" fill="#4DB65A"/>
+  <rect x="902" y="316" width="8" height="34" fill="#8A5A3A"/><circle cx="906" cy="308" r="20" fill="#3FA34D" class="ol3"/>
+</g>
+<rect x="796" y="116" width="8" height="308" fill="#FFF1D2" class="ol3"/><rect x="626" y="266" width="348" height="8" fill="#FFF1D2" class="ol3"/>
+<rect x="588" y="438" width="424" height="20" rx="8" fill="#FFF1D2" class="ol"/>
+${curtainTop}
+<!-- second picture + clock -->
+<g><rect x="372" y="128" width="112" height="86" rx="6" fill="#7DCB5C" class="ol"/><rect x="384" y="140" width="88" height="62" fill="#D8F4FF"/><path d="M384,202 L410,168 L428,186 L446,160 L472,202Z" fill="#4E9A54"/><circle cx="455" cy="152" r="7" fill="#FFD84D"/></g>
+<g><circle cx="1230" cy="170" r="48" fill="#FFF7E6" class="ol"/><circle cx="1230" cy="170" r="48" fill="none" stroke="#E2559B" stroke-width="8"/>
+ ${[0,1,2,3,4,5,6,7,8,9,10,11].map(i=>{ const a=i*Math.PI/6; return `<circle cx="${(1230+Math.sin(a)*36).toFixed(1)}" cy="${(170-Math.cos(a)*36).toFixed(1)}" r="${i%3?2.5:4}" fill="${TQ_O}"/>`; }).join('')}
+ <path class="tq-hh" d="M1230,170 L1230,142" stroke="${TQ_O}" stroke-width="6" stroke-linecap="round"/><path class="tq-hm" d="M1230,170 L1252,152" stroke="#E2559B" stroke-width="4" stroke-linecap="round"/><circle cx="1230" cy="170" r="5" fill="${TQ_O}"/></g>
+<!-- shelves -->
+<g><rect x="300" y="300" width="230" height="14" rx="4" fill="#C9874D" class="ol3"/><rect x="300" y="384" width="230" height="14" rx="4" fill="#C9874D" class="ol3"/>
+ <path d="M320,314 L320,334 L338,314Z M510,314 L510,334 L492,314Z M320,398 L320,418 L338,398Z M510,398 L510,418 L492,398Z" fill="#A86A35" class="ol3"/>
+ ${[[310,'#E85D75',62],[332,'#3FA9F5',72],[356,'#FFC93C',56],[376,'#7E57C2',66],[400,'#3CB38A',70]].map(([x,c,h])=>`<rect x="${x}" y="${300-h}" width="20" height="${h}" rx="3" fill="${c}" class="ol3"/>`).join('')}
+ <g transform="rotate(-14 440 296)"><rect x="428" y="236" width="20" height="62" rx="3" fill="#FF8A3D" class="ol3"/></g>
+ <ellipse cx="495" cy="290" rx="20" ry="12" fill="#FFE066" class="ol3"/><circle cx="495" cy="276" r="14" fill="#FFE066" class="ol3"/><circle cx="500" cy="273" r="2.5" fill="${TQ_O}"/><path d="M508,278 l10,2 l-10,3z" fill="#FF8A3D"/></g>
+<!-- bed (frame) -->
+<g><ellipse cx="320" cy="752" rx="270" ry="22" fill="url(#tqShadow)"/>
+ <rect x="80" y="430" width="52" height="320" rx="16" fill="#E46FA8" class="ol"/><circle cx="106" cy="424" r="17" fill="#F49AC4" class="ol"/><rect x="92" y="470" width="28" height="200" rx="10" fill="#F49AC4" opacity=".6"/>
+ <rect x="498" y="566" width="46" height="184" rx="14" fill="#E46FA8" class="ol"/><circle cx="521" cy="560" r="15" fill="#F49AC4" class="ol"/>
+ <rect x="122" y="640" width="384" height="62" rx="12" fill="#D2589A" class="ol"/><rect x="150" y="700" width="18" height="44" fill="#B2457E" class="ol3"/><rect x="460" y="700" width="18" height="44" fill="#B2457E" class="ol3"/>
+ <rect x="128" y="598" width="374" height="50" rx="18" fill="#FFFFFF" class="ol"/></g>
+<!-- rug -->
+<g><ellipse cx="820" cy="782" rx="350" ry="76" fill="#F6C343" class="ol"/><ellipse cx="820" cy="782" rx="290" ry="60" fill="#38B48B"/><ellipse cx="820" cy="782" rx="220" ry="44" fill="#E85D75"/><ellipse cx="820" cy="782" rx="150" ry="30" fill="#9B7BE0"/><ellipse cx="820" cy="782" rx="70" ry="14" fill="#FFE9A8"/></g>
+<!-- dresser -->
+<g><ellipse cx="1190" cy="728" rx="160" ry="16" fill="url(#tqShadow)"/>
+ <rect x="1062" y="486" width="256" height="232" rx="12" fill="#F6A63F" class="ol"/><rect x="1048" y="470" width="284" height="24" rx="8" fill="#E08A27" class="ol"/>
+ ${[506,576,646].map(y=>`<rect x="1080" y="${y}" width="220" height="56" rx="8" fill="#FFBE5C" class="ol3"/><circle cx="1150" cy="${y+28}" r="7" fill="#C8691E" class="ol3"/><circle cx="1230" cy="${y+28}" r="7" fill="#C8691E" class="ol3"/>`).join('')}
+ <rect x="1076" y="716" width="20" height="18" fill="#C8691E" class="ol3"/><rect x="1284" y="716" width="20" height="18" fill="#C8691E" class="ol3"/>
+ <path d="M1100,470 L1094,420 Q1110,400 1126,420 L1120,470Z" fill="#5BC0EB" class="ol3"/>
+ <path d="M1110,404 Q1100,370 1086,358 M1110,404 Q1112,366 1116,350 M1110,404 Q1124,372 1140,362" stroke="#3E9B4A" stroke-width="4" fill="none"/>
+ <circle cx="1086" cy="354" r="11" fill="#FF6F91" class="ol3"/><circle cx="1116" cy="344" r="11" fill="#FFD84D" class="ol3"/><circle cx="1142" cy="358" r="11" fill="#B07CFF" class="ol3"/>
+ <rect x="1220" y="440" width="70" height="14" rx="3" fill="#3FA9F5" class="ol3"/><rect x="1226" y="426" width="60" height="14" rx="3" fill="#E85D75" class="ol3"/><rect x="1232" y="412" width="50" height="14" rx="3" fill="#3CB38A" class="ol3"/></g>
+<!-- armchair -->
+<g><ellipse cx="1462" cy="752" rx="110" ry="14" fill="url(#tqShadow)"/>
+ <rect x="1380" y="556" width="164" height="150" rx="46" fill="#36B5A2" class="ol"/><rect x="1402" y="580" width="120" height="80" rx="30" fill="#5FD0BE" opacity=".6"/>
+ <rect x="1360" y="664" width="204" height="58" rx="24" fill="#2FA391" class="ol"/><ellipse cx="1366" cy="664" rx="24" ry="44" fill="#36B5A2" class="ol"/><ellipse cx="1558" cy="664" rx="24" ry="44" fill="#36B5A2" class="ol"/>
+ <rect x="1384" y="718" width="14" height="30" fill="#8A5A3A" class="ol3"/><rect x="1526" y="718" width="14" height="30" fill="#8A5A3A" class="ol3"/>
+ <rect x="1430" y="640" width="70" height="36" rx="14" fill="#FFC93C" class="ol3" transform="rotate(-8 1465 658)"/></g>`; }
+// ---------- the messes: each has a messy look and (for "fix" ones) a tidy look ----------
+// x,y = where the sparkles go; cx = where Misho stands; my = marker height
+const TQ_MESS=[
+ {id:'cobweb',kind:'rm',x:1500,y:110,cx:1330,my:60,d:`<g opacity=".85"><path d="M1530,52 L1420,52 M1530,52 L1440,120 M1530,52 L1486,160 M1530,52 L1530,170" stroke="#fff" stroke-width="3"/>${[30,60,90].map(r=>`<path d="M${1530-r},52 Q${1530-r*.8},${52+r*.35} ${1530-r*.72},${52+r*.72} Q${1530-r*.45},${52+r*.85} ${1530-r*.35},${52+r*1.1} Q${1530-r*.12},${52+r*1.05} 1530,${52+r*1.2}" fill="none" stroke="#fff" stroke-width="2.5"/>`).join('')}<path d="M1486,160 L1486,200" stroke="#fff" stroke-width="2"/><circle cx="1486" cy="208" r="9" fill="#333"/><circle cx="1483" cy="206" r="2" fill="#fff"/><circle cx="1490" cy="206" r="2" fill="#fff"/></g>`},
+ {id:'curtains',kind:'fix',x:800,y:280,cx:640,my:60,
+  d:`<path d="M580,92 L806,92 C798,200 812,330 800,474 L592,474 C604,330 572,200 580,92Z" fill="#E77F1F" class="ol"/><path d="M630,100 C640,230 622,360 640,470 M690,100 C700,230 684,360 700,470 M750,100 C760,230 744,360 756,470" stroke="#B85E10" stroke-width="4" fill="none"/>`+tqMir(`<path d="M580,92 L806,92 C798,200 812,330 800,474 L592,474 C604,330 572,200 580,92Z" fill="#E77F1F" class="ol"/><path d="M630,100 C640,230 622,360 640,470 M690,100 C700,230 684,360 700,470 M750,100 C760,230 744,360 756,470" stroke="#B85E10" stroke-width="4" fill="none"/>`),
+  c:`<path d="M572,92 L652,92 C640,190 676,250 650,300 C680,360 640,420 662,474 L578,474 C596,420 560,330 584,300 C562,240 586,180 572,92Z" fill="#FF9F2E" class="ol"/><path d="M604,100 C600,200 620,250 610,300 M628,100 C624,200 648,250 632,300 M610,310 C600,380 620,430 610,470 M634,310 C630,380 650,430 640,470" stroke="#D87A12" stroke-width="3.5" fill="none"/><rect x="574" y="290" width="86" height="18" rx="9" fill="#FFD84D" class="ol3"/>`+tqMir(`<path d="M572,92 L652,92 C640,190 676,250 650,300 C680,360 640,420 662,474 L578,474 C596,420 560,330 584,300 C562,240 586,180 572,92Z" fill="#FF9F2E" class="ol"/><path d="M604,100 C600,200 620,250 610,300 M628,100 C624,200 648,250 632,300 M610,310 C600,380 620,430 610,470 M634,310 C630,380 650,430 640,470" stroke="#D87A12" stroke-width="3.5" fill="none"/><rect x="574" y="290" width="86" height="18" rx="9" fill="#FFD84D" class="ol3"/>`)},
+ {id:'lamp',kind:'fix',x:800,y:150,cx:650,my:40,
+  d:`<path d="M800,0 L800,76" stroke="${TQ_O}" stroke-width="4"/><path d="M768,74 L832,74 L872,134 L728,134Z" fill="#B54480" class="ol"/><ellipse cx="800" cy="138" rx="22" ry="10" fill="#9AA0A8" class="ol3"/>`,
+  c:`<path d="M728,134 L872,134 L1010,600 L590,600Z" fill="#FFF3B0" opacity=".16"/><ellipse cx="800" cy="200" rx="230" ry="170" fill="url(#tqGlow)"/><path d="M800,0 L800,76" stroke="${TQ_O}" stroke-width="4"/><path d="M768,74 L832,74 L872,134 L728,134Z" fill="#E2559B" class="ol"/><path d="M780,82 L770,126" stroke="#fff" stroke-opacity=".5" stroke-width="6" stroke-linecap="round"/><ellipse cx="800" cy="138" rx="22" ry="10" fill="#FFF7C2" class="ol3"/>`},
+ {id:'picture',kind:'fix',x:230,y:200,cx:390,my:110,
+  d:`<g transform="rotate(-18 230 210)"><rect x="160" y="150" width="140" height="112" rx="6" fill="#F2A33A" class="ol"/><rect x="174" y="164" width="112" height="84" fill="#FFF0B8"/><path d="M174,226 Q200,214 230,226 T286,226 L286,248 L174,248Z" fill="#3FA9F5"/><path d="M206,222 L254,222 L246,234 L214,234Z" fill="#C8691E" class="ol3"/><path d="M230,222 L230,176 L254,214Z" fill="#fff" class="ol3"/><circle cx="270" cy="182" r="9" fill="#FF8A3D"/></g><path d="M196,150 L230,128 L262,140" stroke="${TQ_O}" stroke-width="3" fill="none"/>`,
+  c:`<path d="M182,152 L230,124 L278,152" stroke="${TQ_O}" stroke-width="3" fill="none"/><circle cx="230" cy="124" r="4" fill="${TQ_O}"/><rect x="160" y="150" width="140" height="112" rx="6" fill="#F2A33A" class="ol"/><rect x="174" y="164" width="112" height="84" fill="#FFF0B8"/><path d="M174,226 Q200,214 230,226 T286,226 L286,248 L174,248Z" fill="#3FA9F5"/><path d="M206,222 L254,222 L246,234 L214,234Z" fill="#C8691E" class="ol3"/><path d="M230,222 L230,176 L254,214Z" fill="#fff" class="ol3"/><circle cx="270" cy="182" r="9" fill="#FF8A3D"/>`},
+ {id:'books',kind:'fix',x:300,y:830,cx:470,my:770,
+  d:`<g transform="rotate(-20 250 830)"><rect x="210" y="818" width="70" height="20" rx="3" fill="#E85D75" class="ol3"/></g><g transform="rotate(12 330 840)"><rect x="296" y="828" width="74" height="22" rx="3" fill="#3FA9F5" class="ol3"/></g><path d="M360,812 L400,800 L440,812 L440,846 L400,834 L360,846Z" fill="#fff" class="ol3"/><path d="M400,800 L400,834" stroke="${TQ_O}" stroke-width="3"/><path d="M368,818 L392,812 M368,826 L392,820 M408,812 L432,818 M408,820 L432,826" stroke="#999" stroke-width="2"/><g transform="rotate(-6 250 860)"><rect x="226" y="848" width="60" height="18" rx="3" fill="#FFC93C" class="ol3"/></g>`,
+  c:`${[[426,'#E85D75',64],[446,'#3FA9F5',72],[470,'#FFC93C',58],[490,'#7E57C2',68]].map(([x,cl,h])=>`<rect x="${x}" y="${384-h}" width="18" height="${h}" rx="3" fill="${cl}" class="ol3"/>`).join('')}`},
+ {id:'plant',kind:'fix',x:560,y:690,cx:400,my:600,
+  d:`<path d="M520,748 Q560,724 610,740 Q640,756 600,764 Q560,770 520,760Z" fill="#6B4226" class="ol3"/><g transform="rotate(-80 560 720)"><path d="M534,690 L586,690 L578,744 L542,744Z" fill="#E0703A" class="ol"/><rect x="528" y="682" width="64" height="14" rx="5" fill="#F08A4B" class="ol3"/></g><ellipse cx="636" cy="742" rx="22" ry="8" fill="#3E9B4A" class="ol3" transform="rotate(20 636 742)"/><ellipse cx="500" cy="752" rx="18" ry="7" fill="#4DB65A" class="ol3" transform="rotate(-25 500 752)"/>`,
+  c:`<ellipse cx="562" cy="748" rx="44" ry="8" fill="url(#tqShadow)"/><path d="M562,690 Q520,640 506,600 Q540,620 556,664 M562,690 Q560,630 574,590 Q582,630 566,684 M562,690 Q600,644 624,616 Q612,656 568,690" fill="#3E9B4A" class="ol3"/><ellipse cx="520" cy="628" rx="22" ry="11" fill="#4DB65A" class="ol3" transform="rotate(40 520 628)"/><ellipse cx="604" cy="630" rx="22" ry="11" fill="#4DB65A" class="ol3" transform="rotate(-40 604 630)"/><ellipse cx="572" cy="604" rx="11" ry="22" fill="#5CC86A" class="ol3"/><path d="M536,690 L588,690 L580,746 L544,746Z" fill="#E0703A" class="ol"/><rect x="530" y="682" width="64" height="14" rx="5" fill="#F08A4B" class="ol3"/>`},
+ {id:'bed',kind:'fix',x:320,y:610,cx:600,my:520,
+  d:`<path d="M196,604 C222,546 286,566 304,588 C334,540 410,556 420,594 C462,578 500,594 506,614 L506,664 C474,706 444,646 424,706 L400,710 C380,652 300,694 262,656 C230,672 200,650 196,604Z" fill="#3E7FE6" class="ol"/><path d="M250,600 C270,620 300,610 320,630 M360,590 C380,610 400,600 420,630" stroke="#2B5FB8" stroke-width="4" fill="none"/><path d="M424,706 L430,744 L404,740 L400,710Z" fill="#FFF" class="ol3"/><g transform="rotate(-14 610 858)"><ellipse cx="610" cy="858" rx="54" ry="22" fill="#FFF8EC" class="ol"/></g>`,
+  c:`<ellipse cx="196" cy="592" rx="58" ry="26" fill="#FFF8EC" class="ol"/><path d="M180,584 Q196,578 214,586" stroke="#E8DCC6" stroke-width="3" fill="none"/><path d="M250,586 Q380,572 508,590 L508,668 Q380,690 250,672Z" fill="#3E7FE6" class="ol"/><path d="M250,586 Q380,572 508,590 L508,606 Q380,590 250,604Z" fill="#fff" class="ol3"/>${[300,350,400,450].map(x=>`<circle cx="${x}" cy="640" r="7" fill="#FFD84D"/>`).join('')}`},
+ {id:'dust',kind:'rm',x:300,y:770,cx:470,my:700,d:`${[[250,770,22],[312,778,26],[370,768,18]].map(([x,y,r])=>`<path d="${[...Array(12)].map((_,i)=>{ const a=i*Math.PI/6, rr=i%2?r:r*1.18; return (i?'L':'M')+(x+Math.cos(a)*rr).toFixed(1)+','+(y+Math.sin(a)*rr*.8).toFixed(1); }).join('')}Z" fill="#A8A2A0" class="ol3"/><circle cx="${x-6}" cy="${y-3}" r="3" fill="#222"/><circle cx="${x+6}" cy="${y-3}" r="3" fill="#222"/>`).join('')}`},
+ {id:'socks',kind:'rm',x:740,y:780,cx:600,my:720,d:`<path d="M690,760 L712,760 L712,788 Q712,800 728,800 L746,800 Q756,812 744,818 L716,818 Q692,818 690,796Z" fill="#fff" class="ol3"/><path d="M690,768 L712,768 M690,778 L712,778" stroke="#E85D75" stroke-width="5"/><g transform="rotate(30 790 780)"><path d="M770,756 L792,756 L792,784 Q792,796 808,796 L826,796 Q836,808 824,814 L796,814 Q772,814 770,792Z" fill="#7BD3F7" class="ol3"/><path d="M770,764 L792,764 M770,774 L792,774" stroke="#3F7FE0" stroke-width="5"/></g><path d="M640,790 Q660,760 700,770 L720,800 Q690,822 650,812Z" fill="#FFC93C" class="ol3"/>`},
+ {id:'juice',kind:'rm',x:1010,y:830,cx:860,my:770,d:`<path d="M940,830 Q960,806 1010,812 Q1062,806 1086,828 Q1100,850 1060,858 Q1020,872 970,860 Q930,852 940,830Z" fill="url(#tqJuice)" class="ol3"/><ellipse cx="990" cy="826" rx="18" ry="5" fill="#fff" opacity=".6"/><g transform="rotate(-80 1060 820)"><path d="M1040,786 L1080,786 L1074,836 L1046,836Z" fill="#DDF3FF" class="ol3" opacity=".95"/><path d="M1046,812 L1076,812 L1074,836 L1046,836Z" fill="#FFB12E"/></g>`},
+ {id:'papers',kind:'rm',x:1170,y:800,cx:1020,my:740,d:`${[[1120,800,20],[1166,812,16],[1206,796,22],[1240,816,14]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#F4F1EA" class="ol3"/><path d="M${x-r*.6},${y-r*.2} L${x-r*.1},${y+r*.3} L${x+r*.2},${y-r*.3} L${x+r*.6},${y+r*.1}" stroke="#B8B2A6" stroke-width="2.5" fill="none"/>`).join('')}`},
+ {id:'footprints',kind:'rm',x:860,y:660,cx:700,my:590,d:`${[[985,624],[948,638],[910,650],[872,662],[834,672],[796,682],[758,692]].map(([x,y],i)=>`<ellipse cx="${x}" cy="${y+(i%2?8:-6)}" rx="10" ry="6" fill="#6B4226" opacity=".85"/><circle cx="${x-8}" cy="${y+(i%2?2:-12)}" r="3" fill="#6B4226" opacity=".85"/><circle cx="${x}" cy="${y+(i%2?0:-14)}" r="3" fill="#6B4226" opacity=".85"/>`).join('')}`},
+ {id:'blocks',kind:'rm',x:900,y:860,cx:740,my:800,d:`${[[860,850,'#E85D75','A'],[910,862,'#3FA9F5','B'],[884,816,'#FFC93C','C'],[960,846,'#3CB38A','1']].map(([x,y,c,l])=>`<g><path d="M${x},${y} l20,-12 l40,0 l-20,12Z" fill="#fff" opacity=".55" class="ol3"/><rect x="${x}" y="${y}" width="40" height="40" rx="4" fill="${c}" class="ol3"/><path d="M${x+40},${y} l20,-12 l0,40 l-20,12Z" fill="${c}" class="ol3" opacity=".75"/><text x="${x+20}" y="${y+30}" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="26" fill="#fff" stroke="${TQ_O}" stroke-width="1.5">${l}</text></g>`).join('')}`},
+ {id:'pizza',kind:'rm',x:1290,y:850,cx:1130,my:790,d:`<path d="M1220,840 L1360,840 L1360,880 L1220,880Z" fill="#D9A066" class="ol3"/><path d="M1220,840 L1250,790 L1390,790 L1360,840Z" fill="#C88A50" class="ol3"/><path d="M1232,836 L1290,808 L1300,838Z" fill="#FFD27A" class="ol3"/><circle cx="1280" cy="826" r="5" fill="#E8413E"/><path d="M1300,836 L1350,812 L1352,838Z" fill="#FFD27A" class="ol3"/><circle cx="1336" cy="828" r="5" fill="#E8413E"/>${[[1206,870],[1196,858],[1374,872],[1384,860]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3" fill="#E0A458"/>`).join('')}`},
+ {id:'banana',kind:'rm',x:1450,y:830,cx:1290,my:770,d:`<path d="M1430,836 Q1450,800 1476,812 Q1462,824 1456,846Z" fill="#FFE066" class="ol3"/><path d="M1430,836 Q1404,820 1396,846 Q1420,846 1440,846Z" fill="#FFD23F" class="ol3"/><path d="M1440,846 Q1005,850 1490,866 Q1462,870 1436,856Z" fill="#FFE066" class="ol3"/><circle cx="1440" cy="840" r="6" fill="#8A5A3A"/>`}
+];
+const TQ_ORDER=['curtains','bed','socks','juice','papers','lamp','plant','books','picture','pizza','blocks','dust','footprints','banana','cobweb'];
+// ---------- characters (original designs) ----------
+function tqCat(){ const fur='#F39A3D', cream='#FFF0D6', st=`stroke="${TQ_O}"`;
+  const limb=(d,w,c)=>`<path d="${d}" ${st} stroke-width="${w+8}" stroke-linecap="round" fill="none"/><path d="${d}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
+  return `<ellipse cx="0" cy="0" rx="70" ry="13" fill="url(#tqShadow)"/>
+<g class="tq-anim"><g class="tq-bob">
+ <g class="tq-tail">${limb('M-40,-92 C-104,-92 -122,-150 -96,-200 C-86,-222 -60,-218 -68,-196',16,fur)}<path d="M-96,-200 C-86,-222 -60,-218 -68,-196" stroke="${cream}" stroke-width="10" stroke-linecap="round" fill="none"/></g>
+ <g class="tq-can"><rect x="-132" y="-78" width="82" height="60" rx="26" fill="#E8414E" class="ol"/><rect x="-120" y="-68" width="34" height="14" rx="7" fill="#FF9AA2"/><circle cx="-90" cy="-48" r="9" fill="#FFD84D" class="ol3"/><circle cx="-116" cy="-14" r="12" fill="#4A4A55" class="ol3"/><circle cx="-66" cy="-14" r="12" fill="#4A4A55" class="ol3"/></g>
+ <path d="M-54,-52 C-14,-16 26,-84 64,-104" fill="none" ${st} stroke-width="15"/><path d="M-54,-52 C-14,-16 26,-84 64,-104" fill="none" stroke="#A9B3BE" stroke-width="8" stroke-dasharray="7 4"/>
+ <g class="tq-leg l1">${limb('M-20,-72 L-24,-14',18,fur)}<ellipse cx="-18" cy="-8" rx="25" ry="12" fill="${cream}" class="ol"/></g>
+ <g class="tq-leg l2">${limb('M22,-72 L24,-14',18,fur)}<ellipse cx="30" cy="-8" rx="25" ry="12" fill="${cream}" class="ol"/></g>
+ <ellipse cx="0" cy="-106" rx="50" ry="62" fill="${fur}" class="ol tq-face"/><ellipse cx="14" cy="-98" rx="30" ry="44" fill="${cream}"/>
+ <path d="M-46,-124 q12,5 20,-6 M-50,-104 q14,5 22,-6 M-46,-84 q12,5 20,-6" stroke="#C9661F" stroke-width="5" fill="none" stroke-linecap="round"/>
+ <g class="tq-head">
+  <path d="M-42,-206 L-50,-266 L-6,-230Z" fill="${fur}" class="ol tq-face"/><path d="M-40,-216 L-44,-250 L-18,-230Z" fill="#FF9FB0"/>
+  <path d="M22,-232 L54,-268 L60,-210Z" fill="${fur}" class="ol tq-face"/><path d="M30,-232 L52,-256 L54,-218Z" fill="#FF9FB0"/>
+  <path d="M-60,-180 C-64,-238 62,-248 68,-186 C72,-150 42,-128 4,-128 C-36,-128 -58,-148 -60,-180Z" fill="${fur}" class="ol tq-face"/>
+  <path d="M-58,-172 l-16,4 l12,6 l-12,8 l16,0" fill="${fur}" class="ol3"/>
+  <path d="M-6,-232 l4,14 M8,-236 l2,14 M22,-234 l-1,13" stroke="#C9661F" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="24" cy="-158" rx="34" ry="22" fill="${cream}" class="ol3"/>
+  <g class="tq-eyes"><ellipse cx="2" cy="-192" rx="14" ry="18" fill="#fff" class="ol3"/><ellipse cx="42" cy="-194" rx="14" ry="18" fill="#fff" class="ol3"/>
+   <circle cx="8" cy="-190" r="8" fill="#38A85A"/><circle cx="48" cy="-192" r="8" fill="#38A85A"/><circle cx="9" cy="-190" r="4.5" fill="#111"/><circle cx="49" cy="-192" r="4.5" fill="#111"/><circle cx="11" cy="-194" r="2.2" fill="#fff"/><circle cx="51" cy="-196" r="2.2" fill="#fff"/></g>
+  <path class="br-a" d="M-12,-216 L18,-204 M30,-206 L58,-218" stroke="${TQ_O}" stroke-width="7" stroke-linecap="round"/>
+  <path d="M32,-174 l14,0 l-7,9z" fill="#FF6F91" class="ol3"/>
+  <g class="mo-h"><path d="M18,-150 q14,16 30,0" fill="#B5304A" class="ol3"/><path d="M26,-146 q7,6 14,0" fill="#FF8FA3"/></g>
+  <g class="mo-a"><path d="M14,-146 q18,-10 36,0 l0,8 q-18,-8 -36,0z" fill="#fff" class="ol3"/></g>
+  <g class="mo-s"><path d="M18,-142 q14,-12 30,0" fill="none" class="ol3"/></g>
+  <g class="mo-o"><ellipse cx="34" cy="-146" rx="8" ry="10" fill="#B5304A" class="ol3"/></g>
+  <path d="M56,-162 l38,-8 M56,-155 l40,0 M56,-148 l36,7 M-6,-162 l-30,-8 M-6,-155 l-32,0" stroke="${TQ_O}" stroke-width="2.5" stroke-linecap="round"/>
+  <g class="tq-dz"><path d="${tqStar(12)}" transform="translate(-30,-262)" fill="#FFD84D" class="ol3"/><path d="${tqStar(10)}" transform="translate(40,-276)" fill="#FFD84D" class="ol3"/><path d="${tqStar(9)}" transform="translate(70,-240)" fill="#FFD84D" class="ol3"/></g>
+ </g>
+ ${limb('M10,-132 Q40,-120 64,-104',14,fur)}<circle cx="66" cy="-103" r="12" fill="${cream}" class="ol3"/>
+ <path d="M66,-104 L146,-14" ${st} stroke-width="13" stroke-linecap="round"/><path d="M66,-104 L146,-14" stroke="#CBD3DB" stroke-width="7" stroke-linecap="round"/>
+ <g class="tq-noz"><rect x="120" y="-20" width="66" height="20" rx="7" fill="#E8414E" class="ol"/><rect x="128" y="-16" width="20" height="5" rx="2" fill="#FF9AA2"/></g>
+ <g class="tq-suck"><path d="M196,-30 q10,8 0,18" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M206,-8 q12,4 2,14" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M200,6 q10,-2 6,10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></g>
+</g></g>`; }
+function tqMouse(){ const fur='#B9B0CC', belly='#F3EDF8', st=`stroke="${TQ_O}"`;
+  return `<ellipse cx="0" cy="0" rx="34" ry="7" fill="url(#tqShadow)"/>
+<g class="tq-anim"><g class="tq-bob">
+ <path class="tq-tail" d="M-20,-22 C-56,-14 -64,-52 -92,-44 C-104,-40 -108,-30 -100,-24" fill="none" ${st} stroke-width="9" stroke-linecap="round"/><path d="M-20,-22 C-56,-14 -64,-52 -92,-44 C-104,-40 -108,-30 -100,-24" fill="none" stroke="#F4A9B8" stroke-width="4" stroke-linecap="round"/>
+ <g class="tq-leg l1"><path d="M-8,-18 L-10,-6" ${st} stroke-width="9" stroke-linecap="round"/><ellipse cx="-8" cy="-4" rx="12" ry="6" fill="#F4A9B8" class="ol3"/></g>
+ <g class="tq-leg l2"><path d="M10,-18 L12,-6" ${st} stroke-width="9" stroke-linecap="round"/><ellipse cx="16" cy="-4" rx="12" ry="6" fill="#F4A9B8" class="ol3"/></g>
+ <ellipse cx="0" cy="-34" rx="24" ry="28" fill="${fur}" class="ol3"/><ellipse cx="6" cy="-30" rx="14" ry="18" fill="${belly}"/>
+ <path d="M-14,-54 Q4,-46 22,-56 L20,-46 Q4,-38 -12,-44Z" fill="#FFC93C" class="ol3"/><path d="M-12,-48 L-26,-30 L-14,-30Z" fill="#FFC93C" class="ol3"/>
+ <path d="M18,-40 Q30,-46 34,-56" ${st} stroke-width="8" stroke-linecap="round" fill="none"/><path d="M18,-40 Q30,-46 34,-56" stroke="${fur}" stroke-width="4" stroke-linecap="round" fill="none"/>
+ <g class="tq-head">
+  <circle cx="-16" cy="-98" r="18" fill="${fur}" class="ol3"/><circle cx="-16" cy="-98" r="11" fill="#FFA8BC"/><circle cx="26" cy="-100" r="18" fill="${fur}" class="ol3"/><circle cx="26" cy="-100" r="11" fill="#FFA8BC"/>
+  <circle cx="6" cy="-76" r="25" fill="${fur}" class="ol3"/><ellipse cx="26" cy="-68" rx="13" ry="10" fill="${belly}"/>
+  <g class="tq-eyes"><ellipse cx="6" cy="-82" rx="6.5" ry="8.5" fill="#fff" class="ol3"/><ellipse cx="22" cy="-83" rx="6.5" ry="8.5" fill="#fff" class="ol3"/><circle cx="8" cy="-81" r="3.6" fill="#111"/><circle cx="24" cy="-82" r="3.6" fill="#111"/><circle cx="9" cy="-83" r="1.4" fill="#fff"/><circle cx="25" cy="-84" r="1.4" fill="#fff"/></g>
+  <circle cx="38" cy="-71" r="5" fill="#FF6F91" class="ol3"/>
+  <path d="M16,-62 q10,8 20,-2" fill="#B5304A" class="ol3"/><rect x="22" y="-61" width="6" height="5" fill="#fff" class="ol3" stroke-width="1.5"/>
+  <path d="M40,-68 l20,-5 M40,-64 l21,2 M12,-66 l-18,-3" stroke="${TQ_O}" stroke-width="2" stroke-linecap="round"/>
+ </g>
+</g></g>`; }
+// ---------- engine ----------
+let T=null;
+function tqEl(tag,attrs,parent){ const e=document.createElementNS(TQ_NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+function tqMount(host,o){
+  const n=Math.max(1,Math.min(TQ_ORDER.length,o.n||5)), pick=TQ_ORDER.slice(0,n), svg=tqEl('svg',{class:'tq',preserveAspectRatio:'xMidYMid meet',viewBox:'0 0 1600 900'});
+  svg.style.cssText='position:absolute;inset:0;width:100%;height:100%;display:block';
+  const messHtml=TQ_MESS.map(m=>pick.includes(m.id)?`<g data-m="${m.id}">${m.c?`<g class="cl" opacity="0">${m.c}</g>`:''}<g class="dt">${m.d}</g></g>`:(m.c?`<g>${m.c}</g>`:'')).join('');
+  svg.innerHTML=TQ_DEFS+TQ_STYLE+`<g class="room">${tqRoom()}${messHtml}</g><rect class="dim" x="-10" y="-10" width="1620" height="920" fill="#1C1636" opacity=".42" pointer-events="none"/>
+   <g class="mark" opacity="0"><ellipse class="tq-ring" cx="0" cy="40" rx="60" ry="18" fill="none" stroke="#FFE066" stroke-width="6"/><g class="tq-mark"><path d="M-22,-30 L22,-30 L22,0 L40,0 L0,40 L-40,0 L-22,0Z" fill="#FFE066" class="ol"/></g></g>
+   <g class="mouse" opacity="0"><g class="tq-ch">${tqMouse()}</g></g><g class="cat"><g class="tq-ch">${tqCat()}</g></g><g class="fx"></g>`;
+  host.appendChild(svg);
+  const q=s=>svg.querySelector(s);
+  T={host,o,svg,world:o.world,mode:'intro',t:0,cam:800,shake:0,timers:[],raf:0,last:0,dim:q('.dim'),mark:q('.mark'),fx:q('.fx'),
+     cat:{el:q('.cat'),ch:q('.cat .tq-ch'),x:420,y:842,tx:420,ty:842,dir:1,s:1,sp:620,cb:null},
+     mouse:{el:q('.mouse'),ch:q('.mouse .tq-ch'),x:1005,y:612,tx:1005,ty:612,dir:-1,s:.62,sp:900,cb:null,out:false},
+     pieces:pick.map(id=>({id,m:TQ_MESS.find(x=>x.id===id),g:svg.querySelector(`[data-m="${id}"]`),state:0,shown:false}))};
+  T.hud=document.createElement('div'); T.hud.className='q3dhud'; host.appendChild(T.hud);
+  const step=ts=>{ if(!T) return; T.raf=requestAnimationFrame(step); const dt=Math.min(.05,(ts-(T.last||ts))/1000); T.last=ts; if(!document.hidden) tqFrame(dt); };
+  T.raf=requestAnimationFrame(step); tqHud(); return T; }
+function tqLater(fn,ms){ const id=setTimeout(()=>{ T&&fn(); },ms); T.timers.push(id); }
+function tqMove(c,dt){ const dx=c.tx-c.x, dy=c.ty-c.y, d=Math.hypot(dx,dy);
+  if(d>2){ const k=Math.min(1,c.sp*dt/d); c.x+=dx*k; c.y+=dy*k; if(Math.abs(dx)>4) c.dir=dx>0?1:-1; c.ch.classList.add('walk'); }
+  else { c.x=c.tx; c.y=c.ty; c.ch.classList.remove('walk'); if(c.cb){ const f=c.cb; c.cb=null; f(); } }
+  const s=c.s*(.8+.2*(c.y-600)/240); c.el.setAttribute('transform',`translate(${c.x.toFixed(1)},${c.y.toFixed(1)}) scale(${(c.dir*s).toFixed(3)},${s.toFixed(3)})`); }
+function tqFrame(dt){ T.t+=dt; tqMove(T.cat,dt); tqMove(T.mouse,dt);
+  const r=T.host.getBoundingClientRect(), a=Math.max(.3,r.width/Math.max(1,r.height)); let vw,vh; if(a<16/9){ vh=900; vw=900*a; } else { vw=1600; vh=1600/a; }
+  let fx; if(T.mode==='intro') fx=800+Math.sin(T.t*.35)*500; else if(T.mode==='finish') fx=800; else if(T.mouse.out) fx=(T.cat.x+T.mouse.x)/2; else fx=T.cat.x+T.cat.dir*60;
+  T.cam+=(fx-T.cam)*Math.min(1,dt*2.2); let vx=Math.max(0,Math.min(1600-vw,T.cam-vw/2)), vy=(900-vh)*.78;
+  if(T.shake>0){ vx+=(Math.random()-.5)*T.shake*18; vy+=(Math.random()-.5)*T.shake*12; T.shake=Math.max(0,T.shake-dt*1.6); }
+  T.svg.setAttribute('viewBox',`${vx.toFixed(1)} ${vy.toFixed(1)} ${vw.toFixed(1)} ${vh.toFixed(1)}`); }
+function tqDone(){ return T.pieces.filter(p=>p.state===1).length; }
+function tqHud(){ if(!T||!T.hud) return; T.hud.style.display=T.mode==='intro'?'none':''; const n=tqDone(), L=T.o.lang==='en';
+  T.hud.innerHTML=`<span class="q3dpos ${n===T.pieces.length?'p1':''}">🧹 ${n}/${T.pieces.length} ${L?'clean':'نضيف'}</span>`;
+  T.dim.style.transition='opacity 1.2s'; T.dim.setAttribute('opacity',(.42*(1-n/T.pieces.length)).toFixed(3)); }
+function tqMarkNext(){ const p=T.pieces.find(x=>x.state!==1); if(!p||T.mode!=='play'){ T.mark.setAttribute('opacity','0'); return; } T.mark.setAttribute('transform',`translate(${p.m.x},${p.m.my})`); T.mark.setAttribute('opacity','1'); }
+function tqFx(kind,x,y,count){ for(let i=0;i<count;i++){ let e;
+    if(kind==='star'){ e=tqEl('path',{d:tqStar(8+Math.random()*10),fill:['#FFE066','#FFFFFF','#FFB3D1','#9EE8FF'][i%4],stroke:TQ_O,'stroke-width':2},T.fx); }
+    else if(kind==='puff'){ e=tqEl('circle',{r:14+Math.random()*16,fill:'#EDE6DF',stroke:TQ_O,'stroke-width':2.5,opacity:.9},T.fx); }
+    else { e=tqEl('rect',{x:-7,y:-4,width:14,height:8,rx:2,fill:['#FF6F91','#FFD84D','#3FA9F5','#3CB38A','#B07CFF','#FF9F2E'][i%6]},T.fx); }
+    const a=Math.random()*Math.PI*2, sp=kind==='conf'?0:60+Math.random()*110, dx=Math.cos(a)*sp, dy=Math.sin(a)*sp*.7-(kind==='star'?40:20);
+    const k=kind==='conf'?[{transform:`translate(${x+(Math.random()-.5)*1400}px,${-60-Math.random()*200}px) rotate(0deg)`},{transform:`translate(${x+(Math.random()-.5)*1500}px,${960}px) rotate(${(Math.random()-.5)*1440}deg)`}]
+      :[{transform:`translate(${x}px,${y}px) scale(.2) rotate(0deg)`,opacity:1},{transform:`translate(${x+dx}px,${y+dy}px) scale(1) rotate(${(Math.random()-.5)*200}deg)`,opacity:1,offset:.6},{transform:`translate(${x+dx*1.2}px,${y+dy*1.2+20}px) scale(.6)`,opacity:0}];
+    const an=e.animate?e.animate(k,{duration:kind==='conf'?2200+Math.random()*1400:900+Math.random()*500,easing:kind==='conf'?'linear':'cubic-bezier(.2,.7,.3,1)',delay:kind==='conf'?Math.random()*500:0,fill:'both'}):null;
+    if(an) an.onfinish=()=>e.remove(); else setTimeout(()=>e.remove(),50); } }
+function tqClass(c,cls,on){ c.ch.classList.toggle(cls,on); }
+function tqMood(c,m){ ['m-angry','m-sad','m-dizzy','m-wow'].forEach(k=>c.ch.classList.remove(k)); if(m) c.ch.classList.add('m-'+m); }
+function tqJump(c){ c.ch.classList.remove('jump'); void c.ch.getBBox; requestAnimationFrame(()=>c.ch.classList.add('jump')); tqLater(()=>c.ch.classList.remove('jump'),1150); }
+function tqResetSeq(){ T.timers.forEach(clearTimeout); T.timers=[]; T.cat.cb=null; T.mouse.cb=null; tqClass(T.cat,'on',false); }
+function tqHideMouse(){ const M=T.mouse; M.out=false; M.el.setAttribute('opacity','0'); M.x=M.tx=1005; M.y=M.ty=612; M.s=.62; }
+function tqCleanNow(p,instant){ if(p.shown) return; p.shown=true; const m=p.m, dt=p.g.querySelector('.dt'), cl=p.g.querySelector('.cl');
+  if(instant||!dt.animate){ dt.setAttribute('opacity','0'); if(cl) cl.setAttribute('opacity','1'); return; }
+  dt.style.transformBox='view-box'; dt.style.transformOrigin=`${m.x}px ${m.y}px`;
+  if(m.kind==='rm'){ const nx=T.cat.x+T.cat.dir*165-m.x, ny=T.cat.y-10-m.y; dt.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${nx*.3}px,${ny*.3}px) scale(.8) rotate(8deg)`,opacity:1,offset:.4},{transform:`translate(${nx}px,${ny}px) scale(.05) rotate(-30deg)`,opacity:0}],{duration:900,easing:'ease-in',fill:'forwards'}); }
+  else dt.animate([{opacity:1},{opacity:0}],{duration:450,fill:'forwards'});
+  if(cl){ cl.setAttribute('opacity','1'); cl.style.transformBox='view-box'; cl.style.transformOrigin=`${m.x}px ${m.y+60}px`; cl.animate([{transform:'scale(.85)',opacity:0},{transform:'scale(1.06)',opacity:1,offset:.7},{transform:'scale(1)',opacity:1}],{duration:650,delay:250,easing:'ease-out',fill:'both'}); } }
+const TQ={
+  question(){ T.mode='play'; tqHud(); tqMarkNext(); },
+  answer(ok){ const p=T.pieces.find(x=>x.state!==1); tqResetSeq(); tqHideMouse(); tqMood(T.cat,null); T.mark.setAttribute('opacity','0'); if(!p) return;
+    const C=T.cat, m=p.m, face=m.cx<m.x?1:-1;
+    if(ok){ p.state=1; C.sp=680; C.tx=m.cx; C.ty=842;
+      C.cb=()=>{ C.dir=face; tqClass(C,'on',true); sfx('vac'); tqLater(()=>tqCleanNow(p),200);
+        tqLater(()=>{ tqClass(C,'on',false); tqFx('star',m.x,m.y,16); sfx('sparkle'); tqJump(C); tqMood(C,'wow'); tqHud(); tqLater(()=>tqMood(C,null),900); },1250); }; }
+    else { const M=T.mouse; p.state=-1; M.out=true; M.el.setAttribute('opacity','1'); M.s=.62; M.sp=1000; M.tx=1005; M.ty=700; sfx('squeak');
+      M.cb=()=>{ M.s=1.15; M.tx=m.x+(m.y<600?0:20); M.ty=Math.max(800,Math.min(880,m.y+50)); M.sp=1100;
+        M.cb=()=>{ tqJump(M); sfx('laugh'); T.shake=.5; const dt=p.g.querySelector('.dt'); if(dt.animate){ dt.style.transformBox='view-box'; dt.style.transformOrigin=`${m.x}px ${m.y}px`; dt.animate([{transform:'rotate(0) scale(1)'},{transform:'rotate(-6deg) scale(1.12)'},{transform:'rotate(5deg) scale(1.08)'},{transform:'rotate(0) scale(1)'}],{duration:700}); }
+          tqFx('puff',m.x,m.y,8); tqMood(C,'angry'); sfx('aww');
+          tqLater(()=>{ C.sp=760; C.tx=1005-120; C.ty=842; M.sp=1250; M.tx=1005; M.ty=700; M.cb=()=>{ M.s=.62; M.ty=612; M.cb=()=>tqHideMouse(); };
+            C.cb=()=>{ C.dir=1; sfx('thud'); T.shake=.7; tqMood(C,'dizzy'); tqFx('star',C.x+40,C.y-250,6); tqLater(()=>{ tqMood(C,null); C.sp=520; C.tx=Math.max(300,Math.min(1200,T.cam)); },1500); }; },900); }; }; } },
+  finish(){ tqResetSeq(); T.pieces.forEach(p=>{ if(p.state===1) tqCleanNow(p,true); }); T.mode='finish'; T.mark.setAttribute('opacity','0'); tqHud();
+    const all=tqDone()===T.pieces.length, C=T.cat, M=T.mouse; sfx(all?'finish':'yay');
+    if(all){ C.sp=600; C.tx=700; C.ty=846; M.out=true; M.el.setAttribute('opacity','1'); M.s=.62; M.sp=900; M.tx=1005; M.ty=700; M.cb=()=>{ M.s=1.2; M.tx=900; M.ty=850; M.cb=()=>{ M.dir=-1; tqClass(M,'dance',true); }; };
+      C.cb=()=>{ C.dir=1; tqMood(C,'wow'); tqClass(C,'dance',true); };
+      for(let i=0;i<5;i++) tqLater(()=>{ tqFx('conf',800,0,40); tqFx('star',200+Math.random()*1200,150+Math.random()*500,10); sfx('sparkle'); },600+i*450); }
+    else { tqMood(C,'sad'); C.tx=Math.max(300,Math.min(1200,T.cam)); M.out=false; M.el.setAttribute('opacity','1'); M.s=.62; M.x=M.tx=1005; M.y=612; M.ty=640; M.cb=()=>{ tqJump(M); sfx('laugh'); };
+      tqLater(()=>tqFx('conf',800,0,30),700); }
+    return 0; },
+  summary(){ return {world:T.world,built:tqDone(),total:T.pieces.length}; },
+  unmount(){ tqResetSeq(); cancelAnimationFrame(T.raf); if(T.svg.parentNode) T.svg.remove(); if(T.hud&&T.hud.parentNode) T.hud.remove(); T=null; }
+};
+
 // ---------- public API ----------
 let W=null, raf=0, last=0, ro=null;
 function loop(t){ raf=requestAnimationFrame(loop); if(!W) return; const dt=Math.min(.05,(t-(last||t))/1000); last=t; if(document.hidden) return;
@@ -629,27 +909,28 @@ function loop(t){ raf=requestAnimationFrame(loop); if(!W) return; const dt=Math.
 function size(){ if(!W) return; const r=W.host.getBoundingClientRect(); const w=Math.max(1,r.width), h=Math.max(1,r.height); W.ren.setSize(w,h,false); W.cam.aspect=w/h; W.cam.updateProjectionMatrix(); }
 const API={
   // host: element to draw in; o: {world:'race'|'clinic', n, night, rivals:[names], me, av, lang}
-  async mount(host,o){ API.unmount(); if(!host||!glOk()) return false; const ok=await load(); if(!ok||!host.isConnected) return false;
+  async mount(host,o){ API.unmount(); if(host&&o&&o.world==='toonroom'){ try{ tqMount(host,o); }catch(e){ console.warn('quiz2d',e); API.unmount(); return false; } muteBtn(host,o.lang); host.classList.add('on'); return true; }
+    if(!host||!glOk()) return false; const ok=await load(); if(!ok||!host.isConnected) return false;
     try{ W=SCENES[o.world]?buildScene(host,o):build(host,o); }catch(e){ console.warn('quiz3d',e); API.unmount(); return false; }
     W.mode='intro'; muteBtn(host,o.lang); size(); ro=window.ResizeObserver?new ResizeObserver(size):null; if(ro) ro.observe(host); else window.addEventListener('resize',size);
     last=0; raf=requestAnimationFrame(loop); host.classList.add('on'); return true; },
-  ready(){ return !!W; },
+  ready(){ return !!(W||T); },
   // a new question: put its gate ahead of you
-  question(i){ if(!W) return; if(W.cfg) return SCENE.question(i); W.mode='race'; W.qi=i; W.cars.forEach(c=>{ c.cap=c.target+.55; }); if(!W.gates[i]) gate(W,-(W.cars[0].target+1)*SEG,(W.o.lang==='en'?'Q ':'س ')+(i+1)); },
-  answer(ok){ if(!W) return; if(W.cfg) return SCENE.answer(ok); sfx(ok?'boost':'skid'); const me=W.cars[0], g=W.gates[W.qi]; if(g) g.res=!!ok;
+  question(i){ if(T) return TQ.question(i); if(!W) return; if(W.cfg) return SCENE.question(i); W.mode='race'; W.qi=i; W.cars.forEach(c=>{ c.cap=c.target+.55; }); if(!W.gates[i]) gate(W,-(W.cars[0].target+1)*SEG,(W.o.lang==='en'?'Q ':'س ')+(i+1)); },
+  answer(ok){ if(T) return TQ.answer(ok); if(!W) return; if(W.cfg) return SCENE.answer(ok); sfx(ok?'boost':'skid'); const me=W.cars[0], g=W.gates[W.qi]; if(g) g.res=!!ok;
     W.cars.forEach(c=>{ c.cap=0; }); me.target+=ok?OK_STEP:BAD_STEP; W.cars.slice(1).forEach(c=>{ c.target+=c.pace*(.94+Math.random()*.12); });
     if(ok){ me.vel+=26; W.fovKick=4; } else { me.spin=Math.PI*2; W.shake=.6; for(let i=0;i<10;i++) setTimeout(()=>W&&burst(W,new THREE.Vector3(me.position.x,.5,me.position.z+1.5),'puff',2),i*60); } },
   place(){ return W&&!W.cfg?place(W):0; },
-  summary(){ return !W?null:W.cfg?SCENE.summary():{world:'race',place:place(W)}; },
+  summary(){ if(T) return TQ.summary(); return !W?null:W.cfg?SCENE.summary():{world:'race',place:place(W)}; },
   // call from a tap/click: starts the music and the sounds of this world
-  unlock(){ if(!auInit()||!W||W.audio) return; W.audio=true; musicStart(W.cfg?W.cfg.music:'race'); if(!W.cfg) engineStart(); if(W.cfg&&W.cfg.cold) windStart(); },
+  unlock(){ if(T){ if(auInit()&&!T.audio){ T.audio=true; musicStart('toon'); } return; } if(!auInit()||!W||W.audio) return; W.audio=true; musicStart(W.cfg?W.cfg.music:'race'); if(!W.cfg) engineStart(); if(W.cfg&&W.cfg.cold) windStart(); },
   mute(m){ auMute(!!m); }, muted(){ return AU.muted; },
   // all cars roll over the finish line in their final order
-  finish(txt){ if(!W) return 0; if(W.cfg) return SCENE.finish(); sfx('finish'); const p=place(W), lead=Math.max(...W.cars.map(c=>c.target)); finishGate(W,-(lead+.9)*SEG,txt||'FINISH');
+  finish(txt){ if(T) return TQ.finish(); if(!W) return 0; if(W.cfg) return SCENE.finish(); sfx('finish'); const p=place(W), lead=Math.max(...W.cars.map(c=>c.target)); finishGate(W,-(lead+.9)*SEG,txt||'FINISH');
     W.cars.forEach(c=>{ c.target+=1.6; }); W.done=true; W.mode='finish'; W.ft=0;
     setTimeout(()=>{ if(!W) return; const me=W.cars[0]; for(let i=0;i<4;i++) setTimeout(()=>W&&burst(W,new THREE.Vector3(me.position.x+(Math.random()-.5)*8,6+Math.random()*3,me.position.z-2),'conf',p===1?70:40),i*350); },1300);
     return p; },
-  unmount(){ auStopLoops(); cancelAnimationFrame(raf); raf=0; if(ro){ ro.disconnect(); ro=null; } window.removeEventListener('resize',size);
+  unmount(){ auStopLoops(); if(T){ const h=T.host; TQ.unmount(); if(h){ h.classList.remove('on'); h.querySelectorAll('.q3dmute').forEach(b=>b.remove()); } } cancelAnimationFrame(raf); raf=0; if(ro){ ro.disconnect(); ro=null; } window.removeEventListener('resize',size);
     if(W){ try{ W.sc.traverse(o=>{ if(o.geometry) o.geometry.dispose(); if(o.material){ (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{ if(m.map) m.map.dispose(); m.dispose(); }); } }); W.ren.dispose(); if(W.ren.forceContextLoss) W.ren.forceContextLoss(); }catch(e){}
       if(W.ren.domElement.parentNode) W.ren.domElement.remove(); if(W.hud&&W.hud.parentNode) W.hud.remove(); if(W.host){ W.host.classList.remove('on'); W.host.querySelectorAll('.q3dmute').forEach(b=>b.remove()); } }
     W=null; }
