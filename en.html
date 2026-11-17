@@ -616,6 +616,7 @@ const RULES=[
  ['no','The lucky wheel has stopped','The client stopped the Spin & Win wheel from 17 November. Don\'t offer it or send its link. If the customer asks about it, say: "The wheel isn\'t available now, but let me tell you about our current offers."'],
  ['yes','The offer gift is revealed at the center','If the offer lists a gift: the center\'s gifts are not confirmed, so never name a specific gift. Say: "You will find out about the gift when you visit the center."'],
  ['no','Don\'t guarantee results or a number of kilos','"Results vary from person to person, and the doctor will explain what to expect."'],
+ ['yes','Booking reminders: WhatsApp first, then a call','Booking day: send a WhatsApp confirmation with the day, time, service and location. The day before: a reminder at 10:30-11:00 AM (UAE time); if no reply, call 30 minutes later; if still no reply, send a second message at 5:00 PM (Saudi time), then call. Visit day: a reminder to confirm they are coming at 10:30-11:00 AM; if no reply, call 30 minutes later. The steps and messages are ready in the 📞 Follow-up calls tab.'],
  ['no','Don\'t give medical advice','Any question about medical conditions, medications, breastfeeding, or side effects is referred to the doctor.'],
  ['warn','Pregnant customer: Hold','We postpone laser, filler, Botox, Sculptra, and meso during pregnancy, and call her after she gives birth. Don\'t book a consultation unless she insists on having the service.'],
  ['yes','Installments available with Tabby and Tamara','Confirmed by the client. There is an admin fee whose percentage is still being confirmed, so say: "I\'ll confirm the installment fee details for you before booking", and don\'t give a percentage.'],
@@ -1279,7 +1280,7 @@ function waLine(o,ar){ const l=WA_LINES[o.id];
   if(l&&l[2]===o.price) return l[ar?0:1];
   return ar?(o.ar+': '+o.price+' درهم'):((o.en||o.ar)+': '+String(o.price).replace('من','from')+' AED'); }
 let WA=Object.assign({desc:true,kind:'offers',phone:'',name:'',gender:'f',lang:'ar',offers:[],branch:'ad',agent:'',mate:'',msg:'',edited:false,date:'',time:'',doc:'',extra:''},(()=>{try{return JSON.parse(localStorage.getItem('tj-wa')||'{}')}catch(e){return {}}})(),{agent:(()=>{try{return sessionStorage.getItem('tj-wa-agent')||''}catch(e){return ''}})()});
-WA.phone='';WA.name='';WA.offers=[];WA.msg='';WA.edited=false;WA.kind='offers';WA.date='';WA.time='';WA.doc='';WA.extra=''; // a fresh customer every time the page opens
+WA.phone='';WA.name='';WA.offers=[];WA.msg='';WA.edited=false;WA.kind='offers';WA.date='';WA.time='';WA.doc='';WA.extra='';WA.svc=''; // a fresh customer every time the page opens
 const waSave=()=>{try{localStorage.setItem('tj-wa',JSON.stringify({gender:WA.gender,lang:WA.lang,branch:WA.branch,mate:WA.mate,desc:WA.desc})); sessionStorage.setItem('tj-wa-agent',WA.agent)}catch(e){}};
 // UAE numbers to 9715XXXXXXXX; anything else keeps its digits (international numbers must include the country code).
 function waNum(p){ let d=String(p||'').replace(/[^\d+]/g,''); if(d.startsWith('+')) d=d.slice(1); if(d.startsWith('00')) d=d.slice(2);
@@ -1310,7 +1311,7 @@ function waBookText(){
   if(ar){
     L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push((f?'معاكي ':'معاك ')+(ag?ag+' من ':'')+'مركز H&P الطبي.');
     L.push(''); L.push('بنأكد حجز حضرتك ✅');
-    if(day) L.push('🗓 اليوم: '+day); if(tm) L.push('⏰ الساعة: '+tm); if(doc) L.push('👩‍⚕️ مع: '+doc);
+    if(day) L.push('🗓 اليوم: '+day); if(tm) L.push('⏰ الساعة: '+tm); if(String(WA.svc||'').trim()) L.push('💉 الخدمة: '+String(WA.svc).trim()); if(doc) L.push('👩‍⚕️ مع: '+doc);
     if(off.length){ L.push(''); L.push(off.length>1?'العروض اللي '+(f?'حجزتيها':'حجزتها')+':':'العرض اللي '+(f?'حجزتيه':'حجزته')+':'); L.push(...off); const gl=waGiftLines(ar,f); if(gl.length){ L.push(''); L.push(...gl); L.push(''); } L.push('الأسعار غير شاملة ضريبة القيمة المضافة.'); }
     if(br){ L.push(''); L.push('📍 '+br.ar.split('\n').filter(l=>!l.startsWith('المواعيد')).join('\n')); L.push('اللوكيشن: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
@@ -1318,7 +1319,7 @@ function waBookText(){
   } else {
     L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is '+(ag||'your advisor')+' from H&P Medical Center.');
     L.push(''); L.push('We are confirming your booking ✅');
-    if(day) L.push('🗓 Day: '+day); if(tm) L.push('⏰ Time: '+tm); if(doc) L.push('👩‍⚕️ With: '+doc);
+    if(day) L.push('🗓 Day: '+day); if(tm) L.push('⏰ Time: '+tm); if(String(WA.svc||'').trim()) L.push('💉 Service: '+String(WA.svc).trim()); if(doc) L.push('👩‍⚕️ With: '+doc);
     if(off.length){ L.push(''); L.push(off.length>1?'The offers you booked:':'The offer you booked:'); L.push(...off); const gl=waGiftLines(ar,f); if(gl.length){ L.push(''); L.push(...gl); L.push(''); } L.push('Prices exclude VAT.'); }
     if(br){ L.push(''); L.push('📍 '+br.en.split('\n').filter(l=>!l.startsWith('Open')).join('\n')); L.push('Location: '+br.map); }
     if(x){ L.push(''); L.push('📝 '+x); }
@@ -1375,6 +1376,7 @@ function waHtml(){
     ${WA.kind==='book'?`<div class="wa-row wa-row2"><label>${WAU.date}<input id="waDate" type="date" value="${esc(WA.date)}"></label><label>${WAU.time}<input id="waTime" type="time" step="900" value="${esc(WA.time)}"></label></div>
     <label>${WAU.doc}<select id="waDoc" class="wa-sel"><option value="">${WAU.docNone}</option>${DOCTORS.map((d,i)=>[d,i]).filter(([d])=>!WA.branch||d.br===WA.branch).map(([d,i])=>`<option value="${i}" ${String(WA.doc)===String(i)?'selected':''}>${esc(waDoc(i,LANG!=='en'))}</option>`).join('')}</select></label>
     <div class="wa-warn" id="waBookWarn" ${waBookWarn().length?'':'hidden'}>${waBookWarn().map(esc).join('<br>')}</div>
+    <label>${LANG==='en'?'Service (if it isn\'t one of the offers below)':'الخدمة (لو مش من العروض اللي تحت)'}<input id="waSvc" value="${esc(WA.svc||'')}" placeholder="${LANG==='en'?'e.g. Free consultation with the dermatologist':'مثلاً: استشارة مجانية مع دكتورة الجلدية'}"></label>
     <label>${WAU.extra}<input id="waExtra" value="${esc(WA.extra)}" placeholder="${WAU.extraPh}"></label>`:''}
     <div class="wa-lbl">${WA.kind==='book'?WAU.offersBook:WAU.offers}</div>
     ${cats.map(c=>`<div class="wa-cat"><span>${esc(CATS[c]||c)}</span><div class="wa-chips">${ok.filter(o=>o.cat===c).map(o=>`<button data-a="wao" data-v="${o.id}" class="${WA.offers.includes(o.id)?'on':''}" title="${o.st!=='ok'?esc(WAU.noPrice):''}">${esc(LANG==='en'?o.en||o.ar:o.ar)}${o.st!=='ok'?' *':''}</button>`).join('')}</div></div>`).join('')}
@@ -1399,6 +1401,7 @@ function waCheck(){
   if(!WA.phone.trim()){ toast(WAU.needPhone); const i=$('waPhone'); if(i) i.focus(); return null; }
   if(WA.kind!=='book'&&!WA.offers.length&&!WA.branch){ toast(WAU.needAny); return null; }
   if(WA.kind==='book'&&(!WA.date||!WA.time)){ toast(WAU.needWhen); const i=$(!WA.date?'waDate':'waTime'); if(i) i.focus(); return null; }
+  if(WA.kind==='book'&&!WA.offers.length&&!String(WA.svc||'').trim()){ toast(LANG==='en'?'Add the service: pick the offer, or type the service.':'ضيف الخدمة: اختار العرض، أو اكتب الخدمة.'); const i=$('waSvc'); if(i) i.focus(); return null; }
   return n;
 }
 const waMsgNow=()=>{ const t=$('waMsg'); return t?t.value:(WA.edited?WA.msg:waText()); };
@@ -1412,7 +1415,7 @@ function waRefresh(){ // update the preview and note without re-rendering the in
 }
 document.addEventListener('input',e=>{
   const id=e.target.id; if(!id||!id.startsWith('wa')) return;
-  if(id==='waDate'||id==='waTime'){ WA[id==='waDate'?'date':'time']=e.target.value; const w=$('waBookWarn'); if(w){ const W=waBookWarn(); w.hidden=!W.length; w.innerHTML=W.map(esc).join('<br>'); } } if(id==='waDoc'){ WA.doc=e.target.value; const w=$('waBookWarn'); if(w){ const W=waBookWarn(); w.hidden=!W.length; w.innerHTML=W.map(esc).join('<br>'); } } if(id==='waExtra') WA.extra=e.target.value;
+  if(id==='waDate'||id==='waTime'){ WA[id==='waDate'?'date':'time']=e.target.value; const w=$('waBookWarn'); if(w){ const W=waBookWarn(); w.hidden=!W.length; w.innerHTML=W.map(esc).join('<br>'); } } if(id==='waDoc'){ WA.doc=e.target.value; const w=$('waBookWarn'); if(w){ const W=waBookWarn(); w.hidden=!W.length; w.innerHTML=W.map(esc).join('<br>'); } } if(id==='waExtra') WA.extra=e.target.value; if(id==='waSvc') WA.svc=e.target.value;
   if(id==='waPhone') WA.phone=e.target.value; if(id==='waName') WA.name=e.target.value; if(id==='waAgent'){ WA.agent=e.target.value; waSave(); }
   if(id==='waMsg'){ WA.msg=e.target.value; if(!WA.edited){ WA.edited=true; renderMain(); const m=$('waMsg'); if(m){ m.focus(); m.setSelectionRange(m.value.length,m.value.length);} } return; }
   waRefresh();
@@ -2198,14 +2201,14 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'A booking, a new day or a cancella
   k:{consult:'🩺 Free consultation',session:'💉 Session / service',follow:'🔁 Follow-up with the doctor'},
   s:{inbound:'📞 Inbound call',outbound:'📲 Our call',wa:'💬 WhatsApp',followup:'🔁 Follow-up call',other:'✏️ Other'},
   g:{none:'No offer gift',center:'Gift at the center'},
-  fuH:'📞 Follow-up calls for this booking',fu:['Confirm','Reminder on the day','After the visit'],fuSkip:'not needed',fuPick:'Choose the appointment day to see the call days.',
+  fuH:'📞 Follow-up calls for this booking',fu:['Day before: WhatsApp reminder, then a call','Visit day: WhatsApp reminder, then a call','After the visit'],fuSkip:'not needed',fuPick:'Choose the appointment day to see the call days.',
   fuSign:'Sign in once with your work email (🏆 Quiz tab) so these calls are saved and you get reminded.',saved:'Booking saved ✓ We\'ll remind you of the follow-up calls',savedDup:'This booking is already saved ✓',notSaved:'The email is ready, but the booking wasn\'t saved for the follow-up calls. Try again.',
   mode:'What happened?',m:{new:'🆕 New booking',move:'🔁 Changed the day',cancel:'❌ Cancelled'},
   mIntro:{move:'The customer changed the day of a booking (e.g. in a follow-up call). Write the customer\'s number and the NEW day and time; the follow-up calls move with it.',cancel:'The customer cancelled a booking. Write the customer\'s number so the follow-up calls stop.'},
   oldDate:'Old day (optional)',oldTime:'Old time',newDate:'New day',newTime:'New time',cDate:'Day of the cancelled booking (optional)',why:'Why? (optional)',whyPh:'e.g. travelling, will call back to book',
   sendM:{new:'Send booking',move:'Send the new day',cancel:'Send cancellation'},needPhone:'Write the customer\'s number.',
   movedOk:'Day changed ✓ The follow-up calls moved to the new day',cancelOk:'Cancelled ✓ Its follow-up calls stopped',noneOk:'Email ready. This booking wasn\'t saved here before, so there are no calls to stop.',movedNew:'Saved ✓ We\'ll remind you of the calls for the new day',
-  checkH:'Before you send',check:['Read the day, time, branch and service back to the customer.','Check the booking is saved on Odoo with the same details.','Send the WhatsApp confirmation with the location (📲 tab).']}
+  checkH:'Before you send',check:['Read the day, time, branch and service back to the customer.','Check the booking is saved on Odoo with the same details.','Send the WhatsApp confirmation the same day: day, time, service and location (📲 tab).']}
  :{tab:'📅 إيميل حجز',eyebrow:'حجز جديد أو تغيير ميعاد أو إلغاء',title:'إيميل حجز',
   intro:'أي حجز بيتبعتله إيميل في نفس اليوم، علشان التيم ليدرز يتابعوا والعيادة تبقى جاهزة. املا البيانات ودوس "ابعت الحجز"، هيفتحلك إيميل جاهز رايح لمصطفى وإسلام، وفي الـ CC حسين.',
   me:'اسمك',kind:'الحجز لـ',src:'الحجز جه منين',name:'اسم العميل',phone:'رقم العميل',branch:'الفرع',svc:'العرض أو الخدمة',doc:'الدكتور (لو اتحدد)',date:'يوم الميعاد',time:'الساعة',
@@ -2215,14 +2218,14 @@ const B=EN?{tab:'📅 Booking email',eyebrow:'A booking, a new day or a cancella
   k:{consult:'🩺 استشارة مجانية',session:'💉 جلسة / خدمة',follow:'🔁 متابعة مع الدكتور'},
   s:{inbound:'📞 العميل اتصل',outbound:'📲 إحنا اتصلنا',wa:'💬 واتساب',followup:'🔁 مكالمة فولو أب',other:'✏️ حاجة تانية'},
   g:{none:'مفيش هدية عرض',center:'هدية في المركز'},
-  fuH:'📞 مكالمات المتابعة للحجز ده',fu:['تأكيد الميعاد','تذكير يوم الميعاد','بعد الزيارة'],fuSkip:'مش محتاجة',fuPick:'اختار يوم الميعاد علشان تظهر أيام المكالمات.',
+  fuH:'📞 مكالمات المتابعة للحجز ده',fu:['قبلها بيوم: تذكير واتساب وبعدين مكالمة','يوم الميعاد: تذكير واتساب وبعدين مكالمة','بعد الزيارة'],fuSkip:'مش محتاجة',fuPick:'اختار يوم الميعاد علشان تظهر أيام المكالمات.',
   fuSign:'ادخل مرة واحدة بإيميل الشغل (من تبويب 🏆 الكويز) علشان المكالمات دي تتسجل ونفكرك بيها.',saved:'الحجز اتسجل ✓ هنفكرك بمكالمات المتابعة',savedDup:'الحجز ده متسجل قبل كده ✓',notSaved:'الإيميل جاهز، بس الحجز متسجلش لمكالمات المتابعة. جرّب تاني.',
   mode:'إيه اللي حصل؟',m:{new:'🆕 حجز جديد',move:'🔁 غيّر ميعاده',cancel:'❌ لغى الحجز'},
   mIntro:{move:'العميل غيّر ميعاد حجز موجود (مثلاً في مكالمة فولو أب). اكتب رقم العميل والميعاد الجديد، ومكالمات المتابعة هتتنقل معاه.',cancel:'العميل لغى حجزه. اكتب رقم العميل علشان مكالمات المتابعة بتاعته تقف.'},
   oldDate:'الميعاد القديم (اختياري)',oldTime:'الساعة القديمة',newDate:'اليوم الجديد',newTime:'الساعة الجديدة',cDate:'ميعاد الحجز اللي اتلغى (اختياري)',why:'السبب (اختياري)',whyPh:'مثلاً: مسافرة، هتكلمنا تحجز تاني',
   sendM:{new:'ابعت الحجز',move:'ابعت الميعاد الجديد',cancel:'ابعت الإلغاء'},needPhone:'اكتب رقم العميل.',
   movedOk:'الميعاد اتغير ✓ ومكالمات المتابعة اتنقلت لليوم الجديد',cancelOk:'الحجز اتلغى ✓ ومكالمات المتابعة بتاعته وقفت',noneOk:'الإيميل جاهز. الحجز ده مكانش متسجل هنا قبل كده، فمفيش مكالمات توقف.',movedNew:'اتسجل ✓ هنفكرك بمكالمات الميعاد الجديد',
-  checkH:'قبل ما تبعت',check:['اقرا للعميل اليوم والساعة والفرع والخدمة.','اتأكد إن الحجز متسجل على أودوو بنفس البيانات.','ابعت تأكيد الواتساب باللوكيشن (من تبويب 📲).']};
+  checkH:'قبل ما تبعت',check:['اقرا للعميل اليوم والساعة والفرع والخدمة.','اتأكد إن الحجز متسجل على أودوو بنفس البيانات.','ابعت تأكيد الواتساب في نفس اليوم: اليوم والساعة والخدمة واللوكيشن (من تبويب 📲).']};
 const K_EN={consult:'Free consultation',session:'Session / service',follow:'Follow-up with the doctor'};
 const S_EN={inbound:'Inbound call',outbound:'Our call',wa:'WhatsApp',followup:'Follow-up call',other:'Other'};
 const G_EN={none:'None',center:'Gift at the center (picked there)',laser:'Full-body laser session',hydra:'HydraFacial',oxy:'OxyGeneo',ten:'10% off',wheel:'Spin & Win wheel (instead of the gift)'};
@@ -2955,31 +2958,31 @@ document.addEventListener('change',e=>{ if(e.target.id==='dashM'){ DASH_M=e.targ
 //@@FOLLOW@@
 
 // ---------- booking follow-up calls: confirm the day before, remind on the day, ask after the visit ----------
-const F=EN?{tab:'📞 Follow-up calls',eyebrow:'Every booking gets 3 calls',title:'Follow-up calls',
-  intro:'Every booking sent from the 📅 Booking email tab shows up here with its 3 calls: confirm the day before, remind on the day, and check in after the visit. After each call, press what happened so the reminder stops.',
+const F=EN?{tab:'📞 Follow-up calls',eyebrow:'The client\'s reminder process (17 Nov)',title:'Follow-up calls',
+  intro:'Every booking sent from the 📅 Booking email tab shows up here. The day before and on the visit day, start with a WhatsApp reminder at 10:30-11:00 AM UAE time, and call only if the customer doesn\'t reply. The day before, if there is still no reply, send a second WhatsApp at 5:00 PM Saudi time, then call. After each step, press what happened so the next step shows.',
   signFirst:'Sign in with your work email first (once on this device), so we know which calls are yours.',signGo:'Sign in',
   todayT:'To call today',soonT:'Coming up',noneToday:'No calls for today 👌',noneSoon:'Nothing coming up.',mineT:'My calls',allT:'Whole team',
-  c:['','Confirm the appointment','Reminder on the day','After the visit'],cs:['','the day before','on the day','did they go? how was it?'],
+  c:['','Day-before reminder','Visit-day reminder','After the visit'],cs:['','WhatsApp first, then a call','WhatsApp first, then a call','did they go? how was it?'],
   late:'late',tries:n=>'no answer ×'+n,appt:'Appointment',phone:'Number',copyN:'Copy number',copied:'Number copied',
   hint:['',
    'Hello, this is [your name] from H&P Medical Center. I\'m calling to confirm your appointment tomorrow at [time] at our [branch] branch. Does that still work for you?',
    'Good morning, a quick reminder of your appointment today at [time] at our [branch] branch. Shall I send you the location on WhatsApp?',
    'Hello, we wanted to check on you after your visit. How was your experience with us?'],
-  r:{confirmed:'✅ Confirmed',noanswer:'📵 No answer',rescheduled:'🔁 New date',cancelled:'❌ Cancelled',went:'✅ Went',noshow:'🚫 Didn\'t go'},
+  r:{confirmed:'✅ Confirmed',noanswer:'📵 No answer',noreply:'📵 No answer',sent:'✓ Sent, no reply yet',replied:'✅ Replied and confirmed',waOpen:'📲 Open WhatsApp with the reminder',rescheduled:'🔁 New date',cancelled:'❌ Cancelled',went:'✅ Went',noshow:'🚫 Didn\'t go'},
   note:'Note (optional)',notePh:'e.g. asked for a female doctor, will come 15 minutes late',fbPh:'What did they say about the visit?',rate:'How happy?',newDate:'New day',newTime:'Time',
   save:'Save',cancel:'Back',saved:'Saved ✓',agent:'With',off:'off today',offDay:'off that day',give:'Give to…',given:'Given ✓',offline:'The list will show once the scorecard script is updated.',
   bar:n=>'📞 You have '+n+' follow-up call'+(n>1?'s':'')+' today',barGo:'Open',errs:{not_yours:'This call isn\'t yours.',bad_date:'Choose a day from today on.',forbidden:'Team leads only.'}}
- :{tab:'📞 مكالمات المتابعة',eyebrow:'كل حجز ليه 3 مكالمات',title:'مكالمات المتابعة',
-  intro:'أي حجز بيتبعت من تبويب 📅 إيميل حجز بيظهر هنا بمكالماته التلاتة: تأكيد قبلها بيوم، وتذكير يوم الميعاد، ومكالمة بعد الزيارة نطمن فيها. بعد كل مكالمة دوس على اللي حصل علشان التذكير يقف.',
+ :{tab:'📞 مكالمات المتابعة',eyebrow:'بروسيس التذكير من الكلاينت (17 نوفمبر)',title:'مكالمات المتابعة',
+  intro:'أي حجز بيتبعت من تبويب 📅 إيميل حجز بيظهر هنا. قبل الميعاد بيوم ويوم الميعاد: ابدأ برسالة تذكير على الواتساب من 10:30 لـ 11 الصبح بتوقيت الإمارات، ومتتصلش غير لو العميل مردش. وقبلها بيوم، لو لسه مردش، ابعت رسالة تانية الساعة 5 مساءً بتوقيت السعودية وبعدين كلّمه. بعد كل خطوة دوس على اللي حصل علشان الخطوة اللي بعدها تظهر.',
   signFirst:'ادخل بإيميل الشغل الأول (مرة واحدة على الجهاز ده)، علشان نعرف أنهي مكالمات بتاعتك.',signGo:'دخول',
   todayT:'مكالمات النهارده',soonT:'الجاية',noneToday:'مفيش مكالمات النهارده 👌',noneSoon:'مفيش حاجة جاية.',mineT:'مكالماتي',allT:'كل التيم',
-  c:['','تأكيد الميعاد','تذكير يوم الميعاد','بعد الزيارة'],cs:['','قبلها بيوم','يوم الميعاد','راح؟ ورأيه إيه؟'],
+  c:['','تذكير قبلها بيوم','تذكير يوم الميعاد','بعد الزيارة'],cs:['','واتساب الأول وبعدين مكالمة','واتساب الأول وبعدين مكالمة','راح؟ ورأيه إيه؟'],
   late:'متأخرة',tries:n=>'مردش ×'+n,appt:'الميعاد',phone:'الرقم',copyN:'انسخ الرقم',copied:'الرقم اتنسخ',
   hint:['',
    'أهلاً يا فندم، معاك [اسمك] من مركز H&P الطبي. بكلم حضرتك علشان أأكد ميعادك بكرة الساعة [الساعة] في فرع [الفرع]. الميعاد لسه مناسب لحضرتك؟',
    'صباح الخير يا فندم، بفكّر حضرتك بميعادك النهارده الساعة [الساعة] في فرع [الفرع]. تحب أبعتلك اللوكيشن على الواتساب؟',
    'أهلاً يا فندم، حبينا نطمن على حضرتك بعد الزيارة. التجربة كانت عاملة إزاي معانا؟'],
-  r:{confirmed:'✅ أكّد',noanswer:'📵 مردش',rescheduled:'🔁 ميعاد جديد',cancelled:'❌ لغى',went:'✅ راح',noshow:'🚫 مراحش'},
+  r:{confirmed:'✅ أكّد',noanswer:'📵 مردش',noreply:'📵 مردش',sent:'✓ بعتها ومردش لسه',replied:'✅ رد وأكّد',waOpen:'📲 افتح الواتساب بالرسالة',rescheduled:'🔁 ميعاد جديد',cancelled:'❌ لغى',went:'✅ راح',noshow:'🚫 مراحش'},
   note:'ملاحظة (اختياري)',notePh:'مثلاً: طالبة دكتورة ست، هتتأخر ربع ساعة',fbPh:'قال إيه عن الزيارة؟',rate:'مبسوط قد إيه؟',newDate:'اليوم الجديد',newTime:'الساعة',
   save:'سجّل',cancel:'رجوع',saved:'اتسجل ✓',agent:'مع',off:'أجازة النهارده',offDay:'أجازة يومها',give:'اديها لـ…',given:'اتحولت ✓',offline:'القايمة هتظهر أول ما سكريبت السكور كارد يتحدث.',
   bar:n=>'📞 عندك '+n+' مكالمة متابعة النهارده',barGo:'افتح',errs:{not_yours:'المكالمة دي مش بتاعتك.',bad_date:'اختار يوم من النهارده ورايح.',forbidden:'للتيم ليدرز بس.'}};
@@ -2994,7 +2997,9 @@ const fcss=`.fu{display:grid;gap:12px}.fitem{border:2px solid var(--line);border
 .fstars button{font-size:24px;background:none;border:0;cursor:pointer;opacity:.35;padding:0 2px}.fstars button.on{opacity:1}
 .fbar{position:fixed;inset-inline:12px;bottom:12px;z-index:60;display:flex;gap:8px;align-items:center;justify-content:space-between;background:#1d2731;color:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 8px 24px rgba(0,0,0,.25);font-weight:700;max-width:560px;margin-inline:auto}
 .fbar button{font:inherit;font-weight:800;border:0;border-radius:10px;padding:8px 14px;cursor:pointer}.fbar .go{background:#FFB15C;color:#1d2731}.fbar .x{background:transparent;color:#fff;font-size:18px;padding:4px 8px}
-.ftel{direction:ltr;unicode-bidi:embed;font-weight:800;color:var(--ink)}`;
+.ftel{direction:ltr;unicode-bidi:embed;font-weight:800;color:var(--ink)}
+.fsteps{margin:0;padding-inline-start:20px;display:grid;gap:4px;font-size:14px}.fsteps li{color:var(--muted)}.fsteps li span{font-size:12.5px}
+.fsteps li.done{text-decoration:line-through;opacity:.6}.fsteps li.now{color:var(--ink)}.fsteps li.now b{color:var(--sage)}a.fwa{text-decoration:none;display:inline-block}`;
 document.head.insertAdjacentHTML('beforeend','<style>'+fcss+'</style>');
 let CALLS=null, CALLS_ERR=false, FU={open:'',res:'',note:'',rate:0,date:'',time:'',all:false,bar:true};
 const fuKey=x=>x.id+'-'+x.call;
@@ -3012,12 +3017,12 @@ function t12(t){ if(!t) return ''; const [h,m]=t.split(':').map(Number); return 
 function fuItem(x){ const k=fuKey(x), open=FU.open===k, res3=x.call===3?['went','noshow','noanswer']:['confirmed','noanswer','rescheduled','cancelled'];
   const hint=F.hint[x.call].replace(/\[(الساعة|time)\]/g,t12(x.time)||'…').replace(/\[(الفرع|branch)\]/g,x.branch||'…');
   const lead=CALLS&&CALLS.lead;
-  return `<div class="fitem ${x.state==='late'?'late':''}" id="fu-${k}"><div class="h"><span class="fpill c${x.call}">${x.call}. ${F.c[x.call]}</span><span>${F.cs[x.call]}</span>${x.state==='late'?`<span class="fpill late">${F.late}</span>`:''}${x.state==='soon'?`<span>· ${esc(dayLbl(x.due))}</span>`:''}${x.tries?`<span>· ${esc(F.tries(x.tries))}</span>`:''}${lead?`<span>· ${F.agent} <b>${esc(x.to)}</b></span>${x.off?`<span class="fpill off">${x.state==='soon'?F.offDay:F.off}</span>`:''}`:''}</div>
+  return `<div class="fitem ${x.state==='late'?'late':''}" id="fu-${k}"><div class="h"><span class="fpill c${x.call}">${x.call}. ${F.c[x.call]}</span><span>${F.cs[x.call]}</span>${x.state==='late'?`<span class="fpill late">${F.late}</span>`:''}${x.state==='soon'?`<span>· ${esc(dayLbl(x.due))}</span>`:''}${x.tries&&x.call===3?`<span>· ${esc(F.tries(x.tries))}</span>`:''}${lead?`<span>· ${F.agent} <b>${esc(x.to)}</b></span>${x.off?`<span class="fpill off">${x.state==='soon'?F.offDay:F.off}</span>`:''}`:''}</div>
    <div class="t">${esc(x.cust)}</div>
    <div class="meta"><span><b>${F.appt}</b>${esc(dayLbl(x.date))} ${esc(t12(x.time))}</span>${x.branch?`<span><b>${EN?'Branch':'الفرع'}</b>${esc(x.branch)}</span>`:''}${x.svc?`<span><b>${EN?'Service':'الخدمة'}</b>${esc(x.svc)}</span>`:''}${x.doc?`<span><b>${EN?'Doctor':'الدكتور'}</b>${esc(x.doc)}</span>`:''}
     ${x.phone?`<span><b>${F.phone}</b><a class="ftel" href="tel:${esc(x.phone.replace(/[^\d+]/g,''))}">${esc(x.phone)}</a> <button class="qghost" style="padding:3px 8px;font-size:12px" data-a="fucopy" data-v="${esc(x.phone)}">${F.copyN}</button></span>`:''}${x.odoo?`<span><b>Odoo</b>${esc(x.odoo)}</span>`:''}</div>
    ${x.notes?`<div class="muted" style="white-space:pre-line;font-size:13px">📝 ${esc(x.notes)}</div>`:''}
-   ${x.state!=='soon'||lead?`<div class="fhint">💬 ${esc(hint)}</div><div class="fbtns">${res3.map(r=>`<button data-a="fures" data-k="${k}" data-v="${r}" class="${open&&FU.res===r?'on':''}">${F.r[r]}</button>`).join('')}</div>`:''}
+   ${x.state!=='soon'||lead?fuSteps(x,k,open,hint,res3):''}
    ${open?`<div class="fform">${FU.res==='rescheduled'?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label class="lbl">${F.newDate}<input class="qin" type="date" id="fuDate" value="${esc(FU.date)}"></label><label class="lbl">${F.newTime}<input class="qin" type="time" id="fuTime" value="${esc(FU.time)}"></label></div>`:''}
      ${FU.res==='went'?`<div class="lbl">${F.rate}</div><div class="fstars">${[1,2,3,4,5].map(n=>`<button data-a="furate" data-v="${n}" class="${FU.rate>=n?'on':''}">⭐</button>`).join('')}</div>`:''}
      <label class="lbl" for="fuNote">${F.note}</label><input class="qin" id="fuNote" placeholder="${esc(FU.res==='went'||FU.res==='noshow'?F.fbPh:F.notePh)}" value="${esc(FU.note)}">
@@ -3025,6 +3030,41 @@ function fuItem(x){ const k=fuKey(x), open=FU.open===k, res3=x.call===3?['went',
      <div class="row"><button class="qbtn" data-a="fusave" data-k="${k}" ${FU.busy?'disabled':''}>${F.save}</button><button class="qghost" data-a="fuback">${F.cancel}</button></div></div>`:''}
    ${lead?`<div class="row"><select class="qin" style="max-width:240px;padding:7px 10px;font-size:14px" data-a="fugive" data-id="${x.id}"><option value="">${F.give}</option>${(CALLS.agents||[]).filter(a=>a!==x.to).map(a=>`<option>${esc(a)}</option>`).join('')}</select></div>`:''}
   </div>`; }
+// The client's reminder process (17 Nov 2026). Times are as the client wrote them (UAE, and 5 PM Saudi time), shown in Egypt time too.
+const FU_EG=EN?'Egypt':'مصر', FU_AE=EN?'UAE':'الإمارات', FU_SA=EN?'Saudi':'السعودية';
+function fuClock(ymd,h,m,tz){ try{ const [y,mo,d]=String(ymd||today()).split('-').map(Number); return new Date(Date.UTC(y,mo-1,d,h,m)).toLocaleTimeString(EN?'en-US':'ar-EG-u-nu-latn',{timeZone:tz,hour:'numeric',minute:'2-digit'}); }catch(e){ return ''; } }
+function fuAt(ms){ try{ return new Date(ms).toLocaleTimeString(EN?'en-US':'ar-EG-u-nu-latn',{timeZone:'Africa/Cairo',hour:'numeric',minute:'2-digit'}); }catch(e){ return ''; } }
+function fuPlan(x){ const d=x.due, m1=fuClock(d,6,30,'Africa/Cairo'), m2=fuClock(d,7,0,'Africa/Cairo'), ev=fuClock(d,14,0,'Africa/Cairo'), evA=fuClock(d,14,0,'Asia/Dubai');
+  const morning=EN?'10:30-11:00 AM '+FU_AE+' ('+m1+' - '+m2+' '+FU_EG+')':'من 10:30 لـ 11 الصبح '+FU_AE+' ('+m1+' - '+m2+' '+FU_EG+')';
+  const after=EN?'30 minutes after the message':'بعد الرسالة بنص ساعة';
+  if(x.call===1) return [
+    {t:'wa',n:1,s:EN?'Send the WhatsApp reminder':'ابعت رسالة التذكير على الواتساب',w:morning},
+    {t:'call',s:EN?'No reply? Call':'مردش؟ كلّمه',w:after},
+    {t:'wa',n:2,s:EN?'Still no reply? Send a second WhatsApp':'لسه مردش؟ ابعت رسالة تانية',w:EN?'5:00 PM '+FU_SA+' ('+ev+' '+FU_EG+' · '+evA+' '+FU_AE+')':'5 مساءً '+FU_SA+' ('+ev+' '+FU_EG+' · '+evA+' '+FU_AE+')'},
+    {t:'call',s:EN?'No reply? Call again':'مردش؟ كلّمه تاني',w:EN?'right after the second message':'بعد الرسالة التانية'}];
+  if(x.call===2) return [
+    {t:'wa',n:1,s:EN?'Send the WhatsApp reminder to confirm they are coming':'ابعت رسالة تأكيد الحضور على الواتساب',w:morning+(EN?', before the appointment':'، قبل الميعاد')},
+    {t:'call',s:EN?'No reply? Call to confirm they are coming':'مردش؟ كلّمه وأكّد الحضور',w:after}];
+  return null; }
+function fuWaText(x,n){ const nm=String(x.cust||'').trim(), br=/فجير|fujairah/i.test(x.branch||'')?WA_BR.fuj:(x.branch?WA_BR.ad:null), day=(()=>{ try{ return new Date(x.date+'T12:00:00').toLocaleDateString(EN?'en-GB':'ar-EG-u-nu-latn',{weekday:'long',day:'numeric',month:'long'}); }catch(e){ return x.date; } })(), tm=t12(x.time), svc=String(x.svc||'').trim();
+  const L=[];
+  if(!EN){ L.push('أهلاً بحضرتك'+(nm?' يا '+nm:'')+' 🌸'); L.push('دي رسالة من مركز H&P الطبي.'); L.push('');
+    L.push(n===2?'بنفكّر حضرتك تاني بميعادك يوم '+day+' الساعة '+tm+(svc?' لـ '+svc:'')+'، ومستنيين تأكيد حضرتك علشان نجهزلك كل حاجة.':(x.call===2?'بنفكّر حضرتك بميعادك النهارده الساعة '+tm+(svc?' لـ '+svc:'')+'.':'بنفكّر حضرتك بميعادك يوم '+day+' الساعة '+tm+(svc?' لـ '+svc:'')+'.'));
+    L.push('ياريت تأكيد الحضور بالرد على الرسالة دي 🙏'); if(br){ L.push(''); L.push('📍 '+br.ar.split('\n')[0]); L.push('اللوكيشن: '+br.map); } }
+  else { L.push('Hello'+(nm?' '+nm:'')+' 🌸'); L.push('This is H&P Medical Center.'); L.push('');
+    L.push(n===2?'A second reminder of your appointment on '+day+' at '+tm+(svc?' for '+svc:'')+'. We are waiting for your confirmation so we can get everything ready for you.':(x.call===2?'A reminder of your appointment today at '+tm+(svc?' for '+svc:'')+'.':'A reminder of your appointment on '+day+' at '+tm+(svc?' for '+svc:'')+'.'));
+    L.push('Please confirm you are coming by replying to this message 🙏'); if(br){ L.push(''); L.push('📍 '+br.en.split('\n')[0]); L.push('Location: '+br.map); } }
+  return L.join('\n'); }
+function fuSteps(x,k,open,hint,res3){
+  const btn=(v,lbl)=>`<button data-a="fures" data-k="${k}" data-v="${v}" class="${open&&FU.res===v?'on':''}">${lbl}</button>`;
+  const P=fuPlan(x); if(!P) return `<div class="fhint">💬 ${esc(hint)}</div><div class="fbtns">${res3.map(r=>btn(r,F.r[r])).join('')}</div>`;
+  const i=Math.min(x.tries||0,P.length), st=P[i];
+  const list=`<ol class="fsteps">${P.map((p,j)=>`<li class="${j<i?'done':j===i?'now':''}"><b>${p.t==='wa'?'📲':'📞'} ${esc(p.s)}</b> <span>${esc(p.w)}${j===i&&p.t==='call'&&x.at?' · '+(EN?'about ':'حوالي ')+esc(fuAt(x.at+30*60000))+' '+FU_EG:''}</span></li>`).join('')}</ol>`;
+  const tail=btn('rescheduled',F.r.rescheduled)+btn('cancelled',F.r.cancelled);
+  if(!st) return list+`<div class="fhint">${EN?'All the steps are done and the customer hasn\'t replied. Try once more if there is time, and tell your team leader.':'الخطوات كلها خلصت والعميل مردش. جرّب مرة كمان لو فيه وقت، وبلّغ التيم ليدر.'}</div><div class="fbtns">${btn('confirmed',F.r.confirmed)+btn('noreply',F.r.noreply)+tail}</div>`;
+  if(st.t==='wa'){ const num=waNum(x.phone||''), url='https://wa.me/'+num+'?text='+encodeURIComponent(fuWaText(x,st.n));
+    return list+`<div class="fbtns">${num?`<a class="qbtn fwa" href="${esc(url)}" target="_blank" rel="noopener">${F.r.waOpen}</a>`:''}</div><div class="fbtns">${btn('noreply',F.r.sent)+btn('confirmed',F.r.replied)+tail}</div>`; }
+  return list+`<div class="fhint">💬 ${esc(hint)}</div><div class="fbtns">${btn('confirmed',F.r.confirmed)+btn('noreply',F.r.noreply)+tail}</div>`; }
 function followHtml(){ const head=`<div class="sh"><div class="eyebrow">${F.eyebrow}</div><h2>${F.title}</h2><p>${F.intro}</p></div>`;
   if(!SES) return `<section id="follow" class="qz fu">${head}<div class="panel" style="display:grid;gap:10px"><div class="muted">${F.signFirst}</div><button class="qbtn" data-a="fusign">${F.signGo}</button></div></section>`;
   if(!CALLS) return `<section id="follow" class="qz fu">${head}<div class="panel"><div class="muted">${CALLS_ERR?F.offline:'…'}</div></div></section>`;
@@ -3048,7 +3088,7 @@ async function fuSave(k){ const x=CALLS.items.find(y=>fuKey(y)===k); if(!x) retu
     const L=(k,v)=>v&&String(v).trim()?'\n'+k+': '+String(v).trim():'', w=(d,t)=>(d?new Date(d+'T12:00:00').toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',year:'numeric'}):'')+(t?' '+t12(t).replace(' ص',' AM').replace(' م',' PM'):'');
     const old=w(x.date,x.time), s=res==='cancelled'?'Booking cancelled: '+x.cust+' | '+old+(x.branch?' | '+enOf(x.branch):''):'Booking moved: '+x.cust+' | new: '+w(nd,nt)+(x.branch?' | '+enOf(x.branch):'');
     const b='Hi Mostafa, Eslam,\n\n'+(res==='cancelled'?'The customer cancelled their booking.':'The customer changed the day of their booking.')+'\n'+L('Customer',x.cust)+L('Number',x.phone)+(res==='cancelled'?'\nAppointment was: '+old:'\nOld appointment: '+old+'\nNew appointment: '+w(nd,nt))+L('Branch',enOf(x.branch))+L('Offer / service',enOf(x.svc))+L('Doctor',enOf(x.doc))+L('Odoo',x.odoo)
-      +(note?'\n\n'+quoteAr(res==='cancelled'?'Reason':'Notes',note):'')+'\n\n(From a follow-up call: '+['','Confirm the appointment','Reminder on the day','After the visit'][x.call]+')\n\nThanks,\n'+SES.name;
+      +(note?'\n\n'+quoteAr(res==='cancelled'?'Reason':'Notes',note):'')+'\n\n(From a follow-up: '+['','Day-before reminder','Visit-day reminder','After the visit'][x.call]+')\n\nThanks,\n'+SES.name;
     openMail([LEADS.mostafa,LEADS.eslam],[LEADS.hussein],s,b); }
   await loadCalls(); }
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b||!b.dataset.a.startsWith('fu')) return; const a=b.dataset.a; if(b.tagName==='SELECT') return; e.preventDefault();
