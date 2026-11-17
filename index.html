@@ -608,7 +608,7 @@ const RULES=[
  ['no','عجلة الحظ اتوقفت','الكلاينت وقّف عجلة الحظ (Spin & Win) من 17 نوفمبر. متعرضهاش ومتبعتش لينكها، ولو العميل سأل عنها قول: "العجلة مش متاحة دلوقتي، بس خليني أقولك على العروض الحالية."'],
  ['yes','الهدية مع العرض بتتعرف في المركز','لو العرض مكتوب معاه هدية: الهدايا اللي في المركز مش متأكدة، فمتسمّيش هدية معينة. قول: "الهدية هتعرفها لما تشرّفينا في المركز".'],
  ['no','متضمنش نتيجة ولا عدد كيلوهات','"النتيجة بتختلف من شخص للتاني والدكتور هيوضحلك المتوقع."'],
- ['yes','تذكير الحجوزات: واتساب الأول وبعدين مكالمة','يوم الحجز: ابعت تأكيد واتساب فيه اليوم والساعة والخدمة واللوكيشن. قبل الميعاد بيوم: رسالة تذكير من 10:30 لـ 11 الصبح (الإمارات)، ولو مردش كلّمه بعد نص ساعة، ولو لسه مردش ابعت رسالة تانية الساعة 5 مساءً (السعودية) وبعدين كلّمه. يوم الميعاد: رسالة تأكيد حضور من 10:30 لـ 11 الصبح، ولو مردش كلّمه بعد نص ساعة. الخطوات والرسايل جاهزة في تبويب 📞 مكالمات المتابعة.'],
+ ['yes','تذكير الحجوزات: واتساب الأول وبعدين مكالمة','يوم الحجز: ابعت تأكيد واتساب فيه اليوم والساعة والخدمة واللوكيشن. قبل الميعاد بيوم: رسالة تذكير من 10:30 لـ 11 الصبح (الإمارات)، ولو مردش كلّمه بعد نص ساعة، ولو لسه مردش ابعت رسالة تانية الساعة 5 مساءً (الإمارات) وبعدين كلّمه. يوم الميعاد: رسالة تأكيد حضور من 10:30 لـ 11 الصبح، ولو مردش كلّمه بعد نص ساعة. الخطوات والرسايل جاهزة في تبويب 📞 مكالمات المتابعة.'],
  ['no','متديش نصيحة طبية','أي سؤال عن أمراض أو أدوية أو رضاعة أو أعراض جانبية بيتحوّل للدكتور.'],
  ['warn','العميلة الحامل: Hold','الليزر والفيلر والبوتوكس وسكلبترا والميزو بنأجلهم في فترة الحمل، ونكلمها بعد الولادة. منحجزش استشارة إلا لو صممت تعمل الخدمة.'],
  ['yes','التقسيط متاح مع تابي وتمارا','مؤكد من الكلاينت. فيه رسوم إدارية لسه نسبتها بتتأكد، فقول: "تفاصيل رسوم التقسيط هأكدها لحضرتك قبل الحجز"، ومتقولش نسبة.'],
@@ -2949,7 +2949,7 @@ document.addEventListener('change',e=>{ if(e.target.id==='dashM'){ DASH_M=e.targ
 
 // ---------- booking follow-up calls: confirm the day before, remind on the day, ask after the visit ----------
 const F=EN?{tab:'📞 Follow-up calls',eyebrow:'The client\'s reminder process (17 Nov)',title:'Follow-up calls',
-  intro:'Every booking sent from the 📅 Booking email tab shows up here. The day before and on the visit day, start with a WhatsApp reminder at 10:30-11:00 AM UAE time, and call only if the customer doesn\'t reply. The day before, if there is still no reply, send a second WhatsApp at 5:00 PM Saudi time, then call. After each step, press what happened so the next step shows.',
+  intro:'Every booking sent from the 📅 Booking email tab shows up here. The day before and on the visit day, start with a WhatsApp reminder at 10:30-11:00 AM UAE time, and call only if the customer doesn\'t reply. The day before, if there is still no reply, send a second WhatsApp at 5:00 PM UAE time, then call. After each step, press what happened so the next step shows.',
   signFirst:'Sign in with your work email first (once on this device), so we know which calls are yours.',signGo:'Sign in',
   todayT:'To call today',soonT:'Coming up',noneToday:'No calls for today 👌',noneSoon:'Nothing coming up.',mineT:'My calls',allT:'Whole team',
   c:['','Day-before reminder','Visit-day reminder','After the visit'],cs:['','WhatsApp first, then a call','WhatsApp first, then a call','did they go? how was it?'],
@@ -2963,7 +2963,7 @@ const F=EN?{tab:'📞 Follow-up calls',eyebrow:'The client\'s reminder process (
   save:'Save',cancel:'Back',saved:'Saved ✓',agent:'With',off:'off today',offDay:'off that day',give:'Give to…',given:'Given ✓',offline:'The list will show once the scorecard script is updated.',
   bar:n=>'📞 You have '+n+' follow-up call'+(n>1?'s':'')+' today',barGo:'Open',errs:{not_yours:'This call isn\'t yours.',bad_date:'Choose a day from today on.',forbidden:'Team leads only.'}}
  :{tab:'📞 مكالمات المتابعة',eyebrow:'بروسيس التذكير من الكلاينت (17 نوفمبر)',title:'مكالمات المتابعة',
-  intro:'أي حجز بيتبعت من تبويب 📅 إيميل حجز بيظهر هنا. قبل الميعاد بيوم ويوم الميعاد: ابدأ برسالة تذكير على الواتساب من 10:30 لـ 11 الصبح بتوقيت الإمارات، ومتتصلش غير لو العميل مردش. وقبلها بيوم، لو لسه مردش، ابعت رسالة تانية الساعة 5 مساءً بتوقيت السعودية وبعدين كلّمه. بعد كل خطوة دوس على اللي حصل علشان الخطوة اللي بعدها تظهر.',
+  intro:'أي حجز بيتبعت من تبويب 📅 إيميل حجز بيظهر هنا. قبل الميعاد بيوم ويوم الميعاد: ابدأ برسالة تذكير على الواتساب من 10:30 لـ 11 الصبح بتوقيت الإمارات، ومتتصلش غير لو العميل مردش. وقبلها بيوم، لو لسه مردش، ابعت رسالة تانية الساعة 5 مساءً بتوقيت الإمارات وبعدين كلّمه. بعد كل خطوة دوس على اللي حصل علشان الخطوة اللي بعدها تظهر.',
   signFirst:'ادخل بإيميل الشغل الأول (مرة واحدة على الجهاز ده)، علشان نعرف أنهي مكالمات بتاعتك.',signGo:'دخول',
   todayT:'مكالمات النهارده',soonT:'الجاية',noneToday:'مفيش مكالمات النهارده 👌',noneSoon:'مفيش حاجة جاية.',mineT:'مكالماتي',allT:'كل التيم',
   c:['','تذكير قبلها بيوم','تذكير يوم الميعاد','بعد الزيارة'],cs:['','واتساب الأول وبعدين مكالمة','واتساب الأول وبعدين مكالمة','راح؟ ورأيه إيه؟'],
@@ -3020,17 +3020,17 @@ function fuItem(x){ const k=fuKey(x), open=FU.open===k, res3=x.call===3?['went',
      <div class="row"><button class="qbtn" data-a="fusave" data-k="${k}" ${FU.busy?'disabled':''}>${F.save}</button><button class="qghost" data-a="fuback">${F.cancel}</button></div></div>`:''}
    ${lead?`<div class="row"><select class="qin" style="max-width:240px;padding:7px 10px;font-size:14px" data-a="fugive" data-id="${x.id}"><option value="">${F.give}</option>${(CALLS.agents||[]).filter(a=>a!==x.to).map(a=>`<option>${esc(a)}</option>`).join('')}</select></div>`:''}
   </div>`; }
-// The client's reminder process (17 Nov 2026). Times are as the client wrote them (UAE, and 5 PM Saudi time), shown in Egypt time too.
-const FU_EG=EN?'Egypt':'مصر', FU_AE=EN?'UAE':'الإمارات', FU_SA=EN?'Saudi':'السعودية';
+// The client's reminder process (17 Nov 2026). Times are as the client wrote them (UAE; Mohamed confirmed the 5 PM is UAE time too), shown in Egypt time too.
+const FU_EG=EN?'Egypt':'مصر', FU_AE=EN?'UAE':'الإمارات';
 function fuClock(ymd,h,m,tz){ try{ const [y,mo,d]=String(ymd||today()).split('-').map(Number); return new Date(Date.UTC(y,mo-1,d,h,m)).toLocaleTimeString(EN?'en-US':'ar-EG-u-nu-latn',{timeZone:tz,hour:'numeric',minute:'2-digit'}); }catch(e){ return ''; } }
 function fuAt(ms){ try{ return new Date(ms).toLocaleTimeString(EN?'en-US':'ar-EG-u-nu-latn',{timeZone:'Africa/Cairo',hour:'numeric',minute:'2-digit'}); }catch(e){ return ''; } }
-function fuPlan(x){ const d=x.due, m1=fuClock(d,6,30,'Africa/Cairo'), m2=fuClock(d,7,0,'Africa/Cairo'), ev=fuClock(d,14,0,'Africa/Cairo'), evA=fuClock(d,14,0,'Asia/Dubai');
+function fuPlan(x){ const d=x.due, m1=fuClock(d,6,30,'Africa/Cairo'), m2=fuClock(d,7,0,'Africa/Cairo'), ev=fuClock(d,13,0,'Africa/Cairo');
   const morning=EN?'10:30-11:00 AM '+FU_AE+' ('+m1+' - '+m2+' '+FU_EG+')':'من 10:30 لـ 11 الصبح '+FU_AE+' ('+m1+' - '+m2+' '+FU_EG+')';
   const after=EN?'30 minutes after the message':'بعد الرسالة بنص ساعة';
   if(x.call===1) return [
     {t:'wa',n:1,s:EN?'Send the WhatsApp reminder':'ابعت رسالة التذكير على الواتساب',w:morning},
     {t:'call',s:EN?'No reply? Call':'مردش؟ كلّمه',w:after},
-    {t:'wa',n:2,s:EN?'Still no reply? Send a second WhatsApp':'لسه مردش؟ ابعت رسالة تانية',w:EN?'5:00 PM '+FU_SA+' ('+ev+' '+FU_EG+' · '+evA+' '+FU_AE+')':'5 مساءً '+FU_SA+' ('+ev+' '+FU_EG+' · '+evA+' '+FU_AE+')'},
+    {t:'wa',n:2,s:EN?'Still no reply? Send a second WhatsApp':'لسه مردش؟ ابعت رسالة تانية',w:EN?'5:00 PM '+FU_AE+' ('+ev+' '+FU_EG+')':'5 مساءً '+FU_AE+' ('+ev+' '+FU_EG+')'},
     {t:'call',s:EN?'No reply? Call again':'مردش؟ كلّمه تاني',w:EN?'right after the second message':'بعد الرسالة التانية'}];
   if(x.call===2) return [
     {t:'wa',n:1,s:EN?'Send the WhatsApp reminder to confirm they are coming':'ابعت رسالة تأكيد الحضور على الواتساب',w:morning+(EN?', before the appointment':'، قبل الميعاد')},
