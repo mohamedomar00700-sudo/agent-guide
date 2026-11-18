@@ -465,7 +465,7 @@ ol.tline2 b{font-size:14px}
 const UPDATED='8 Nov 2026';
 const CLINIC_AR='H&P Medical Center';
 const SRC='Sheet "Services and Offers by Category" · Discounts & Big Gift Week offers';
-const CATS={botox:'Botox',filler:'Filler',skin:'Glow & collagen',body:'Body contouring & fat dissolving',weight:'Weight loss',laser:'Laser hair removal',hair:'Hair'};
+const CATS={union:'National Day offers',botox:'Botox',filler:'Filler',skin:'Glow & collagen',body:'Body contouring & fat dissolving',weight:'Weight loss',laser:'Laser hair removal',hair:'Hair'};
 
 /* status: ok = confirmed in offer sheet · warn = conflicting / partial · no = price not available */
 const OFFERS=[
@@ -579,7 +579,7 @@ const sheetGet=async u=>{ if(!u) return null;
   try{ const r=await fetch(u+(u.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error(r.status); return parseCSV(await r.text()); }
   catch(e){ if(/gviz\/tq/.test(u)) return sheetJsonp(u); throw e; } };
 function stOf(v){ v=String(v||'').trim(); if(!v) return ''; if(/مش متاح|غير متاح|not avail|^no$/i.test(v)) return 'no'; if(/تأكيد|تاكيد|verify|confirm(ation)? needed|needs/i.test(v)) return 'warn'; if(/مؤكد|confirmed|^ok$/i.test(v)) return 'ok'; return ''; }
-function catOf(v){ v=String(v||'').trim(); if(!v) return ''; const k=Object.keys(CATS).find(k=>k===v.toLowerCase()||CATS[k]===v); if(k) return k;
+function catOf(v){ v=String(v||'').trim(); if(!v) return ''; const k=Object.keys(CATS).find(k=>k===v.toLowerCase()||CATS[k]===v); if(k) return k; if(/اتحاد|عيد|national|union/i.test(v)) return 'union';
   if(/بوتوكس|botox/i.test(v)) return 'botox'; if(/فيلر|filler/i.test(v)) return 'filler'; if(/نضار|كولاجين|skin|glow/i.test(v)) return 'skin'; if(/ليزر|laser/i.test(v)) return 'laser'; if(/شعر|hair/i.test(v)) return 'hair'; if(/وزن|تخسيس|weight/i.test(v)) return 'weight'; if(/نحت|دهون|body|fat/i.test(v)) return 'body'; return 'body'; }
 /* Offers tab columns: A id | B name AR | C name EN | D category | E price | F price details AR | G price details EN | H status |
    I say AR | J say EN | K what AR | L what EN | M agent note AR | N agent note EN | O calculator AR "label=price; ..." | P calculator labels EN "label; ..." | Q hidden
@@ -598,7 +598,8 @@ function applyOfferRows(rows){ const en=LANG==='en'; const pick=(a,b)=>(en&&b)?b
       if(parts.length&&!same){ const vs=parts.map((x,i)=>{ const L=(en&&labs[i])?labs[i]:x.l; const base=old[i]||{id:id+'_s'+i,o:id};
           return {...base,p:x.p,t:(old[i]&&lab(old[i])===(en&&labs[i]?labs[i]:x.l))?old[i].t:((o.ar||'').includes(L)?o.ar:(o.ar||id)+': '+L)}; });
         const at=VARIANTS.indexOf(old[0]); for(let i=VARIANTS.length-1;i>=0;i--) if(VARIANTS[i].o===id) VARIANTS.splice(i,1); VARIANTS.splice(at>=0?at:VARIANTS.length,0,...vs); } }
-  }); }
+  });
+  { const u=OFFERS.filter(o=>o.cat==='union'); if(u.length){ const rest=OFFERS.filter(o=>o.cat!=='union'); OFFERS.length=0; OFFERS.push(...u,...rest); } } } // seasonal offers first
 /* Regular prices tab: A service AR | B service EN | C price | D details AR | E details EN | F hidden */
 function applyRegularRows(rows){ const en=LANG==='en'; const list=rows.slice(1).filter(r=>(r[0]||r[1])&&!/^(نعم|yes|✓|مخفي|hide)$/i.test((r[5]||'').trim()))
     .map((r,i)=>({id:'r'+i,ar:(en&&r[1])?r[1]:r[0],price:r[2]||'—',pn:(en&&r[4])?r[4]:(r[3]||''),src:'Google Sheet'}));
@@ -1263,7 +1264,7 @@ const WA_DESC={
  threads:['خيوط بتتحط تحت الجلد لشد الوش وتحفيز الكولاجين.','Threads placed under the skin to lift the face and stimulate collagen.'],
  gcell:['تقنية بتحفّز وتقوّي بصيلات الشعر عشان تقلل التساقط وتحسّن الكثافة، من غير جراحة، والجلسة بتخلص في يوم واحد.','A technique that stimulates and strengthens hair follicles to reduce hair loss and improve density, without surgery, done in one day.']
 };
-const WA_NOGIFT=new Set(['gcell','hydra','oxy']); // no gift with these (G Cell gift unconfirmed; HydraFacial/OxyGeneo are gift options themselves)
+const WA_NOGIFT=new Set(['gcell','hydra','oxy','ud_beauty','ud_euro','ud_neck','ud_hands','ud_polynova','ud_massage']); // National Day offers (18 Nov): no extra gift (the European protocol's 10 threads are in its own line) // no gift with these (G Cell gift unconfirmed; HydraFacial/OxyGeneo are gift options themselves)
 function waDesc(o,ar){ const s=ar?o.waAr:o.waEn; if(s) return s; const d=WA_DESC[o.id]; return d?d[ar?0:1]:''; }
 function waOffLines(ar){ const out=[]; WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean).forEach(o=>{ out.push('• '+waLine(o,ar)); const d=WA.desc!==false?waDesc(o,ar):''; if(d) out.push('   ✨ '+d); }); return out; }
 function waGift(ar){ const os=WA.offers.map(id=>OFFERS.find(o=>o.id===id)).filter(Boolean), g=os.filter(o=>!WA_NOGIFT.has(o.id)); if(!g.length) return '';
