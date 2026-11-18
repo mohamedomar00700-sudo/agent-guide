@@ -264,6 +264,7 @@ body.kp .brand b::before{content:"🧭";font-size:19px;filter:drop-shadow(0 2px 
 
 /* category colours */
 [data-cat]{--cc:var(--rose);--cc-soft:var(--rose-soft)}
+[data-cat="union"]{--cc:#0B7A3E;--cc-soft:#DFF3E7}
 [data-cat="botox"]{--cc:#7446B8;--cc-soft:#EFE7FA}
 [data-cat="filler"]{--cc:#C0386F;--cc-soft:#FBE6EF}
 [data-cat="skin"]{--cc:#1F8A73;--cc-soft:#DDF3EC}
