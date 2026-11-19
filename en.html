@@ -462,7 +462,7 @@ ol.tline2 b{font-size:14px}
 
 <script>
 /* ================= DATA ================= */
-const UPDATED='8 Nov 2026';
+const UPDATED='19 Nov 2026';
 const CLINIC_AR='H&P Medical Center';
 const SRC='Sheet "Services and Offers by Category" · Discounts & Big Gift Week offers';
 const CATS={union:'National Day offers',botox:'Botox',filler:'Filler',skin:'Glow & collagen',body:'Body contouring & fat dissolving',weight:'Weight loss',laser:'Laser hair removal',hair:'Hair'};
@@ -2189,6 +2189,766 @@ $('q').addEventListener('input',()=>{ clearTimeout(BUD.qT); BUD.qT=setTimeout(()
 { const w=$('buddy'); if(w){ $('bbody').innerHTML=noorSvg('happy'); $('bbody').setAttribute('aria-label',BUD_T.ask); $('bbody').title=BUD_T.ask; buddySync();
   let seen=null; try{ seen=sessionStorage.getItem('noor_hi'); sessionStorage.setItem('noor_hi','1'); }catch(e){}
   if(!seen) setTimeout(buddyGreet,1100); buddyIdle(); } }
+
+/* ================= BOSLA 2.0: EID AL ETIHAD 55, ENDOLIFT 31 Q&A, GENIUS NOOR, COCKPIT & QA AUDIT LOG ================= */
+(function(){
+  const EN = LANG === 'en';
+  const EID_OFFERS = [{"id":"eid_nabota_w","camp":"eid55","need":"wrinkles","tier":"start","cat":"botox","ar":"Full-Face Botox, Women (Nabota) — Eid Al Etihad","en":"Full-Face Botox, Women (Nabota) — Eid Al Etihad","price":"450","oldPrice":"700","pn":"Full face · Women (Regular: 700)","st":"ok","slide":"عيد الاتحاد 55 (قسم 1)","what":"Full-Face Botox, Women (Nabota) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"botox","who":"العميلة بتقول: \"عندي خطوط في الجبهة / حوالين العين\"، \"وشي باين عليه تعب\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on Full-Face Botox, Women (Nabota) — Eid Al Etihad: 450 AED instead of 700 AED, and the first consultation with the doctor is free.","qa":[["إعلان إنستجرام كان كاتب 455؟","السعر في القايمة الرسمية لعيد الاتحاد 450 درهم للوجه كامل للسيدات."],["كم يطول مفعوله؟","عادةً من 4 لـ 6 شهور، وبتختلف من شخص للتاني."]],"caution":"إعلان إنستجرام كان كاتب 455، والقايمة الرسمية 450."},{"id":"eid_dysport_w","camp":"eid55","need":"wrinkles","tier":"upgrade","cat":"botox","ar":"Full-Face Botox, Women (Dysport) — Eid Al Etihad","en":"Full-Face Botox, Women (Dysport) — Eid Al Etihad","price":"955","oldPrice":"1,200","pn":"Full face · Women (Regular: 1,200)","st":"ok","slide":"عيد الاتحاد 55 (قسم 1)","what":"Full-Face Botox, Women (Dysport) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"botox","who":"ترقية لعميلة التجاعيد وخطوط التعبير اللي بتفضل البراند البريطاني ديسبورت.","say":"For Eid Al Etihad 55, we have a special offer on Full-Face Botox, Women (Dysport) — Eid Al Etihad: 955 AED instead of 1,200 AED, and the first consultation with the doctor is free.","qa":[["وش الفرق بين نابوتا وديسبورت؟","الاتنين ممتازين ومعتمدين عالمياً. نابوتا كوري واقتصادي، وديسبورت بريطاني بينتشر على مساحة أوسع. الدكتورة تحدد الأنسب ليكي في الاستشارة المجانية."]],"caution":""},{"id":"eid_nabota_m","camp":"eid55","need":"wrinkles","tier":"upgrade","cat":"botox","ar":"Full-Face Botox, Men (Nabota) — Eid Al Etihad","en":"Full-Face Botox, Men (Nabota) — Eid Al Etihad","price":"555","oldPrice":"","pn":"Full face · Men","st":"ok","slide":"عيد الاتحاد 55 (قسم 1)","what":"Full-Face Botox, Men (Nabota) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"botox","who":"عميل راجل بيسأل عن بوتوكس للوجه كامل أو خطوط الجبهة والتعبير.","say":"For Eid Al Etihad 55, we have a special offer on Full-Face Botox, Men (Nabota) — Eid Al Etihad: 555 AED, and the first consultation with the doctor is free.","qa":[],"caution":"أول مرة يظهر سعر بوتوكس للرجالة لوحده."},{"id":"eid_dysport_m","camp":"eid55","need":"wrinkles","tier":"upgrade","cat":"botox","ar":"Full-Face Botox, Men (Dysport) — Eid Al Etihad","en":"Full-Face Botox, Men (Dysport) — Eid Al Etihad","price":"1,100","oldPrice":"","pn":"Full face · Men","st":"ok","slide":"عيد الاتحاد 55 (قسم 1)","what":"Full-Face Botox, Men (Dysport) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"botox","who":"عميل راجل بيفضل بوتوكس ديسبورت البريطاني للوجه كامل.","say":"For Eid Al Etihad 55, we have a special offer on Full-Face Botox, Men (Dysport) — Eid Al Etihad: 1,100 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_sculptra","camp":"eid55","need":"sagging","tier":"start","cat":"skin","ar":"Sculptra Injection (10 ml) — Eid Al Etihad","en":"Sculptra Injection (10 ml) — Eid Al Etihad","price":"1,255","oldPrice":"1,800","pn":"10 مل · Instead of 1,800 (Regular: 1,499)","st":"ok","slide":"عيد الاتحاد 55 (قسم 2)","what":"Sculptra Injection (10 ml) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"sculptra","who":"العميل بيقول: \"وشي بقى مرخي\"، \"عايزة شد من غير جراحة\"، \"ملامحي نزلت\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on Sculptra Injection (10 ml) — Eid Al Etihad: 1,255 AED instead of 1,800 AED, and the first consultation with the doctor is free.","qa":[["متى تبان النتيجة؟","بالتدريج من أول شهر لتالت شهر لأنها بتحفز الكولاجين الطبيعي."]],"caution":""},{"id":"eid_liftage","camp":"eid55","need":"sagging","tier":"upgrade","cat":"skin","ar":"Liftage Injection — Eid Al Etihad","en":"Liftage Injection — Eid Al Etihad","price":"1,355","oldPrice":"2,100","pn":"Instead of 2,100","st":"ok","slide":"عيد الاتحاد 55 (قسم 2)","what":"Liftage Injection — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"ترقية للعميل اللي بيسأل عن ترهل وشد البشرة وفقدان الكولاجين.","say":"For Eid Al Etihad 55, we have a special offer on Liftage Injection — Eid Al Etihad: 1,355 AED instead of 2,100 AED, and the first consultation with the doctor is free.","qa":[],"caution":"أول سعر معلن لـ Liftage لوحده."},{"id":"eid_calcium","camp":"eid55","need":"sagging","tier":"upgrade","cat":"filler","ar":"Calcium Filler — Eid Al Etihad","en":"Calcium Filler — Eid Al Etihad","price":"1,155","oldPrice":"2,400","pn":"Instead of 2,400 (Regular: 1,699)","st":"warn","slide":"عيد الاتحاد 55 (قسم 2)","what":"Calcium Filler — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيسأل عن شد الترهل أو تحديد الملامح وتحفيز الكولاجين.","say":"For Eid Al Etihad 55, we have a special offer on Calcium Filler — Eid Al Etihad: 1,155 AED instead of 2,400 AED, and the first consultation with the doctor is free.","qa":[],"caution":"الرقم مطبوع مش واضح في الصورة (1?55)، غالباً 1,155 درهم — يتأكد من الكلاينت قبل التأكيد النهائي."},{"id":"eid_euro_lift","camp":"eid55","need":"sagging","tier":"upgrade","cat":"skin","ar":"European Lifting Protocol — Eid Al Etihad","en":"European Lifting Protocol — Eid Al Etihad","price":"3,999","oldPrice":"","pn":"بوتوكس + سكالبترا + Liftage + 10 خيوط مونو هدية","st":"warn","slide":"عيد الاتحاد 55 (قسم 2 · منشور 17 نوفمبر)","what":"European Lifting Protocol — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"ترقية ممتازة (VIP) للعميلة اللي عايزة شد كامل ومتكامل للوجه بدون جراحة.","say":"For Eid Al Etihad 55, we have a special offer on European Lifting Protocol — Eid Al Etihad: 3,999 AED, and the first consultation with the doctor is free.","qa":[],"caution":"منشور على صفحات السوشيال ميديا (17 نوفمبر) ومش في القايمة الرسمية المطبوعة."},{"id":"eid_oxygeneo","camp":"eid55","need":"glow","tier":"start","cat":"skin","ar":"OxyGeneo Session — Eid Al Etihad","en":"OxyGeneo Session — Eid Al Etihad","price":"155","oldPrice":"250","pn":"1 session (Regular: 250)","st":"ok","slide":"عيد الاتحاد 55 (قسم 3)","what":"OxyGeneo Session — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيقول: \"بشرتي باهتة / ناشفة\"، \"عايزة جلو\"، \"عندي مناسبة\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on OxyGeneo Session — Eid Al Etihad: 155 AED instead of 250 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_hydrafacial","camp":"eid55","need":"glow","tier":"upgrade","cat":"skin","ar":"Hydrafacial Session — Eid Al Etihad","en":"Hydrafacial Session — Eid Al Etihad","price":"255","oldPrice":"300","pn":"1 session (Regular: 300)","st":"ok","slide":"عيد الاتحاد 55 (قسم 3)","what":"Hydrafacial Session — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل عايز تنظيف عميق للبشرة ونضارة وترطيب.","say":"For Eid Al Etihad 55, we have a special offer on Hydrafacial Session — Eid Al Etihad: 255 AED instead of 300 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_complete_beauty","camp":"eid55","need":"glow","tier":"upgrade","cat":"skin","ar":"Complete Beauty Package — Eid Al Etihad","en":"Complete Beauty Package — Eid Al Etihad","price":"1,000","oldPrice":"","pn":"2 ليزر + 2 هيدرافيشل + 2 أوكسجينيو + 2 مساج لمفاوي","st":"ok","slide":"عيد الاتحاد 55 (قسم 3)","what":"Complete Beauty Package — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"ترقية للعميلة اللي بتجهز لمناسبة أو عايزة عناية شاملة بالبشرة والجسم.","say":"For Eid Al Etihad 55, we have a special offer on Complete Beauty Package — Eid Al Etihad: 1,000 AED, and the first consultation with the doctor is free.","qa":[],"caution":"إعلان إنستجرام (18 نوفمبر) مكتوب فيه جلسة ليزر واحدة، والقايمة الرسمية فيها 2. اعتمد القايمة الرسمية (جلستين) لحد ما يتأكد."},{"id":"eid_beauty_pkg","camp":"eid55","need":"glow","tier":"upgrade","cat":"skin","ar":"Eid Al Etihad Beauty Package","en":"Eid Al Etihad Beauty Package","price":"1,555","oldPrice":"2,500","pn":"سكالبترا + ليزر فل بودي + هيدرافيشل · Instead of 2,500 (Regular: 2,098)","st":"warn","slide":"عيد الاتحاد 55 (قسم 3 · منشور 16 نوفمبر)","what":"Eid Al Etihad Beauty Package — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"ترقية ممتازة جداً: سكالبترا لوحدها بـ 1,255، فبفرق 300 درهم بس بتاخد معاها ليزر فل بودي وهيدرافيشل!","say":"For Eid Al Etihad 55, we have a special offer on Eid Al Etihad Beauty Package: 1,555 AED instead of 2,500 AED, and the first consultation with the doctor is free.","qa":[],"caution":"منشورة على الصفحات (16 نوفمبر) ومش في القايمة الرسمية."},{"id":"eid_rrs_box","camp":"eid55","need":"glow","tier":"upgrade","cat":"skin","ar":"RRS Full Box (3 Syringes) — Eid Al Etihad","en":"RRS Full Box (3 Syringes) — Eid Al Etihad","price":"1,555","oldPrice":"2,400","pn":"3 syringes (Long Lasting + HyalLift + Under Eye) · Instead of 2,400 (Regular: 1,699)","st":"ok","slide":"عيد الاتحاد 55 (قسم 3)","what":"RRS Full Box (3 Syringes) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميلة اللي عايزة كورس حقن نضارة وشد متكامل للوجه وتحت العين.","say":"For Eid Al Etihad 55, we have a special offer on RRS Full Box (3 Syringes) — Eid Al Etihad: 1,555 AED instead of 2,400 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_restylane_lip","camp":"eid55","need":"volume","tier":"start","cat":"filler","ar":"Lip Filler (Restylane) — Eid Al Etihad","en":"Lip Filler (Restylane) — Eid Al Etihad","price":"855","oldPrice":"1,400","pn":"Instead of 1,400 (Regular: 999)","st":"ok","slide":"عيد الاتحاد 55 (قسم 4)","what":"Lip Filler (Restylane) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"kysse","who":"العميلة بتقول: \"عايزة أكبر شفايفي\" أو \"عايزة فيلر شفايف طبيعي\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on Lip Filler (Restylane) — Eid Al Etihad: 855 AED instead of 1,400 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_restylane_face","camp":"eid55","need":"volume","tier":"upgrade","cat":"filler","ar":"Face Filler 1 ml (Restylane) — Eid Al Etihad","en":"Face Filler 1 ml (Restylane) — Eid Al Etihad","price":"855","oldPrice":"1,400","pn":"1 مل · Instead of 1,400","st":"ok","slide":"عيد الاتحاد 55 (قسم 4)","what":"Face Filler 1 ml (Restylane) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميلة بتقول: \"خدودي فاضية\"، \"عايزة أحدد الفك (جو لاين)\".","say":"For Eid Al Etihad 55, we have a special offer on Face Filler 1 ml (Restylane) — Eid Al Etihad: 855 AED instead of 1,400 AED, and the first consultation with the doctor is free.","qa":[],"caution":"خدمة جديدة في قائمة الأسعار."},{"id":"eid_buttock_filler","camp":"eid55","need":"volume","tier":"upgrade","cat":"filler","ar":"Buttock Filler (100 ml) — Eid Al Etihad","en":"Buttock Filler (100 ml) — Eid Al Etihad","price":"6,555","oldPrice":"9,000","pn":"100 مل · Instead of 9,000","st":"ok","slide":"عيد الاتحاد 55 (قسم 4)","what":"Buttock Filler (100 ml) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميلة بتسأل عن فيلر الجسم أو تكبير المؤخرة.","say":"For Eid Al Etihad 55, we have a special offer on Buttock Filler (100 ml) — Eid Al Etihad: 6,555 AED instead of 9,000 AED, and the first consultation with the doctor is free.","qa":[],"caution":"خدمة جديدة، أول مرة تظهر في العروض."},{"id":"eid_polynova_eye","camp":"eid55","need":"eyes","tier":"start","cat":"skin","ar":"Poly Nova Lift (Under-Eye, 3 Sessions) — Eid Al Etihad","en":"Poly Nova Lift (Under-Eye, 3 Sessions) — Eid Al Etihad","price":"1,500","oldPrice":"","pn":"3 sessions لعلاج الهالات تحت العين","st":"warn","slide":"عيد الاتحاد 55 (قسم 5 · منشور 17-18 نوفمبر)","what":"Poly Nova Lift (Under-Eye, 3 Sessions) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيقول: \"عندي هالات / سواد تحت عيني\"، \"باين عليا سهرانة\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on Poly Nova Lift (Under-Eye, 3 Sessions) — Eid Al Etihad: 1,500 AED, and the first consultation with the doctor is free.","qa":[],"caution":"منشور على الصفحات (17 و18 نوفمبر) ومش في القايمة الرسمية."},{"id":"eid_neck_proto","camp":"eid55","need":"neck_hands","tier":"start","cat":"skin","ar":"Neck Rejuvenation Protocol — Eid Al Etihad","en":"Neck Rejuvenation Protocol — Eid Al Etihad","price":"3,500","oldPrice":"","pn":"3 months: 3 PRP + هايفو + كالسيوم","st":"warn","slide":"عيد الاتحاد 55 (قسم 6 · منشور 17 نوفمبر)","what":"Neck Rejuvenation Protocol — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيقول: \"رقبتي فيها خطوط / ترهل\" (عرض البداية للرقبة).","say":"For Eid Al Etihad 55, we have a special offer on Neck Rejuvenation Protocol — Eid Al Etihad: 3,500 AED, and the first consultation with the doctor is free.","qa":[],"caution":"منشور على الصفحات (17 نوفمبر) ومش في القايمة الرسمية."},{"id":"eid_hand_proto","camp":"eid55","need":"neck_hands","tier":"upgrade","cat":"skin","ar":"Hand Rejuvenation Protocol — Eid Al Etihad","en":"Hand Rejuvenation Protocol — Eid Al Etihad","price":"3,700","oldPrice":"","pn":"3 months: RRS Long Lasting + 3 PRP + كالسيوم","st":"warn","slide":"عيد الاتحاد 55 (قسم 6 · منشور 17 نوفمبر)","what":"Hand Rejuvenation Protocol — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميلة بتقول: \"إيديا باين عليها السن / عروق أو تجاعيد اليدين\".","say":"For Eid Al Etihad 55, we have a special offer on Hand Rejuvenation Protocol — Eid Al Etihad: 3,700 AED, and the first consultation with the doctor is free.","qa":[],"caution":"منشور على الصفحات (17 نوفمبر) ومش في القايمة الرسمية."},{"id":"eid_cellutrix_chin","camp":"eid55","need":"double_chin","tier":"start","cat":"body","ar":"Double-Chin Injection (Cellutrix) — Eid Al Etihad","en":"Double-Chin Injection (Cellutrix) — Eid Al Etihad","price":"555","oldPrice":"700","pn":"1 session (Regular: 700)","st":"ok","slide":"عيد الاتحاد 55 (قسم 7)","what":"Double-Chin Injection (Cellutrix) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيقول: \"عندي غبغب / دبل تشن\"، \"عايز أحدد الدقن\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on Double-Chin Injection (Cellutrix) — Eid Al Etihad: 555 AED instead of 700 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_endolaser_chin","camp":"eid55","need":"double_chin","tier":"upgrade","cat":"body","ar":"Endolaser for Double Chin — Eid Al Etihad","en":"Endolaser for Double Chin — Eid Al Etihad","price":"1,555","oldPrice":"2,500","pn":"تحديد وشد الذقن المزدوج بالإندوليزر","st":"ok","slide":"عيد الاتحاد 55 (قسم 7)","what":"Endolaser for Double Chin — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"endolaser","who":"ترقية للعميل اللي عنده ترهل ودهون في منطقة الذقن المزدوج وعايز نتيجة أقوى.","say":"For Eid Al Etihad 55, we have a special offer on Endolaser for Double Chin — Eid Al Etihad: 1,555 AED instead of 2,500 AED, and the first consultation with the doctor is free.","qa":[],"caution":"السعر العادي المعلن سابقاً كان للوش والرقبة كاملين (2,500) مش للدقن بس."},{"id":"eid_abd_inj","camp":"eid55","need":"local_fat","tier":"start","cat":"body","ar":"Abdominal Fat Injection (Cellutrix + 1-month follow-up)","en":"Abdominal Fat Injection (Cellutrix + 1-month follow-up)","price":"455","oldPrice":"600","pn":"syringesة + follow-up شهر (Regular: 600)","st":"ok","slide":"عيد الاتحاد 55 (قسم 8)","what":"Abdominal Fat Injection (Cellutrix + 1-month follow-up) — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيقول: \"كرش / دهون في البطن أو الجنب\"، \"وزني كويس بس عندي دهون في أماكن\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on Abdominal Fat Injection (Cellutrix + 1-month follow-up): 455 AED instead of 600 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_ultrasculpt","camp":"eid55","need":"local_fat","tier":"upgrade","cat":"body","ar":"Ultra Sculpt (10 Sessions) — Eid Al Etihad","en":"Ultra Sculpt (10 Sessions) — Eid Al Etihad","price":"655","oldPrice":"1,000","pn":"10 sessions (Regular: 1,000)","st":"ok","slide":"عيد الاتحاد 55 (قسم 8)","what":"Ultra Sculpt (10 Sessions) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"ترقية لعميل الدهون الموضعية ونحت الجسم بالأجهزة.","say":"For Eid Al Etihad 55, we have a special offer on Ultra Sculpt (10 Sessions) — Eid Al Etihad: 655 AED instead of 1,000 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_lasersculpt","camp":"eid55","need":"local_fat","tier":"upgrade","cat":"body","ar":"Laser Sculpt (6 Sessions) — Eid Al Etihad","en":"Laser Sculpt (6 Sessions) — Eid Al Etihad","price":"955","oldPrice":"1,500","pn":"6 sessions","st":"ok","slide":"عيد الاتحاد 55 (قسم 8)","what":"Laser Sculpt (6 Sessions) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"ترقية لعميل نحت القوام وإذابة الدهون الموضعية.","say":"For Eid Al Etihad 55, we have a special offer on Laser Sculpt (6 Sessions) — Eid Al Etihad: 955 AED instead of 1,500 AED, and the first consultation with the doctor is free.","qa":[],"caution":"السعر السابق في العروض القديمة كان 1,500 لـ 16 جلسة أجهزة."},{"id":"eid_bodydesign","camp":"eid55","need":"local_fat","tier":"upgrade","cat":"body","ar":"Body Design (10 Sessions) — Eid Al Etihad","en":"Body Design (10 Sessions) — Eid Al Etihad","price":"955","oldPrice":"","pn":"10 sessions نحت وتنسيق القوام","st":"ok","slide":"عيد الاتحاد 55 (قسم 8)","what":"Body Design (10 Sessions) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"ترقية لعميل نحت الجسم والدهون الموضعية.","say":"For Eid Al Etihad 55, we have a special offer on Body Design (10 Sessions) — Eid Al Etihad: 955 AED, and the first consultation with the doctor is free.","qa":[],"caution":"خدمة جديدة، أول مرة تظهر."},{"id":"eid_ozempic","camp":"eid55","need":"weight_loss","tier":"start","cat":"weight","ar":"Ozempic Course (2 Months + Follow-up) — Eid Al Etihad","en":"Ozempic Course (2 Months + Follow-up) — Eid Al Etihad","price":"1,555","oldPrice":"","pn":"2 months + follow-up طبية وغذائية","st":"ok","slide":"عيد الاتحاد 55 (قسم 9)","what":"Ozempic Course (2 Months + Follow-up) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيقول: \"عايز أخس\"، \"جربت دايت ومنفعش\"، \"بسأل على مونجارو / أوزمبك\" (عرض البداية للتخسيس).","say":"For Eid Al Etihad 55, we have a special offer on Ozempic Course (2 Months + Follow-up) — Eid Al Etihad: 1,555 AED, and the first consultation with the doctor is free.","qa":[["أقدر آخده من غير دكتور؟","لا، لازم استشارة مع الدكتور الأول يقيّم حالتك، والاستشارة مجانية."]],"caution":"خدمة جديدة، أول مرة تظهر. زي مونجارو: دوا بروشتة، متجاوبش على جرعات أو أمراض، وحوّل أي سؤال طبي للدكتور."},{"id":"eid_mounjaro","camp":"eid55","need":"weight_loss","tier":"upgrade","cat":"weight","ar":"Mounjaro Course (+ 3 Months Follow-up) — Eid Al Etihad","en":"Mounjaro Course (+ 3 Months Follow-up) — Eid Al Etihad","price":"2,555","oldPrice":"3,200","pn":"مع 3 months follow-up · Instead of 3,200 (Regular: 2,799)","st":"ok","slide":"عيد الاتحاد 55 (قسم 9)","what":"Mounjaro Course (+ 3 Months Follow-up) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيسأل عن كورس مونجارو أو عايز ترقية لكورس 3 شهور.","say":"For Eid Al Etihad 55, we have a special offer on Mounjaro Course (+ 3 Months Follow-up) — Eid Al Etihad: 2,555 AED instead of 3,200 AED, and the first consultation with the doctor is free.","qa":[],"caution":"دوا بروشتة — متوعدش بعدد كيلوهات ومتجاوبش أسئلة طبية."},{"id":"eid_madero","camp":"eid55","need":"cellulite","tier":"start","cat":"body","ar":"Madero Wood Massage (10 Sessions) — Eid Al Etihad","en":"Madero Wood Massage (10 Sessions) — Eid Al Etihad","price":"955","oldPrice":"1,500","pn":"10 sessions (Regular: 1,500)","st":"ok","slide":"عيد الاتحاد 55 (قسم 10)","what":"Madero Wood Massage (10 Sessions) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيقول: \"عندي سيلوليت / تكسير\"، \"جسمي محتبس مياه\"، \"عايزة مساج\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on Madero Wood Massage (10 Sessions) — Eid Al Etihad: 955 AED instead of 1,500 AED, and the first consultation with the doctor is free.","qa":[],"caution":""},{"id":"eid_massage_pkg","camp":"eid55","need":"cellulite","tier":"upgrade","cat":"body","ar":"Massage Package (10 Sessions: Medical / Madero / Lymphatic)","en":"Massage Package (10 Sessions: Medical / Madero / Lymphatic)","price":"1,500","oldPrice":"","pn":"10 sessions: طبي أو ماديرو أو لمفاوي","st":"warn","slide":"عيد الاتحاد 55 (قسم 10)","what":"Massage Package (10 Sessions: Medical / Madero / Lymphatic) — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل عايز باقة مساج شاملة (طبي أو لمفاوي أو ماديرو).","say":"For Eid Al Etihad 55, we have a special offer on Massage Package (10 Sessions: Medical / Madero / Lymphatic): 1,500 AED, and the first consultation with the doctor is free.","qa":[],"caution":"منشورة على الصفحات ومش في القايمة الرسمية (القايمة الرسمية فيها ماديرو 10 جلسات بـ 955)."},{"id":"eid_cellulite","camp":"eid55","need":"cellulite","tier":"upgrade","cat":"body","ar":"Cellulite Course (30 Sessions) — Eid Al Etihad","en":"Cellulite Course (30 Sessions) — Eid Al Etihad","price":"1,555","oldPrice":"","pn":"30 جلسة (10 sessions ثلاثية)","st":"warn","slide":"عيد الاتحاد 55 (قسم 10)","what":"Cellulite Course (30 Sessions) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"ترقية للعميلة اللي عايزة كورس مكثف (30 جلسة) لعلاج السيلوليت.","say":"For Eid Al Etihad 55, we have a special offer on Cellulite Course (30 Sessions) — Eid Al Etihad: 1,555 AED, and the first consultation with the doctor is free.","qa":[],"caution":"انتبه: سعر العرض في بوستر عيد الاتحاد (1,555) أعلى بـ 55 درهم من قايمة 31 أكتوبر (1,500). يتأكد من الكلاينت."},{"id":"eid_laser_3","camp":"eid55","need":"laser","tier":"start","cat":"laser","ar":"Full-Body Laser 3 Sessions (Candela GentleMax Pro Plus) — Eid Al Etihad","en":"Full-Body Laser 3 Sessions (Candela GentleMax Pro Plus) — Eid Al Etihad","price":"555","oldPrice":"897","pn":"3 sessions · Regular: 897 (3 × 299)","st":"ok","slide":"عيد الاتحاد 55 (قسم 11)","what":"Full-Body Laser 3 Sessions (Candela GentleMax Pro Plus) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"laser","who":"العميلة بتقول: \"عايزة أشيل الشعر نهائي\"، \"تعبت من الواكس\" (عرض البداية السريع لليزر).","say":"For Eid Al Etihad 55, we have a special offer on Full-Body Laser 3 Sessions (Candela GentleMax Pro Plus) — Eid Al Etihad: 555 AED instead of 897 AED, and the first consultation with the doctor is free.","qa":[["وكم الـ 6 جلسات؟","لو حابة الباكدج الأكبر (6 جلسات)، متاح بـ 1,000 درهم للسيدات بدون الظهر والبطن، أو 1,500 شامل الظهر والبطن."]],"caution":"الرقم مطبوع \"A555\" في الصورة والمقصود 555 درهم (بدل 897)."},{"id":"eid_laser_men_3","camp":"eid55","need":"laser","tier":"upgrade","cat":"laser","ar":"Men Laser 3 Sessions (Abdomen, Back & Arms) — Eid Al Etihad","en":"Men Laser 3 Sessions (Abdomen, Back & Arms) — Eid Al Etihad","price":"655","oldPrice":"","pn":"3 sessions · Men (بطن + ضهر + ذراعات)","st":"ok","slide":"عيد الاتحاد 55 (قسم 11)","what":"Men Laser 3 Sessions (Abdomen, Back & Arms) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","guide":"laser","who":"عميل راجل بيسأل عن ليزر إزالة الشعر لمنطقة البطن والظهر والذراعين.","say":"For Eid Al Etihad 55, we have a special offer on Men Laser 3 Sessions (Abdomen, Back & Arms) — Eid Al Etihad: 655 AED, and the first consultation with the doctor is free.","qa":[["ينفع للجسم كامل للرجال؟","أيوه، متاح كمان باكدج الجسم كامل للرجال 6 جلسات (بـ 1,250 بدون الظهر والبطن، أو 1,800 شامل الظهر والبطن)."]],"caution":""},{"id":"eid_gcell","camp":"eid55","need":"hair_loss","tier":"start","cat":"skin","ar":"G-Cell Hair Regeneration (Non-Surgical) — Eid Al Etihad","en":"G-Cell Hair Regeneration (Non-Surgical) — Eid Al Etihad","price":"2,955","oldPrice":"5,000","pn":"Non-surgical · Instead of 5,000","st":"ok","slide":"عيد الاتحاد 55 (قسم 12)","what":"G-Cell Hair Regeneration (Non-Surgical) — Eid Al Etihad — Eid Al Etihad 55 special offer at H&P Medical Center.","who":"العميل بيقول: \"شعري بيقع\"، \"عندي فراغات / صلع\"، \"بفكر في زراعة\" (عرض البداية).","say":"For Eid Al Etihad 55, we have a special offer on G-Cell Hair Regeneration (Non-Surgical) — Eid Al Etihad: 2,955 AED instead of 5,000 AED, and the first consultation with the doctor is free.","qa":[["تغنيني عن زراعة الشعر؟","تقنية G-Cell بتعالج التساقط والفراغات بدون جراحة، والدكتور في الاستشارة المجانية هيقيّم البصيلات ويقولك النتيجة المتوقعة لحالتك."]],"caution":"أول سعر معلن لـ G-Cell. متقولش \"بديل مضمون للزراعة لكل الحالات\"، قول \"علاج متطور بدون جراحة والدكتور يقيّم حالتك\"."}];
+  const NEEDS = [{"id":"wrinkles","icon":"✨","ar":"1. تجاعيد وخطوط التعبير","en":"1. Wrinkles & Expression Lines","custAr":"\"عندي خطوط في الجبهة / حوالين العين\"، \"وشي باين عليه تعب\"","custEn":"\"I have forehead / eye lines\", \"My face looks tired\"","startId":"eid_nabota_w","upIds":["eid_dysport_w","eid_nabota_m","eid_dysport_m","nabota","dysport","meso"]},{"id":"sagging","icon":"💎","ar":"2. ترهل وشد وفقدان الكولاجين","en":"2. Sagging, Lifting & Collagen Loss","custAr":"\"وشي بقى مرخي\"، \"عايزة شد من غير جراحة\"، \"ملامحي نزلت\"","custEn":"\"My face is sagging\", \"I want non-surgical lifting\"","startId":"eid_sculptra","upIds":["eid_liftage","eid_calcium","eid_euro_lift","endolaser","sculptra"]},{"id":"glow","icon":"🌸","ar":"3. نضارة وترطيب وتنظيف البشرة","en":"3. Skin Glow, Hydration & Cleansing","custAr":"\"بشرتي باهتة / ناشفة\"، \"عايزة جلو\"، \"عندي مناسبة\"","custEn":"\"My skin is dull / dry\", \"I want a glow\", \"I have an event\"","startId":"eid_oxygeneo","upIds":["eid_hydrafacial","eid_complete_beauty","eid_beauty_pkg","eid_rrs_box","dermapen","rrs"]},{"id":"volume","icon":"💋","ar":"4. حجم وتحديد الملامح","en":"4. Volume & Facial/Body Contouring","custAr":"\"عايزة أكبّر شفايفي\"، \"خدودي فاضية\"، \"عايزة أحدد الفك\"، \"تكبير المؤخرة\"","custEn":"\"I want fuller lips\", \"Empty cheeks\", \"Define jawline\", \"Buttock filler\"","startId":"eid_restylane_lip","upIds":["eid_restylane_face","eid_buttock_filler","lipfill","facefill"]},{"id":"eyes","icon":"👁️","ar":"5. الهالات تحت العين","en":"5. Under-Eye Dark Circles","custAr":"\"عندي هالات / سواد تحت عيني\"، \"باين عليا سهرانة\"","custEn":"\"I have dark circles under my eyes\", \"I look exhausted\"","startId":"eid_polynova_eye","upIds":["rrseye","eid_rrs_box"]},{"id":"neck_hands","icon":"🤲","ar":"6. الرقبة واليدين","en":"6. Neck & Hands Rejuvenation","custAr":"\"رقبتي فيها خطوط / ترهل\"، \"إيديا باين عليها السن\"","custEn":"\"My neck has lines / sagging\", \"My hands show aging\"","startId":"eid_neck_proto","upIds":["eid_hand_proto","endolaser"]},{"id":"double_chin","icon":"📐","ar":"7. الدقن المزدوج (الغبغب)","en":"7. Double Chin (Submental Fat)","custAr":"\"عندي غبغب / دبل تشن\"، \"عايز أحدد الدقن\"","custEn":"\"I have a double chin\", \"I want to define my chin\"","startId":"eid_cellutrix_chin","upIds":["eid_endolaser_chin","silutrix","endolaser"]},{"id":"local_fat","icon":"🔥","ar":"8. دهون موضعية ونحت الجسم","en":"8. Stubborn Local Fat & Body Sculpting","custAr":"\"كرش / دهون في البطن أو الجنب\"، \"وزني كويس بس عندي دهون في أماكن\"","custEn":"\"Belly fat / love handles\", \"Good weight but stubborn fat pockets\"","startId":"eid_abd_inj","upIds":["eid_ultrasculpt","eid_lasersculpt","eid_bodydesign","fatcourse","endolaser"]},{"id":"weight_loss","icon":"⚖️","ar":"9. تخسيس وإنقاص الوزن","en":"9. Weight Loss & Slimming Injections","custAr":"\"عايز أخس\"، \"جربت دايت ومنفعش\"، \"بسأل على مونجارو / أوزمبك\"","custEn":"\"I want to lose weight\", \"Asking about Mounjaro / Ozempic\"","startId":"eid_ozempic","upIds":["eid_mounjaro","mounjaro","fatcourse"]},{"id":"cellulite","icon":"🌿","ar":"10. سيلوليت واحتباس السوائل","en":"10. Cellulite & Fluid Retention","custAr":"\"عندي سيلوليت / تكسير\"، \"جسمي محتبس مياه\"، \"عايزة مساج\"","custEn":"\"I have cellulite\", \"Fluid retention\", \"I want lymphatic/wood massage\"","startId":"eid_madero","upIds":["eid_massage_pkg","eid_cellulite","cellulite","lymph"]},{"id":"laser","icon":"⚡","ar":"11. إزالة الشعر بالليزر","en":"11. Laser Hair Removal","custAr":"\"عايزة أشيل الشعر نهائي\"، \"تعبت من الواكس\"، \"ليزر رجال بطن وضهر وذراعات\"","custEn":"\"I want permanent hair reduction\", \"Tired of waxing\", \"Men laser abdomen, back & arms\"","startId":"eid_laser_3","upIds":["eid_laser_men_3","laser1","laser2"]},{"id":"hair_loss","icon":"💇‍♀️","ar":"12. تساقط وضعف الشعر","en":"12. Hair Loss & Thinning","custAr":"\"شعري بيقع\"، \"عندي فراغات / صلع\"، \"بفكر في زراعة\"","custEn":"\"My hair is falling out\", \"I have bald spots / thinning\", \"Thinking of transplant\"","startId":"eid_gcell","upIds":[]}];
+  const ENDO_QA = [["What is Endolift (Endolaser)?","Endolift is a laser aesthetic procedure that helps improve skin sagging and tighten the skin, stimulates collagen production, and can also help reduce localized fat in some cases, using micro-optical laser fibers inserted under the skin by the doctor."],["Is Endolift a surgical operation?","No, it is a minimally invasive procedure, not a traditional surgical lift, where fine laser fibers are introduced under the skin by the doctor."],["How does the Endolift device work?","The doctor uses very fine laser fibers under the skin to deliver thermal laser energy to the tissues, stimulating collagen, improving skin firmness, and helping with localized fat depending on the case."],["What is the difference between Endolift and regular laser?","Endolift uses micro-laser fibers that work underneath the skin, rather than a laser applied only to the outer skin surface. Each technology has its own indication."],["Can Endolift be done for the face?","Yes, it can be used to improve sagging in areas of the face such as the lower face, jawline, and under the chin, based on the doctor's assessment."],["Can Endolift be done for the neck?","Yes, it can help improve the appearance of skin sagging in the neck, and the doctor determines its suitability for your case."],["Can Endolift be done for the abdomen?","It can be used to improve skin firmness and some localized fat in the abdomen, though severe sagging or excess skin may require different options assessed by the doctor."],["Can Endolift be done for the arms?","Yes, it can be used to improve skin laxity in the arms, especially the inner arms, depending on the case."],["Can I treat more than one area in the same session?","This depends on the requested areas, the patient's condition, procedure time, and medical protocol. The doctor decides if multiple areas can be treated together."],["Is the Endolift session painful & does it need anesthesia?","Pain perception varies from person to person. The doctor determines the appropriate local anesthesia method before the procedure to minimize discomfort."],["Will I feel the laser under the skin?","Sensation varies; there may be a feeling of pressure or mild discomfort during the procedure, and the doctor monitors you throughout."],["How long does the session take?","It varies by area size and number of areas (small face area: 30-45 mins, full face: 45-90 mins, larger body area: 1-2 hours). The exact duration is confirmed after the doctor's assessment."],["How long is the recovery time after Endolift?","Recovery is generally shorter than surgical lifts, though mild swelling, bruising, or soreness may occur depending on the area and body nature."],["Can I return to work the next day?","Most patients can resume daily activities after the session, and the doctor will advise you on the best timing for your case."],["Will there be swelling or bruising?","Yes, temporary swelling, mild bruising, or redness in the treated area can occur and varies from person to person."],["Can I go to the gym or be exposed to the sun after the session?","It is best to avoid strenuous exercise initially and follow the doctor's instructions regarding sun exposure, sunscreen use, and returning to sports."],["When do Endolift results appear? Are they immediate?","Some initial improvement may be noticed early, but final results are not completely immediate; they develop gradually over the following months (1 to 3 months and up to 6 months) as collagen forms."],["How long do Endolift results last?","Duration varies depending on skin nature, age, lifestyle, and degree of sagging. The doctor will explain realistic expectations for your case."],["Does Endolift really tighten skin, cause weight loss, or remove excess skin?","Its goal is improving skin firmness and local fat contour in suitable cases—it is not a weight-loss or obesity treatment, and if there is severe excess skin, surgery might be needed as decided by the doctor."],["How many sessions do I need? Is one session enough?","The number of sessions is not fixed for everyone; it depends on the area, degree of sagging, and desired result. We cannot confirm that one session is enough before the doctor's evaluation."],["How much is the Endolift session and why does price vary by area?","Price depends on the area size and procedure details (in Eid Al Etihad offers: Double Chin is 1,555 AED; in standard offers: Face & Neck 2,500 AED and Abdomen 3,000 AED). Which area are you interested in?"],["Is Endolift safe? Could burns or lumps happen?","Like any thermal medical aesthetic procedure, it has benefits and potential risks (such as burns or skin irregularity if not performed properly). Safety relies on proper case selection and an experienced doctor following the right protocol."],["Who cannot do Endolift (pregnancy, breastfeeding, diabetes, blood thinners)?","Not every case is suitable. You must inform the doctor about pregnancy, breastfeeding, diabetes, blood thinners, or skin/clotting issues so the doctor can decide whether to proceed or postpone."],["What is the difference between Endolift, HIFU, liposuction, and surgical lifting?","Endolift uses subcutaneous micro-laser fibers (different from HIFU's ultrasound waves or liposuction's fat suction). It is not a replacement for surgical lifting in cases of severe sagging. The doctor will recommend the best option for you."],["I am afraid of the procedure / I need to think / Is there a guarantee?","That is completely natural! No cosmetic result can be guaranteed 100% because individual responses vary. We can book you a free consultation with the doctor to explain all steps, benefits, and expected outcomes before you decide."]];
+  const EID_VARS = [{"id":"eid_nab_w","o":"eid_nabota_w","t":"[Eid 55] Full-Face Botox, Women (Nabota)","p":450},{"id":"eid_dys_w","o":"eid_dysport_w","t":"[Eid 55] Full-Face Botox, Women (Dysport)","p":955},{"id":"eid_nab_m","o":"eid_nabota_m","t":"[Eid 55] Full-Face Botox, Men (Nabota)","p":555},{"id":"eid_dys_m","o":"eid_dysport_m","t":"[Eid 55] Full-Face Botox, Men (Dysport)","p":1100},{"id":"eid_scul","o":"eid_sculptra","t":"[Eid 55] Sculptra Injection (10 ml)","p":1255},{"id":"eid_lift","o":"eid_liftage","t":"[Eid 55] Liftage Injection","p":1355},{"id":"eid_calc","o":"eid_calcium","t":"[Eid 55] Calcium Filler","p":1155,"w":1},{"id":"eid_euro","o":"eid_euro_lift","t":"[Eid 55] European Lifting Protocol","p":3999,"w":1},{"id":"eid_oxy","o":"eid_oxygeneo","t":"[Eid 55] OxyGeneo Session","p":155},{"id":"eid_hyd","o":"eid_hydrafacial","t":"[Eid 55] Hydrafacial Session","p":255},{"id":"eid_comp","o":"eid_complete_beauty","t":"[Eid 55] Complete Beauty Package","p":1000},{"id":"eid_bpkg","o":"eid_beauty_pkg","t":"[Eid 55] Eid Al Etihad Beauty Package","p":1555,"w":1},{"id":"eid_rrsb","o":"eid_rrs_box","t":"[Eid 55] RRS Full Box (3 Syringes)","p":1555},{"id":"eid_rlip","o":"eid_restylane_lip","t":"[Eid 55] Lip Filler (Restylane)","p":855},{"id":"eid_rfac","o":"eid_restylane_face","t":"[Eid 55] Face Filler 1 ml (Restylane)","p":855},{"id":"eid_butt","o":"eid_buttock_filler","t":"[Eid 55] Buttock Filler (100 ml)","p":6555},{"id":"eid_poly","o":"eid_polynova_eye","t":"[Eid 55] Poly Nova Lift (Under-Eye, 3 Sessions)","p":1500,"w":1},{"id":"eid_neck","o":"eid_neck_proto","t":"[Eid 55] Neck Rejuvenation Protocol","p":3500,"w":1},{"id":"eid_hand","o":"eid_hand_proto","t":"[Eid 55] Hand Rejuvenation Protocol","p":3700,"w":1},{"id":"eid_celc","o":"eid_cellutrix_chin","t":"[Eid 55] Double-Chin Injection (Cellutrix)","p":555},{"id":"eid_endc","o":"eid_endolaser_chin","t":"[Eid 55] Endolaser for Double Chin","p":1555},{"id":"eid_abdi","o":"eid_abd_inj","t":"[Eid 55] Abdominal Fat Injection (Cellutrix + 1-month follow-up)","p":455},{"id":"eid_ultr","o":"eid_ultrasculpt","t":"[Eid 55] Ultra Sculpt (10 Sessions)","p":655},{"id":"eid_lscp","o":"eid_lasersculpt","t":"[Eid 55] Laser Sculpt (6 Sessions)","p":955},{"id":"eid_bdes","o":"eid_bodydesign","t":"[Eid 55] Body Design (10 Sessions)","p":955},{"id":"eid_ozem","o":"eid_ozempic","t":"[Eid 55] Ozempic Course (2 Months + Follow-up)","p":1555},{"id":"eid_moun","o":"eid_mounjaro","t":"[Eid 55] Mounjaro Course (+ 3 Months Follow-up)","p":2555},{"id":"eid_madr","o":"eid_madero","t":"[Eid 55] Madero Wood Massage (10 Sessions)","p":955},{"id":"eid_mpkg","o":"eid_massage_pkg","t":"[Eid 55] Massage Package (10 Sessions: Medical / Madero / Lymphatic)","p":1500,"w":1},{"id":"eid_cell","o":"eid_cellulite","t":"[Eid 55] Cellulite Course (30 Sessions)","p":1555,"w":1},{"id":"eid_las3","o":"eid_laser_3","t":"[Eid 55] Full-Body Laser 3 Sessions (Candela GentleMax Pro Plus)","p":555},{"id":"eid_lasm3","o":"eid_laser_men_3","t":"[Eid 55] Men Laser 3 Sessions (Abdomen, Back & Arms)","p":655},{"id":"eid_gcel","o":"eid_gcell","t":"[Eid 55] G-Cell Hair Regeneration (Non-Surgical)","p":2955}];
+  const AUDIT_LOG = [{"iso":"2026-11-19T12:08","dateAr":"19 نوفمبر 2026 — 12:08 م","dateEn":"19 Nov 2026 — 12:08 PM","cat":"offers","ar":"إضافة عرض عيد الاتحاد للرجال: 3 جلسات ليزر (بطن وضهر وذراعات) بجهاز كانديلا جنتل ماكس برو بلس بـ 655 درهم.","en":"Added Eid Al Etihad Men Laser offer: 3 sessions (abdomen, back & arms) with Candela GentleMax Pro Plus for 655 AED.","items":["eid_laser_men_3"]},{"iso":"2026-11-19T11:54","dateAr":"19 نوفمبر 2026 — 11:54 ص","dateEn":"19 Nov 2026 — 11:54 AM","cat":"offers","ar":"إضافة عروض عيد الاتحاد 55 (32 عرض مقسمين على 12 احتياج للعميل: عرض البداية + الترقية)، وإضافة 31 سؤال وجواب شاملين عن الإندولفت/الإندوليزر (التعريف، المناطق، الألم، التعافي، النتائج، الأمان، والمقارنة مع الهايفو وشفط الدهون والجراحة).","en":"Added Eid Al Etihad 55 offers (32 offers across 12 customer needs: starter & upgrade), plus 31 comprehensive Endolift/Endolaser Q&As (definition, areas, pain, recovery, results, safety, and comparisons with HIFU, liposuction & surgery).","items":["eid_nabota_w","eid_dysport_w","eid_nabota_m","eid_dysport_m","eid_sculptra","eid_liftage","eid_calcium","eid_euro_lift","eid_oxygeneo","eid_hydrafacial","eid_complete_beauty","eid_beauty_pkg","eid_rrs_box","eid_restylane_lip","eid_restylane_face","eid_buttock_filler","eid_polynova_eye","eid_neck_proto","eid_hand_proto","eid_cellutrix_chin","eid_endolaser_chin","eid_abd_inj","eid_ultrasculpt","eid_lasersculpt","eid_bodydesign","eid_ozempic","eid_mounjaro","eid_madero","eid_massage_pkg","eid_cellulite","eid_laser_3","eid_gcell","p-endolaser"]},{"iso":"2026-11-18T15:56","dateAr":"18 نوفمبر 2026 — 03:56 م","dateEn":"18 Nov 2026 — 03:56 PM","cat":"doctors","ar":"تحديث فرع الفجيرة: المواعيد من 1 الضهر لـ 9 بالليل كل يوم ما عدا الجمعة. الاستشارة في الفجيرة بـ 200 درهم (بتتخصم لو العميل حجز باكدج أو خدمة بعدها، ولو استشارة بس بيدفع الـ 200). د. راندا بتعمل البوتوكس والفيلر بس. يوم السبت فيه دكتور للاستشارة وممرضة الـ IV، ومتاح طول الأسبوع جلسات إندوليفت وليزر وBeauty Therapist.","en":"Fujairah branch update: hours 1 PM to 9 PM Saturday-Thursday. Consultation in Fujairah is 200 AED (deducted if customer books a service/package; paid if consultation only). Dr. Randa does Botox & filler only. Saturday has GP consultation doctor & IV nurse; Endolift, laser & Beauty Therapist available all week.","items":["branches","doctors","rules"]},{"iso":"2026-11-17T15:45","dateAr":"17 نوفمبر 2026 — 03:45 م","dateEn":"17 Nov 2026 — 03:45 PM","cat":"rules","ar":"بروسيس تذكير الحجوزات الجديدة من الكلاينت: قبل الميعاد بيوم ويوم الميعاد ابدأ برسالة واتساب من 10:30 لـ 11 الصبح بتوقيت الإمارات، ومتتصلش غير لو العميل مردش بعد نص ساعة. وقبلها بيوم لو لسه مردش ابعت رسالة تانية الساعة 5 مساءً بتوقيت الإمارات (3 عصراً مصر) وبعدين كلّمه.","en":"New client booking reminder process: Day before and visit day, start with a WhatsApp reminder at 10:30-11:00 AM UAE time, and call 30 mins later only if no reply. Day before, if still no reply, send a second WhatsApp at 5:00 PM UAE time (3:00 PM Cairo) then call.","items":["follow","rules"]},{"iso":"2026-11-17T15:06","dateAr":"17 نوفمبر 2026 — 03:06 م","dateEn":"17 Nov 2026 — 03:06 PM","cat":"rules","ar":"إيقاف عجلة الحظ (Spin & Win) بالكامل بطلب من الكلاينت: متعرضهاش ومتبعتش لينكها، ولو العميل سأل عنها قول إن العجلة مش متاحة دلوقتي واعرض العروض الحالية.","en":"Stopped Spin & Win lucky wheel everywhere per client instruction (17 Nov). Do not offer or send the link.","items":["rules","wa"]},{"iso":"2026-11-16T19:01","dateAr":"16 نوفمبر 2026 — 07:01 م","dateEn":"16 Nov 2026 — 07:01 PM","cat":"rules","ar":"تعديل قاعدة هدية العرض: الهدايا اللي في المركز مش متأكدة، فمتسمّيش هدية معينة للعميل. قول: \"الهدية هتعرفها لما تشرّفينا في المركز\".","en":"Offer gift rule update: Do not name specific gift options; tell the customer the gift is revealed when they visit the center.","items":["rules","wa","flows"]},{"iso":"2026-11-10T11:51","dateAr":"10 نوفمبر 2026 — 11:51 ص","dateEn":"10 Nov 2026 — 11:51 AM","cat":"services","ar":"تحديث الرقم الأرضي لفرع أبوظبي إلى 02 408 3440 (+971 2 408 3440).","en":"Updated Abu Dhabi branch landline number to 02 408 3440 (+971 2 408 3440).","items":["branches","center"]},{"iso":"2026-11-08T16:21","dateAr":"8 نوفمبر 2026 — 04:21 م","dateEn":"8 Nov 2026 — 04:21 PM","cat":"tools","ar":"اعتماد سكريبت المكالمات النهائي من الكواليتي (ليد حملة + داتا قديمة)، والتعريف بالدكاترة (د. ياسمين درويش أخصائية الجلدية والتجميل خبرة أكتر من 10 سنين، ود. وليد شمحوط أخصائي التغذية العلاجية)، وخطوة الـ Cross-sell / Up-sell بعد تأكيد الحجز، وجعل كل الإيميلات بالإنجليزي مع ترجمة تلقائية للملاحظات العربي.","en":"Quality final call scripts (campaign lead + old data), doctor intro lines (Dr. Yasmine Darwish 10+ yrs experience, Dr. Waleed Shamhot clinical nutrition), post-booking cross-sell/up-sell step, and English-only emails with auto-translation.","items":["flows"]},{"iso":"2026-11-03T15:23","dateAr":"3 نوفمبر 2026 — 03:23 م","dateEn":"3 Nov 2026 — 03:23 PM","cat":"offers","ar":"تحديث العروض من البوسترات الجديدة: إندوليزر لشد الجلد وتحسين الترهلات بقى الوجه والرقبة بـ 2,500 درهم ومنطقة البطن بـ 3,000 درهم، وإبرة سيلوتريكس (Cellutrix) للذقن المزدوج لتذويب الدهون وشد الجلد بـ 700 درهم للجلسة، وكورس علاج السيلوليت 10 جلسات ثلاثية (30 جلسة) بـ 1,500 درهم.","en":"Updated offers from new posters: Endolaser skin tightening is now 2,500 AED for face & neck and 3,000 AED for abdomen; Cellutrix double-chin injection is 700 AED per session; Cellulite Treatment course is 10 triple sessions (30 sessions) for 1,500 AED.","items":["endolaser","silutrix","cellulite"]},{"iso":"2026-11-02T15:06","dateAr":"2 نوفمبر 2026 — 03:06 م","dateEn":"2 Nov 2026 — 03:06 PM","cat":"rules","ar":"في قاموس الخليجي: \"ثقة\" معناها التأمين الصحي الحكومي في أبوظبي للمواطنين الإماراتيين وبعض الفئات المؤهلة. لو العميل سأل \"تقبلون ثقة؟\" يقصد التأمين، ولسه مش مأكدين إننا بنقبله، فقول هتتأكد وترجعله.","en":"Gulf glossary: \"Thiqa\" (ثقة) is Abu Dhabi government health insurance. Not confirmed yet whether accepted; tell the customer you will check and get back to them.","items":["gulf"]},{"iso":"2026-11-02T13:19","dateAr":"2 نوفمبر 2026 — 01:19 م","dateEn":"2 Nov 2026 — 01:19 PM","cat":"tools","ar":"إضافة تبويب \"📞 مكالمات المتابعة\" (تأكيد قبل الميعاد بيوم، تذكير يوم الميعاد، ومكالمة بعد الزيارة) وربطه بتبويب \"📅 إيميل حجز\" (حجز جديد / تغيير ميعاد / إلغاء).","en":"Added \"📞 Follow-up calls\" tab (3 calls per booking: confirm day before, remind on the day, check in after visit) linked with \"📅 Booking email\".","items":["follow","booking"]},{"iso":"2026-11-02T11:39","dateAr":"2 نوفمبر 2026 — 11:39 ص","dateEn":"2 Nov 2026 — 11:39 AM","cat":"tools","ar":"رسائل الواتساب للعميل بقى بيتضاف ليها تلقائياً لينك عجلة الحظ (Spin & Win).","en":"WhatsApp messages now automatically include the Spin & Win lucky wheel link.","items":["wa"]},{"iso":"2026-11-01T17:58","dateAr":"1 نوفمبر 2026 — 05:58 م","dateEn":"1 Nov 2026 — 05:58 PM","cat":"offers","ar":"تحديث اختيارات الهدية مع كل عرض: (جلسة ليزر فل بادي، أو هيدرافيشيال، أو أوكسجينو، أو خصم 10% على سعر العرض)، وتأكيد إن عرض سكلبترا معاه هدية واحدة.","en":"Updated gift choices with every offer: (Full-body laser session, HydraFacial, OxyGeneo, or 10% off), and confirmed Sculptra comes with one gift.","items":["sculptra","rules"]},{"iso":"2026-10-27T16:46","dateAr":"27 أكتوبر 2026 — 04:46 م","dateEn":"27 Oct 2026 — 04:46 PM","cat":"rules","ar":"بطلب من الكلاينت: ممنوع قول \"مركز تجميل وتغذية\" لأن ناس بتفهمها بيوتي سنتر. قول \"مركز H&P الطبي\"، ولو العميل سأل: \"مركز طبي متخصص في الجلدية والتجميل وجراحات التجميل، وكل ما يخص إنقاص الوزن، من الدايت لحد العمليات الجراحية.\" ولو جاب سيرة تريس جولي: مركزنا اشتراه وبقى بإدارة جديدة وستاف جديد وعروض جديدة بمناسبة الافتتاح.","en":"Client rule: Never say \"beauty and nutrition center\". Say \"H&P Medical Center\" (a medical center specialized in dermatology, aesthetics, cosmetic surgery, and weight loss from diet to surgery). If customer mentions Tres Jolie: H&P bought it with new management, new staff, and grand-opening offers.","items":["rules","obj-0","center"]},{"iso":"2026-10-27T16:44","dateAr":"27 أكتوبر 2026 — 04:44 م","dateEn":"27 Oct 2026 — 04:44 PM","cat":"tools","ar":"إضافة تبويب \"📣 إيميل شكوى\": أي عميل يشتكي يتبعت إيميل في نفس اليوم لمصطفى وإسلام وفي الـ CC حسين ومحمد عمر وزينب، مع خطوات التعامل مع العميل الغاضب.","en":"Added \"📣 Complaint email\" tab: every customer complaint must be emailed the same day to Mostafa and Eslam (CC Hussein, Mohamed, Zeinab).","items":["complaint"]},{"iso":"2026-10-27T16:22","dateAr":"27 أكتوبر 2026 — 04:22 م","dateEn":"27 Oct 2026 — 04:22 PM","cat":"doctors","ar":"تعديل مواعيد د. ياسمين درويش (جلدية - أبوظبي): كل يوم ما عدا الأربعاء والجمعة من 2 الضهر لـ 10 بالليل.","en":"Updated Dr. Yasmine Darwish schedule (Dermatology - Abu Dhabi): every day except Wednesday & Friday, 2 PM to 10 PM.","items":["doctors"]},{"iso":"2026-10-26T16:22","dateAr":"26 أكتوبر 2026 — 04:22 م","dateEn":"26 Oct 2026 — 04:22 PM","cat":"tools","ar":"تحويل \"⏸ إيميل AUX\" إلى \"⏸ طلب AUX\" (طلب موافقة مسبقة من مصطفى وإسلام قبل وضع AUX على الأفايا، مع إضافة أسباب: غدا، صلاة، بريك شخصي، بريك، مشكلة IT). وإلزام اختيار اسم الإيجنت قبل فتح الواتساب.","en":"Changed \"⏸ AUX email\" to \"⏸ AUX request\" (requires approval before going on AUX on Avaya; added lunch, prayer, personal break, break, IT issue). Required choosing agent name before sending WhatsApp.","items":["aux","wa"]},{"iso":"2026-10-25T15:49","dateAr":"25 أكتوبر 2026 — 03:49 م","dateEn":"25 Oct 2026 — 03:49 PM","cat":"rules","ar":"قاعدة جديدة: آخر ميعاد لحجز الاستشارة المجانية هو الساعة 7:30 مساءً (حتى لو الفرع لسه فاتح). وتم إضافة تنبيه تلقائي في تأكيد الحجز لو الساعة بعد 7:30.","en":"New rule: Last free consultation slot is 7:30 PM (even if the branch is open later). Added automatic warning in booking confirmation.","items":["rules","branches","wa"]},{"iso":"2026-10-22T16:01","dateAr":"22 أكتوبر 2026 — 04:01 م","dateEn":"22 Oct 2026 — 04:01 PM","cat":"tools","ar":"إضافة نوع \"تأكيد حجز\" في تبويب \"📲 ابعت للعميل\" (اليوم والساعة والدكتور والعرض واللوكيشن) مع تنبيه الإيجنت لو الدكتور مش موجود في اليوم أو الساعة دي.","en":"Added \"Booking confirmation\" message type in \"📲 Send to customer\" with doctor schedule validation warnings.","items":["wa"]},{"iso":"2026-10-22T14:50","dateAr":"22 أكتوبر 2026 — 02:50 م","dateEn":"22 Oct 2026 — 02:50 PM","cat":"tools","ar":"إضافة تبويب \"📲 ابعت للعميل\" لإرسال العروض واللوكيشن على الواتساب، مع بديل إرسال إيميل لزميلة لو الواتساب واقف، ونسخ ملاحظة أودوو.","en":"Added \"📲 Send to customer\" tab for WhatsApp offers + location, colleague email fallback, and Odoo note copy.","items":["wa"]},{"iso":"2026-10-22T12:03","dateAr":"22 أكتوبر 2026 — 12:03 م","dateEn":"22 Oct 2026 — 12:03 PM","cat":"services","ar":"إضافة جدول \"اسم الخدمة على أودوو\" الرسمي من الكلاينت (بالعربي والإنجليزي مع زرار نسخ)، وتقسيم خدمات المركز لقسم الجلدية وقسم التغذية، وإضافة (هيدروفيشيل، توريد الشفايف، تقشير البشرة) كخدمات متاحة باستشارة بدون سعر معلن.","en":"Added official \"Service name in Odoo\" copyable table, split services into Dermatology & Nutrition, and added HydraFacial, Lip Rejuvenation, and Skin Peeling (book consultation, no price listed).","items":["disp","center"]},{"iso":"2026-10-19T12:38","dateAr":"19 أكتوبر 2026 — 12:38 م","dateEn":"19 Oct 2026 — 12:38 PM","cat":"services","ar":"تحديث دليل جهاز الليزر (Candela GentleMax Pro Plus): إضافة مخاوف العميلة التلاتة (النتيجة، الألم، الأمان)، والرد على الاعتراضات، وجملة قفل المكالمة بحجز الاستشارة المجانية.","en":"Updated Candela GentleMax Pro Plus laser guide: added customer top 3 worries (results, pain, safety), objection replies, and closing with the free consultation.","items":["p-laser","laser1","laser2"]},{"iso":"2026-10-15T13:33","dateAr":"15 أكتوبر 2026 — 01:33 م","dateEn":"15 Oct 2026 — 01:33 PM","cat":"rules","ar":"تخصيص تبويب مستقل لـ \"أودوو\" (جدول اللي حصل وتسجله إزاي: المرحلة + التاج + الأكتيفيتي)، وتعديل بداية مكالمة الليد الجديدة لتدخل على الاستشارة المجانية فوراً بدل \"معاكي دقيقتين؟\"، وإضافة نطق الأسماء الصوتية 🔊.","en":"Created dedicated Odoo tab (Stage, Tag, Activity table), updated new-lead call script to open directly with the free consultation instead of \"Do you have two minutes?\", and added audio pronunciation 🔊.","items":["disp","flows","pron"]},{"iso":"2026-10-14T11:41","dateAr":"14 أكتوبر 2026 — 11:41 ص","dateEn":"14 Oct 2026 — 11:41 AM","cat":"rules","ar":"تغيير اسم المركز المعتمد في المكالمات إلى \"مركز H&P الطبي\" (H&P Medical Center) بطلب من الكلاينت، وإضافة مراحل وتاجات أودوو الرسمية.","en":"Changed official center name on calls to \"H&P Medical Center\" per client request, and added official Odoo stages and tags.","items":["rules","center","disp"]},{"iso":"2026-10-11T13:11","dateAr":"11 أكتوبر 2026 — 01:11 م","dateEn":"11 Oct 2026 — 01:11 PM","cat":"offers","ar":"تأكيد سعر كورس أجهزة إذابة الدهون (16 جلسة) بـ 1,500 درهم ومعاه هدية، وإضافة د. وليد (تغذية - أبوظبي) في جدول الدكاترة.","en":"Confirmed Fat-dissolving device course (16 sessions) price at 1,500 AED with a gift, and added Dr. Waleed (Nutrition - Abu Dhabi) to doctors schedule.","items":["fatcourse","doctors"]},{"iso":"2026-10-07T13:05","dateAr":"7 أكتوبر 2026 — 01:05 م","dateEn":"7 Oct 2026 — 01:05 PM","cat":"doctors","ar":"قاعدة مواعيد الدكاترة: آخر حجز قبل نهاية مواعيد الدكتور بنص ساعة. وإضافة جدول مواعيد الدكاترة في أبوظبي والفجيرة (د. راندا جلدية، ود. نهى تخسيس).","en":"Doctors schedule rule: Last booking slot is 30 minutes before doctor shift ends. Added full doctors schedule for Abu Dhabi & Fujairah (Dr. Randa dermatology, Dr. Noha weight loss).","items":["doctors","rules"]},{"iso":"2026-10-06T11:03","dateAr":"6 أكتوبر 2026 — 11:03 ص","dateEn":"6 Oct 2026 — 11:03 AM","cat":"offers","ar":"إضافة سعر كورس مونجارو (3 شهور) بـ 2,999 درهم ومعاه هدية، وتفاصيل الجلسة الثلاثية في كورس علاج السيلوليت (ألتراسكالبت + راديو فريكونسي + مساج لمفاوي).","en":"Added Mounjaro course (3 months) price at 2,999 AED with a gift, and triple-session details for the Cellulite course (Ultrascalpt + RF + lymphatic massage).","items":["mounjaro","cellulite"]},{"iso":"2026-10-05T19:32","dateAr":"5 أكتوبر 2026 — 07:32 م","dateEn":"5 Oct 2026 — 07:32 PM","cat":"offers","ar":"إضافة جدول \"أسعار عادية (مش عروض)\" بدون هدية وبدون ضريبة: ليزر اللحية (3 جلسات بـ 300 درهم)، ليزر تحت الإبط (4 جلسات بـ 300 درهم)، وفيلر ريستالين كايس للشفايف (1,100 درهم).","en":"Added \"Regular prices (not offers)\" table (no gift, excludes VAT): Beard laser (3 sessions 300 AED), Underarm laser (4 sessions 300 AED), Restylane Kysse lip filler (1,100 AED).","items":["regular","p-kysse"]},{"iso":"2026-10-05T00:41","dateAr":"5 أكتوبر 2026 — 12:41 ص","dateEn":"5 Oct 2026 — 12:41 AM","cat":"rules","ar":"تحديثات من الكلاينت: التقسيط متاح مع تابي وتمارا (الرسوم بتتأكد)، الأسعار غير شاملة الضريبة، العروض أوفر بحوالي 40% من السعر العادي، والحلاقة في المركز بـ 100 درهم (ييجي قبل الميعاد بنص ساعة).","en":"Client rules: Installments available via Tabby & Tamara, prices exclude VAT, offers save ~40% vs regular prices, shaving at center is 100 AED (arrive 30 mins early).","items":["rules","prep"]},{"iso":"2026-10-04T15:08","dateAr":"4 أكتوبر 2026 — 03:08 م","dateEn":"4 Oct 2026 — 03:08 PM","cat":"rules","ar":"تحديثات الـ QA: العميلة الحامل بيتعملها Hold ونكلمها بعد الولادة (منحجزش استشارة إلا لو صممت). وعرض سكلبترا على حقنة واحدة بـ 1,500 درهم فمتقولش عدد جلسات.","en":"QA rules: Pregnant customer is placed on Hold until after delivery. Sculptra offer is per 1 syringe (1,500 AED), so do not quote a number of sessions.","items":["rules","sculptra","p-sculptra"]},{"iso":"2026-10-01T14:23","dateAr":"1 أكتوبر 2026 — 02:23 م","dateEn":"1 Oct 2026 — 02:23 PM","cat":"services","ar":"إضافة عناوين ومواعيد فرعي أبوظبي والفجيرة، ودليل المنتجات (البوتوكس، الميزو بوتوكس، سكلبترا، الإندوليزر، جهاز الليزر، ريستالين كايس)، وتعليمات قبل جلسة الليزر.","en":"Added Abu Dhabi & Fujairah branch addresses and hours, product guides (Botox, Meso Botox, Sculptra, Endolaser, Laser device, Restylane Kysse), and pre-laser instructions.","items":["branches","p-botox","p-meso","p-sculptra","p-endolaser","p-laser","p-kysse","prep"]},{"iso":"2026-09-28T16:07","dateAr":"28 سبتمبر 2026 — 04:07 م","dateEn":"28 Sep 2026 — 04:07 PM","cat":"offers","ar":"إطلاق أول نسخة من النولدج بيز: 17 عرض من شيت Big Gift Week، السكريبت المدموج لليد الجديدة والفولو أب والعميل القديم، وأكتر اعتراضين (مفيش مواعيد ليزر، وعملت جلسات ومفيش نتيجة)، وأن استشارة المتابعة مجانية.","en":"Initial release of the Knowledge Base: 17 Big Gift Week offers, merged call flows, top 2 objections (no laser appointments, no results after sessions), and free follow-up consultation.","items":["nabota","dysport","meso","lipfill","facefill","dermapen","rrs","rrseye","sculptra","fatcourse","lymph","laser1","laser2","flows","obj-0","obj-1"]}];
+  const ITEM_ADDED = {"eid_laser_men_3":["19 نوفمبر 2026 (12:08 م)","19 Nov 2026 (12:08 PM)","2026-11-19T12:08"],"endolaser":["تحديث السعر: 3 نوفمبر 2026 · أسئلة الإندولفت: 19 نوفمبر 2026","Price updated: 3 Nov 2026 · Endolift Q&As: 19 Nov 2026","2026-11-03T15:23"],"silutrix":["تحديث السعر: 3 نوفمبر 2026 (03:23 م)","Price updated: 3 Nov 2026 (03:23 PM)","2026-11-03T15:23"],"cellulite":["تحديث السعر: 3 نوفمبر 2026 (03:23 م)","Price updated: 3 Nov 2026 (03:23 PM)","2026-11-03T15:23"],"fatcourse":["تحديث السعر: 11 أكتوبر 2026 (01:11 م)","Price updated: 11 Oct 2026 (01:11 PM)","2026-10-11T13:11"],"mounjaro":["اتضاف: 6 أكتوبر 2026 (11:03 ص)","Added: 6 Oct 2026 (11:03 AM)","2026-10-06T11:03"],"nabota":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"dysport":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"meso":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"lipfill":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"facefill":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"dermapen":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"rrs":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"rrseye":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"sculptra":["اتضاف: 28 سبتمبر 2026 · تحديث: 4 أكتوبر 2026","Added: 28 Sep 2026 · Updated: 4 Oct 2026","2026-09-28T16:07"],"lymph":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"laser1":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"],"laser2":["اتضاف: 28 سبتمبر 2026","Added: 28 Sep 2026","2026-09-28T16:07"]};
+
+  // Tag existing offers as 'bgw' (Big Gift Week)
+  OFFERS.forEach(o => { if(!o.camp) o.camp = 'bgw'; });
+  OFFERS.unshift(...EID_OFFERS);
+  VARIANTS.unshift(...EID_VARS);
+
+  // Helper to get when an offer was added/updated on the KB
+  function offerAddedInfo(o) {
+    if (o.addedAt) return [o.addedAt, o.addedAt, o.addedIso || '2026-11-19T12:00'];
+    if (ITEM_ADDED[o.id]) return ITEM_ADDED[o.id];
+    if (o.camp === 'eid55') return ['اتضاف: 19 نوفمبر 2026 (11:54 ص)', 'Added: 19 Nov 2026 (11:54 AM)', '2026-11-19T11:54'];
+    return ['اتضاف: 28 سبتمبر 2026', 'Added: 28 Sep 2026', '2026-09-28T16:07'];
+  }
+
+  // Wrap applyOfferRows so any future update from Google Sheet records its date/timestamp if provided in col R (index 17) or defaults to live sheet tag
+  const _origApplyOfferRows = window.applyOfferRows;
+  if (typeof _origApplyOfferRows === 'function') {
+    window.applyOfferRows = function(rows) {
+      _origApplyOfferRows(rows);
+      rows.slice(1).filter(r => r[0] && !/كود العرض|offer code/i.test(r[0])).forEach(r => {
+        const id = r[0].trim();
+        const o = OFFERS.find(x => x.id === id);
+        if (o && (r[17] || '').trim()) {
+          o.addedAt = (r[17] || '').trim();
+          const pd = parseDate(o.addedAt);
+          if (pd) o.addedIso = pd + 'T00:00';
+        }
+      });
+    };
+  }
+
+  // Add WhatsApp lines for Eid Al Etihad offers
+  EID_OFFERS.forEach(o => {
+    WA_LINES[o.id] = [
+      o.ar + ': ' + o.price + ' درهم' + (o.oldPrice ? ' (بدلاً من ' + o.oldPrice + ' درهم)' : ''),
+      o.en + ': ' + o.price + ' AED' + (o.oldPrice ? ' (instead of ' + o.oldPrice + ' AED)' : ''),
+      o.price
+    ];
+  });
+
+  // Enrich Endolaser in OFFERS and PRODUCTS with all 31 Q&As
+  const endoOffer = OFFERS.find(o => o.id === 'endolaser');
+  if (endoOffer) {
+    ENDO_QA.forEach(qa => {
+      if (!endoOffer.qa.some(x => x[0] === qa[0])) endoOffer.qa.push(qa);
+    });
+  }
+  const endoProd = PRODUCTS.find(p => p.id === 'endolaser');
+  if (endoProd) {
+    if (!endoProd.offers.includes('eid_endolaser_chin')) endoProd.offers.unshift('eid_endolaser_chin');
+    endoProd.what = EN
+      ? 'Endolift (Endolaser) is a minimally invasive dual-wavelength laser procedure using micro-optical fibers inserted under the skin by the doctor to tighten sagging skin, stimulate collagen, and reduce localized fat pockets without traditional surgery.'
+      : 'الإندولفت (Endolift / الإندوليزر) هو إجراء تجميلي محدود التدخل باستخدام ألياف ليزر دقيقة جداً تحت الجلد، بيساعد على شد ترهل الجلد وتحفيز إنتاج الكولاجين وتقليل الدهون الموضعية في الحالات المناسبة من غير جراحة تقليدية.';
+    endoProd.compareHead = EN ? ['Procedure', 'How it works', 'When it is used'] : ['التقنية', 'إزاي بتشتغل', 'إمتى نستخدمها'];
+    endoProd.compare = EN ? [
+      ['Endolift (Endolaser)', 'Micro-optical laser fibers inserted directly under the skin', 'Skin tightening, collagen stimulation & localized fat remodeling (face, chin, neck, abdomen, arms)'],
+      ['HIFU', 'Focused ultrasound energy applied from the outer skin surface', 'Non-invasive lifting for mild-to-moderate laxity; doctor decides which is better'],
+      ['Liposuction / Surgical Lift', 'Surgical fat suction or surgical removal of excess skin', 'For large fat volumes or severe sagging with excess skin where Endolift alone is not enough']
+    ] : [
+      ['الإندولفت (Endolift / الإندوليزر)', 'ألياف ليزر دقيقة جداً تدخل تحت الجلد لتوصيل طاقة حرارية للأنسجة', 'شد ترهل الجلد وتحفيز الكولاجين وتحسين الدهون الموضعية (الوجه، اللغد، الرقبة، البطن، الأذرع)'],
+      ['الهايفو (HIFU)', 'موجات فوق صوتية من على سطح الجلد الخارجي', 'شد غير جراحي، وتختلف طريقة توصيل الطاقة والأنسجة المستهدفة؛ الدكتور يحدد الأنسب'],
+      ['شفط الدهون / الشد الجراحي', 'إجراء جراحي لشفط الدهون أو إزالة الجلد الزائد جراحياً', 'في حالات الترهل الشديد أو الجلد الزائد الكبير قد تكون الجراحة هي الخيار المناسب حسب تقييم الدكتور']
+    ];
+    ENDO_QA.forEach(qa => {
+      if (!endoProd.objs.some(x => x[0] === qa[0])) endoProd.objs.push(qa);
+    });
+  }
+
+  // Add new pronunciations
+  const newPron = [
+    ["Endolift", "Endo lift", "إندوليفت", "EN-do-lift"],
+    ["Liftage", "Liftage", "ليفتاج", "lif-TAHJ"],
+    ["OxyGeneo", "Oxy geneo", "أوكسجينو", "ok-see-JEE-nee-oh"],
+    ["Ozempic", "Oh zempic", "أوزمبك", "oh-ZEM-pik"],
+    ["G-Cell", "G Cell", "جي سيل", "JEE-sel"],
+    ["Madero", "Ma dero", "ماديرو", "ma-DEH-ro"],
+    ["Poly Nova Lift", "Poly Nova Lift", "بولي نوفا ليفت", "POL-ee NOH-va lift"],
+    ["Ultra Sculpt", "Ultra Sculpt", "ألترا سكلبت", "UL-tra SKULPT"]
+  ];
+  newPron.forEach(np => { if(!PRON.some(p => p[0].toLowerCase() === np[0].toLowerCase())) PRON.push(np); });
+
+  // Add new synonyms for Search & Noor
+  Object.assign(SYN, {
+    'اتحاد':'عيد الاتحاد eid', 'الاتحاد':'عيد الاتحاد eid', '55':'عيد الاتحاد',
+    'اندولفت':'endolaser اندوليزر endolift', 'اندوليفت':'endolaser اندوليزر endolift', 'endolift':'endolaser اندوليزر',
+    'ليفتاج':'liftage ليفتاج شد', 'liftage':'ليفتاج شد',
+    'كالسيوم':'calcium كالسيوم فيلر', 'calcium':'كالسيوم فيلر',
+    'اوكسجينو':'oxygeneo اوكسجينو نضاره', 'اوكسجينيو':'oxygeneo اوكسجينو نضاره', 'oxygeneo':'اوكسجينو نضاره',
+    'اوزمبك':'ozempic اوزمبك تخسيس', 'اوزيمبك':'ozempic اوزمبك تخسيس', 'ozempic':'اوزمبك تخسيس',
+    'ماديرو':'madero ماديرو مساج اخشاب', 'madero':'ماديرو مساج',
+    'جي سيل':'g-cell جي سيل شعر زراعه', 'gcell':'g-cell جي سيل شعر', 'g-cell':'جي سيل شعر زراعه',
+    'زراعه':'جي سيل شعر تساقط', 'صلع':'جي سيل شعر تساقط', 'فراغات':'جي سيل شعر تساقط', 'بيقع':'جي سيل شعر تساقط',
+    'مؤخره':'فيلر المؤخره buttock', 'المؤخره':'فيلر المؤخره buttock', 'buttock':'فيلر المؤخره',
+    'بولي نوفا':'بولي نوفا هالات polynova', 'هايفو':'هايفو اندولفت hifu', 'hifu':'هايفو اندولفت',
+    'بودي ديزاين':'body design بودي ديزاين نحت', 'ليزر سكلبت':'laser sculpt ليزر سكلبت نحت', 'الترا سكلبت':'ultra sculpt الترا سكلبت',
+    'تحديثات':'سجل التحديثات الكواليتي updates', 'كواليتي':'سجل التحديثات الكواليتي updates'
+  });
+
+  // Update UPDATES array with detailed dates & times
+  UPDATES.unshift(
+    [EN ? '19 Nov 2026 (12:08 PM)' : '19 نوفمبر 2026 (12:08 م)', EN
+      ? 'Added Eid Al Etihad Men Laser offer: 3 sessions (abdomen, back & arms) with Candela GentleMax Pro Plus for 655 AED.'
+      : 'إضافة عرض عيد الاتحاد للرجال: 3 جلسات ليزر (بطن وضهر وذراعات) بجهاز كانديلا جنتل ماكس برو بلس بـ 655 درهم.'],
+    [EN ? '19 Nov 2026 (11:54 AM)' : '19 نوفمبر 2026 (11:54 ص)', EN
+      ? 'Added Eid Al Etihad 55 offers (32 offers across 12 customer needs with starter & upgrade recommendations), interactive Customer Needs Compass, Live Call Cockpit mode, 31 comprehensive Endolift/Endolaser Q&As, and upgraded Noor with symptom detection, context memory, smart comparisons, and 1-click WhatsApp/Calculator actions.'
+      : 'إضافة عروض عيد الاتحاد 55 (32 عرض مقسمين على 12 احتياج للعميل: عرض البداية + الترقية)، وبوصلة الاحتياج التفاعلية في الرئيسية، ووضع المكالمة المباشرة (كابينة المكالمة)، و31 سؤال وجواب شاملين عن الإندولفت/الإندوليزر، وتطوير الشات بوت "نور".']
+  );
+
+  // Inject World-Class CSS + QA Audit Log CSS
+  const boslaCss = `
+    /* Bosla 2.0 World-Class UI */
+    .camp-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px 12px;box-shadow:0 4px 14px rgba(0,0,0,.04)}
+    .camp-bar .clbl{font-size:12.5px;font-weight:700;color:var(--muted);margin-inline-end:4px}
+    .camp-btn{border:1.5px solid var(--line);background:var(--soft);color:var(--ink);border-radius:10px;padding:7px 14px;font-weight:700;font-size:13.5px;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+    .camp-btn:hover{border-color:var(--rose)}
+    .camp-btn.on{background:var(--rose);border-color:var(--rose);color:#fff;box-shadow:0 4px 12px rgba(166,61,99,.25)}
+    .camp-btn.eid.on{background:linear-gradient(135deg,#A63D63,#C88A2B);border-color:#A63D63;color:#fff}
+    .c-eid{background:linear-gradient(135deg,#FCEFD8,#F8E6ED);color:#8C2D4F;border:1px solid rgba(166,61,99,.25);font-weight:700}
+    :root[data-theme="dark"] .c-eid{background:linear-gradient(135deg,#3A2C15,#3A2230);color:#F7C97E}
+    .c-tier-start{background:var(--sage-soft);color:var(--sage);font-weight:700}
+    .c-tier-up{background:var(--blue-soft);color:var(--blue);font-weight:700}
+    .c-date{background:var(--soft);color:var(--muted);font-family:var(--m);font-size:11.5px;border:1px dashed var(--line)}
+    .old-p{text-decoration:line-through;color:var(--muted);font-size:13px;font-family:var(--m);margin-inline-end:6px}
+    .save-badge{background:#E8F8F0;color:#1B7A4E;border:1px solid #A8E6C5;border-radius:8px;padding:1px 7px;font-size:11.5px;font-weight:700;font-family:var(--m)}
+    :root[data-theme="dark"] .save-badge{background:#133024;color:#6EE7B7;border-color:#1F523D}
+
+    /* Interactive Customer Needs Compass */
+    .compass-box{background:linear-gradient(145deg,var(--paper),var(--soft));border:1.5px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:14px;box-shadow:0 8px 24px rgba(20,30,45,.06)}
+    .compass-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    .compass-head h3{margin:0;font-size:18px;display:flex;align-items:center;gap:8px}
+    .compass-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(225px,1fr))}
+    .ncard{background:var(--paper);border:1.5px solid var(--line);border-radius:13px;padding:11px 13px;text-align:start;display:grid;gap:6px;align-content:start;transition:all .16s;position:relative;overflow:hidden}
+    .ncard:hover{border-color:var(--rose);transform:translateY(-2px);box-shadow:0 6px 18px rgba(166,61,99,.12)}
+    .ncard.on{border-color:var(--rose);background:var(--rose-soft);box-shadow:0 0 0 2px var(--rose)}
+    .ncard .ntop{display:flex;align-items:center;gap:8px;font-family:var(--d);font-weight:700;font-size:14.5px}
+    .ncard .nico{font-size:20px;line-height:1}
+    .ncard .ncust{font-size:12.5px;color:var(--muted);line-height:1.45}
+    .ncard .nstart{margin-top:2px;font-size:12.5px;font-weight:700;color:var(--sage);background:var(--sage-soft);border-radius:8px;padding:4px 8px;display:flex;justify-content:space-between;align-items:center;gap:4px}
+    .compass-drawer{background:var(--paper);border:2px solid var(--rose);border-radius:14px;padding:16px;display:grid;gap:14px;animation:noorPop .2s ease-out}
+    .cd-grid{display:grid;gap:12px;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}
+    @media (max-width:820px){.cd-grid{grid-template-columns:1fr}}
+    .cd-col{display:grid;gap:8px;align-content:start}
+    .cd-card{border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--soft);display:grid;gap:6px}
+    .cd-card.start{border-color:var(--sage);background:var(--paper);box-shadow:0 4px 14px rgba(47,117,101,.1)}
+    .cd-card .row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+
+    /* Live Call Cockpit Mode */
+    .cockpit{display:grid;gap:16px;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}
+    @media (max-width:960px){.cockpit{grid-template-columns:1fr}}
+    .cp-box{background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,.04)}
+    .cp-box h3{margin:0;font-size:16px;display:flex;justify-content:space-between;align-items:center}
+
+    /* QA Audit Log & Call Time-Machine */
+    .qa-audit-hero{background:linear-gradient(135deg,var(--paper),var(--blue-soft));border:2px solid var(--blue);border-radius:16px;padding:16px;display:grid;gap:12px}
+    .qa-controls{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));align-items:end}
+    .qa-controls label{display:grid;gap:4px;font-size:13px;font-weight:700;color:var(--muted)}
+    .qa-controls input,.qa-controls select{border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--paper);color:var(--ink);font:inherit;font-size:14.5px}
+    .qa-summary{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:14px;padding:10px 14px;border-radius:12px;background:var(--paper);border:1px solid var(--line)}
+    .audit-list{display:grid;gap:10px}
+    .audit-card{background:var(--paper);border:1.5px solid var(--line);border-radius:13px;padding:12px 16px;display:grid;gap:6px;transition:all .15s}
+    .audit-card.active-at-call{border-inline-start:5px solid var(--sage)}
+    .audit-card.after-call{border-inline-start:5px solid var(--red);background:var(--red-soft);opacity:.92}
+    .audit-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+    .audit-time{font-family:var(--m);font-size:13px;font-weight:700;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+    .audit-verdict{font-size:12.5px;font-weight:800;border-radius:99px;padding:3px 10px;display:inline-flex;align-items:center;gap:4px}
+    .audit-verdict.ok{background:var(--sage-soft);color:var(--sage)}
+    .audit-verdict.no{background:var(--red);color:#fff}
+
+    /* Command Palette (Ctrl+K) */
+    .cmdk-ov{position:fixed;inset:0;background:rgba(10,16,24,.6);backdrop-filter:blur(4px);z-index:90;display:grid;place-items:start center;padding:8vh 16px 16px}
+    .cmdk-box{width:100%;max-width:640px;background:var(--paper);border:1.5px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.35);overflow:hidden;display:grid}
+    .cmdk-in{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+    .cmdk-in input{flex:1;border:0;background:none;font:inherit;font-size:16.5px;color:var(--ink);outline:none}
+    .cmdk-list{max-height:58vh;overflow-y:auto;display:grid}
+    .cmdk-item{border:0;border-bottom:1px solid var(--line);background:none;padding:10px 16px;text-align:start;display:grid;gap:2px;cursor:pointer}
+    .cmdk-item:hover,.cmdk-item.on{background:var(--soft)}
+  `;
+  document.head.insertAdjacentHTML('beforeend', '<style>' + boslaCss + '</style>');
+
+  // State for Campaign filter, Active Need in Compass, and QA Audit Filter
+  let CAMP = 'all';
+  let ACTIVE_NEED = 'wrinkles';
+  let QA_FILTER = { callDt: '', q: '', cat: 'all' };
+
+  function richPriceHtml(o) {
+    if (o.price === '—') return '<span class="v">—</span>';
+    const pNum = parseFloat(String(o.price).replace(/[^d.]/g, ''));
+    const oldNum = o.oldPrice ? parseFloat(String(o.oldPrice).replace(/[^d.]/g, '')) : 0;
+    const diff = (oldNum > pNum && pNum > 0) ? Math.round(oldNum - pNum) : 0;
+    return `<div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+      ${o.oldPrice ? `<span class="old-p">${esc(o.oldPrice)} AED</span>` : ''}
+      <span class="v">${esc(o.price)} <small>AED</small></span>
+    </div>${diff > 0 ? `<span class="save-badge">${EN ? 'Save ' + diff + ' AED' : 'وفّر ' + diff + ' درهم'}</span>` : ''}`;
+  }
+
+  // Upgrade offerHtml to show campaign badge, starter/upgrade tier, old price, savings, and exact KB Added/Updated date badge for QA
+  window.offerHtml = function(o) {
+    const open = OPEN.has(o.id);
+    const vs = VARIANTS.filter(v => v.o === o.id);
+    const campBadge = o.camp === 'eid55'
+      ? `<span class="chip c-eid">🇦🇪 ${EN ? 'Eid Al Etihad 55' : 'عيد الاتحاد 55'}</span>`
+      : `<span class="chip c-cat">🎁 ${EN ? 'Big Gift Week' : 'Big Gift Week'}</span>`;
+    const tierBadge = o.tier === 'start'
+      ? `<span class="chip c-tier-start">🎯 ${EN ? 'Starter Offer' : 'عرض البداية'}</span>`
+      : o.tier === 'upgrade'
+      ? `<span class="chip c-tier-up">⬆️ ${EN ? 'Upgrade' : 'ترقية'}</span>`
+      : '';
+    const addedInfo = offerAddedInfo(o);
+    const dateBadge = `<span class="chip c-date" title="${EN ? 'When this info was added/updated on the Knowledge Base (for QA verification)' : 'تاريخ إضافة/تحديث المعلومة على النولدج بيز (لمراجعة الكواليتي)'}">🕒 ${esc(EN ? addedInfo[1] : addedInfo[0])}</span>`;
+    return `<article class="offer" id="o-${o.id}"><div class="ohead">
+      <button class="tt" data-a="toggle" data-v="${o.id}" aria-expanded="${open}">
+        <h3>${esc(o.ar)}</h3>
+        <span class="en ltr">${esc(o.en)}</span>
+        <span class="chips">${campBadge}<span class="chip c-cat">${CATS[o.cat]}</span>${tierBadge}${stChip(o.st)}${dateBadge}</span>
+      </button>
+      <div class="price">${richPriceHtml(o)}<span class="n">${esc(o.pn)}</span>
+       <span class="acts">${pronBtn(o.en)}${pinBtn('o-'+o.id)}<button class="ib" data-a="waquick" data-v="${o.id}" title="${EN?'Send on WhatsApp':'ابعت واتساب للعميل'}">📲 ${EN?'WhatsApp':'واتساب'}</button>${vs.length?`<button class="ib" data-a="addq" data-v="${vs[0].id}" title="${EN?'Add to calculator':'ضيف للحاسبة'}">＋ ${EN?'Calc':'حاسبة'}</button>`:''}</span>
+      </div></div>
+     ${open?`<div class="obody">
+      <div class="two"><div><div class="lbl">${EN?'What it is':'هي إيه (بكلام بسيط)'}</div><div>${esc(o.what)}</div></div><div><div class="lbl">${EN?'When to offer it':'تعرضها إمتى'}</div><div>${esc(o.who)}</div></div></div>
+      <div class="say"><div class="row"><span class="lbl">${EN?'Say it like this':'قولها كده'}</span><button class="copy" data-a="copy" data-t="${esc(o.say)}">${EN?'Copy':'نسخ'}</button></div><p>${esc(o.say)}</p></div>
+      ${o.qa&&o.qa.length?`<div><div class="lbl">${EN?'Expected customer questions':'أسئلة العميل المتوقعة'}</div><div class="qa">${o.qa.map(([q,a])=>`<div><span class="q">${esc(q)}</span><span class="a">${esc(a)}</span></div>`).join('')}</div></div>`:''}
+      ${o.caution?`<div class="caution ${o.st==='no'?'no':''}"><b>${EN?'Be careful:':'خلي بالك:'}</b> ${esc(o.caution)}</div>`:''}
+      ${o.guide?`<div><button class="ib" data-a="go" data-v="p-${o.guide}">📘 ${EN?'Product guide: ':'دليل المنتج: كل المعلومات عن '}${esc((PRODUCTS.find(p=>p.id===o.guide)||{}).name||'')}</button></div>`:''}
+      <div class="src">🕒 ${esc(EN ? addedInfo[1] : addedInfo[0])} · ${EN?'Source: ':'المصدر: '}${esc(String(o.slide))}</div></div>`:''}</article>`;
+  };
+
+  // Interactive Needs Compass HTML
+  function compassHtml() {
+    const active = NEEDS.find(n => n.id === ACTIVE_NEED) || NEEDS[0];
+    const startO = OFFERS.find(o => o.id === active.startId);
+    const upOs = (active.upIds || []).map(id => OFFERS.find(o => o.id === id)).filter(Boolean);
+
+    return `<div class="compass-box" id="compass">
+      <div class="compass-head">
+        <div>
+          <div class="eyebrow">${EN ? '🇦🇪 Eid Al Etihad 55 Sales Playbook' : '🇦🇪 دليل مبيعات عروض عيد الاتحاد 55'}</div>
+          <h3>🧭 ${EN ? 'Customer Needs Compass: Listen → Start → Upgrade' : 'بوصلة احتياج العميل: اسمع العميل ← ابدأ بعرض البداية ← رقّي العرض'}</h3>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="ib" data-a="go" data-v="cockpit">⚡ ${EN ? 'Open Live Call Cockpit' : 'افتح كابينة المكالمة المباشرة'}</button>
+          <button class="ib" data-a="go" data-v="qaaudit">🛡️ ${EN ? 'QA Update History' : 'سجل التحديثات للكواليتي'}</button>
+          <button class="ib" data-a="cmdk">⌘ ${EN ? 'Quick Search (Ctrl+K)' : 'البحث السريع (Ctrl+K)'}</button>
+        </div>
+      </div>
+      <div class="compass-grid">
+        ${NEEDS.map(n => {
+          const st = OFFERS.find(o => o.id === n.startId);
+          return `<button type="button" class="ncard ${ACTIVE_NEED === n.id ? 'on' : ''}" data-a="pickneed" data-v="${n.id}">
+            <div class="ntop"><span class="nico">${n.icon}</span><span>${esc(EN ? n.en : n.ar)}</span></div>
+            <div class="ncust">${esc(EN ? n.custEn : n.custAr)}</div>
+            ${st ? `<div class="nstart"><span>🎯 ${esc(st.ar.replace(' — عرض عيد الاتحاد','').replace(' — Eid Al Etihad',''))}</span><span class="m">${esc(st.price)} AED</span></div>` : ''}
+          </button>`;
+        }).join('')}
+      </div>
+      ${active && startO ? `<div class="compass-drawer">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <div><b style="font-size:16.5px">${active.icon} ${esc(EN ? active.en : active.ar)}</b> · <span class="small" style="color:var(--muted)">${EN ? 'Customer says:' : 'العميل بيقول:'} ${esc(EN ? active.custEn : active.custAr)}</span></div>
+          <button class="ib" data-a="askneed" data-v="${active.id}">💬 ${EN ? 'Open in Noor Chat' : 'افتح في شات نور'}</button>
+        </div>
+        <div class="cd-grid">
+          <div class="cd-col">
+            <div class="lbl" style="color:var(--sage)">🎯 ${EN ? '1. START WITH THIS OFFER (LOW BARRIER)' : '1. ابدأ بعرض البداية (سعر تنافسي لفتح الحجز)'}</div>
+            <div class="cd-card start">
+              <div class="row">
+                <div><b>${esc(startO.ar)}</b><div class="small" style="color:var(--muted)">${esc(startO.pn)}</div></div>
+                <div style="text-align:end">${richPriceHtml(startO)}</div>
+              </div>
+              <div class="say"><div class="row"><span class="lbl">${EN ? 'Say to customer' : 'قول للعميل'}</span><button class="copy" data-a="copy" data-t="${esc(startO.say)}">${EN ? 'Copy' : 'نسخ'}</button></div><p>${esc(startO.say)}</p></div>
+              ${startO.caution ? `<div class="caution"><b>${EN ? 'Note:' : 'خلي بالك:'}</b> ${esc(startO.caution)}</div>` : ''}
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="ib" data-a="waquick" data-v="${startO.id}">📲 ${EN ? 'Send on WhatsApp' : 'ابعت على الواتساب'}</button>
+                <button class="ib" data-a="go" data-v="o-${startO.id}">${EN ? 'Full offer details' : 'تفاصيل العرض'} ←</button>
+              </div>
+            </div>
+          </div>
+          <div class="cd-col">
+            <div class="lbl" style="color:var(--blue)">⬆️ ${EN ? '2. UPGRADE / ALTERNATIVE OFFERS (IF CUSTOMER WANTS MORE)' : '2. عروض الترقية والبدائل (لو العميل مهتم بباكدج أعلى)'}</div>
+            ${upOs.length ? upOs.map(u => `<div class="cd-card">
+              <div class="row">
+                <div><b>${esc(u.ar)}</b> ${stChip(u.st)}<div class="small" style="color:var(--muted)">${esc(u.pn)}</div></div>
+                <div style="text-align:end">${richPriceHtml(u)}</div>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="copy" data-a="copy" data-t="${esc(u.say)}">📋 ${EN ? 'Copy script' : 'نسخ الجملة'}</button>
+                <button class="ib" data-a="waquick" data-v="${u.id}">📲 ${EN ? 'WhatsApp' : 'واتساب'}</button>
+                <button class="ib" data-a="go" data-v="o-${u.id}">${EN ? 'Details' : 'التفاصيل'} ←</button>
+              </div>
+            </div>`).join('') : `<div class="small" style="color:var(--muted)">${EN ? 'Book a free consultation with the doctor to customize the full plan.' : 'احجز استشارة مجانية مع الدكتور لتحديد خطة العلاج المتكاملة.'}</div>`}
+          </div>
+        </div>
+      </div>` : ''}
+    </div>`;
+  }
+
+  // QA Audit Log & Call Time-Machine Section
+  const AUDIT_CATS = EN
+    ? { all: 'All Updates', offers: '💰 Offers & Prices', rules: '⚖️ Rules & Compliance', doctors: '👩‍⚕️ Doctors & Branches', services: '📘 Services & Odoo', tools: '🛠️ Tools & Scripts' }
+    : { all: 'كل التحديثات', offers: '💰 العروض والأسعار', rules: '⚖️ القواعد والكومبلاينس', doctors: '👩‍⚕️ الدكاترة والفروع', services: '📘 الخدمات وأودوو', tools: '🛠️ الأدوات والسكريبت' };
+
+  function qaAuditHtml() {
+    // Merge built-in AUDIT_LOG with any dynamic SHEET_UPDATES from Google Sheets
+    const allLogs = [...AUDIT_LOG];
+    if (typeof SHEET_UPDATES !== 'undefined' && SHEET_UPDATES.length) {
+      SHEET_UPDATES.forEach(su => {
+        const dStr = String(su[0] || '').trim();
+        const txt = String(su[1] || '').trim();
+        if (txt && !allLogs.some(x => x.ar === txt || x.en === txt)) {
+          const pd = parseDate(dStr) || '2026-11-19';
+          allLogs.unshift({
+            iso: pd + 'T12:00',
+            dateAr: dStr + ' (من شيت التحديثات)',
+            dateEn: dStr + ' (from Google Sheet)',
+            cat: 'offers',
+            ar: txt,
+            en: txt,
+            items: []
+          });
+        }
+      });
+    }
+
+    const q = norm(QA_FILTER.q.trim());
+    const callDt = QA_FILTER.callDt; // e.g. '2026-11-18T14:30' or '2026-11-18'
+    const callIso = callDt ? (callDt.length === 10 ? callDt + 'T23:59' : callDt) : '';
+
+    const filtered = allLogs.filter(item => {
+      if (QA_FILTER.cat !== 'all' && item.cat !== QA_FILTER.cat) return false;
+      if (q && !norm(item.ar + ' ' + item.en + ' ' + item.dateAr + ' ' + item.dateEn).includes(q)) return false;
+      return true;
+    });
+
+    const activeCount = callIso ? filtered.filter(x => x.iso <= callIso).length : filtered.length;
+    const afterCount = callIso ? filtered.filter(x => x.iso > callIso).length : 0;
+
+    return `<section id="updates">
+      <div class="sh">
+        <div class="eyebrow">🛡️ ${EN ? 'For Quality (QA), Team Leads & Trainers' : 'للكواليتي (QA) والتيم ليدرز والترينينج'}</div>
+        <h2>${EN ? 'Knowledge Base Audit Log & QA Call Time-Machine' : 'سجل التحديثات المؤرخ وفاحص تاريخ المكالمة للكواليتي'}</h2>
+        <p>${EN ? 'Every offer, price, rule, or script added to the Knowledge Base is stamped with its exact date and time. Enter the call date/time below to verify whether an update was live on the page during the call.' : 'كل معلومة أو عرض أو قاعدة اتضافت على النولدج بيز متسجلة بالتاريخ والساعة. اختار تاريخ ووقت المكالمة اللي بتسمعها عشان تعرف فوراً هل المعلومة كانت موجودة قدام الإيجنت وقت المكالمة (فيتحاسب عليها) ولا اتضافت بعد المكالمة.'}</p>
+      </div>
+
+      <div class="qa-audit-hero">
+        <div class="qa-controls">
+          <label>
+            <span>📅 ${EN ? 'Call Date & Time (QA Check)' : 'تاريخ ووقت المكالمة (لفحص الكواليتي)'}</span>
+            <input type="datetime-local" id="qaCallDt" value="${esc(QA_FILTER.callDt)}">
+          </label>
+          <label>
+            <span>🔍 ${EN ? 'Search updates (offer, rule, price…)' : 'ابحث في التحديثات (اسم عرض، قاعدة، سعر…)'}</span>
+            <input type="search" id="qaSearch" placeholder="${EN ? 'e.g. Endolift, 7:30, Eid, Thiqa, Mounjaro…' : 'مثلاً: عيد الاتحاد، إندولفت، 7:30، ثقة، رجال…'}" value="${esc(QA_FILTER.q)}">
+          </label>
+          <label>
+            <span>📂 ${EN ? 'Category' : 'نوع التحديث'}</span>
+            <select id="qaCat">
+              ${Object.entries(AUDIT_CATS).map(([k, v]) => `<option value="${k}" ${QA_FILTER.cat === k ? 'selected' : ''}>${esc(v)}</option>`).join('')}
+            </select>
+          </label>
+          ${(QA_FILTER.callDt || QA_FILTER.q || QA_FILTER.cat !== 'all') ? `<div><button type="button" class="btn" data-a="qareset" style="width:100%;height:40px">${EN ? 'Reset filters' : 'مسح الفلتر'}</button></div>` : ''}
+        </div>
+
+        ${callIso ? `<div class="qa-summary">
+          <span>🎯 <b>${EN ? 'Call Timestamp:' : 'توقيت المكالمة:'}</b> <span class="m ltr">${esc(callDt.replace('T', ' '))}</span></span>
+          <span>·</span>
+          <span style="color:var(--sage);font-weight:700">✅ ${activeCount} ${EN ? 'updates were LIVE during the call (Agent accountable)' : 'تحديث كان موجود وقت المكالمة (الإيجنت يتحاسب عليه)'}</span>
+          <span>·</span>
+          <span style="color:var(--red);font-weight:700">🚫 ${afterCount} ${EN ? 'updates were added AFTER the call (Do NOT penalize agent)' : 'تحديث اتضاف بعد المكالمة (لا يُحاسب عليه الإيجنت)'}</span>
+        </div>` : `<div class="small" style="color:var(--muted)">💡 ${EN ? 'Tip: Pick the date & time of the recorded call above to automatically mark which rules/offers were live at that moment.' : 'نصيحة للكواليتي: اختار تاريخ وساعة المكالمة المسجلة من الخانة اللي فوق، والسيستم هيعلّملك بالأخضر على اللي كان موجود وقتها وبالأحمر على اللي اتضاف بعدها.'}</div>`}
+      </div>
+
+      <div class="audit-list">
+        ${filtered.map(item => {
+          const isAfter = callIso && item.iso > callIso;
+          const cardCls = callIso ? (isAfter ? 'after-call' : 'active-at-call') : '';
+          const verdictHtml = callIso
+            ? (isAfter
+                ? `<span class="audit-verdict no">🚫 ${EN ? 'Added AFTER call — Do NOT penalize agent' : 'اتضافت بعد المكالمة — لا يُحاسب عليها الإيجنت'}</span>`
+                : `<span class="audit-verdict ok">✅ ${EN ? 'Was LIVE during call — Agent had this info' : 'كانت موجودة وقت المكالمة — الإيجنت يتحاسب عليها'}</span>`)
+            : `<span class="chip c-cat">${esc(AUDIT_CATS[item.cat] || item.cat)}</span>`;
+          return `<div class="audit-card ${cardCls}">
+            <div class="audit-top">
+              <span class="audit-time">🕒 ${esc(EN ? item.dateEn : item.dateAr)}</span>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">${verdictHtml}</div>
+            </div>
+            <div style="font-size:14.5px;line-height:1.65">${esc(EN ? item.en : item.ar)}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </section>`;
+  }
+
+  // Override SEC.updates and create dedicated SEC.qaaudit view
+  SEC.updates = qaAuditHtml;
+  SEC.qaaudit = qaAuditHtml;
+
+  // Override SEC.home to include the Customer Needs Compass at the top
+  const _origHome = SEC.home;
+  SEC.home = function() {
+    return _origHome().replace('<div class="quick">', compassHtml() + '<div class="quick">');
+  };
+
+  // Override SEC.offers to add Campaign Switcher (All | Eid Al Etihad 55 | Big Gift Week)
+  SEC.offers = function() {
+    const offers = OFFERS.filter(o => (CAMP === 'all' || o.camp === CAMP) && (CAT === 'all' || o.cat === CAT));
+    const eidCount = OFFERS.filter(o => o.camp === 'eid55').length;
+    const bgwCount = OFFERS.filter(o => o.camp === 'bgw').length;
+    return `<section id="offers">
+      <div class="sh">
+        <div class="eyebrow">${EN ? 'Eid Al Etihad 55 & Big Gift Week' : 'عروض عيد الاتحاد 55 + Big Gift Week'}</div>
+        <h2>${EN ? 'Offers & Prices' : 'العروض والأسعار'}</h2>
+        <p>${EN ? 'Filter by campaign or category. Every offer shows the exact date it was added to the KB.' : 'اختار الحملة (عروض عيد الاتحاد 55 أو عروض Big Gift Week) أو القسم. كل عرض مكتوب عليه تاريخ وساعة إضافته على النولدج بيز.'}</p>
+      </div>
+      <div class="camp-bar">
+        <span class="clbl">${EN ? 'Campaign:' : 'الحملة:'}</span>
+        <button type="button" class="camp-btn eid ${CAMP==='eid55'?'on':''}" data-a="camp" data-v="eid55">🇦🇪 ${EN ? 'Eid Al Etihad 55 Offers' : 'عروض عيد الاتحاد 55'} (${eidCount})</button>
+        <button type="button" class="camp-btn ${CAMP==='bgw'?'on':''}" data-a="camp" data-v="bgw">🎁 ${EN ? 'Big Gift Week Offers' : 'عروض Big Gift Week'} (${bgwCount})</button>
+        <button type="button" class="camp-btn ${CAMP==='all'?'on':''}" data-a="camp" data-v="all">${EN ? 'All Offers' : 'كل العروض'} (${OFFERS.length})</button>
+      </div>
+      <div class="filters">${[['all',EN?'All':'الكل']].concat(Object.entries(CATS)).map(([k,t])=>`<button data-a="cat" data-v="${k}" class="${CAT===k?'on':''}">${t}</button>`).join('')}<button data-a="expand">${EN?'Open all':'فتح الكل'}</button><button data-a="collapse">${EN?'Close all':'قفل الكل'}</button></div>
+      <div class="offers">${offers.map(offerHtml).join('')}</div>
+    </section>`;
+  };
+
+  // Override SEC.prices to include "Added / Updated on KB" column for QA
+  SEC.prices = function() {
+    const offers = OFFERS.filter(o => CAMP === 'all' || o.camp === CAMP);
+    return `<section id="prices"><div class="sh"><div class="eyebrow">${EN ? 'At a glance + QA Timestamps' : 'نظرة سريعة + تاريخ الإضافة للكواليتي'}</div><h2>${EN ? 'Price Table' : 'جدول الأسعار'}</h2><p>${EN ? 'All prices are in UAE dirhams (AED), excluding VAT.' : 'كل الأسعار بالدرهم الإماراتي، ومكتوب جنب كل عرض تاريخ إضافته على النولدج بيز.'}</p></div>
+     <div class="tw"><table><thead><tr><th>${EN?'Service':'الخدمة'}</th><th>${EN?'Campaign':'الحملة'}</th><th>${EN?'Price (AED)':'السعر (AED)'}</th><th>${EN?'Details':'تفاصيل'}</th><th>${EN?'Status':'الحالة'}</th><th>🕒 ${EN?'Added to KB':'تاريخ الإضافة على النولدج'}</th></tr></thead><tbody>
+     ${offers.map(o=>{ const ad=offerAddedInfo(o); return `<tr><td><a href="#o-${o.id}" data-a="go" data-v="o-${o.id}" style="color:var(--rose);font-weight:700">${esc(o.ar)}</a></td><td>${o.camp==='eid55'?'<span class="chip c-eid">🇦🇪 عيد الاتحاد 55</span>':'<span class="chip c-cat">🎁 Big Gift Week</span>'}</td><td class="m">${o.oldPrice?`<span class="old-p">${esc(o.oldPrice)}</span> `:''}${esc(o.price)}</td><td>${esc(o.pn)}</td><td>${stChip(o.st)}</td><td class="small m">${esc(EN?ad[1]:ad[0])}</td></tr>`; }).join('')}</tbody></table></div>
+     <h3 id="regular" style="margin:22px 0 6px">${EN?'Regular prices (not offers)':'أسعار عادية (مش عروض)'}</h3><p style="margin:0 0 8px;color:var(--muted)">${EN?'Regular prices: no gift, excluding VAT.':'خدمات سأل عليها عملاء والكلاينت قال سعرها. دي أسعار عادية: مفيش معاها هدية، والسعر من غير الضريبة.'}</p>
+     <div class="tw"><table><thead><tr><th>${EN?'Service':'الخدمة'}</th><th>${EN?'Price (AED)':'السعر (AED)'}</th><th>${EN?'Details':'تفاصيل'}</th><th>${EN?'Added to KB':'تاريخ الإضافة'}</th></tr></thead><tbody>
+     ${REGULAR.map(r=>`<tr><td>${esc(r.ar)}</td><td class="m">${esc(r.price)}</td><td>${esc(r.pn||'—')}</td><td class="small">${esc(r.src)}</td></tr>`).join('')}</tbody></table></div></section>`;
+  };
+
+  // Add Live Call Cockpit & QA Audit Log tabs
+  SEC.cockpit = function() {
+    return `<section id="cockpit">
+      <div class="sh">
+        <div class="eyebrow">⚡ ${EN ? 'All-in-One Call Screen' : 'كل أدوات المكالمة في شاشة واحدة'}</div>
+        <h2>${EN ? 'Live Call Cockpit' : 'كابينة المكالمة المباشرة (Live Call Cockpit)'}</h2>
+        <p>${EN ? 'Listen to the customer, pick their need, check your call steps, and send WhatsApp in one place.' : 'اسمع العميل، اختار احتياجه من البوصلة، علّم على خطوات المكالمة، وابعتله العرض على الواتساب من غير ما تخرج من الشاشة.'}</p>
+      </div>
+      ${compassHtml()}
+      <div class="cockpit">
+        <div class="cp-box">${drawerCall()}</div>
+        <div class="cp-box">${drawerQuote()}</div>
+      </div>
+    </section>`;
+  };
+  VIEWS.splice(1, 0, ['cockpit', EN ? '⚡ Live Cockpit' : '⚡ كابينة المكالمة', ['cockpit']]);
+  VIEWS.push(['qaaudit', EN ? '🛡️ QA Update Log' : '🛡️ سجل التحديثات (QA)', ['qaaudit']]);
+
+  // ================= GENIUS NOOR UPGRADES =================
+  let LAST_CTX = null;
+
+  const COMPARISONS = [
+    {
+      re: /(فرق|مقارنه|افضل|احسن|ولا|ام|vs|difference|compare|between).*(نابوتا|nabota).*(ديسبورت|dysport)|(نابوتا|nabota).*(ولا|او|vs).*(ديسبورت|dysport)/i,
+      title: EN ? 'Comparison: Nabota Botox vs. Dysport Botox' : 'مقارنة: بوتوكس نابوتا الكوري vs بوتوكس ديسبورت البريطاني',
+      rows: EN ? [
+        ['Origin', 'Nabota: South Korean (internationally approved)', 'Dysport: British (internationally approved)'],
+        ['Characteristics', 'High purity, fast results, economical choice', 'Smaller particles, spreads over wider areas (like a wide forehead), very natural look'],
+        ['Eid Al Etihad 55 Price', 'Full Face Women: 450 AED · Men: 555 AED', 'Full Face Women: 955 AED · Men: 1,100 AED'],
+        ['Big Gift Week Price', '1 Area: 499 AED · Full Face: 700 AED', '1 Area: 900 AED · Full Face: 1,299 AED (needs confirmation)']
+      ] : [
+        ['المنشأ', 'نابوتا: كوري جنوبي معتمد عالمياً', 'ديسبورت: بريطاني معتمد عالمياً'],
+        ['المميزات', 'نقاء عالي، نتيجة سريعة، اختيار اقتصادي ممتاز', 'جزيئاته أصغر وأخف فبينتشر على مساحة أوسع (ممتاز للجبهة العريضة) وشكله طبيعي جداً'],
+        ['سعر عرض عيد الاتحاد 55', 'الوجه كامل للسيدات: 450 درهم · للرجال: 555 درهم', 'الوجه كامل للسيدات: 955 درهم · للرجال: 1,100 درهم'],
+        ['سعر عرض Big Gift Week', 'منطقة واحدة: 499 درهم · الوجه كامل: 700 درهم', 'منطقة واحدة: 900 درهم · الوجه كامل: 1,299 درهم']
+      ],
+      say: EN
+        ? 'Both Nabota and Dysport are excellent and internationally approved. Nabota is Korean and very economical (450 AED full face for women in Eid offers), while British Dysport spreads over a wider area (955 AED). The doctor will assess your facial muscles in the free consultation and advise what suits you best.'
+        : 'الاتنين ممتازين ومعتمدين عالمياً. نابوتا الكوري مميز بنقائه وسعره الاقتصادي (الوجه كامل للسيدات بـ 450 درهم في عروض عيد الاتحاد)، وديسبورت البريطاني جزيئاته أصغر فبينتشر على مساحة أوسع (955 درهم). الدكتورة هتقيّم حركة عضلات وشك في الاستشارة المجانية وتنصحك بالأنسب.'
+    },
+    {
+      re: /(فرق|مقارنه|ولا|vs|difference|compare).*(اندولفت|اندوليزر|endolift|endolaser).*(هايفو|hifu)|(هايفو|hifu).*(اندولفت|اندوليزر|endolift|endolaser)/i,
+      title: EN ? 'Comparison: Endolift (Endolaser) vs. HIFU' : 'مقارنة: الإندولفت (Endolift / الإندوليزر) vs الهايفو (HIFU)',
+      rows: EN ? [
+        ['How energy is delivered', 'Endolift: Micro-optical laser fibers inserted directly under the skin', 'HIFU: Focused ultrasound waves applied from the outer skin surface'],
+        ['Target tissues', 'Subcutaneous tissue: tightens skin, stimulates collagen & helps remodel localized fat', 'Deep skin layers from outside without entering under the skin'],
+        ['How to choose', 'Doctor evaluates skin laxity and localized fat', 'Doctor determines which technology suits your case best']
+      ] : [
+        ['طريقة توصيل الطاقة', 'الإندولفت: ألياف ليزر دقيقة جداً تدخل تحت الجلد مباشرة', 'الهايفو: موجات فوق صوتية من على سطح الجلد الخارجي'],
+        ['الأنسجة المستهدفة', 'يشد الجلد من الداخل ويحفز الكولاجين ويساعد في تقليل الدهون الموضعية', 'يستهدف طبقات الشد بدون إدخال ألياف تحت الجلد'],
+        ['أنهي أنسب؟', 'في عروض عيد الاتحاد: إندوليزر الذقن المزدوج بـ 1,555 درهم (والوجه والرقبة 2,500)', 'الدكتور في الاستشارة المجانية يقدر يحدد أنهي تقنية أنسب لدرجة الترهل عندك']
+      ],
+      say: EN
+        ? 'Both Endolift and HIFU are technologies for improving skin tightening, but they differ in how energy is delivered and the targeted tissues. Endolift uses micro-laser fibers under the skin. The doctor can determine which technology is best for your case during the free consultation.'
+        : 'الاتنين تقنيات مختلفة لتحسين شد الجلد، لكن طريقة توصيل الطاقة والأنسجة المستهدفة بتختلف؛ الإندولفت بيشتغل بألياف ليزر دقيقة جداً تحت الجلد لشد الترهل وتحفيز الكولاجين وتقليل الدهون الموضعية. الطبيب في الاستشارة المجانية يقدر يحدد أنهي تقنية أنسب لحالتك.'
+    },
+    {
+      re: /(فرق|مقارنه|بديل|ولا|vs|difference|replace|alternative).*(اندولفت|اندوليزر|endolift|endolaser).*(شفط|جراح|عمليه|liposuction|surgery)|(شفط|جراح|عمليه).*(اندولفت|اندوليزر|endolift|endolaser)/i,
+      title: EN ? 'Comparison: Endolift vs. Liposuction / Surgical Lift' : 'مقارنة: الإندولفت (Endolift) vs شفط الدهون أو الشد الجراحي',
+      rows: EN ? [
+        ['Technique', 'Endolift: Minimally invasive micro-laser fibers under the skin', 'Liposuction / Surgery: Surgical fat removal or surgical excision of excess skin'],
+        ['Is it an alternative to surgery?', 'Helps in suitable mild/moderate sagging, NOT all surgical cases', 'Required when there is severe sagging or large amounts of excess skin']
+      ] : [
+        ['طبيعة الإجراء', 'الإندولفت: إجراء محدود التدخل بألياف ليزر دقيقة تحت الجلد (مش عملية جراحية تقليدية)', 'شفط الدهون / الجراحة: إزالة الدهون بالشفط الجراحي أو قص الجلد الزائد جراحياً'],
+        ['هل يغني عن العملية؟', 'مناسب لحالات معينة من الترهل والدهون الموضعية وفترة تعافيه أقصر', 'لو الترهل شديد أو فيه جلد زائد بشكل كبير، الجراحة بتكون خيار مختلف يحدده الدكتور']
+      ],
+      say: EN
+        ? 'Endolift relies on laser energy through fine fibers under the skin, whereas liposuction removes fat via suction and surgical lifts remove excess skin. Endolift can help in certain cases of sagging without traditional surgery, and the doctor will assess your case in the free consultation.'
+        : 'الإندولفت إجراء محدود التدخل بيعتمد على طاقة الليزر عن طريق ألياف دقيقة تحت الجلد لتحفيز الكولاجين وشد الجلد، ومش بديل للجراحة في كل الحالات (لو الترهل شديد أو فيه جلد زائد كبير الجراحة بتكون خيار مختلف). الدكتور في الاستشارة المجانية هيقيّم حالتك ويقولك الأنسب.'
+    },
+    {
+      re: /(فرق|مقارنه|ولا|او|vs|difference|compare).*(اوزمبك|اوزيمبك|ozempic).*(مونجارو|mounjaro)|(مونجارو|mounjaro).*(ولا|او|vs).*(اوزمبك|اوزيمبك|ozempic)/i,
+      title: EN ? 'Comparison: Ozempic Course vs. Mounjaro Course (Eid Al Etihad 55)' : 'مقارنة: كورس أوزمبك vs كورس مونجارو (عروض عيد الاتحاد 55)',
+      rows: EN ? [
+        ['Eid Al Etihad 55 Price', 'Ozempic Course: 1,555 AED (Starter Offer)', 'Mounjaro Course: 2,555 AED instead of 3,200 AED (Upgrade)'],
+        ['Duration & Follow-up', '2 months + medical & nutrition follow-up', 'With 3 months medical & nutrition follow-up (Big Gift Week 3-month course with 10 sessions is 2,999 AED)'],
+        ['Medical Rule', 'Prescription medication — requires free doctor consultation first', 'Prescription medication — requires free doctor consultation first']
+      ] : [
+        ['سعر عرض عيد الاتحاد 55', 'كورس إبر أوزمبك: 1,555 درهم (عرض البداية)', 'كورس إبر مونجارو: 2,555 درهم بدل 3,200 درهم (ترقية)'],
+        ['المدة والمتابعة', 'شهرين + متابعة طبية وغذائية', 'مع 3 شهور متابعة (وعرض Big Gift Week الشامل 10 جلسات أجهزة بـ 2,999 درهم)'],
+        ['قاعدة طبية مهمة', 'دوا بروشتة — لازم استشارة مجانية مع الدكتور الأول', 'دوا بروشتة — لازم استشارة مجانية مع الدكتور الأول ومتقولش عدد كيلوهات']
+      ],
+      say: EN
+        ? 'In our Eid Al Etihad offers, the 2-month Ozempic course with follow-up is 1,555 AED, and the Mounjaro course with 3 months of follow-up is 2,555 AED. Since both are prescription treatments, we start with a free consultation so the doctor can assess your health and choose the right one for you.'
+        : 'في عروض عيد الاتحاد، عندنا كورس إبر أوزمبك لمدة شهرين مع المتابعة بـ 1,555 درهم، وكورس إبر مونجارو مع متابعة 3 شهور بـ 2,555 درهم بدل 3,200. وعشان الاتنين أدوية بوصفة طبية، بنبدأ باستشارة مجانية مع الدكتور يقيّم حالتك ويحدد الأنسب ليك.'
+    }
+  ];
+
+  const NEED_PATTERNS = [
+    {id:'wrinkles', re:/تجاعيد|خطوط في الجبهه|حوالين العين|وشي باين عليه تعب|كرمشه|جبهه|expression lines|forehead lines|face looks tired/},
+    {id:'sagging', re:/وشي بقي مرخي|ترهل في الوجه|ملامحي نزلت|شد الوجه|فقدان الكولاجين|sagging face|face lifting/},
+    {id:'glow', re:/بشرتي باهته|بشره ناشفه|عايزه جلو|عندي مناسبه|تنظيف بشره|نضاره|dull skin|dry skin|want a glow/},
+    {id:'volume', re:/اكبر شفايفي|خدودي فاضيه|احدد الفك|تكبير المؤخره|فيلر مؤخره|fuller lips|empty cheeks|jawline|buttock/},
+    {id:'eyes', re:/هالات|سواد تحت عيني|تحت العين|باين عليا سهرانه|dark circles|under eye/},
+    {id:'neck_hands', re:/رقبتي فيها خطوط|ترهل الرقبه|ايديا باين عليها السن|تجديد اليدين|عروق اليد|neck lines|aging hands/},
+    {id:'double_chin', re:/غبغب|دبل تشن|لغد|تحت الدقن|احدد الدقن|double chin/},
+    {id:'local_fat', re:/كرش|دهون في البطن|دهون في الجنب|دهون موضعيه|وزني كويس بس|belly fat|stubborn fat|love handles/},
+    {id:'weight_loss', re:/عايز اخس|عايزه اخس|جربت دايت|انقاص الوزن|اوزمبك|اوزيمبك|lose weight|ozempic/},
+    {id:'cellulite', re:/سيلوليت|تكسير في الجلد|محتبس مياه|احتباس سوائل|ماديرو|cellulite|fluid retention|madero/},
+    {id:'laser', re:/اشيل الشعر|تعبت من الواكس|ليزر جسم|ازاله الشعر|hair removal|tired of waxing/},
+    {id:'hair_loss', re:/شعري بيقع|تساقط الشعر|عندي فراغات|صلع|زراعه شعر|جي سيل|hair loss|bald|hair transplant|g-cell/}
+  ];
+
+  const _origBotAsk = window.botAsk;
+  window.botAsk = function(q) {
+    const nq = norm(String(q || '').trim());
+    if (!nq) return null;
+
+    for (const cmp of COMPARISONS) {
+      if (cmp.re.test(nq)) {
+        return { kind: 'compare', cmp, q: nq };
+      }
+    }
+
+    const wantsNeed = /العميل بيقول|العميله بتقول|بتشتكي|بيشتكي|عندي|عايزه|عايز|احسن عرض ل|اقترح ايه|ابدا بايه/.test(nq);
+    for (const np of NEED_PATTERNS) {
+      if (np.re.test(nq) && (wantsNeed || nq.split(/s+/).length >= 2)) {
+        if (!/كام جلس|كم جلس|يوجع|مؤلم|حامل|مرضع|فتره التعافي|كدمات|تورم|امتي تبان|رجال|رجاله|بطن وضهر/.test(nq)) {
+          const needObj = NEEDS.find(n => n.id === np.id);
+          if (needObj) {
+            LAST_CTX = OFFERS.find(o => o.id === needObj.startId) || LAST_CTX;
+            return { kind: 'need', need: needObj, q: nq };
+          }
+        }
+      }
+    }
+
+    let res = _origBotAsk(q);
+    if (LAST_CTX && (!res || res.kind === 'none' || /^(طب|طيب|و|وهل|بكام|كام|ينفع|بتاخد|مؤلم|يوجع|امتي|كم|how|does|is it|what about)/.test(nq))) {
+      const ctxName = LAST_CTX.ar || LAST_CTX.name || '';
+      const hasExplicitProduct = OFFERS.some(o => nq.includes(norm(o.ar.split(' ')[0]))) || PRODUCTS.some(p => nq.includes(norm(p.name)));
+      if (!hasExplicitProduct && ctxName) {
+        const contextualRes = _origBotAsk(ctxName + ' ' + q);
+        if (contextualRes && contextualRes.kind === 'hit') {
+          contextualRes.fromCtx = ctxName;
+          res = contextualRes;
+        }
+      }
+    }
+
+    if (res && res.kind === 'hit' && res.best && res.best.ref) {
+      LAST_CTX = res.best.ref;
+    }
+    return res;
+  };
+
+  const _origBotAnswerHtml = window.botAnswerHtml;
+  window.botAnswerHtml = function(r) {
+    if (r && r.kind === 'compare') {
+      const c = r.cmp;
+      return `<div class="hd">⚖️ ${esc(c.title)}</div>
+        <div class="tw"><table style="font-size:13px"><tbody>${c.rows.map(row => `<tr><th style="width:110px">${esc(row[0])}</th><td>${esc(row[1])}</td><td>${esc(row[2])}</td></tr>`).join('')}</tbody></table></div>
+        ${sayBox(c.say, EN ? 'Say it like this' : 'قولها للعميل كده')}`;
+    }
+    if (r && r.kind === 'need') {
+      const n = r.need;
+      const st = OFFERS.find(o => o.id === n.startId);
+      const ups = (n.upIds || []).map(id => OFFERS.find(o => o.id === id)).filter(Boolean).slice(0, 3);
+      return `<div class="hd">${n.icon} ${esc(EN ? n.en : n.ar)} <span class="chip c-eid">🇦🇪 ${EN ? 'Needs Compass' : 'بوصلة الاحتياج'}</span></div>
+        <div class="small" style="color:var(--muted)">${EN ? 'Customer says:' : 'العميل بيقول:'} ${esc(EN ? n.custEn : n.custAr)}</div>
+        ${st ? `<div style="border:1.5px solid var(--sage);border-radius:10px;padding:8px 10px;background:var(--paper)">
+          <div style="display:flex;justify-content:space-between;align-items:center"><b>🎯 ${EN ? 'Start with:' : 'ابدأ بعرض البداية:'} ${esc(st.ar)}</b><span class="m" style="font-weight:700;color:var(--sage)">${esc(st.price)} AED</span></div>
+          ${sayBox(st.say, EN ? 'Say to customer' : 'قول للعميل')}
+          <div class="acts" style="margin-top:6px">
+            <button class="ib" data-a="waquick" data-v="${st.id}">📲 ${EN ? 'Send on WhatsApp' : 'ابعت واتساب'}</button>
+            <button class="ib" data-a="go" data-v="o-${st.id}">${EN ? 'Offer details' : 'تفاصيل العرض'} ←</button>
+          </div>
+        </div>` : ''}
+        ${ups.length ? `<div class="lbl">⬆️ ${EN ? 'Upgrades if customer wants more:' : 'عروض الترقية لو العميل مهتم بأعلى:'}</div>
+          <div class="chips2">${ups.map(u => `<button data-a="bq" data-t="${esc(u.ar)}">${esc(u.ar.replace(' — عرض عيد الاتحاد',''))} (${esc(u.price)} AED)</button>`).join('')}</div>` : ''}`;
+    }
+
+    let html = _origBotAnswerHtml(r);
+    if (r && r.fromCtx) {
+      html = `<div class="small" style="color:var(--rose);font-weight:700">🔗 ${EN ? 'Continuing about: ' : 'تكملة لكلامنا عن: '}${esc(r.fromCtx)}</div>` + html;
+    }
+    if (r && r.kind === 'hit' && r.best && (r.best.type === 'offer' || r.best.type === 'oqa') && r.best.ref && r.best.ref.id) {
+      const oid = r.best.ref.id;
+      const v = VARIANTS.find(x => x.o === oid);
+      const ad = offerAddedInfo(r.best.ref);
+      const dateLine = `<div class="small" style="color:var(--muted)">🕒 ${esc(EN ? ad[1] : ad[0])}</div>`;
+      const extraBtns = `<button class="ib" data-a="waquick" data-v="${oid}">📲 ${EN ? 'Send on WhatsApp' : 'ابعت العرض واتساب'}</button>` +
+        (v ? `<button class="ib" data-a="addq" data-v="${v.id}">＋ ${EN ? 'Add to Calculator' : 'ضيف للحاسبة'}</button>` : '');
+      html = html.replace('<div class="acts">', dateLine + '<div class="acts">' + extraBtns);
+    }
+    return html;
+  };
+
+  if (typeof BOT_CHIPS !== 'undefined') {
+    BOT_CHIPS.unshift(
+      EN ? 'Customer says: my face looks tired' : 'العميلة بتقول وشي باين عليه تعب',
+      EN ? 'Difference between Endolift and HIFU' : 'الفرق بين الإندولفت والهايفو',
+      EN ? 'Ozempic vs Mounjaro offer' : 'الفرق بين كورس أوزمبك ومونجارو',
+      EN ? 'My hair is falling out (G-Cell)' : 'شعري بيقع وعندي فراغات'
+    );
+  }
+
+  // Command Palette (Ctrl+K) modal
+  function openCmdK() {
+    if ($('cmdkOv')) return;
+    document.body.insertAdjacentHTML('beforeend', `<div class="cmdk-ov" id="cmdkOv" dir="${EN?'ltr':'rtl'}">
+      <div class="cmdk-box">
+        <div class="cmdk-in">
+          <span>🔍</span>
+          <input id="cmdkIn" type="search" autocomplete="off" placeholder="${EN ? 'Type anything: offer, symptom, Endolift question, QA update…' : 'اكتب أي حاجة: اسم عرض، شكوى العميل، سؤال إندولفت، تاريخ تحديث…'}">
+          <button class="ib" data-a="cmdkclose">Esc</button>
+        </div>
+        <div class="cmdk-list" id="cmdkList"></div>
+      </div>
+    </div>`);
+    const inp = $('cmdkIn');
+    const renderCmdList = () => {
+      const q = inp.value.trim();
+      const res = q ? search(q).slice(0, 10) : NEEDS.slice(0, 8).map(n => ({
+        sec: EN ? 'Customer Need' : 'احتياج العميل',
+        title: n.icon + ' ' + (EN ? n.en : n.ar),
+        sub: EN ? n.custEn : n.custAr,
+        needId: n.id
+      }));
+      $('cmdkList').innerHTML = res.map((r, i) => `<button type="button" class="cmdk-item ${i===0?'on':''}" data-a="cmdkgo" data-go="${esc(r.go||'')}" data-need="${esc(r.needId||'')}">
+        <span class="sec" style="font-size:11.5px;color:var(--rose);font-weight:700">${esc(r.sec)}</span>
+        <b>${esc(r.title)}</b>
+        <span class="snip" style="font-size:13px;color:var(--muted)">${esc(String(r.sub||'').slice(0,120))}</span>
+      </button>`).join('');
+    };
+    inp.addEventListener('input', renderCmdList);
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { $('cmdkOv').remove(); }
+      else if (e.key === 'Enter') {
+        const first = $('cmdkList').querySelector('.cmdk-item');
+        if (first) first.click();
+      }
+    });
+    $('cmdkOv').addEventListener('click', e => { if (e.target.id === 'cmdkOv') $('cmdkOv').remove(); });
+    renderCmdList();
+    inp.focus();
+  }
+
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if ($('cmdkOv')) $('cmdkOv').remove(); else openCmdK();
+    }
+  });
+
+  // QA Audit filter inputs
+  document.addEventListener('input', e => {
+    if (e.target.id === 'qaCallDt') { QA_FILTER.callDt = e.target.value; renderMain(); }
+    else if (e.target.id === 'qaSearch') {
+      QA_FILTER.q = e.target.value;
+      const pos = e.target.selectionStart;
+      renderMain();
+      const el = $('qaSearch');
+      if (el) { el.focus(); try { el.setSelectionRange(pos, pos); } catch(_) {} }
+    }
+  });
+  document.addEventListener('change', e => {
+    if (e.target.id === 'qaCat') { QA_FILTER.cat = e.target.value; renderMain(); }
+    else if (e.target.id === 'qaCallDt') { QA_FILTER.callDt = e.target.value; renderMain(); }
+  });
+
+  // Event listeners for Bosla 2.0 actions
+  document.addEventListener('click', e => {
+    const t = e.target.closest('[data-a]');
+    if (!t) return;
+    const a = t.dataset.a, v = t.dataset.v;
+    if (a === 'camp') { CAMP = v; renderMain(); }
+    else if (a === 'pickneed') { ACTIVE_NEED = v; renderMain(); }
+    else if (a === 'qareset') { QA_FILTER = { callDt: '', q: '', cat: 'all' }; renderMain(); }
+    else if (a === 'askneed') {
+      const n = NEEDS.find(x => x.id === v);
+      if (n) { DRAWER = 'chat'; botSend(EN ? n.custEn : n.custAr); }
+    }
+    else if (a === 'waquick') {
+      if (!WA.offers.includes(v)) WA.offers.push(v);
+      WA.kind = 'offers';
+      WA.edited = false;
+      setView('wa');
+      toast(EN ? 'Offer selected in WhatsApp sender 📲' : 'اتحدد العرض في صفحة الواتساب جاهز للإرسال 📲');
+    }
+    else if (a === 'cmdk') { openCmdK(); }
+    else if (a === 'cmdkclose') { if ($('cmdkOv')) $('cmdkOv').remove(); }
+    else if (a === 'cmdkgo') {
+      const goId = t.dataset.go, needId = t.dataset.need;
+      if ($('cmdkOv')) $('cmdkOv').remove();
+      if (needId) { ACTIVE_NEED = needId; setView('home'); }
+      else if (goId) { go(goId); }
+    }
+  });
+
+  // Re-index everything
+  reindex();
+  NEEDS.forEach(n => {
+    INDEX.push({
+      sec: EN ? 'Needs Compass' : 'بوصلة الاحتياج',
+      title: n.icon + ' ' + (EN ? n.en : n.ar),
+      sub: EN ? n.custEn : n.custAr,
+      go: 'home',
+      text: [n.ar, n.en, n.custAr, n.custEn].join(' '),
+      n: norm([n.ar, n.en, n.custAr, n.custAr].join(' '))
+    });
+  });
+  AUDIT_LOG.forEach(item => {
+    INDEX.push({
+      sec: EN ? 'QA Update Log' : 'سجل التحديثات (QA)',
+      title: (EN ? item.dateEn : item.dateAr) + ' — ' + (EN ? item.en : item.ar).slice(0, 70),
+      sub: EN ? item.en : item.ar,
+      go: 'qaaudit',
+      text: item.ar + ' ' + item.en + ' ' + item.dateAr + ' ' + item.dateEn,
+      n: norm(item.ar + ' ' + item.en + ' ' + item.dateAr + ' ' + item.dateEn)
+    });
+  });
+  renderMain();
+  renderRail();
+})();
+
 </script>
 <!-- booking:start -->
 <script>

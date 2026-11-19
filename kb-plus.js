@@ -117,6 +117,8 @@ const P={
  dash:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
  todo:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+ cockpit:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+ qaaudit:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
  noor:'<path d="M4 5h16v11H9l-5 4V5z"/><path d="M8 10h.5M12 10h.5M16 10h.5"/>',
  more:'<circle cx="5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="19" cy="12" r="1.3"/>',
@@ -133,10 +135,10 @@ const ic=(k,s)=>`<svg class="kp-i" width="${s||18}" height="${s||18}" viewBox="0
 
 /* ---------------- groups ---------------- */
 const GROUPS=[
- ['call',['home','offers','branches','sell','fit','compare','services','calls','odoo']],
+ ['call',['home','cockpit','offers','branches','sell','fit','compare','services','calls','odoo']],
  ['req',['wa','booking','follow','aux','complaint']],
  ['learn',['study','quiz','lang']],
- ['team',['ask','dash','todo','edit']]
+ ['team',['qaaudit','ask','dash','todo','edit']]
 ];
 const clean=t=>String(t||'').replace(/^[^\p{L}\p{N}]+/u,'').replace(/\d+$/,'').trim();
 const viewLabel=id=>{ const v=VIEWS.find(x=>x[0]===id); return v?clean(v[1]):''; };
